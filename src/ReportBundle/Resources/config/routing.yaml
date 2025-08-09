@@ -1,0 +1,4 @@
+report_admin:
+  resource: "@ReportBundle/Controller/Administration"
+  type: annotation
+  prefix: /admin/report

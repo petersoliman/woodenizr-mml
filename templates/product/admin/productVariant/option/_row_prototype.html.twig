@@ -1,0 +1,37 @@
+<tr>
+    <td style="vertical-align:top;">{{ form.vars.data.id }}</td>
+    <td style="vertical-align:top;">{{ form_widget(form.title) }}</td>
+    {% for translation in form.translations %}
+        <td style="vertical-align:top;">{{ form_widget(translation.title) }}</td>
+    {% endfor %}
+    {% if form.value is defined and form.value.vars.attr.type is defined and form.value.vars.attr.type == "color" %}
+        <td style="vertical-align:top;">{{ form_widget(form.value) }}</td>
+    {% endif %}
+    {% if form.image is defined %}
+        <td style="vertical-align:top; width: 25%">
+            <div class="media no-margin-top">
+                {% if form.vars.value.image %}
+                    <div class="media-left">
+                        <div class="thumb" style="width: 58px; height: 58px;object-fit: cover;">
+                            <a href="{{ asset(form.vars.value.image.assetPath) }}" data-popup="lightbox">
+                                <img src="{{ asset(form.vars.value.image.assetPath) }}" style="width: 58px; height: 58px;object-fit: cover; border-radius: 2px;" alt="">
+                                <span class="zoom-image"><i class="icon-plus2"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="media-body">
+            {{ form_widget(form.image,{'attr':{'class': "file-styled"} }) }}
+            <span class="help-block">{% include '@PNMedia/imageDimension.html.twig' with {"type":102} %}</span>
+                </div>
+            </div>
+        </td>
+    {% endif %}
+    <td style="vertical-align:top;">
+        <a href="#" class="btn btn-danger delete"
+           data-url="{{ path('product_variant_option_delete',{"id": form.vars.data.id}) }}"
+           data-popup="tooltip" title="Delete">
+            <i class="fa fa-minus"></i>
+        </a>
+    </td>
+</tr>

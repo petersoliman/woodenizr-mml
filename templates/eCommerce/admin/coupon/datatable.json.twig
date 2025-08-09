@@ -1,0 +1,20 @@
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for coupon in coupons %}
+        [
+            "{{ coupon.id }}",
+            "{{ coupon.code }}",
+            "{{ coupon.discountTypeName }}",
+            "{{ coupon.discountValue }} {{ coupon.discountType.suffix }}",
+            "{% if coupon.startDate != null %}{{ coupon.startDate|date('d/m/Y') }}{% endif %}",
+            "{% if coupon.expiryDate != null %}{{ coupon.expiryDate|date('d/m/Y') }}{% endif %}",
+            "{% if coupon.active %}<span class='label label-success'>Yes</span>{% else %}<span class='label label-danger'>No</span>{% endif %}",
+            "{% if coupon.created %}{{ coupon.created|date('d/m/Y') }}{% else %}--{% endif %}",
+            "<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'><li><a href='{{ path('coupon_edit',{'id':coupon.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('coupon_delete',{'id':coupon.id}) }}'><i class='icon-bin'></i> Remove</a></li></ul></li></ul>"
+
+        ]{% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

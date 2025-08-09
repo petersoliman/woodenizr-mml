@@ -1,0 +1,55 @@
+.ui-editor-content-box {
+  h1,
+  h2,
+  h3 {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  p,
+  ul {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  pre {
+    white-space: break-spaces;
+  }
+
+  iframe {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  button, input, select {
+    display: none;
+  }
+
+  table {
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    max-width: 100%;
+    margin-bottom: 20px;
+    background-color: transparent;
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    tr {
+      &:nth-of-type(odd) {
+        background-color: #f9f9f9;
+      }
+
+      vertical-align: middle;
+      line-height: 1.42857143;
+
+      td, th {
+        padding: 8px;
+        border: 1px solid #ddd;
+      }
+    }
+  }
+}

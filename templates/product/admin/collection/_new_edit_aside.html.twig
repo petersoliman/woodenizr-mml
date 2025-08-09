@@ -1,0 +1,30 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.checkbox(form.publish, 12) }}
+        </div>
+        <div class="row">
+            {{ macros.checkbox(form.featured, 12) }}
+        </div>
+        <div class="row">
+            <div class="col-xs-6">Creator</div>
+            <div class="col-xs-6">{% if collection.creator %}{{ collection.creator }}{% else %}--{% endif %}</div>
+        </div>
+        <div class="row mt-10">
+            <div class="col-xs-6">Created date</div>
+            <div class="col-xs-6">{% if collection.created %}{{ collection.created|dateFormat }}{% else %}--/--/----{% endif %}</div>
+        </div>
+        <div class="row mt-10">
+            <div class="col-xs-6">Modified by</div>
+            <div class="col-xs-6">{% if collection.modifiedBy %}{{ collection.modifiedBy }}{% else %}--{% endif %}</div>
+        </div>
+        <div class="row mt-10">
+            <div class="col-xs-6">Modified date</div>
+            <div class="col-xs-6">{% if collection.modified %}{{ collection.modified|dateFormat }}{% else %}--/--/----{% endif %}</div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        {% include 'product/admin/collection/_save_btns.html.twig' %}
+    </div>
+</div>

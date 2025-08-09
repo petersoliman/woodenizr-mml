@@ -1,0 +1,124 @@
+{
+  "error": false,
+  "variants": [
+    {
+      "id": 13,
+      "title": "Color",
+      "type": "color",
+      "options": [
+        {
+          "id": 53,
+          "title": "Black",
+          "value": "#100a0a",
+          "options": []
+        },
+        {
+          "id": 54,
+          "title": "Red",
+          "value": "#e01818",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Size",
+      "type": "text",
+      "options": [
+        {
+          "id": 55,
+          "title": "160 cm",
+          "value": null,
+          "options": []
+        },
+        {
+          "id": 56,
+          "title": "200 cm",
+          "value": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Material",
+      "type": "image",
+      "options": [
+        {
+          "id": 57,
+          "title": "Fabric",
+          "value": "https:\/\/127.0.0.1:8000\/uploads\/2023\/07\/11\/product-variant\/image\/92.jpg",
+          "options": []
+        }
+      ]
+    }
+  ],
+  "prices": [
+    {
+      "id": 277,
+      "title": "Black \/ 200 cm \/ Fabric",
+      "sellPrice": 90,
+      "promotionalPercentage": 100,
+      "stock": 10,
+      "originalPrice": 90,
+      "options": [
+        {
+          "id": 53,
+          "title": "Black"
+        },
+        {
+          "id": 56,
+          "title": "200 cm"
+        },
+        {
+          "id": 57,
+          "title": "Fabric"
+        }
+      ]
+    },
+    {
+      "id": 276,
+      "title": "Red \/ 160 cm \/ Fabric",
+      "sellPrice": 100,
+      "promotionalPercentage": 100,
+      "stock": 5,
+      "originalPrice": 100,
+      "options": [
+        {
+          "id": 54,
+          "title": "Red"
+        },
+        {
+          "id": 55,
+          "title": "160 cm"
+        },
+        {
+          "id": 57,
+          "title": "Fabric"
+        }
+      ]
+    },
+    {
+      "id": 275,
+      "title": "Black \/ 160 cm \/ Fabric",
+      "sellPrice": 120,
+      "promotionalPercentage": 100,
+      "stock": 3,
+      "originalPrice": 120,
+      "options": [
+        {
+          "id": 53,
+          "title": "Black"
+        },
+        {
+          "id": 55,
+          "title": "160 cm"
+        },
+        {
+          "id": 57,
+          "title": "Fabric"
+        }
+      ]
+    }
+  ]
+}

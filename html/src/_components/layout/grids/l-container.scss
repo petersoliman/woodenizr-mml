@@ -1,0 +1,127 @@
+.l-container,
+.l-container-fluid,
+.l-container-xxl,
+.l-container-xl,
+.l-container-lg,
+.l-container-md,
+.l-container-sm {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 10px;
+  padding-left: 10px;
+
+  &--position-relative {
+    position: relative;
+  }
+}
+
+@media (max-width: 576px) {
+  .l-container--phone-spacing {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .l-container--phone-slider-spacing {
+    @include ltr {
+      padding-left: 8px;
+    }
+    @include rtl {
+      padding-right: 8px;
+    }
+  }
+}
+
+@media (min-width: 576px) {
+
+  .l-container-sm,
+  .l-container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+
+  .l-container-md,
+  .l-container-sm,
+  .l-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+
+  .l-container-lg,
+  .l-container-md,
+  .l-container-sm,
+  .l-container {
+    max-width: 920px;
+  }
+}
+
+// @media (min-width: 1000px) {
+
+//     .l-container-xl,
+//     .l-container-lg,
+//     .l-container-md,
+//     .l-container-sm,
+//     .l-container {
+//         max-width: 900px;
+//     }
+// }
+
+// @media (min-width: 1100px) {
+
+//     .l-container-xl,
+//     .l-container-lg,
+//     .l-container-md,
+//     .l-container-sm,
+//     .l-container {
+//         max-width: 1050px;
+//     }
+// }
+
+// @media (min-width: 1200px) {
+
+//     .l-container-xl,
+//     .l-container-lg,
+//     .l-container-md,
+//     .l-container-sm,
+//     .l-container {
+//         max-width: 1150px;
+//     }
+// }
+
+@media (min-width: 1300px) {
+
+  .l-container-xl,
+  .l-container-lg,
+  .l-container-md,
+  .l-container-sm,
+  .l-container {
+    max-width: 1190px;
+  }
+}
+
+@media (min-width: 1500px) {
+
+  .l-container-xxl,
+  .l-container-xl,
+  .l-container-lg,
+  .l-container-md,
+  .l-container-sm,
+  .l-container {
+    max-width: 1320px;
+  }
+}
+
+@media (min-width: 1800px) {
+
+  .l-container-xxl,
+  .l-container-xl,
+  .l-container-lg,
+  .l-container-md,
+  .l-container-sm,
+  .l-container {
+    max-width: 1612px;
+  }
+}

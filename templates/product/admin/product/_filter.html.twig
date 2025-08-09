@@ -1,0 +1,94 @@
+{% set isOpen = false %}
+{% if filter_form.vars.submitted == true or (open is defined and open == true) %}
+    {% set isOpen = true %}
+{% endif %}
+<div class="panel panel-flat panel-filter">
+    {{ form_start(filter_form) }}
+    <div class="panel-heading">
+        <h5 class="panel-title"><i class="fa fa-search position-left"></i> Filter
+            <a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+        <div class="heading-elements">
+            <ul class="icons-list">
+                <li><a data-action="collapse" {% if isOpen == false %}class="rotate-180"{% endif %}></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body" {% if isOpen == false %}style="display: none;"{% endif %}>
+        <div class="row">
+            <div class="col-md-2">
+                {{ form_row(filter_form.str) }}
+            </div>
+            <div class="col-md-2">
+                {% if filter_form.category.vars.block_prefixes.1 == "hidden" %}
+                    <div class="form-group">
+                        <label>Category</label>
+                        <div class="input-group">
+                            <span id="categoryName"
+                                  class="form-control">{% if search.selectedCategory %}{{ search.selectedCategory }}{% endif %} </span>
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary tree-opener" data-toggle="modal"
+                                        data-target="#changeCategory" type="button">
+                                    ...
+                                </button>
+                            </div>
+                        </div>
+                        {{ form_row(filter_form.category) }}
+                    </div>
+                {% else %}
+                    {{ form_row(filter_form.category) }}
+                {% endif %}
+            </div>
+            {% if filter_form.collection is defined %}
+                <div class="col-md-2">
+                    {{ form_row(filter_form.collection) }}
+                </div>
+            {% endif %}
+            {% if filter_form.occasion is defined %}
+                <div class="col-md-2">
+                    {{ form_row(filter_form.occasion) }}
+                </div>
+            {% endif %}
+            <div class="col-md-2">
+                {{ form_row(filter_form.publish) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(filter_form.featured) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(filter_form.newArrival) }}
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer" {% if isOpen == false %}style="display: none;"{% endif %}>
+        <div class="text-right">
+            <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')) }}"
+               class="btn btn-default mr-5">
+                Reset <i class="icon-reload-alt position-right"></i>
+            </a>
+            <button type="submit" class="btn btn-primary mr-20">
+                Filter <i class="fa fa-search position-right"></i>
+            </button>
+        </div>
+    </div>
+    {{ form_end(filter_form) }}
+</div>
+{% if filter_form.category.vars.block_prefixes.1 == "hidden" %}
+    <div id="changeCategory" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Change Category</h5>
+                </div>
+
+                <div class="modal-body">
+                    <div id="myFancyTreeID"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

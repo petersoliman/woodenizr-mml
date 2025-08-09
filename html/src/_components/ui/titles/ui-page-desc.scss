@@ -1,0 +1,14 @@
+.ui-page-desc {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 26px;
+    text-align: justify;
+    a {
+        color: #fff;
+    }
+    @include media-max($md) {
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+    }
+}

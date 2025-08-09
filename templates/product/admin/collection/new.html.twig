@@ -1,0 +1,29 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% import 'adminTemplate/macros.html.twig' as macros %}
+{% set page_title %}Create New Collection{% endset %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('collection_index') }}">Collections List</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'}}) }}
+    <div class="row">
+        <div class="col-md-9">
+            {% set defaultTwig= include ("product/admin/collection/_form.html.twig") %}
+            {{ include ("@PNLocale/new_or_edit_tab_structure.html.twig", {'defaultTwig': defaultTwig, "transTwigPath" : "product/admin/collection/_form_trans.html.twig"} ) }}
+        </div>
+        <div class="col-md-3">
+            {% include"product/admin/collection/_new_edit_aside.html.twig" %}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include "product/admin/collection/_form_js.html.twig" %}
+{% endblock javascripts %}

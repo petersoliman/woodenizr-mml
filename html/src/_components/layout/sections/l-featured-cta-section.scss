@@ -1,0 +1,54 @@
+@import '../../mixins.scss';
+
+.l-featured-cta-section {
+    position: relative;
+    min-height: 420px;
+    display: flex;
+    margin: 65px 0 43px;
+    &-wrapper {
+        overflow: hidden;
+        margin-bottom: 70px;
+        @include media-max($md) {
+            margin-bottom: 40px;
+        }
+    }
+    &-img-parent {
+        position: relative;
+        @include media-max($md) {
+            margin-top: 40px;
+        }
+    }
+    &-img {
+        @include media-max($md) {
+            position: static;
+            width: 100%;
+            height: auto;
+        }
+        position: absolute;
+        top: -108px;
+        left: -43px;
+        height: 570px;
+        width: auto;
+    }
+    &-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 32px;
+        margin-top: 0;
+    }
+    &-title-highlight {
+        margin-left: 14px;
+        display: inline-block;
+    }
+    &-subtitle {
+        margin-bottom: 23px;
+        margin-top: 0;
+    }
+    &-content {
+        margin-bottom: 37px;
+        margin-top: 0;
+    }
+    &-action {
+        display: inline-block;
+    }
+}

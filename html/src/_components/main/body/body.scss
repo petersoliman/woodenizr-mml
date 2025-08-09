@@ -1,0 +1,17 @@
+.m-body {
+    position: relative;
+    z-index: 450;
+    &-backdrop {
+        display: none;
+        position: absolute;
+        background-color: rgba(0,0,0,0.55);
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 50;
+        &.show {
+            display: block;
+        }
+    }
+}

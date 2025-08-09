@@ -1,0 +1,15 @@
+{% if breadcrumbs is not empty %}
+    <div class="l-breadcrumbs ui-breadcrumbs">
+        {% for item in breadcrumbs %}
+            {% if item.url is empty %}
+                <span class="ui-breadcrumbs-item active">{{ item.title }}</span>
+            {% else %}
+                <a class="ui-breadcrumbs-item" href="{{ item.url }}">{{ item.title }}</a>
+            {% endif %}
+
+            {% if loop.last == false %}
+                <span class="ui-breadcrumbs-item separator {{ loop.length-1 == loop.index ? "active" }}">/</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}

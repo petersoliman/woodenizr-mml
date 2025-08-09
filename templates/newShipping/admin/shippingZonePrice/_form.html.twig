@@ -1,0 +1,29 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+{{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'}}) }}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(form.sourceShippingZone, 4) }}
+            {{ macros.input(form.targetShippingZone, 4) }}
+            {% if form.calculator is defined %}
+                {{ macros.input(form.calculator, 4) }}
+            {% else %}
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Calculator</label>
+                        <div class="form-control-static">{{ shippingZonePrice.calculatorName }}</div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            {{ macros.input(form.currency, 4) }}
+            {{ macros.input(form.courier, 4) }}
+        </div>
+
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>
+{{ form_end(form) }}

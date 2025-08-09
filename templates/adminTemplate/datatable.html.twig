@@ -1,0 +1,53 @@
+{% if multiSelect is defined  and multiSelect == true %}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/extensions/select.min.js') }}"></script>
+{% endif %}
+<script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/extensions/responsive.min.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var newOrder=0;
+
+        {% if order is defined  %}
+             newOrder={{ order }};
+        {% endif %}
+
+        $.extend($.fn.dataTable.defaults, {
+            autoWidth: false,
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            fixedHeader: true,
+            pageLength: 100,
+            order: [[newOrder, "desc"]],
+            columnDefs: [
+                { orderable: false, targets: -1 },
+                {% if disabledColumnOrder is defined  %}
+                    { orderable: false, targets: [{{ disabledColumnOrder }}]},
+                {% endif %}
+            ],
+            lengthMenu: [25, 50, 100],
+            dom: '<"datatable-header"flr><"datatable-scroll"t><"datatable-footer"ip>',
+            language: {
+                search: '<span>Filter:</span> _INPUT_',
+                searchPlaceholder: 'Type to filter...',
+                lengthMenu: '<span>Show:</span> _MENU_',
+                paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
+            },
+            drawCallback: function () {
+                $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
+            },
+            preDrawCallback: function () {
+                $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
+            }
+        });
+        var table = $('.datatable-ajax').DataTable({
+            ajax: '{{ path }}',
+            fixedHeader: true,
+             responsive: true,
+        });
+
+        $('.dataTables_length select').select2({
+            minimumResultsForSearch: Infinity,
+            width: 'auto'
+        });
+    });
+</script>

@@ -1,0 +1,143 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Manage {{ collection.title }} Collection Products{% endset %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('collection_index') }}">Collections List</a></li>
+            <li><a href="{{ path('collection_edit',{"id":collection.id}) }}">Edit {{ collection.title }}</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+        <ul class="breadcrumb-elements">
+            <li>
+                <a href="#" data-action="{{ path('collection_clear_products',{'id':collection.id}) }}" class="clear-products-btn" data-toggle="modal" data-target="#modal_clear_products">
+                    <i class="icon-minus3 position-left"></i> Clear All Products
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {% include 'product/admin/product/_filter.html.twig' %}
+    <!-- Ajax sourced data -->
+    <div class="panel panel-flat">
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table datatable-ajax table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" class="checkAllProduct">
+                            </th>
+                            <th>#</th>
+                            <th>SKU</th>
+                            <th>Title</th>
+                            <th>Image</th>
+                            <th>Category</th>
+                            <th>Created</th>
+                            <th>Published</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- /ajax sourced data -->
+
+{% endblock %}
+
+{% block modalCode %}
+    {% include "product/admin/collection/_clear_product_modal.html.twig" %}
+{% endblock modalCode %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/media/fancybox.min.js') }}"></script>
+    {{ include('adminTemplate/datatable.html.twig', {'path':path('collection_manage_product_datatable', {"id":collection.id}|merge(app.request.query.all) )|escape('js') }) }}
+    {% include 'product/admin/product/_filter_js.html.twig' %}
+    <script type="text/javascript">
+        $(document).on('init.dt', function (e, settings) {
+            var api = new $.fn.dataTable.Api(settings);
+            $('[data-popup="lightbox"]').fancybox({
+                padding: 3
+            });
+        });
+
+        $(document).ready(function () {
+            $(document.body).on("click", ".clear-products-btn", function () {
+                var action = $(this).data('action');
+                $('#clear-products-form').attr('action', action);
+            });
+
+            var inProgress = 0;
+            function handleBefore() {
+                inProgress++;
+                $('.checkAllProduct').attr("disabled", "disabled");
+            }
+
+            function handleComplete() {
+                if (!--inProgress) {
+                    $('.checkAllProduct').removeAttr("disabled");
+                }
+            }
+
+            $('.checkAllProduct').click(function () {
+                var checkAllProductIsChecked = $(this).is(":checked");
+                if (checkAllProductIsChecked == true) {
+                    var type = 'add';
+                } else {
+                    var type = 'remove';
+                }
+                var products = new Array();
+                $(".checkProduct").each(function () {
+                    $(this).prop('checked', checkAllProductIsChecked);
+                    products.push($(this).val());
+                });
+                var productsJson = JSON.stringify(products);
+
+                $('input:checkbox').attr("disabled", "disabled");
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('collection_manage_product_update_ajax', {'id':collection.id }) }}",
+                    beforeSend: handleBefore,
+                    data: {'id': productsJson, 'type': type},
+                    success: function (result) {
+                        $('input:checkbox').removeAttr("disabled");
+                        handleComplete();
+                    }
+                });
+            });
+            $(document.body).on('click', '.checkProduct', function () {
+                var $this = $(this);
+                $this.attr("disabled", "disabled");
+                var id = $this.val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('collection_manage_product_update_ajax', {'id':collection.id }) }}",
+                    data: {'id': id},
+                    beforeSend: handleBefore,
+                    success: function (result) {
+                        $this.removeAttr("disabled");
+
+                        var checkAllProductIsChecked = $('.checkAllProduct').is(":checked");
+                        if (checkAllProductIsChecked == true) {
+                            $('.checkAllProduct').prop("checked", false);
+                        }
+
+                        handleComplete();
+                    }
+                });
+            });
+        });
+    </script> 
+{% endblock javascripts %}

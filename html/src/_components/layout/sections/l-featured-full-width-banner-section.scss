@@ -1,0 +1,47 @@
+.l-featured-full-width-banner-section {
+    overflow: hidden;
+    margin-bottom: 70px;
+    @include media-max($md) {
+        margin-bottom: 40px;
+    }
+    &-banner {
+        display: block;
+        position: relative;
+        transition: 0.09s all ease-in-out;
+        &:hover {
+            opacity: 0.95;
+        }
+    }
+    &-banner-img {
+        width: 100%;
+        height: auto;
+        // &--extra-width {
+        //     width: calc(100% + 16px);
+        // }
+    }
+    &-banner-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        &-title {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        p {
+            margin: 0;
+        }
+        .l-featured-full-width-banner-section-banner-caption-hidden {
+            max-height: 0;
+            overflow: hidden;
+        }
+    }
+    &-banner:hover {
+        .l-featured-full-width-banner-section-banner-caption {
+            .l-featured-full-width-banner-section-banner-caption-hidden {
+                max-height: 300px;
+            }
+        }
+    }
+}
+

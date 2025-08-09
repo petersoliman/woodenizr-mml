@@ -1,0 +1,53 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}New shipping price{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li>Shipping Prices</li>
+            <li><a href="{{ path('shipping_zone_price_shipping_times_index') }}">Shipping times</a></li>
+            <li>
+                <a href="{{ path('shipping_zone_price_index', {"shippingTime":shippingTime.id}) }}">Shipping Prices for "{{ shippingTime.name }}"</a>
+            </li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-9">
+            {% include ("newShipping/admin/shippingZonePrice/_form.html.twig") %}
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6">Creator</div>
+                        <div class="col-xs-6">{% if shippingZonePrice.creator %}{{ shippingZonePrice.creator }}{% else %}--{% endif %}</div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-xs-6">Created date</div>
+                        <div class="col-xs-6">{% if shippingZonePrice.created %}{{ shippingZonePrice.created|dateFormat }}{% else %}--/--/----{% endif %}</div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-xs-6">Modified by</div>
+                        <div class="col-xs-6">{% if shippingZonePrice.modifiedBy %}{{ shippingZonePrice.modifiedBy }}{% else %}--{% endif %}</div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-xs-6">Modified date</div>
+                        <div class="col-xs-6">{% if shippingZonePrice.modified %}{{ shippingZonePrice.modified|dateFormat }}{% else %}--/--/----{% endif %}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+{% endblock javascripts %}

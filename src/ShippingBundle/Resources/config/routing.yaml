@@ -1,0 +1,12 @@
+shipping_bundle:
+  resource: "@ShippingBundle/Controller/Administration"
+  type:     annotation
+  prefix:   /admin/shipping
+
+fe_shipping_bundle:
+  resource: "@ShippingBundle/Controller/FrontEnd"
+  type:     annotation
+  prefix:   /{_locale}/shipping
+  defaults: { _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'

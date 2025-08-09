@@ -1,0 +1,21 @@
+.ui-featured-brands-section {
+    background-color: #FBFBFB;
+    margin-bottom: 70px;
+    @include media-max($md) {
+        margin-bottom: 40px;
+    }
+    &-brand {
+        background-color: #FFFFFF;
+        box-shadow: 0 4px 36px 0 rgba(0, 0, 0, 0.04);
+        padding: 45px 20px;
+        transition: 0.09s all ease-in-out;
+        &:hover {
+            box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.1);
+        }
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+        background: rgb(255,255,255);
+        background: linear-gradient(90deg, #FBFBFB 42%, rgba(0,212,255,0) 100%);
+    }
+}

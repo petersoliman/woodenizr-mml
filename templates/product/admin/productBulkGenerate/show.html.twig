@@ -1,0 +1,444 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Product Bulk Generate Job #{{ product_bulk_generate.id }}{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('product_bulk_generate_index') }}">Product Bulk Generate</a></li>
+            <li class="active">Job #{{ product_bulk_generate.id }}</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body -%}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">{{ page_title }}</h5>
+            <div class="heading-elements">
+                <a href="{{ path('product_bulk_generate_edit', {'id': product_bulk_generate.id}) }}" class="btn btn-sm btn-primary">
+                    <i class="icon-pencil7 position-left"></i> Edit
+                </a>
+                <a href="{{ path('product_bulk_generate_index') }}" class="btn btn-sm btn-default">
+                    <i class="icon-arrow-left5 position-left"></i> Back to List
+                </a>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="text-semibold">Job Information</h6>
+                    <dl class="dl-horizontal">
+                        <dt>ID:</dt>
+                        <dd>{{ product_bulk_generate.id }}</dd>
+                        
+                        <dt>Type:</dt>
+                        <dd>
+                            <span class="label {{ product_bulk_generate.generatedForBadgeClass }}">
+                                <i class="{{ product_bulk_generate.generatedForIcon }} position-left"></i>
+                                {{ product_bulk_generate.generatedForLabel }}
+                            </span>
+                            <br><small class="text-muted">{{ product_bulk_generate.generatedForDescription }}</small>
+                        </dd>
+                        
+                        <dt>Status:</dt>
+                        <dd>
+                            <span class="label {{ product_bulk_generate.statusBadgeClass }}" 
+                                  data-id="{{ product_bulk_generate.id }}" 
+                                  data-status="{{ product_bulk_generate.status }}"
+                                  style="cursor: pointer;" 
+                                  title="Click to change status">
+                                {{ product_bulk_generate.status|title }}
+                            </span>
+                        </dd>
+                        
+                        <dt>Admin:</dt>
+                        <dd>
+                            {% if product_bulk_generate.admin %}
+                                <div class="media media-sm">
+                                    <div class="media-body">
+                                        <strong>{{ product_bulk_generate.admin.fullName }}</strong><br>
+                                        <span class="text-muted text-size-small">{{ product_bulk_generate.admin.email }}</span>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <span class="text-muted">Not assigned</span>
+                            {% endif %}
+                        </dd>
+                        
+                        <dt>UUID:</dt>
+                        <dd><code>{{ product_bulk_generate.uuid }}</code></dd>
+                    </dl>
+                </div>
+                
+                <div class="col-md-6">
+                    <h6 class="text-semibold">Progress & Statistics</h6>
+                    <dl class="dl-horizontal">
+                        <dt>Total:</dt>
+                        <dd>{{ product_bulk_generate.totalRecommendations|number_format }}</dd>
+                        
+                        <dt>Processed:</dt>
+                        <dd>{{ product_bulk_generate.processedCount|number_format }}</dd>
+                        
+                        <dt>Errors:</dt>
+                        <dd>{{ product_bulk_generate.errorCount|number_format }}</dd>
+                        
+                        <dt>Success Rate:</dt>
+                        <dd>
+                            <div class="progress progress-micro mb-5">
+                                <div class="progress-bar bg-success" style="width: {{ product_bulk_generate.successRate }}%"></div>
+                            </div>
+                            {{ product_bulk_generate.successRate }}%
+                        </dd>
+                        
+                        <dt>Error Rate:</dt>
+                        <dd>
+                            <div class="progress progress-micro mb-5">
+                                <div class="progress-bar bg-danger" style="width: {{ product_bulk_generate.errorRate }}%"></div>
+                            </div>
+                            {{ product_bulk_generate.errorRate }}%
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Timing Information #}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Timing Information</h6>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <dl class="dl-horizontal">
+                        <dt>Start Date:</dt>
+                        <dd>{{ product_bulk_generate.startDate ? product_bulk_generate.startDate|dateTimeFormat : '--' }}</dd>
+                        
+                        <dt>End Date:</dt>
+                        <dd>{{ product_bulk_generate.endDate ? product_bulk_generate.endDate|dateTimeFormat : '--' }}</dd>
+                    </dl>
+                </div>
+                <div class="col-md-4">
+                    <dl class="dl-horizontal">
+                        <dt>Duration:</dt>
+                        <dd>{{ service.formatDuration(product_bulk_generate.durationInSeconds) }}</dd>
+                        
+                        {% if estimated_completion %}
+                        <dt>Est. Completion:</dt>
+                        <dd>{{ estimated_completion|dateTimeFormat }}</dd>
+                        {% endif %}
+                    </dl>
+                </div>
+                <div class="col-md-4">
+                    <dl class="dl-horizontal">
+                        <dt>Created:</dt>
+                        <dd>{{ product_bulk_generate.created|dateTimeFormat }}</dd>
+                        
+                        <dt>Modified:</dt>
+                        <dd>{{ product_bulk_generate.modified|dateTimeFormat }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Progress Visualization #}
+    {% if product_bulk_generate.totalRecommendations > 0 %}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Progress Visualization</h6>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="progress" style="height: 30px;">
+                        {% set successWidth = (product_bulk_generate.processedCount / product_bulk_generate.totalRecommendations * 100) %}
+                        {% set errorWidth = (product_bulk_generate.errorCount / product_bulk_generate.totalRecommendations * 100) %}
+                        {% set pendingWidth = 100 - successWidth - errorWidth %}
+                        
+                        <div class="progress-bar bg-success" style="width: {{ successWidth }}%" title="Processed: {{ product_bulk_generate.processedCount }}">
+                            {% if successWidth > 15 %}{{ product_bulk_generate.processedCount }}{% endif %}
+                        </div>
+                        <div class="progress-bar bg-danger" style="width: {{ errorWidth }}%" title="Errors: {{ product_bulk_generate.errorCount }}">
+                            {% if errorWidth > 10 %}{{ product_bulk_generate.errorCount }}{% endif %}
+                        </div>
+                        <div class="progress-bar bg-light" style="width: {{ pendingWidth }}%" title="Remaining: {{ product_bulk_generate.totalRecommendations - product_bulk_generate.processedCount - product_bulk_generate.errorCount }}">
+                            {% set remaining = product_bulk_generate.totalRecommendations - product_bulk_generate.processedCount - product_bulk_generate.errorCount %}
+                            {% if pendingWidth > 15 %}{{ remaining }}{% endif %}
+                        </div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-md-4 text-center">
+                            <span class="label label-success">Processed: {{ product_bulk_generate.processedCount }}</span>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <span class="label label-danger">Errors: {{ product_bulk_generate.errorCount }}</span>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            {% set remaining = product_bulk_generate.totalRecommendations - product_bulk_generate.processedCount - product_bulk_generate.errorCount %}
+                            <span class="label label-default">Remaining: {{ remaining }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {# Admin Note #}
+    {% if product_bulk_generate.adminNote %}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Admin Note</h6>
+        </div>
+        <div class="panel-body">
+            {{ product_bulk_generate.adminNote|nl2br }}
+        </div>
+    </div>
+    {% endif %}
+
+    {# Error Log #}
+    {% if product_bulk_generate.errorLog %}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Error Log</h6>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Error</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for error in product_bulk_generate.errorLog %}
+                        <tr>
+                            <td>{{ error.timestamp }}</td>
+                            <td>{{ error.error }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {# Actions Panel #}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Actions</h6>
+        </div>
+        <div class="panel-body">
+            <div class="btn-group">
+                <a href="{{ path('product_bulk_generate_edit', {'id': product_bulk_generate.id}) }}" class="btn btn-primary">
+                    <i class="icon-pencil7 position-left"></i> Edit
+                </a>
+                
+                {% if product_bulk_generate.isPending %}
+                <button type="button" class="btn btn-success start-job-btn" data-id="{{ product_bulk_generate.id }}">
+                    <i class="icon-play3 position-left"></i> Start Job
+                </button>
+                {% endif %}
+                
+                {% if product_bulk_generate.isRunning %}
+                <button type="button" class="btn btn-warning complete-job-btn" data-id="{{ product_bulk_generate.id }}">
+                    <i class="icon-checkmark3 position-left"></i> Complete Job
+                </button>
+                <button type="button" class="btn btn-danger fail-job-btn" data-id="{{ product_bulk_generate.id }}">
+                    <i class="icon-cross2 position-left"></i> Fail Job
+                </button>
+                {% endif %}
+                
+                <button type="button" class="btn btn-info refresh-progress-btn" data-id="{{ product_bulk_generate.id }}">
+                    <i class="icon-reload-alt position-left"></i> Refresh Progress
+                </button>
+                
+                <button type="button" class="btn btn-danger delete-btn" 
+                        data-id="{{ product_bulk_generate.id }}" 
+                        data-title="{{ product_bulk_generate.generatedForLabel }}">
+                    <i class="icon-trash position-left"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {# Audit Information #}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Audit Information</h6>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="dl-horizontal">
+                        <dt>Created:</dt>
+                        <dd>{{ product_bulk_generate.created|dateTimeFormat }}</dd>
+                        <dt>Created by:</dt>
+                        <dd>{{ product_bulk_generate.creator }}</dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="dl-horizontal">
+                        <dt>Modified:</dt>
+                        <dd>{{ product_bulk_generate.modified|dateTimeFormat }}</dd>
+                        <dt>Modified by:</dt>
+                        <dd>{{ product_bulk_generate.modifiedBy }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Delete Form (hidden) #}
+    <form id="delete-form" method="post" style="display: none;">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product_bulk_generate.id) }}">
+    </form>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/sweet_alert.min.js') }}"></script>
+
+    <script>
+        $(function() {
+            var jobId = {{ product_bulk_generate.id }};
+
+            // Start job functionality
+            $('.start-job-btn').click(function() {
+                swal({
+                    title: "Start Job",
+                    text: "Are you sure you want to start this bulk generation job?",
+                    type: "info",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, start it!",
+                    closeOnConfirm: false
+                }, function() {
+                    $.post('{{ path("product_bulk_generate_start", {"id": product_bulk_generate.id}) }}')
+                    .done(function(response) {
+                        if (response.success) {
+                            swal("Started!", response.message, "success");
+                            setTimeout(function() { location.reload(); }, 1500);
+                        } else {
+                            swal("Error!", response.message, "error");
+                        }
+                    }).fail(function() {
+                        swal("Error!", "An error occurred while starting the job.", "error");
+                    });
+                });
+            });
+
+            // Complete job functionality
+            $('.complete-job-btn').click(function() {
+                swal({
+                    title: "Complete Job",
+                    text: "Mark this job as completed?",
+                    type: "success",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, complete it!",
+                    closeOnConfirm: false
+                }, function() {
+                    $.post('{{ path("product_bulk_generate_complete", {"id": product_bulk_generate.id}) }}')
+                    .done(function(response) {
+                        if (response.success) {
+                            swal("Completed!", response.message, "success");
+                            setTimeout(function() { location.reload(); }, 1500);
+                        } else {
+                            swal("Error!", response.message, "error");
+                        }
+                    }).fail(function() {
+                        swal("Error!", "An error occurred while completing the job.", "error");
+                    });
+                });
+            });
+
+            // Fail job functionality
+            $('.fail-job-btn').click(function() {
+                swal({
+                    title: "Fail Job",
+                    text: "Reason for failure:",
+                    type: "input",
+                    showCancelButton: true,
+                    confirmButtonText: "Mark as Failed",
+                    inputPlaceholder: "Enter failure reason...",
+                    closeOnConfirm: false
+                }, function(inputValue) {
+                    if (inputValue === false) return false;
+                    if (inputValue === "") {
+                        swal.showInputError("You need to write something!");
+                        return false;
+                    }
+                    
+                    $.post('{{ path("product_bulk_generate_fail", {"id": product_bulk_generate.id}) }}', {
+                        reason: inputValue
+                    }).done(function(response) {
+                        if (response.success) {
+                            swal("Failed!", response.message, "success");
+                            setTimeout(function() { location.reload(); }, 1500);
+                        } else {
+                            swal("Error!", response.message, "error");
+                        }
+                    }).fail(function() {
+                        swal("Error!", "An error occurred while failing the job.", "error");
+                    });
+                });
+            });
+
+            // Refresh progress functionality
+            $('.refresh-progress-btn').click(function() {
+                var $btn = $(this);
+                var originalText = $btn.html();
+                $btn.html('<i class="icon-spinner2 spinner position-left"></i> Refreshing...');
+                
+                $.get('{{ path("product_bulk_generate_progress", {"id": product_bulk_generate.id}) }}')
+                .done(function(response) {
+                    if (response.success) {
+                        swal("Refreshed!", "Progress data has been updated.", "success");
+                        setTimeout(function() { location.reload(); }, 1000);
+                    } else {
+                        swal("Error!", response.message, "error");
+                    }
+                }).fail(function() {
+                    swal("Error!", "An error occurred while refreshing progress.", "error");
+                }).always(function() {
+                    $btn.html(originalText);
+                });
+            });
+
+            // Delete functionality
+            $('.delete-btn').click(function() {
+                var title = $(this).data('title');
+
+                swal({
+                    title: "Are you sure?",
+                    text: "Delete bulk generate job for \"" + title + "\"?\nThis action cannot be undone.",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    closeOnConfirm: false
+                }, function() {
+                    $('#delete-form').attr('action', '{{ path("product_bulk_generate_delete", {"id": product_bulk_generate.id}) }}');
+                    $('#delete-form').submit();
+                });
+            });
+
+            // Auto-refresh for running jobs
+            {% if product_bulk_generate.isRunning %}
+            setInterval(function() {
+                $('.refresh-progress-btn').click();
+            }, 30000); // Refresh every 30 seconds
+            {% endif %}
+        });
+    </script>
+{% endblock %}
+
+
+
+

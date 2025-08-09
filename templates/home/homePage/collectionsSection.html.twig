@@ -1,0 +1,66 @@
+{% if collections is not empty %}
+    <section class="ui-featured-collections-section l-featured-collections-section">
+        <div class="l-container l-container--phone-spacing">
+            <div class="l-title-line l-title-line--spacing-bottom-30">
+                <div class="ui-title-line-h-empty"></div>
+                <div class="l-title-line-title ui-title-line-title ui-title-line-title--size-25">{{ "home_page_collection_title_txt"|trans }}</div>
+                <div class="ui-title-line-h-empty"></div>
+            </div>
+        </div>
+        <div class="l-container l-container--phone-spacing l-container--position-relative ui-featured-collections-section-container">
+            <div class="swiper l-slider-row" data-l-slider="featured-collections">
+                <div class="l-flex-row l-flex-row--nowrap l-flex-row--align-center l-flex-row--spacing-0 swiper-wrapper">
+                    {% for collection in collections %}
+                        {% set mainImage = collection.post.mainImage %}
+                        {% set mainImagePath = null %}
+
+                        {% if mainImage %}
+                            {% set mainImagePath = asset(mainImage.assetPath) %}
+                        {% else %}
+                            {% set mainImagePath = asset('assets/img/product-img-placeholder.webp') %}
+                        {% endif %}
+
+                        <div class="l-flex-col-lg swiper-slide">
+                            <a class="l-featured-collections-section-cat ui-featured-collections-section-cat" href="{{ path('fe_product_filter_collection', {"slug": collection.seo.slug}) }}">
+                                <div class="l-featured-collections-section-cat-img-container ui-featured-collections-section-cat-img-container">
+                                    <picture>
+                                        <!--[if IE 9]>
+                                        <video style="display: none;><![endif]-->
+                                        <source data-srcset="{{ mainImagePath|webp(427) }}" media="(max-width: 576px)" />
+                                        <source data-srcset="{{ mainImagePath|webp(397) }}" media="(max-width: 768px)" />
+                                        <source data-srcset="{{ mainImagePath|webp(453) }}" media="(max-width: 992px)" />
+                                        <source data-srcset="{{ mainImagePath|webp(313) }}" media="(max-width: 1400px)" />
+                                        <!--[if IE 9]></video><![endif]-->
+                                        <img
+                                                class="l-featured-collections-section-cat-img ui-featured-collections-section-cat-img swiper-lazy"
+                                                width="443"
+                                                height="191"
+                                                data-expand="-20"
+                                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                                data-src="{{ mainImagePath|webp(443) }}"
+                                                alt="{{ collection.title }}"
+                                        />
+                                    </picture>
+
+                                    <div class="swiper-lazy-preloader"></div>
+                                </div>
+                                <h6 class="l-featured-collections-section-cat-title ui-featured-collections-section-cat-title">{{ collection.title }}</h6>
+                                <p class="l-featured-collections-section-cat-subtitle ui-featured-collections-section-cat-subtitle">{{ collection.noOfProducts|number_format }} Products</p>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="swiper-pagination" data-l-slider-pagination="featured-collections"></div>
+            <div class="swiper-button-prev" data-l-slider-navigation-prev="featured-collections"></div>
+            <div class="swiper-button-next" data-l-slider-navigation-next="featured-collections"></div>
+        </div>
+        <div class="l-container l-container--phone-spacing">
+            <div class="l-featured-collections-section-actions">
+                <a href="{{ path('fe_collection_index') }}" class="l-featured-collections-section-action ui-featured-collections-section-action">
+                    {{ "all_collections_txt"|trans }} {% include 'fe/icons/arrow-right.svg' %}
+                </a>
+            </div>
+        </div>
+    </section>
+{% endif %}

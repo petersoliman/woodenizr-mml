@@ -1,0 +1,16 @@
+.l-form-rate {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+  position: relative;
+  &-input {
+    display: none;
+  }
+  &-label {
+    width: 34px;
+    height: 34px;
+    background-size: 34px;
+    margin-right: 17px;
+  }
+}

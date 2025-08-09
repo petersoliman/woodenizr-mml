@@ -1,0 +1,115 @@
+@import '../../variables.scss';
+@import '../../mixins.scss';
+
+.ui-section-title {
+    padding: 24px;
+    line-height: 1;
+    &--style-1 {
+        padding: 24px 0;
+        border-bottom: 1px solid #E9E9E9;
+    }
+    &--style-2 {
+        background: #D6F2DA;
+    }
+}
+
+.ui-section-title-subtitle {
+    text-transform: uppercase;
+}
+
+.ui-section-title-title {
+    font-size: 25px;
+    font-weight: 500;
+    color: #3F3F3F;
+    @include media-max($xxl) {
+        font-size: 18px;
+    }
+    &--color-primary {
+        color: var(--primary-color);
+    }
+    &--color-success {
+        color: #1F732B;
+    }
+    &--bold {
+        font-weight: 600;
+    }
+    &--style-2 {
+        font-size: 22px;
+        @include media-max($md) {
+            font-size: 18px;
+            font-weight: 400;
+        }
+    }
+    &--style-3 {
+        font-size: 30px;
+        font-weight: 600;
+        text-transform: none;
+        color: var(--primary-color);
+        @include media-max($md) {
+            font-size: 18px;
+            font-weight: 600;
+        }
+    }
+    &--style-5 {
+        text-transform: none;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 30px;
+        @include media-max($md) {
+            font-size: 18px;
+            font-weight: 600;
+        }
+    }
+}
+
+.ui-section-title-subtitle {
+    font-weight: 400;
+    font-size: 18px;
+    @include media-max($xxl) {
+        font-size: 14px;
+    }
+}
+
+.ui-section-title-action-container {
+    @include ltr() {
+        text-align: right;
+    }
+    @include rtl() {
+        text-align: left;
+    }
+}
+
+.ui-section-title-action {
+    color: #686868;
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration: none;
+    transition: 0.09s all ease-in-out;
+    @include media-max($xxl) {
+        font-size: 13px;
+    }
+    svg {
+        @include rtl() {
+            transform: rotate(180deg);
+        }
+    }
+    &:hover {
+        color: var(--primary-color);
+        path {
+            fill: var(--primary-color);
+        }
+    }
+    &--color-success {
+        color: #1F732B;
+        path {
+            fill: #1F732B;
+        }
+        &:hover {
+            opacity: 0.6;
+            color: #1F732B;
+            path {
+                fill: #1F732B;
+            }
+        }
+    }
+}

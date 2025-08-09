@@ -1,0 +1,12 @@
+e_commerce_bundle:
+  resource: "@ECommerceBundle/Controller/Administration"
+  type:     annotation
+  prefix:   /admin/e-commerce
+
+fe_online_payment_bundle:
+  resource: "@ECommerceBundle/Controller/FrontEnd"
+  type:     annotation
+  prefix:   /{_locale}/e-commerce
+  defaults: { _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'

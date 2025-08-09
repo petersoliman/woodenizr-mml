@@ -1,0 +1,16 @@
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for variant in variants %}
+        [
+            "{{ variant.id }}",
+            "{{ variant.title|pn_json_encode }}",
+            "{% if variant.tarteb %}{{ variant.tarteb }}{% else %}N/A{% endif %}",
+            "{{ variant.typeName }}",
+            "<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'><li><li><a href='{{ path('product_variant_edit',{'id':variant.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('product_variant_delete',{'id':variant.id}) }}'><i class='icon-bin'></i> Remove</a></li></ul></li></ul>"
+
+        ]{% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

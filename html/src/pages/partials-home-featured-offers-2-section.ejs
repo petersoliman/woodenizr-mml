@@ -1,0 +1,83 @@
+<div class="ui-featured-offers-2-section">
+    <div class="l-container l-container--phone-spacing">
+        <div class="l-flex-row">
+            <% for(var i = 1; i < 4; i++) { %>
+                <!--Three banners -DONE -->
+                <div class="l-flex-col-md-4 <%= i == 3 ? "l-flex-col-sm-12": "l-flex-col-sm-6" %>">
+                    <a class="l-featured-offers-2-section-banner ui-featured-offers-2-section-banner" href="#">
+                        <picture>
+                            <!--[if IE 9]><video style="display: none;><![endif]-->
+                            <source
+                                data-srcset="//placehold.co/559x437/73e6e<%= i %>/ffffff.webp?text=576"
+                                media="--small" />
+                            <source
+                                data-srcset="//placehold.co/260x200/73e6e<%= i %>/ffffff.webp?text=768"
+                                media="--medium" />
+                            <source
+                                data-srcset="//placehold.co/350x267/73e6e<%= i %>/ffffff.webp?text=992"
+                                media="--large" />
+                            <source
+                                data-srcset="//placehold.co/585x445/73e6e<%= i %>/ffffff.webp?text=1400"
+                                media="--x-large" />
+                            <!--[if IE 9]></video><![endif]-->
+                            <img
+                                class="l-responsive-img l-featured-offers-2-section-banner-img lazyload"
+                                width="524"
+                                height="410"
+                                data-expand="-20"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                data-src="//placehold.co/524x400/73e6e<%= i %>/ffffff.webp"
+                                alt="Offer 1"
+                            />
+                        </picture>
+                        <div class="l-featured-offers-2-section-banner-caption ui-featured-offers-2-section-banner-caption">
+                            <h4 class="l-featured-offers-2-section-banner-caption-title ui-featured-offers-2-section-banner-caption-title">BEDROOMS</h4>
+                            <div class="l-featured-offers-2-section-banner-caption-hidden ui-featured-offers-2-section-banner-caption-hidden">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% } %>
+            <% for(var i = 1; i < 3; i++) { %>
+                <!--two banners 2 -DONE -->
+                <div class="l-flex-col-md-6 l-flex-col-sm-12">
+                    <a class="l-featured-offers-2-section-banner ui-featured-offers-2-section-banner" href="#">
+                        <picture>
+                            <!--[if IE 9]><video style="display: none;><![endif]-->
+                            <source
+                                    data-srcset="//placehold.co/559x272/73e6e<%= i %>/ffffff.webp?text=576"
+                                    media="--small" />
+                            <source
+                                    data-srcset="//placehold.co/540x262/73e6e<%= i %>/ffffff.webp?text=768"
+                                    media="--medium" />
+                            <source
+                                    data-srcset="//placehold.co/350x170/73e6e<%= i %>/ffffff.webp?text=992"
+                                    media="--large" />
+                            <source
+                                    data-srcset="//placehold.co/585x285/73e6e<%= i %>/ffffff.webp?text=1400"
+                                    media="--x-large" />
+                            <!--[if IE 9]></video><![endif]-->
+                            <img
+                                class="l-responsive-img l-featured-offers-2-section-banner-img lazyload"
+                                width="797"
+                                height="388"
+                                data-expand="-20"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                data-src="//placehold.co/797x388/3e6f7<%= i %>/ffffff.webp"
+                                alt="Offer <%= i %>"
+                            />
+                            <div class="l-featured-offers-2-section-banner-caption ui-featured-offers-2-section-banner-caption">
+                                <h4 class="l-featured-offers-2-section-banner-caption-title ui-featured-offers-2-section-banner-caption-title">INTERNATIONAL STANDARDS</h4>
+                                <div class="l-featured-offers-2-section-banner-caption-hidden ui-featured-offers-2-section-banner-caption-hidden">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+                                </div>
+                            </div>
+                        </picture>
+                    </a>
+                </div>
+            <% } %>
+
+        </div>
+    </div>
+</div>

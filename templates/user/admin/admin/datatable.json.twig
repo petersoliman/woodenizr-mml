@@ -1,0 +1,17 @@
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for admin in admins %}
+            [
+            "{{ admin.fullName }}",
+            "{{ admin.email }}",
+            "{{ admin.lastLogin|date('d/m/Y h:i A') }}",
+            "{% if admin.enabled %}<a href='#' class='label label-flat border-success text-success-600 change-state-btn' data-toggle='modal' data-target='#modal_change_state' data-state='{{ path('user_change_state',{'id':admin.id}) }}'>Activated</a>{% else %}<a href='#' class='label label-flat border-danger text-danger-600 change-state-btn' data-toggle='modal' data-target='#modal_change_state' data-state='{{ path('user_change_state',{'id':admin.id}) }}'>Blocked</a>{% endif %}",
+            "{% if admin.hasRole('ROLE_ADMIN') %}<span class='label label-flat border-success-800 text-success-800 change-state-btn'>Admin</span>{% elseif admin.hasRole('ROLE_IMAGE_GALLERY') %}<span class='label label-flat border-primary-800 text-primary-800 change-state-btn'>Image gallery</span>{% endif %}",
+            "{% if admin.created %}{{ admin.created|dateTimeFormat }}{% else %}--{% endif %}",
+            "<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'><li><a href='{{ path('admin_edit',{'id':admin.id}) }}'><i class='icon-pencil7'></i> Edit</a></li>{% if is_granted("ROLE_SUPER_ADMIN") %}<li><a href='{{ path('user_login_as_user',{'id':admin.id}) }}'><i class='icon-enter3'></i> Login</a></li>{% endif %}<li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('user_delete',{'id':admin.id}) }}'><i class='icon-bin'></i> Remove</a></li></ul></li></ul>"
+            ]{% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

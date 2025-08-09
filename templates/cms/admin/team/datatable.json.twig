@@ -1,0 +1,19 @@
+{
+    "recordsTotal":
+    {{ recordsTotal }},
+    "recordsFiltered":
+    {{ recordsFiltered }},
+    "data": [
+        {% for team in teams %}
+        [
+            "{{ team.tarteb }}",
+            "{{ team.name }}",
+            "{% if team.publish %}<span class='label label-success'>Yes</span>{% else %}<span class='label label-danger'>No</span>{% endif %}",",
+            "{% if team.image %}<div class='thumb' style='width: 58px; height: 58px;object-fit: cover;'><a href='{{ asset(team.image.assetPath) }}' data-popup='lightbox'><img src='{{ asset(team.image.assetPath) }}' alt='' style='width: 58px; height: 58px;'><span class='zoom-image'><i class='icon-plus2'></i></span></a></div>{% else %}--{% endif %}",
+            "<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'><li><a href='{{ path('team_edit',{'id':team.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('team_delete',{'id':team.id}) }}'><i class='icon-bin'></i> Remove</a></li></ul></li></ul>"
+        ]
+        {% if loop.last == false %},
+        {% endif %}
+        {% endfor %}
+    ]
+}

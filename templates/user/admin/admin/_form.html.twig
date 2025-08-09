@@ -1,0 +1,28 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+{{ form_start(form, {'attr':{"data-toggle":"validator", 'novalidate':'novalidate'}}) }}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(form.fullName) }}
+            {{ macros.input(form.email) }}
+        </div>
+
+        <div class="row">
+            {{ macros.input(form.plainPassword.first) }}
+            {{ macros.input(form.plainPassword.second) }}
+        </div>
+
+        <div class="row">
+            {{ macros.input(form.phone) }}
+            {{ macros.input(form.roles) }}
+        </div>
+        <div class="row">
+            {{ macros.checkbox(form.enabled) }}
+            {{ macros.input(form.gender) }}
+        </div>
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>
+{{ form_end(form) }}

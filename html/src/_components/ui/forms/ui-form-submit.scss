@@ -1,0 +1,17 @@
+.ui-form-submit {
+    background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+    border: 2px solid #DBF8DF;
+    border-radius: 5px;
+    padding: 12px 64px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 25px;
+    text-align: center;
+    color: #C5C5C5;
+    cursor: pointer;
+    transition: 0.09s all ease-in-out;
+    &:hover {
+        color: #444;
+        border-color: #AEB3BE;
+    }
+}

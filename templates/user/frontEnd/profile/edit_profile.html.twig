@@ -1,0 +1,126 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ "edit_profile_txt"|trans }}{% endblock %}
+{% import 'fe/macros.html.twig' as macros %}
+{% form_theme form 'fe/_form_fields.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ macros.assetCSS(asset('pages-assets/profile-edit-profile/profile-edit-profile.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+    {% include "fe/_pages_header.html.twig" with {"pageTitle": "edit_profile_txt"|trans, "marginBottomZero": true } %}
+    <div class="wrapper-profile">
+        <div class="l-container">
+            <div class="l-flex-row">
+                <div class="l-flex-col-xl-3 wrapper-profile-sidebar" data-profile-sidebar="true">
+                    {% include "user/frontEnd/profile/_sidemenu.html.twig" %}
+                </div>
+                <div class="l-flex-col-xl-9 wrapper-profile-card" data-profile-card="true">
+                    <div class="card-header">
+                        <button class="back-btn" data-profile-card-btn="true">
+                            <svg width="10" height="17" viewBox="0 0 10 17" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0.261816 8.79401L7.52177 16.0538C7.68968 16.2219 7.91383 16.3145 8.15283 16.3145C8.39184 16.3145 8.61599 16.2219 8.7839 16.0538L9.31855 15.5193C9.66645 15.171 9.66645 14.6049 9.31855 14.2572L3.22219 8.16082L9.32531 2.0577C9.49323 1.88965 9.58594 1.66563 9.58594 1.42676C9.58594 1.18762 9.49323 0.963606 9.32531 0.795426L8.79067 0.261047C8.62262 0.0930003 8.39861 0.000423328 8.1596 0.000423307C7.92059 0.000423286 7.69644 0.0930002 7.52853 0.261047L0.261816 7.5275C0.0935038 7.69607 0.00105931 7.92115 0.00158953 8.16042C0.00105927 8.40062 0.0935037 8.62557 0.261816 8.79401Z"
+                                      fill="#686868"/>
+                            </svg>
+                        </button>
+                        <div>
+                            <h2 class="title">{{ "edit_profile_txt"|trans }}</h2>
+                            <p class="subtitle">{{ "edit_profile_description_txt"|trans }}</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        {% include "fe/_flash_messages.html.twig" %}
+                        {{ form_start(form, {'attr':{'data-form-validate':'true', 'data-edit-profile-form':'true'}}) }}
+                        <div class="l-flex-row">
+                            <div class="l-flex-col-xl-12">
+                                <h6 class="title">{{ "general_info_txt"|trans }}</h6>
+                            </div>
+
+                            {% do form.fullName.setRendered() %}
+                            {% do form.email.setRendered() %}
+                            {% do form.phone.setRendered() %}
+                            <div class="l-flex-col-xl-4">
+                                <div class="form-input-box form-input-box-spacing-40"
+                                     data-form-validate-input-box="true">
+                                    <label class="form-input-label"
+                                           for="{{ form.fullName.vars.id }}">{{ "name_txt"|trans }}</label>
+                                    <label class="form-input form-input-block" data-form-input="true">
+                                        <input type="text" class="input" id="{{ form.fullName.vars.id }}"
+                                               name="{{ form.fullName.vars.full_name }}"
+                                               data-validate-input="{{ form.fullName.vars.id }}"
+                                               data-form-validate-input-rules="required" placeholder=""
+                                               data-form-input-input="true"
+                                               value="{{ form.fullName.vars.data }}"
+                                        />
+                                    </label>
+                                    <ul class="form-input-errors"
+                                        data-validate-input-errors="{{ form.fullName.vars.id }}">
+                                        {{ form_errors(form.fullName) }}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="l-flex-col-xl-4">
+                                <div class="form-input-box form-input-box-spacing-40"
+                                     data-form-validate-input-box="true">
+                                    <label class="form-input-label"
+                                           for="{{ form.email.vars.id }}">{{ "email_txt"|trans }}</label>
+                                    <label class="form-input form-input-block" data-form-input="true">
+                                        <input type="{{ form.email.vars.id }}" class="input"
+                                               id="{{ form.email.vars.id }}" name="{{ form.email.vars.full_name }}"
+                                               data-validate-input="{{ form.email.vars.id }}"
+                                               data-form-validate-input-rules="required|email" placeholder=""
+                                               data-form-input-input="true"
+                                               value="{{ form.email.vars.data }}"
+                                        />
+                                    </label>
+                                    <ul class="form-input-errors" data-validate-input-errors="{{ form.email.vars.id }}">
+                                        {{ form_errors(form.email) }}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="l-flex-col-xl-4">
+                                <div class="form-input-box form-input-box-spacing-40"
+                                     data-form-validate-input-box="true">
+                                    <label class="form-input-label" for="{{ form.phone.vars.id }}">{{ "mobile_txt"|trans }}</label>
+                                    <label class="form-input form-input-block" data-form-input="true">
+                                        <input type="tel" class="input" id="{{ form.phone.vars.id }}" name="{{ form.phone.vars.full_name }}"
+                                               data-validate-input="{{ form.phone.vars.id }}"
+                                               data-form-validate-input-rules="required|phone" placeholder=""
+                                               data-form-input-input="true"
+                                               value="{{ form.phone.vars.data }}"
+                                        />
+                                    </label>
+                                    <ul class="form-input-errors" data-validate-input-errors="{{ form.phone.vars.id }}">
+                                        {{ form_errors(form.phone) }}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="l-flex-col-xl-4"></div>
+                            <div class="l-flex-col-xl-4"></div>
+                            <div class="l-flex-col-xl-4"></div>
+                            <div class="l-flex-col-xl-4">
+                                <br>
+                                <button class="btn btn-primary btn-md btn-block btn-rounded" type="submit">
+                                    {{ "update_info_txt"|trans|upper }}
+                                </button>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/profile-edit-profile/profile-edit-profile.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/profile-edit-profile/profile-edit-profile.js')) }}
+    {{ macros.assetJS(asset('pages-assets/profile-edit-profile/profile-edit-profile.lazy.js'), true) }}
+{% endblock %}

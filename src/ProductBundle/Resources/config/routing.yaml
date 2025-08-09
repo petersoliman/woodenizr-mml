@@ -1,0 +1,88 @@
+product_admin:
+  resource: "@ProductBundle/Controller/Administration"
+  type: annotation
+  prefix: /admin/product
+
+product_frontEnd:
+  resource: "@ProductBundle/Controller/FrontEnd"
+  type: annotation
+  prefix: /{_locale}/product
+  defaults: { _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'
+
+fe_product_filter_search:
+  path: /{_locale}/search/{page}/{sort}
+  defaults: { _controller: App\ProductBundle\Controller\FrontEnd\ProductFilterController::index, page: 1, sort: 1, _locale: '%locale%' }
+  methods: [ GET, POST ]
+  requirements:
+    _locale: '%app.locales%'
+    page: \d+
+    sort: \d+
+
+fe_product_filter_sale:
+  path: /{_locale}/sale/{page}/{sort}
+  defaults: { _controller: App\ProductBundle\Controller\FrontEnd\ProductFilterController::index, page: 1, sort: 1, _locale: '%locale%' }
+  methods: [ GET, POST ]
+  requirements:
+    _locale: '%app.locales%'
+    page: \d+
+    sort: \d+
+
+fe_product_filter_category:
+  path: /{_locale}/{slug}/products/{page}/{sort}
+  defaults: { _controller: App\ProductBundle\Controller\FrontEnd\ProductFilterController::index, page: 1, sort: 1, _locale: '%locale%' }
+  methods: [ GET, POST ]
+  requirements:
+    _locale: '%app.locales%'
+    page: \d+
+    sort: \d+
+
+fe_product_filter_collection:
+  path: /{_locale}/{slug}/collection/{page}/{sort}
+  methods: [ GET, POST ]
+  defaults: { _controller: App\ProductBundle\Controller\FrontEnd\ProductFilterController::index, page: 1, sort: 1, _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'
+    page: \d+
+    sort: \d+
+
+fe_product_filter_occasion:
+  path: /{_locale}/{slug}/occasion/{page}/{sort}
+  methods: [ GET, POST ]
+  defaults: { _controller: App\ProductBundle\Controller\FrontEnd\ProductFilterController::index, page: 1, sort: 1, _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'
+    page: \d+
+    sort: \d+
+
+fe_product_show:
+  path: /{_locale}/{slug}/product
+  methods: [ GET ]
+  defaults: { _controller: App\ProductBundle\Controller\FrontEnd\ProductShowController::index, _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'
+
+fe_category_index:
+  path: /{_locale}/category/{slug}/{page}
+  methods: [ GET ]
+  defaults: { _controller: App\ProductBundle\Controller\FrontEnd\CategoryController::index, page: 1, slug: null, _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'
+    page: \d+
+
+fe_collection_index:
+  path: /{_locale}/collection/{page}
+  methods: [ GET ]
+  defaults: { _controller: App\ProductBundle\Controller\FrontEnd\CollectionController::index, page: 1, _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'
+    page: \d+
+
+fe_brand_index:
+  path: /{_locale}/brand/{page}
+  methods: [ GET ]
+  defaults: { _controller: App\ProductBundle\Controller\FrontEnd\BrandController::index, page: 1, _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'
+    page: \d+

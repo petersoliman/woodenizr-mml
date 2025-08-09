@@ -1,0 +1,42 @@
+<div class="col-sm-6 col-md-3">
+    <div class="panel panel-body bg-success-400 has-bg-image">
+        <div class="media no-margin">
+            <div class="media-left media-middle">
+                <i class="icon-bag icon-3x opacity-75"></i>
+            </div>
+
+            <div class="media-body text-right">
+                <h3 class="no-margin text-semibold">{% if numberOfOrders is defined %}{{ numberOfOrders|number_format }}{% else %}--{% endif %}</h3>
+                <span class="text-uppercase text-size-small text-muted">Orders</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-6 col-md-3">
+    <div class="panel panel-body bg-indigo-400 has-bg-image">
+        <div class="media no-margin">
+            <div class="media-left media-middle">
+                <i class="icon-cash2 icon-3x opacity-75"></i>
+            </div>
+
+            <div class="media-body text-right">
+                <h3 class="no-margin text-semibold">{% if totalSales is defined %}{{ totalSales|number_format }}{% else %}--{% endif %} EGP</h3>
+                <span class="text-uppercase text-size-small text-muted">Sales</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-6 col-md-3">
+    <div class="panel panel-body bg-blue-400 has-bg-image">
+        <div class="media no-margin">
+            <div class="media-left media-middle">
+                <i class="icon-calculator3 icon-3x opacity-75"></i>
+            </div>
+
+            <div class="media-body text-right">
+                <h3 class="no-margin text-semibold">{% if averageOrderValue is defined %}{{ averageOrderValue|number_format }}{% else %}--{% endif %} EGP</h3>
+                <span class="text-uppercase text-size-small text-muted">Average order value</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(form.title,6) }}
+            {{ macros.input(form.tarteb,6) }}
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Image:</label>
+                    <div class="media no-margin-top">
+                        {% if category.image %}
+                            <div class="media-left">
+                                <div class="thumb" style="width: 58px; height: 58px;object-fit: cover;">
+                                    <a href="{{ asset(category.image.assetPath) }}" data-popup="lightbox">
+                                        <img src="{{ asset(category.image.assetPath) }}" style="width: 58px; height: 58px;object-fit: cover; border-radius: 2px;" alt="">
+                                        <span class="zoom-image"><i class="icon-plus2"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="media-body">
+                            {{ form_widget(form.image.file,{'attr':{'class':'file-styled'}}) }}
+                        </div>
+                    </div>
+                    <span class="help-block">{% include '@PNMedia/imageDimension.html.twig' with {"type":101} %}</span>
+                    <span class="help-block">Accepted formats: gif, png, jpg. Max file size 2MB</span>
+                    <span class="help-block">Images more than 2MB is not recommended as it will slow down the page speed, performance and so the search engine results ex: Google search</span>
+                </div>
+            </div>
+            {{ macros.input(form.post.brief,6) }}
+        </div>
+
+    </div>
+    <div class="panel-footer">
+        {% include 'product/admin/category/_save_btns.html.twig' %}
+    </div>
+</div>
+
+{% include '@PNSeo/Administration/Seo/seo.html.twig' with { 'seoForm':form.seo, 'entity':category } %}

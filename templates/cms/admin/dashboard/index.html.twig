@@ -1,0 +1,190 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Dashboard{% endset %}
+{% block body -%}
+    <div class="row">
+        <div class="col-sm-12">
+            <h5 class="content-group text-semibold col-md-9">
+                Store Summary
+            </h5>
+            <div class="form-group col-md-3 pull-right">
+                <select class="change-date select-sm" id="select_date">
+                    <option selected="" value="last30Days">Last 30 days</option>
+                    <option value="lifeTime">Lifetime</option>
+                </select>
+            </div>
+        </div>
+        <div id="store-statistics">
+            {% include 'cms/admin/dashboard/orderStatisticsSnippet.html.twig' %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-7">
+            <h5 class="content-group text-semibold">
+                Registered Users in <strong>{{ "now"|date('Y') }}</strong>
+            </h5>
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <div class="chart-container">
+                        <div class="chart" id="registerUserByMonth" style="width: 100%; min-height: 330px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <h5 class="content-group text-semibold">
+                To-do list
+            </h5>
+            <a href="{{ path("order_index", { "state": [constant('App\\ECommerceBundle\\Enum\\OrderStatusEnum::POSTPONE').value,  constant('App\\ECommerceBundle\\Enum\\OrderStatusEnum::NEW').value], "payment_state": constant('App\\OnlinePaymentBundle\\Enum\\PaymentStatusEnum::PENDING').value }) }}">
+                <div class="panel panel-body ">
+                    <div class="media no-margin">
+                        <div class="media-left media-middle text-center">
+                            <h3 class="no-margin text-semibold text-warning">{{ numberOfOrderOfAwaitingPaymentAndNotSuccess|number_format }}</h3>
+                            <span class="text-uppercase text-size-mini text-muted">Orders</span>
+                        </div>
+
+                        <div class="media-body text-left pl-20">
+                            <h4 class="no-margin text-semibold">Not paid. Needs to be shipped</h4>
+                            <span>Collect payments for these orders, process payments and ship items to your customers.</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="{{ path("order_index", { "shipping_state": [constant('App\\ECommerceBundle\\Enum\\ShippingStatusEnum::AWAITING_PROCESSING').value, constant('App\\ECommerceBundle\\Enum\\ShippingStatusEnum::PROCESSING').value], "payment_state": constant('App\\OnlinePaymentBundle\\Enum\\PaymentStatusEnum::PAID').value }) }}">
+                <div class="panel panel-body ">
+                    <div class="media no-margin">
+                        <div class="media-left media-middle text-center">
+                            <h3 class="no-margin text-semibold text-success">{{ numberOfOrderPaidAndNotShipped|number_format }}</h3>
+                            <span class="text-uppercase text-size-mini text-muted">Orders</span>
+                        </div>
+
+                        <div class="media-body text-left pl-20">
+                            <h4 class="no-margin text-semibold">Paid. Needs to be shipped</h4>
+                            <span>Customer has paid for item. Now, prepare it for shipment and mail it. For your sales records, mark the sale as shipped.</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="{{ path("order_index", { "shipping_state": [constant('App\\ECommerceBundle\\Enum\\ShippingStatusEnum::PROCESSING').value] }) }}">
+                <div class="panel panel-body ">
+                    <div class="media no-margin">
+                        <div class="media-left media-middle text-center">
+                            <h3 class="no-margin text-semibold text-warning">{{ numberOfOrderWaitingToShipping|number_format }}</h3>
+                            <span class="text-uppercase text-size-mini text-muted">Orders</span>
+                        </div>
+
+                        <div class="media-body text-left pl-20">
+                            <h4 class="no-margin text-semibold">Awaiting Shipping</h4>
+                            <span>The order is preparing to be shipped. Once you’ve physically mailed the purchase to your customer, mark the item as shipped.</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/visualization/echarts/echarts.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/bootstrap_multiselect.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/loaders/blockui.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            getStoreSummaryStatistics();
+            $("#select_date").multiselect({
+                buttonClass: 'btn btn-link text-semibold',
+                enableHTML: true,
+                dropRight: $('html').attr('dir') == 'rtl' ? false : true,
+                onChange: function () {
+                    getStoreSummaryStatistics();
+                },
+                buttonText: function (options, element) {
+                    var selected = '';
+                    options.each(function () {
+                        selected += $(this).html() + ', ';
+                    });
+                    return '<span class="status-mark border-warning position-left"></span>' + selected.substr(0, selected.length - 2);
+                }
+            });
+            function getStoreSummaryStatistics() {
+                var storeStatisticsElement = $("#store-statistics");
+                var type = $("#select_date").find("option:selected").val();
+                addLoader(storeStatisticsElement.parent());
+                $.get("{{ path('dashboard_store_statistics_ajax') }}", {"type": type}, function (data) {
+                    storeStatisticsElement.empty().append(data);
+                    removeLoader(storeStatisticsElement.parent());
+                });
+            }
+
+
+
+            echarts.init(document.getElementById('registerUserByMonth')).setOption({
+
+                // Define colors
+                color: ['#EF5350'],
+                // Global text styles
+                textStyle: {
+                    fontFamily: 'Roboto, Arial, Verdana, sans-serif',
+                    fontSize: 13
+                },
+                // Chart animation duration
+                animationDuration: 750,
+                // Setup grid
+                grid: {
+                    left: 0,
+                    right: 40,
+                    top: 35,
+                    bottom: 0,
+                    containLabel: true
+                },
+                // Add tooltip
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: 'rgba(0,0,0,0.75)',
+                    padding: [10, 15],
+                    formatter: '<strong>{b}:</strong> {c} Users',
+                    textStyle: {
+                        fontSize: 13,
+                        fontFamily: 'Roboto, sans-serif'
+                    }
+                },
+                // Horizontal axis
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    data: [{% for data in registeredUsers %}'{{ data.monthName }}'{{ loop.last == false? "," }}{% endfor %}],
+                }],
+                // Vertical axis
+                yAxis: [{
+                    type: 'value',
+                }],
+                // Add series
+                series: [
+                    {
+                        type: 'line',
+                        data: [{% for data in registeredUsers %}{{ data.value }}{{ loop.last == false? "," }}{% endfor %}],
+                        smooth: true,
+                        symbolSize: 7,
+                    }
+                ]
+            });
+        });
+        function addLoader(element) {
+            element.block({
+                message: '<i class="icon-spinner2 spinner"></i>',
+                overlayCSS: {
+                    backgroundColor: '#fff',
+                    opacity: 0.8,
+                    cursor: 'wait'
+                },
+                css: {
+                    border: 0,
+                    padding: 0,
+                    backgroundColor: 'none'
+                }
+            });
+        }
+        function removeLoader(element) {
+            element.unblock();
+        }
+    </script>
+{% endblock %}

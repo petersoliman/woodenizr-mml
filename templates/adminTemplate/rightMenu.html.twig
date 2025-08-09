@@ -1,0 +1,55 @@
+<ul class="nav navbar-nav navbar-right">
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <li>
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user-secret fa-lg"></i>
+                <span class="visible-xs-inline-block position-right">Super admin</span>
+                <i class="caret"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="{{ path('pn_locale_language_index') }}"><i class="fa fa-language"></i> Languages</a></li>
+                <li><a href="{{ path('imagesetting_index') }}"><i class="fa fa-image"></i> Image setting</a></li>
+                <li><a href="{{ path('seobaseroute_index') }}"><i class="fa fa-flag"></i> Base route</a></li>
+                <li><a href="{{ path('dynamic_content_index') }}"><i class="fa fa-paint-brush"></i> Dynamic Content</a></li>
+            </ul>
+        </li>
+    {% endif %}
+    {% if is_granted("ROLE_ADMIN") %}
+        <li>
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-bars-alt"></i>
+                <span class="visible-xs-inline-block position-right">Seo</span>
+                <i class="caret"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                {#<li><a href="#"><i class="fa fa-arrow-circle-o-right"></i> Site map</a></li>#}
+                {#<li><a href="#"><i class="fa fa-arrow-circle-o-right"></i> Back links</a></li>#}
+{#                <li><a href="{{ path('redirect404_index') }}"><i class="fa fa-arrow-circle-o-right"></i> Redirect 404 pages</a></li>#}
+                <li><a href="{{ path('seopage_index') }}"><i class="fa fa-arrow-circle-o-right"></i> Seo Pages</a></li>
+                <li><a href="{{ path('site_setting_index') }}"><i class="fa fa-arrow-circle-o-right"></i>Site Settings</a></li>
+            </ul>
+        </li>
+    {% endif %}
+    <li class="dropdown dropdown-user">
+        <a class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-user fa-lg"></i>
+            <span>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    perfectNeeds
+                {% elseif app.user.fullName is defined %}
+                    {{ app.user.fullName }}
+                {% else %}
+                    perfectNeeds
+                {% endif %}
+            </span>
+            <i class="caret"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+            {% if is_granted('ROLE_SUPER_ADMIN') == false %}
+                <li><a href="{{ path('app_user_profile_edit') }}"><i class="icon-profile"></i> Edit Profile</a></li>
+                <li><a href="{{ path('app_user_change_password') }}"><i class="icon-key"></i> Change password</a></li>
+                {% endif %}
+            <li><a href="{{ path('app_user_logout') }}"><i class="icon-switch2"></i> Logout</a></li>
+        </ul>
+    </li>
+</ul>

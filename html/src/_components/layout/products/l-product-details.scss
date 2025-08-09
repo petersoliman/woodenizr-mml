@@ -1,0 +1,121 @@
+#fb-root{
+    iframe, .container{
+        bottom: 110px !important;
+    }
+}
+.l-product-details {
+    &-meta-specs-container {
+        margin-bottom: 14px;
+    }
+    &-meta-specs {
+        display: inline-block;
+    }
+    &-title {
+        display: inline;
+    }
+    &-title-icon {
+        width: 25px;
+        vertical-align: text-bottom;
+        position: relative;
+        top: -2px;
+        display: inline-block;
+        @include ltr {
+          margin-right: 10px;
+        }
+        @include rtl {
+            margin-left: 10px;
+        }
+    }
+    &-rating {
+        margin-top: 25px;
+        @include media-max($xl) {
+            margin-top: 5px;
+        }
+    }
+    &-mobile-title-ratings {
+        display: none;
+        @include media-max($xl) {
+            display: block;
+            margin-bottom: 15px;
+        }
+    }
+    &-desktop-title-ratings {
+        display: block;
+        @include media-max($xl) {
+            display: none;
+        }
+    }
+    &-rating-stars {
+        display: inline-flex;
+    }
+    &-rating-star {
+        width: 28px;
+        height: 26px;
+        @include media-max($xl) {
+            width: 15px;
+            height: 14px;
+        }
+        &:not(:last-child) {
+            @include ltr {
+                margin-right: 13px;
+            }
+            @include rtl {
+                margin-left: 13px;
+            }
+            @include media-max($xl) {
+                @include ltr {
+                    margin-right: 5px;
+                }
+                @include rtl {
+                    margin-left: 5px;
+                }
+            }
+        }
+    }
+    &-rating-btn {
+        @include ltr() {
+            margin-left: 15px;
+        }
+        @include rtl() {
+            margin-right: 15px;
+        }
+    }
+    &-price-container {
+        margin-top: 30px;
+        margin-bottom: 24px;
+        @include media-max($xl) {
+            margin-top: 0;
+        }
+    }
+    &-price-meta-top {
+        margin-bottom: 24px;
+    }
+    &-price-meta-bottom {
+        margin-top: 28px;
+    }
+    &-seller-products-link-container {
+        margin-top: 24px;
+    }
+    &-seller-products-link {
+        position: relative;
+        display: inline-block;
+        .l-product-details-seller-see-all,
+        .l-product-details-seller-rating {
+            display: block;
+        }
+        &::before {
+            content: '';
+            position: absolute;
+            @include ltr() {
+                left: 0;
+            }
+            @include rtl() {
+                right: 0;
+            }
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            height: 100%;
+        }
+    }
+}

@@ -1,0 +1,259 @@
+<%- include ../_components/main/header/header.ejs %>
+<%- include ../_components/main/body/body-header.ejs %>
+<link rel="stylesheet" href="/pages-assets/cart-order-page-2/cart-order-page-2.styles.css">
+<div class="l-featured-section ui-featured-section--spacing-bottom-0 ui-featured-section lazyload" data-bg="/assets/img/featured-section-bg.webp" data-delay="5000">
+    <div class="l-featured-section-content">
+        <div class="l-container">
+            <div class="l-flex-row">
+                <div class="l-flex-col-lg-2"></div>
+                <div class="l-flex-col-lg-8">
+                    <div class="l-featured-section-content-box">
+                        <div class="l-page-title-box">
+                            <h1 class="l-page-title ui-page-title">Cart</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-flex-col-lg-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="u-bg-light">
+
+    <div class="l-container">
+
+        <div class="wrapper-progress-steps">
+            <nav class="progress-steps">
+                <div class="step first completed">
+                    <div class="step-content">
+                        <span class="step-icon">1</span>
+                        <span class="step-text">Shopping Cart</span>
+                    </div>
+                </div>
+                <div class="step completed">
+                    <div class="step-content">
+                        <span class="step-icon">2</span>
+                        <span class="step-line"></span>
+                        <span class="step-text">Contact Information</span>
+                    </div>
+                </div>
+                <div class="step active">
+                    <div class="step-content">
+                        <span class="step-icon">3</span>
+                        <span class="step-line"></span>
+                        <span class="step-text">Payment Method</span>
+                    </div>
+                </div>
+                <div class="step last">
+                    <div class="step-content">
+                        <span class="step-icon">4</span>
+                        <span class="step-line"></span>
+                        <span class="step-text">Order Summary</span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    
+        <form action="" data-form-validate="true">
+            <div class="l-flex-row">
+                <div class="l-flex-col-xl-8">
+                    <div class="wrapper-card">
+                        <div class="wrapper-card-header">
+                            <h6 class="wrapper-card-header-title">Payment Method</h6>
+                        </div>
+                        <div class="wrapper-card-section-1">
+                            <p>How would you like to pay?</p>
+                            <div class="wrapper-payment-methods">
+                                <label class="wrapper-payment-method" data-payment-method="true">
+                                    <div class="wrapper-payment-method-card">
+                                        <span>
+                                            <input class="l-form-radio ui-form-radio ui-form-radio--color-light" type="radio" name="payment_method" id="payment_method" value="1" />
+                                            <span class="l-form-radio-label l-form-radio-label--spacing-28 ui-form-radio-label ui-form-radio-label--lg" for="payment_method">Credit Card</span>
+                                        </span>
+                                        <span class="wrapper-payment-method-card-icons">
+                                            <img
+                                                class="lazyload"
+                                                data-expand="-20"
+                                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                                data-src="/assets/img/payment-methods/visa-mastercard.webp"
+                                            />
+                                        </span>
+                                    </div>
+                                </label>
+                                <label class="wrapper-payment-method" data-payment-method="true">
+                                    <div class="wrapper-payment-method-card">
+                                        <span>
+                                            <input class="l-form-radio ui-form-radio ui-form-radio--color-light" type="radio" name="payment_method" id="payment_method" value="2" />
+                                            <span class="l-form-radio-label l-form-radio-label--spacing-28 ui-form-radio-label ui-form-radio-label--lg" for="payment_method">Bank Installment</span>
+                                        </span>
+                                        <span class="wrapper-payment-method-card-icons">
+                                            <img
+                                                class="lazyload"
+                                                data-expand="-20"
+                                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                                data-src="/assets/img/payment-methods/nbe-cib-bm.webp"
+                                            />
+                                        </span>
+                                    </div>
+                                </label>
+                                <label class="wrapper-payment-method" data-payment-method="true">
+                                    <div class="wrapper-payment-method-card">
+                                        <span>
+                                            <input class="l-form-radio ui-form-radio ui-form-radio--color-light" type="radio" name="payment_method" id="payment_method" value="3" />
+                                            <span class="l-form-radio-label l-form-radio-label--spacing-28 ui-form-radio-label ui-form-radio-label--lg" for="payment_method">E-Wallet</span>
+                                        </span>
+                                        <span class="wrapper-payment-method-card-icons">
+                                            <img
+                                                class="lazyload"
+                                                data-expand="-20"
+                                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                                data-src="/assets/img/payment-methods/e-wallet.webp"
+                                            />
+                                        </span>
+                                    </div>
+                                </label>
+                                <label class="wrapper-payment-method" data-payment-method="true">
+                                    <div class="wrapper-payment-method-card">
+                                        <span>
+                                            <input class="l-form-radio ui-form-radio ui-form-radio--color-light" type="radio" name="payment_method" id="payment_method" value="4" checked />
+                                            <span class="l-form-radio-label l-form-radio-label--spacing-28 ui-form-radio-label ui-form-radio-label--lg" for="payment_method">ValU</span>
+                                        </span>
+                                        <span class="wrapper-payment-method-card-icons">
+                                            <img
+                                                class="lazyload"
+                                                data-expand="-20"
+                                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                                data-src="/assets/img/payment-methods/valu.webp"
+                                            />
+                                        </span>
+                                    </div>
+                                </label>
+                                <label class="wrapper-payment-method" data-payment-method="true" disabled="disabled">
+                                    <div class="wrapper-payment-method-card">
+                                        <span>
+                                            <input class="l-form-radio ui-form-radio ui-form-radio--color-light" type="radio" name="payment_method" id="payment_method" value="5" />
+                                            <span class="l-form-radio-label l-form-radio-label--spacing-28 ui-form-radio-label ui-form-radio-label--lg" for="payment_method">Cash on delivery ( Fees EGP 15 )</span>
+                                        </span>
+                                        <span class="wrapper-payment-method-card-icons">
+                                            <img
+                                                class="lazyload"
+                                                data-expand="-20"
+                                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                                data-src="/assets/img/payment-methods/cod.webp"
+                                            />
+                                        </span>
+                                    </div>
+                                    <div class="wrapper-payment-method-notes">
+                                        Only for domestic products under 4000 EGP
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="wrapper-card-section-2">
+                            <a href="#" class="btn btn-icon-2 btn-plain">
+                                <span class="icon">
+                                    <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.47074 15.1133L9.22656 13.3508L3.52325 7.61328L9.22656 1.87578L7.47074 0.113281L-0.000850975 7.61328L7.47074 15.1133Z" fill="#686868"/>
+                                    </svg>
+                                </span>
+                                <span class="text">Return to cart</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-flex-col-xl-4">
+                    <div class="wrapper-cart-summary">
+                        <div class="cart-summary">
+                            <h6 class="title">Shopping Cart Total</h6>
+                            <table class="summary-table">
+                                <tbody>
+                                    <tr data-cart-summary-subtotal="true">
+                                        <th>Subtotal (<span data-cart-items-count="true">0</span> items)</th>
+                                        <td>
+                                            <div class="price">
+                                                <span data-cart-summary-subtotal-value="true">0</span>
+                                                <span class="currency" data-cart-summary-subtotal-currency="true"></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr data-cart-summary-discount="true">
+                                        <th>Discount</th>
+                                        <td class="active">
+                                            <span class="price">
+                                                <span data-cart-summary-discount-value="true">0</span>
+                                                <span class="currency" data-cart-summary-discount-currency="true"></span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr data-cart-summary-shipping-fee="true">
+                                        <th>Shipping Fee</th>
+                                        <td class="active">
+                                            <span class="price">
+                                                <span data-cart-summary-shipping-fee-value="true">0</span>
+                                                <span class="currency" data-cart-summary-shipping-fee-currency="true"></span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr data-cart-summary-grand-total="true">
+                                        <th>Grand Total</th>
+                                        <td class="active">
+                                            <span class="price">
+                                                <span data-cart-summary-grand-total-value="true">0</span>
+                                                <span class="currency" data-cart-summary-grand-total-currency="true"></span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="wrapper-cart-cta">
+                        <div class="wrapper-cart-cta-xs-only">
+                            Total ( <span data-cart-items-count="true">0</span> items ) : <strong><span data-cart-summary-grand-total-value="true">0</span> <span data-cart-summary-grand-total-currency="true"></span></strong>
+                        </div>
+                        <div class="wrapper-cart-error" data-cart-out-of-stock-error="true" hidden>
+                            Remove the out of stock item or save for later
+                        </div>
+                        <div class="wrapper-cart-error" data-cart-max-stock-error="true" hidden>
+                            Remove the out of stock item or change quantity
+                        </div>
+                        <button type="submit" class="btn btn-icon btn-primary btn-block btn-xxl wrapper-cart-submit-btn" disabled data-cart-submit-btn="true">
+                            <span class="text">Order Summary</span>
+                            <span class="icon">
+                                <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M25.1253 9.7522L16.2226 0.579388C15.9684 0.31755 15.6297 0.173828 15.2685 0.173828C14.907 0.173828 14.5685 0.317757 14.3143 0.579388L13.506 1.4124C13.2521 1.67382 13.1122 2.02301 13.1122 2.39532C13.1122 2.76743 13.2521 3.12839 13.506 3.38981L18.6998 8.75275H2.199C1.45503 8.75275 0.867188 9.35283 0.867188 10.1196V11.2972C0.867188 12.0639 1.45503 12.7245 2.199 12.7245H18.7587L13.5062 18.1174C13.2523 18.3792 13.1124 18.7189 13.1124 19.0912C13.1124 19.4631 13.2523 19.8078 13.5062 20.0694L14.3145 20.8997C14.5687 21.1616 14.9072 21.3043 15.2687 21.3043C15.6299 21.3043 15.9686 21.1597 16.2228 20.8979L25.1255 11.7253C25.3803 11.4626 25.5204 11.112 25.5194 10.7393C25.5202 10.3653 25.3803 10.0144 25.1253 9.7522Z" fill="white"/>
+                                </svg>
+                            </span>
+                        </button>
+                        <div class="wrapper-cart-cta-xs-only">
+                            <a href="#" class="btn btn-icon-2 btn-block btn-xxl btn-plain">
+                                <span class="icon">
+                                    <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.47074 15.1133L9.22656 13.3508L3.52325 7.61328L9.22656 1.87578L7.47074 0.113281L-0.000850975 7.61328L7.47074 15.1133Z" fill="#686868"/>
+                                    </svg>
+                                </span>
+                                <span class="text">Return to cart</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+
+<%- include ../_components/main/body/body-footer.ejs %>
+<link rel="stylesheet" href="/pages-assets/cart-order-page-2/cart-order-page-2.lazy.styles.css" fetchpriority="low">
+<script src="/pages-assets/cart-order-page-2/cart-order-page-2.js"></script>
+<script src="/pages-assets/cart-order-page-2/cart-order-page-2.lazy.js" fetchpriority="low"></script>
+<%- include ../_components/main/footer/footer.ejs %>

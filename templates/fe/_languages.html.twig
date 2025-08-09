@@ -1,0 +1,82 @@
+{% set locale = app.request.get('_locale') %}
+
+{% if locale == '' %}
+    {% set currentRouteAr = path('fe_home', {'_locale': 'ar' }) %}
+    {% set currentRouteEn = path('fe_home', {'_locale': 'en' }) %}
+{% else %}
+    {% set currentRoute = app.request.get('_route') %}
+    {% set currentRouteAr = path(currentRoute, app.request.get('_route_params')|merge({'_locale': 'ar' })|merge(app.request.query.all)) %}
+    {% set currentRouteEn = path(currentRoute, app.request.get('_route_params')|merge({'_locale': 'en' })|merge(app.request.query.all)) %}
+{% endif %}
+
+{% set flagPath = 'fe/flags/en.svg' %}
+{% if locale == "ar" %}
+    {% set flagPath = 'fe/flags/ar.svg' %}
+{% endif %}
+
+{% set flagSVG %}
+    {% include(flagPath) ignore missing %}
+{% endset %}
+
+<div class="m-header-topbar-delivery l-mega-dropdown-container" data-l-mega-dropdown="true" data-header-delivery-dropdown="true">
+    <button class="m-header-topbar-delivery-dropdown-button ui-mega-dropdown-button l-mega-dropdown-button" aria-label="Change Currency and Language" aria-labelledby="Change Currency and Language" data-l-mega-dropdown-button="true">
+        {% if flagSVG is not empty %}
+            <span class="m-header-topbar-delivery-img">
+                {{ flagSVG }}
+            </span>
+        {% endif %}
+        {#<span class="m-header-topbar-delivery-dropdown-button-text">
+            <span>{{ "language_txt"|trans }}</span>
+            <span class="m-header-topbar-delivery-flag-name">
+                <span>
+                {{ locale == "ar" ? "عربي" : "English" }}
+                </span>
+                <svg width="10" height="7" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.74119 0.289853C9.39611 -0.0966178 8.83626 -0.0966178 8.49078 0.289853L5.00014 4.5946L1.50951 0.289853C1.16402 -0.0966178 0.604585 -0.0966178 0.259115 0.289853C-0.0863716 0.676324 -0.0863716 1.30232 0.259115 1.68879L4.3196 6.69672C4.50649 6.90554 4.75541 6.99762 5.00016 6.98043C5.24449 6.99762 5.49383 6.90554 5.68071 6.69672L9.74121 1.68879C10.0863 1.30232 10.0863 0.676343 9.74119 0.289853Z" fill="white" />
+                </svg>
+            </span>
+        </span>#}
+    </button>
+    <div class="m-header-topbar-delivery-dropdown ui-mega-dropdown l-mega-dropdown l-mega-dropdown-end" data-l-mega-dropdown-menu="true">
+        <div class="l-form-input-box l-form-input-box--spacing-bottom-18">
+            <label class="l-form-label ui-form-label">{{ "language_txt"|trans }}</label>
+            <div class="l-dropdown" data-header-topbar-delivery-language-dropdown="true" data-l-dropdown="true">
+                <button class="l-dropdown-button l-dropdown-button--style-2 l-dropdown-button--block l-dropdown-button--text-start ui-dropdown-button ui-dropdown-button--style-2" data-l-dropdown-button="true">
+                    {% if locale == 'ar' %}
+                        عربي
+                    {% else %}
+                        English
+                    {% endif %}
+                </button>
+                <div class="l-dropdown-menu l-dropdown-menu--size-full-width ui-dropdown-menu" data-l-dropdown-menu="true">
+                    <a class="l-dropdown-menu-item ui-dropdown-menu-item {{ locale != "ar" ? "active" }}"
+                            {% if locale == 'ar' %}
+                                href="{{ currentRouteEn }}"
+                            {% else %}
+                                href="#"
+                            {% endif %}
+                    >English</a>
+
+                    <a class="l-dropdown-menu-item ui-dropdown-menu-item {{ locale == "ar" ? "active" }}"
+                            {% if locale != 'ar' %}
+                                href="{{ currentRouteAr }}"
+                            {% else %}
+                                href="#"
+                            {% endif %}
+                        >عربي</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

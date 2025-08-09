@@ -1,0 +1,143 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% import 'adminTemplate/macros.html.twig' as macros %}
+{% set page_title %}Edit {{ variant.title }}{% endset %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #new-option-form .validation-valid-label {
+            color: #ffffff;
+        }
+    </style>
+{% endblock %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('product_index') }}">Products List</a></li>
+            <li><a href="{{ path('product_edit', {"id": variant.product.id}) }}">Edit {{ variant.product.title }}</a>
+            </li>
+            <li>
+                <a href="{{ path('product_variant_index', {"id": variant.product.id}) }}">{{ variant.product.title }}'s Variants List</a>
+            </li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="row">
+        {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'} }) }}
+        <div class="col-md-12">
+            {% set defaultTwig= include ("product/admin/productVariant/_form.html.twig") %}
+            {{ include ("@PNLocale/new_or_edit_tab_structure.html.twig", {'defaultTwig': defaultTwig, "transTwigPath" : "product/admin/productVariant/_form_trans.html.twig"} ) }}
+        </div>
+        {{ form_end(form) }}
+        <div class="col-md-12">
+            {% include "product/admin/productVariant/option/_list.html.twig" %}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_layouts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/bootbox.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_select2.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/jgrowl.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/color/spectrum.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/media/fancybox.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            initColorPicker();
+            initLightbox();
+            $("#new-option-form").submit(function (e) {
+
+                e.preventDefault();
+                let $this = $(this);
+
+                if ($this.valid() === true) {
+                    let action = $this.attr("action");
+                    $this.find(':button').attr('disabled', 'disabled');
+                    $this.find('button[type=submit]').text("Loading ...");
+                    let formSerialize = $this.serialize();
+                    console.log(new FormData(this))
+                    $.ajax({
+                        url: action,
+                        type: "post",
+                        dataType: "JSON",
+                        data: new FormData(this),
+                        processData: false,
+                        contentType: false,
+                        success: function (json, status) {
+                            $this.find(':button').removeAttr('disabled');
+                            $this.find('button[type=submit]').text('Save');
+                            if (json.error == false) {
+
+                                $("#edit-options-container").empty().append(json.html);
+                                $.jGrowl(json.message, {theme: 'bg-success'});
+                                $this[0].reset();
+                                initColorPicker();
+                                initUniform();
+                                initLightbox();
+                            }
+                        }
+
+                    });
+                }
+            });
+            $(document.body).on("click", ".delete", function (e) {
+                var $this = $(this);
+                bootbox.confirm({
+                    title: 'Confirm dialog',
+                    message: 'Are you sure you want to delete?',
+                    buttons: {
+                        confirm: {
+                            label: 'OK',
+                            className: 'btn-primary'
+                        },
+                        cancel: {
+                            label: 'Cancel',
+                            className: 'btn-link'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result === true) {
+                            let url = $this.data("url");
+                            $.post(url, {"_method": "DELETE"}, function (json) {
+                                $this.find(':button').removeAttr('disabled');
+                                $this.find('button[type=submit]').text('Save');
+                                if (json.error == 0) {
+                                    $.jGrowl(json.message, {theme: 'bg-success'});
+                                    $this.closest("tr").remove();
+                                } else {
+                                    $.jGrowl(json.message, {theme: 'bg-danger'});
+                                }
+                            });
+
+                        }
+                    }
+                });
+            });
+        });
+
+        function initColorPicker() {
+            $(".color-picker").spectrum({
+                showInput: true
+            });
+        }
+
+        function initUniform() {
+            $(".file-styled").uniform({
+                fileButtonClass: 'action btn bg-pink-400'
+            });
+        } function initLightbox() {
+            $('[data-popup="lightbox"]').fancybox({
+                padding: 3
+            });
+        }
+    </script>
+{% endblock javascripts %}

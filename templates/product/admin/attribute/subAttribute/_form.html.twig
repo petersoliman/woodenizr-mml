@@ -1,0 +1,27 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+{{ form_start(new_sub_attribute_form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate', "id": "new-sub-attribute-form", "data-ajax": "true"} }) }}
+<div class="panel bg-primary">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(new_sub_attribute_form.title,3) }}
+            {% for translation in new_sub_attribute_form.translations %}
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" for="{{ translation.title.vars.id }}">Title ({{ translation.vars.label }})</label>
+                        {{ form_widget(translation.title) }}
+                        {{ form_errors(translation.title) }}
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="col-md-1">
+                <div class="form-group">
+                    <label class="control-label text-primary">Save</label>
+                    <button type="submit" class="btn btn-success btn-block">
+                        Add
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_end(new_sub_attribute_form) }}

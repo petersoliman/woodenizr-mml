@@ -1,0 +1,126 @@
+.l-404-row {
+  display: flex;
+  margin: 100px 0;
+  @include media-max($md) {
+    flex-direction: column;
+  }
+
+  &-picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F8F8F8;
+    flex: 0 0 50%;
+    width: 50%;
+    @include ltr {
+      margin-right: 50px;
+    }
+    @include rtl {
+      margin-left: 50px;
+    }
+    @include media-max($md) {
+      flex: 0 0 100%;
+      width: 100%;
+      @include ltr {
+        margin-right: 0;
+      }
+      @include rtl {
+        margin-left: 0;
+      }
+    }
+
+    &-img {
+      width: 100%;
+
+    }
+  }
+
+  &-content {
+    display: flex;
+    flex: 0 0 50%;
+    width: 50%;
+    align-items: center;
+    @include media-max($md) {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    &-body {
+
+      @include ltr {
+        border-left: 10px solid #F7F7FA;
+        padding-left: 50px;
+      }
+      @include rtl {
+        border-right: 10px solid #F7F7FA;
+        padding-right: 50px;
+      }
+      @include media-max($md) {
+        padding-top: 18px;
+        border-top: 10px solid #F7F7FA;
+        @include ltr {
+          padding-left: 0;
+          border-left: none;
+        }
+        @include rtl {
+          padding-right: 0;
+          border-right: none;
+        }
+      }
+
+      &-title {
+        &-danger{
+          color: #D83333;
+        }
+        margin-top: 0;
+        font-size: 65px;
+        font-weight: 600;
+        margin-bottom: 3px;
+        color: var(--primary-color);
+        @include media-max($md) {
+          font-size: 35px;
+        }
+      }
+
+      &-subtitle {
+        margin-top: 0;
+        margin-bottom: 58px;
+        font-weight: 600;
+        font-size: 20px;
+        color: #686868;
+        @include media-max($md) {
+          font-size: 18px;
+          margin-bottom: 50px;
+        }
+      }
+
+      &-anchor {
+        display: block;
+        font-weight: 600;
+        color: #3F3F3F;
+        cursor: pointer;
+        background: #FFFFFF;
+        border: 2px solid var(--primary-color);
+        border-radius: 5px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        transition: 0.09s all ease-in-out;
+        font-size: 20px;
+
+        &:not(:disabled):hover {
+          color: #FFF;
+          background-color: var(--primary-color);
+          border-color: var(--primary-color);
+        }
+
+        @include media-max($md) {
+          font-size: 16px;
+          padding: 15px;
+        }
+
+      }
+    }
+  }
+}

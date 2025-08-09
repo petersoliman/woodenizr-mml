@@ -1,0 +1,37 @@
+{% if oneBanner is not empty %}
+    {% set image = asset(oneBanner.image.assetPath) %}
+
+
+    {% set hasLink = false %}
+
+    {% if oneBanner.url != '#' and oneBanner.url is not empty %}
+        {% set hasLink = true %}
+    {% endif %}
+
+    <div class="l-featured-full-width-banner-section">
+        <div class="l-container l-container--phone-spacing">
+            <{{ hasLink ? "a":"div" }} class="l-featured-full-width-banner-section-banner" {% if hasLink is same as (true) %}href="{{ path('banner_redirect', {'id':oneBanner.id}) }}"{% endif %} {{ oneBanner.openInNewTab ? 'target="_blank" rel="noreferrer"' : 'rel="dofollow"' }}>
+                <picture>
+                    <source media="--small" data-srcset="{{ image|webp(559) }}">
+                    <source media="--medium" data-srcset="{{ image|webp(450) }}">
+                    <source media="--large" data-srcset="{{ image|webp(720) }}">
+                    <source media="--x-large" data-srcset="{{ image|webp(1190) }}">
+                    <img
+                            class="l-featured-offers-2-section-banner-img lazyload"
+                            width="1612"
+                            height="410"
+                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                            data-expand="-20"
+                            data-src="{{ image|webp }}"
+                            alt="{{ oneBanner.title is not null ? oneBanner.title : "Ad" }}">
+                </picture>
+            <div class="l-featured-full-width-banner-section-banner-caption ui-featured-full-width-banner-section-banner-caption">
+                <h4 class="l-featured-full-width-banner-section-banner-caption-title ui-featured-full-width-banner-section-banner-caption-title">{{ oneBanner.title }}</h4>
+                <div class="l-featured-full-width-banner-section-banner-caption-hidden ui-featured-full-width-banner-section-banner-caption-hidden">
+                    <p>{{ oneBanner.text }}</p>
+                </div>
+            </div>
+            </{{ hasLink ? "a":"div" }}>
+        </div>
+    </div>
+{% endif %}

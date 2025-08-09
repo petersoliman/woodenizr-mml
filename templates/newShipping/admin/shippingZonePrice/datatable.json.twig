@@ -1,0 +1,31 @@
+{% macro sourceShippingZone(shippingZonePrice) %}
+{% apply spaceless %}
+<span {% if shippingZonePrice.sourceShippingZone.zones.count>0 %}data-popup='tooltip' data-placement='right' title='{% for zone in shippingZonePrice.sourceShippingZone.zones %}{{ zone.title }}{{ loop.last == false ? ', ' }}{% endfor %}'{% endif %}>{{ shippingZonePrice.sourceShippingZone.title }}</span>
+{% endapply %}
+{% endmacro %}
+
+{% macro targetShippingZone(shippingZonePrice) %}
+{% apply spaceless %}
+<span {% if shippingZonePrice.targetShippingZone.zones.count>0 %}data-popup='tooltip' data-placement='right' title='{% for zone in shippingZonePrice.targetShippingZone.zones %}{{ zone.title }}{{ loop.last == false ? ', ' }}{% endfor %}'{% endif %}>{{ shippingZonePrice.targetShippingZone.title }}</span>
+{% endapply %}
+{% endmacro %}
+
+
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for shippingZonePrice in shippingZonePrices %}
+        [
+            "{{ _self.sourceShippingZone(shippingZonePrice) }}",
+            "{{ _self.targetShippingZone(shippingZonePrice) }}",
+            "{{ shippingZonePrice.calculatorName }} {% if shippingZonePrice.hasRates == false %}<i class='icon-warning22 text-danger' title='There is no prices'></i>{% endif %}",
+            "{{ shippingZonePrice.currency }}",
+            "{{ shippingZonePrice.courier }}",
+            "{% if shippingZonePrice.created %}{{ shippingZonePrice.created|date('d/m/Y') }}{% else %}--{% endif %}",
+            "<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'>{% if is_granted('ROLE_ADMIN') %}<li><a href='{{ path('shipping_zone_price_edit',{"shippingTime":shippingZonePrice.shippingTime.id, 'id':shippingZonePrice.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='{{ path('shipping_zone_price_clone',{"shippingTime":shippingZonePrice.shippingTime.id, 'id':shippingZonePrice.id}) }}'><i class='icon-copy4'></i> Clone</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('shipping_zone_price_delete',{'id':shippingZonePrice.id}) }}'><i class='icon-bin'></i> Remove</a></li>{% endif %}</ul></li></ul>"
+
+        ]{% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

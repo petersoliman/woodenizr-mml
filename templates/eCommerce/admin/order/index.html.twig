@@ -1,0 +1,485 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Orders List{% endset %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="panel panel-flat panel-filter">
+        <form role="form" method="GET">
+            <div class="panel-heading">
+                <h5 class="panel-title"><i class="fa fa-search position-left"></i> Filter
+                    <a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+                <div class="heading-elements">
+                    <ul class="icons-list">
+                        <li>
+                            <a data-action="collapse" {% if search.hasSearch == false %}class="rotate-180"{% endif %}></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel-body" {% if search.hasSearch == false %}style="display: none;"{% endif %}>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Order#, User e-mail Or Username</label>
+                            <input type="text" class="form-control" name="str" {% if search.string != null %}value="{{ search.string }}"{% endif %} autocomplete="off" placeholder="Order#, User e-mail Or Username">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Min Price</label>
+                            <input type="number" min="0" name="minPrice" class="form-control" {% if search.minPrice != null %}value="{{ search.minPrice }}"{% endif %} autocomplete="off" placeholder="Min Price">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Max Price</label>
+                            <input type="number" min="0" name="maxPrice" class="form-control" {% if search.maxPrice != null %}value="{{ search.maxPrice }}"{% endif %} autocomplete="off" placeholder="Max Price">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>City</label>
+                            <select class="form-control select-search" name="zone">
+                                <option value="">All</option>
+                                {% for zone in zones %}
+                                    <option {% if search.zone == zone.id %} selected {% endif %} value="{{ zone.id }}">{{ zone.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Order State</label>
+                            <select class="form-control select-search" name="state" multiple>
+                                <option value="">All</option>
+                                {% for state in enum("App\\ECommerceBundle\\Enum\\OrderStatusEnum").cases() %}
+                                    <option {% if state.value in search.state %}selected=""{% endif %} value="{{ state.value }}">{{ state.name() }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Shipping State</label>
+                            <select class="form-control select-search" name="shipping_state" multiple>
+                                <option value="">All</option>
+                                {% for state in enum("App\\ECommerceBundle\\Enum\\ShippingStatusEnum").cases() %}
+                                    <option {% if state.value in search.shippingState %}selected=""{% endif %} value="{{ state.value }}">{{ state.name() }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Payment State</label>
+
+                            <select class="form-control select-search" name="payment_state" multiple>
+                                <option value="">All</option>
+                                {% for paymentState in enum("App\\OnlinePaymentBundle\\Enum\\PaymentStatusEnum").cases() %}
+                                    <option {% if paymentState.value in search.paymentState %}selected=""{% endif %} value="{{ paymentState.value }}">{{ paymentState.name() }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Payment Method</label>
+
+                            <select class="form-control select-search" name="payment_method">
+                                <option value="">All</option>
+                                {% for paymentMethod in paymentMethods %}
+                                    <option {% if search.paymentMethod == paymentMethod.id %}selected=""{% endif %} value="{{ paymentMethod.id }}">{{ paymentMethod.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Start date</label>
+                            <div class="input-group">
+                                <input type="text" readonly="" {% if search.from != null %}value="{{ search.from }}"{% endif %} class="form-control anytimepicker" name="from" id="start-date" placeholder="Start Date" data-date-format="dd/mm/yyyy">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default clear-date" type="button">Clear</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>End date</label>
+                            <div class="input-group">
+                                <input type="text" readonly="" {% if search.to != null %}value="{{ search.to }}"{% endif %} class="form-control anytimepicker" name="to" id="end-date" placeholder="End Date" data-date-format="dd/mm/yyyy">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default clear-date" type="button">Clear</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="label border-left-grey label-striped mr-10">
+                            <a data-popup="popover" data-trigger="hover" data-placement="top" data-content="Collect payments for these orders, process payments and ship items to your customers."
+                               href="{{ path("order_index", { "state": [constant('App\\ECommerceBundle\\Enum\\OrderStatusEnum::POSTPONE').value,  constant('App\\ECommerceBundle\\Enum\\OrderStatusEnum::NEW').value], "payment_state": constant('App\\OnlinePaymentBundle\\Enum\\PaymentStatusEnum::PENDING').value }) }}">
+                                Not paid. Needs to be shipped
+                            </a>
+                        </span>
+                        <span class="label border-left-grey label-striped mr-10">
+                            <a data-popup="popover" data-trigger="hover" data-placement="top" data-content="Customer has paid for item. Now, prepare it for shipment and mail it. For your sales records, mark the sale as shipped."
+                               href="{{ path("order_index", { "shipping_state": [constant('App\\ECommerceBundle\\Enum\\ShippingStatusEnum::AWAITING_PROCESSING').value, constant('App\\ECommerceBundle\\Enum\\ShippingStatusEnum::PROCESSING').value], "payment_state": constant('App\\OnlinePaymentBundle\\Enum\\PaymentStatusEnum::PAID').value }) }}">
+                                Paid. Needs to be shipped
+                            </a>
+                        </span>
+                        <span class="label border-left-grey label-striped mr-10">
+                            <a data-popup="popover" data-trigger="hover" data-placement="top" data-content="The order is preparing to be shipped. Once you’ve physically mailed the purchase to your customer, mark the item as shipped"
+                               href="{{ path("order_index", { "shipping_state": [constant('App\\ECommerceBundle\\Enum\\ShippingStatusEnum::PROCESSING').value] }) }}">
+                                Awaiting Shipping
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer" {% if search.hasSearch == false %}style="display: none;"{% endif %}>
+                <div class="text-right">
+                    <a href="{{ path('order_index') }}" class="btn btn-default mr-5">Reset
+                        <i class="icon-reload-alt position-right"></i></a>
+                    <button type="submit" class="btn btn-primary mr-20">Filter
+                        <i class="fa fa-search position-right"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Ajax sourced data -->
+    <div class="panel panel-flat">
+        <div class="panel-body">
+
+            <div class="btn-group" id="select-all-drop-down">
+                <button type="button" class="btn btn-default select-all-items" disabled>
+                    <i class="icon-checkbox-unchecked position-left"></i> <span class="text"></span></button>
+                <button type="button" class="btn btn-default dropdown-toggle" disabled data-toggle="dropdown">
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-left">
+                    <li><a href="#" class="select-all-items"></i> All</a></li>
+                    <li><a href="#" class="deselect-all-items"></i> None</a></li>
+                </ul>
+            </div>
+            <div class="btn-group ml-10 hidden" id="mass-update-btn">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Mass update
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-left">
+                    <li><a href="#" class="mass-update-print">Print Selected</a></li>
+                    <li><a href="#" class="mass-update-export-csv">Export Selected </a></li>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#change-order-status-modal">Change order status for selected items</a>
+                    </li>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#change-shipping-status-modal">Change shipping status for selected items</a>
+                    </li>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#change-payment-status-modal">Change payment status for selected items</a>
+                    </li>
+                </ul>
+            </div>
+            <table class="table datatable-ajax table-striped datatable-responsive">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Order State</th>
+                    <th>Shipping State</th>
+                    <th>Customer Name</th>
+                    <th>Item(s)</th>
+                    <th>Payment method</th>
+                    <th>Total price</th>
+                    <th>Purchase date</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /ajax sourced data -->
+
+{% endblock %}
+{% block modalCode %}
+    <!-- Mini modal -->
+    <div id="change-order-status-modal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Bulk update the order status for orders</h5>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group pt-15">
+                        {% for state in staticVariable('App\\ECommerceBundle\\Entity\\Order','statesList') %}
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="order-status" class="styled" value="{{ state.value }}">
+                                    {{ state.name }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update order(s)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="change-shipping-status-modal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Bulk update the shipping status for shippings</h5>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group pt-15">
+                        {% for state in staticVariable('App\\ECommerceBundle\\Entity\\Order','shippingStatesList') %}
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="shipping-status" class="styled" value="{{ state.value }}">
+                                    {{ state.name }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update order(s)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="change-payment-status-modal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Bulk update the payment status for payments</h5>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group pt-15">
+                        {% for state in staticVariable('App\\ECommerceBundle\\Entity\\Order','paymentStatesList') %}
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="payment-status" class="styled" value="{{ state.value }}">
+                                    {{ state.name }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update order(s)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/anytime.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    {{ include('adminTemplate/datatable.html.twig', {'path':path('order_datatable', app.request.query.all)|escape('js') , "multiSelect":true}) }}
+    <script type="text/javascript" src="{{ asset('admin/js/mass-update.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $(".styled").uniform();
+            $(".clear-date").click(function (e) {
+                $(this).closest(".input-group").find('input').val("").change();
+            });
+
+
+            // START-MASS-PRINT
+            $("body").on("click", ".mass-update-print", (function (e) {
+                var url = "{{ path("order_print") }}";
+                openNewWindow(url, "ids");
+            }));
+            // END-MASS-PRINT
+
+            // START-MASS-EXPORT-CSV
+            $("body").on("click", ".mass-update-export-csv", (function (e) {
+                var url = "{{ path("order_export_csv") }}";
+                openNewWindow(url, "ids");
+            }));
+            // END-MASS-EXPORT-CSV
+
+            // START-MASS-UPDATE-ORDER-SATAUS
+            $("body").on("click", "#change-order-status-modal :submit", (function (e) {
+                var radioValue = $("#change-order-status-modal input[type='radio']:checked").val();
+                if (typeof radioValue === "undefined") {
+                    $("#change-order-status-modal").modal("hide");
+                    return;
+                }
+                $(this).text("Loading ...").attr("disabled", "disabled");
+                $.post("{{ path('order_update_order_status_ajax') }}", {
+                    orderIds: selectedItems,
+                    state: radioValue
+                }, function (data) {
+                    if (data.error == 0) {
+                        $("table tr.selected .order-state-dropdown").empty().append(data.html);
+                        $("#change-order-status-modal").modal("hide");
+                    }
+                });
+
+            }));
+            // END-MASS-UPDATE-ORDER-SATAUS
+
+            // START-RESET-MODAL
+            $('#change-order-status-modal, #change-shipping-status-modal').on('show.bs.modal', function (event) {
+                var modal = $(this);
+                modal.find("input[type='radio']").prop('checked', false);
+                modal.find("input[type='radio']").parents("span.checked").removeClass("checked");
+                modal.find(":submit").removeAttr("disabled").text("Update " + selectedItems.length + " order(s)");
+            });
+            // END-RESET-MODAL
+
+            // START-MASS-UPDATE-SHIPPING-SATAUS
+            $("body").on("click", "#change-shipping-status-modal :submit", (function (e) {
+                var radioValue = $("#change-shipping-status-modal input[type='radio']:checked").val();
+                if (typeof radioValue === "undefined") {
+                    $("#change-shipping-status-modal").modal("hide");
+                    return;
+                }
+                $(this).text("Loading ...").attr("disabled", "disabled");
+                $.post("{{ path('order_update_shipping_status_ajax') }}", {
+                    orderIds: selectedItems,
+                    state: radioValue
+                }, function (data) {
+                    if (data.error == 0) {
+                        $("table tr.selected .shipping-state-dropdown").empty().append(data.html);
+                        $("#change-shipping-status-modal").modal("hide");
+                    }
+                });
+            }));
+            // END-MASS-UPDATE-SHIPPING-SATAUS
+
+            // START-MASS-UPDATE-PAYMENT-SATAUS
+            $("body").on("click", "#change-payment-status-modal :submit", (function (e) {
+                var radioValue = $("#change-payment-status-modal input[type='radio']:checked").val();
+                if (typeof radioValue === "undefined") {
+                    $("#change-payment-status-modal").modal("hide");
+                    return;
+                }
+                $(this).text("Loading ...").attr("disabled", "disabled");
+                $.post("{{ path('order_update_payment_status_ajax') }}", {
+                    orderIds: selectedItems,
+                    state: radioValue
+                }, function (data) {
+                    if (data.error == 0) {
+                        $("table tr.selected .payment-state-dropdown").empty().append(data.html);
+                        $("#change-payment-status-modal").modal("hide");
+                    }
+                });
+            }));
+            // END-MASS-UPDATE-PAYMENT-SATAUS
+
+            // START-UPDATE-SINGLE-ORDER-SATAUS
+            $("body").on("click", ".order-state-dropdown ul a", (function (e) {
+                e.preventDefault();
+                var dropDownElement = $(this).parents('.btn-group');
+                var orderId = dropDownElement.data("order-id");
+                var stateName = $(this).text();
+                var state = $(this).data("value");
+                var labelColor = $(this).data("label-color");
+                var currentStateName = dropDownElement.find(" > a span.text").text();
+                var currentLabelColor = dropDownElement.data("current-label-color");
+                dropDownElement.find(" > a span.text").text("Loading ...");
+                $.post("{{ path('order_update_order_status_ajax') }}", {
+                    orderId: orderId,
+                    state: state
+                }, function (data) {
+                    if (data.error == 0) {
+                        dropDownElement.find(" > a span.text").text(stateName);
+                        dropDownElement.find(" > a").css("background-color", labelColor);
+                        dropDownElement.data("current-label-color", labelColor);
+                    } else {
+                        dropDownElement.find(" > a span.text").text(currentStateName);
+                    }
+                });
+            }));
+            // END-UPDATE-SINGLE-ORDER-SATAUS
+
+            // START-UPDATE-SINGLE-SHIPPING-SATAUS
+            $("body").on("click", ".shipping-state-dropdown ul a", (function (e) {
+                e.preventDefault();
+                var dropDownElement = $(this).parents('.btn-group');
+                var orderId = dropDownElement.data("order-id");
+                var stateName = $(this).text();
+                var state = $(this).data("value");
+                var labelColor = $(this).data("label-color");
+                var currentStateName = dropDownElement.find(" > a span.text").text();
+                var currentLabelColor = dropDownElement.data("current-label-color");
+                dropDownElement.find(" > a span.text").text("Loading ...");
+                $.post("{{ path('order_update_shipping_status_ajax') }}", {
+                    orderId: orderId,
+                    state: state
+                }, function (data) {
+                    if (data.error == 0) {
+                        dropDownElement.find(" > a span.text").text(stateName);
+                        dropDownElement.find(" > a").css("background-color", labelColor);
+                        dropDownElement.data("current-label-color", labelColor);
+                    } else {
+                        dropDownElement.find(" > a span.text").text(currentStateName);
+                    }
+                });
+            }));
+            // END-UPDATE-SINGLE-SHIPPING-SATAUS
+
+            // START-UPDATE-SINGLE-PAYMENT-SATAUS
+            $("body").on("click", ".payment-state-dropdown ul a", (function (e) {
+                e.preventDefault();
+                var dropDownElement = $(this).parents('.btn-group');
+                var orderId = dropDownElement.data("order-id");
+                var stateName = $(this).text();
+                var state = $(this).data("value");
+                var labelColor = $(this).data("label-color");
+                var currentStateName = dropDownElement.find(" > a span.text").text();
+                var currentLabelColor = dropDownElement.data("current-label-color");
+                dropDownElement.find(" > a span.text").text("Loading ...");
+                $.post("{{ path('order_update_payment_status_ajax') }}", {
+                    orderId: orderId,
+                    state: state
+                }, function (data) {
+                    if (data.error == 0) {
+                        dropDownElement.find(" > a span.text").text(stateName);
+                        dropDownElement.find(" > a").css("background-color", labelColor);
+                        dropDownElement.data("current-label-color", labelColor);
+                    } else {
+                        dropDownElement.find(" > a span.text").text(currentStateName);
+                    }
+                });
+            }));
+            // END-UPDATE-SINGLE-PAYMENT-SATAUS
+        });
+    </script>
+{% endblock javascripts %}

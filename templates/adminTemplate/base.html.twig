@@ -1,0 +1,180 @@
+{% set cr = app.request.attributes.get('_route') %}
+{% apply spaceless %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% if page_title is defined %}{{ page_title }}{% else %}Admin panel{% endif %}
+            | {{ getSiteSetting("website-title") }}</title>
+        <link rel="shortcut icon" href="{{ asset('images/logos/favicon/favicon.png') }}"/>
+        {% block stylesheets %}
+            <!-- Global stylesheets -->
+            <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet"
+                  type="text/css">
+            <link href="{{ asset('admin/css/icons/icomoon/styles.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ asset('admin/css/icons/fontawesome/styles.min.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ asset('admin/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ asset('admin/css/core.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ asset('admin/css/components.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ asset('admin/css/colors.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ asset('admin/css/pn.style.css') }}" rel="stylesheet" type="text/css">
+            <!-- /global stylesheets -->
+            <style>
+                .navbar-brand {
+                    width: 100%;
+                    text-align: center;
+                    padding: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .navbar-brand h2 {
+                    margin: 0
+                }
+
+                @media (max-width: 991.98px) {
+                    .navbar-brand {
+                        padding-left: 15px;;
+                        width: auto;
+                    }
+                }
+            </style>
+        {% endblock stylesheets %}
+
+    </head>
+
+    <body class="navbar-top sidebar-xs">
+
+    <!-- Main navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <a class="navbar-brand admin-panel-nav-brand" href="{{ path('fe_home') }}" target="_blank">
+                {#                        <img src="{{ asset('images/logos/horizontal/logo.svg') }}" alt="{{ getSiteSetting("website-title") }}" width="140"> #}
+                <h2>{{ getSiteSetting("website-title") }}</h2>
+            </a>
+
+            <ul class="nav navbar-nav pull-right visible-xs-block">
+                <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+                <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="navbar-collapse collapse" id="navbar-mobile">
+            <ul class="nav navbar-nav">
+                <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a>
+                </li>
+            </ul>
+
+            {{ include('adminTemplate/rightMenu.html.twig') }}
+        </div>
+    </div>
+    <!-- /main navbar -->
+
+
+    <!-- Page container -->
+    <div class="page-container">
+
+        <!-- Page content -->
+        <div class="page-content">
+
+            <!-- Main sidebar -->
+            {{ include('adminTemplate/menu.html.twig') }}
+            <!-- /main sidebar -->
+
+            <!-- Main content -->
+            <div class="content-wrapper">
+
+                <!-- Page header -->
+                <!-- Page header -->
+                <div class="page-header page-header-default">
+                    {% if page_title is defined %}
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> {{ page_title }}</h4>
+                            </div>
+                            {% block headerBtns %}{% endblock %}
+                        </div>
+                    {% endif %}
+                    {% block breadcrumb %}{% endblock %}
+                </div>
+                <!-- /page header -->
+
+                <!-- Content area -->
+                <div class="content">
+                    {{ include('adminTemplate/_flash_messages.html.twig') }}
+                    {% block body %}{% endblock %}
+                    <!-- Footer -->
+                    <div class="footer text-muted">
+                        &copy; {{ 'now'|date('Y') }} {{ getSiteSetting("website-title") }}. Developed by <a
+                                href="http://perfectneeds.com" target="_blank">perfectNeeds</a>
+                    </div>
+                    <!-- /footer -->
+
+                </div>
+                <!-- /content area -->
+
+            </div>
+            <!-- /main content -->
+        </div>
+        <!-- /page content -->
+    </div>
+    {% block modalCode %}
+    {% endblock modalCode %}
+    {% if 'index' in app.request.attributes.get('_route') or app.request.attributes.get('_route') in ["order_show"] %}
+        <!-- Danger modal -->
+        <div id="modal_delete" class="modal fade">
+            <div class="modal-dialog modal-xs">
+                <div class="modal-content bg-danger-600">
+                    <div class="modal-header bg-danger-600">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title">Be careful</h6>
+                    </div>
+
+                    <form method="post" id="del-form" action="#">
+                        <div class="modal-body text-center">
+                            <input name="_method" value="DELETE" type="hidden">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete') }}"/>
+                            <h2>Are you sure?</h2>
+                            <p>Are you sure you want to delete?</p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn bg-danger-700">Delete</button>
+                            <button type="button" class="btn btn-link text-white" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /default modal -->
+    {% endif %}
+    <!-- /page container -->
+    {% block javascripts %}
+        <!-- Core JS files -->
+        <script type="text/javascript" src="{{ asset('admin/js/core/libraries/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('admin/js/core/libraries/bootstrap.min.js') }}"></script>
+        <!-- /core JS files -->
+
+        <!-- Theme JS files -->
+        <script type="text/javascript" src="{{ asset('admin/js/plugins/ui/nicescroll.min.js') }}"></script>
+
+        <script type="text/javascript" src="{{ asset('admin/js/app.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('admin/js/pages/layout_fixed_custom.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/pnotify.min.js') }}"></script>
+        <!-- /theme JS files -->
+        {% if '_new' in app.request.attributes.get('_route') %}
+            <script>
+                var titleInput = document.querySelector('input[name*="[title]"]');
+                if(titleInput){
+                    titleInput.focus();
+                }
+            </script>
+        {% endif %}
+    {% endblock javascripts %}
+    <script type="text/javascript" src="{{ asset('admin/js/pn.app.js') }}"></script>
+    </body>
+    </html>
+{% endapply %}

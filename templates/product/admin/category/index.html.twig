@@ -1,0 +1,67 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Categories List{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('category_index') }}">Categories List</a></li>
+            {% for categoryParent in categoryParents %}
+                {% if loop.last == false %}
+                    <li>
+                        <a href="{{ path('category_index',{"parentCategory":categoryParent.id}) }}">{{ categoryParent.title }}</a>
+                    </li>
+                {% else %}
+                    <li class="active">{{ categoryParent.title }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <ul class="fab-menu fab-menu-fixed fab-menu-bottom-right">
+            <li>
+                <a href="{% if parentCategory %}{{ path('category_new',{'parent':parentCategory.id}) }}{% else %}{{ path('category_new') }}{% endif %}"
+                   class="fab-menu-btn btn bg-blue btn-float btn-rounded btn-icon">
+                    <i class="fab-icon-open icon-plus3"></i>
+                    <i class="fab-icon-close icon-cross2"></i>
+                </a>
+            </li>
+        </ul>
+    {% endif %}
+    <div class="panel panel-flat">
+        <div class="panel-body">
+            <table class="table datatable-ajax table-striped datatable-responsive">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Sort No.</th>
+                    <th>Category</th>
+                    <th>No. of All Products</th>
+                    <th>No. of Published Products</th>
+                    <th>Publish</th>
+                    <th>Created</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    {% if parentCategory %}
+        {{ include('adminTemplate/datatable.html.twig', {'path':path('category_datatable',{'id':parentCategory.id})}) }}
+    {% else %}
+        {{ include('adminTemplate/datatable.html.twig', {'path':path('category_datatable')}) }}
+    {% endif %}
+{% endblock javascripts %}

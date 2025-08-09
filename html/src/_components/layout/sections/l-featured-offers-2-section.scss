@@ -1,0 +1,39 @@
+@import '../../mixins.scss';
+
+.l-featured-offers-2-section {
+    &-banner {
+        display: block;
+        margin-bottom: 20px;
+        position: relative;
+    }
+    &-banner-img {
+        width: 100%;
+        @include media-max($md) {
+            height: auto;
+        }
+    }
+    &-banner-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        &-title {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        p {
+            margin: 0;
+        }
+        .l-featured-offers-2-section-banner-caption-hidden {
+            max-height: 0;
+            overflow: hidden;
+        }
+    }
+    &-banner:hover {
+        .l-featured-offers-2-section-banner-caption {
+            .l-featured-offers-2-section-banner-caption-hidden {
+                max-height: 300px;
+            }
+        }
+    }
+}

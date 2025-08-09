@@ -1,0 +1,90 @@
+.btn {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+}
+
+.btn-icon {
+    gap: 85px;
+    @include media-max($xl) {
+        gap: 45px;
+    }
+}
+
+.btn-icon-2 {
+    gap: 12px;
+}
+
+.btn-md {
+    padding: 15px 40px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.btn-lg {
+    padding: 20px 40px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 30px;
+}
+
+.btn-rounded {
+    border-radius: 5px;
+}
+
+.btn-xxl {
+    padding: 30px 59px;
+    font-weight: 500;
+    font-size: 18.7826px;
+    line-height: 23px;
+    @include media-max($xxl) {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 23px;
+        padding: 20px 14px;
+    }
+    @include media-max($xl) {
+        padding: 14px;
+    }
+    &.btn-icon {
+        .icon {
+            @include media-max($xl) {
+                svg {
+                    width: 18px;
+                }
+            }
+        }
+    }
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+    &:hover {
+        box-shadow: 0 0 300px 3px rgba(0,0,0,0.1) inset;
+    }
+}
+
+.btn-outline-primary {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    &:hover {
+        color: #fff;
+        background-color: var(--primary-color);
+    }
+}
+
+.btn-plain {
+    color: #686868;
+}
+
+.btn-block {
+    width: 100%;
+    display: flex;
+}

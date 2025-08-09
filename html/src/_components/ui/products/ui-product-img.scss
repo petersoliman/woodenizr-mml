@@ -1,0 +1,20 @@
+.ui-product-img {
+    padding: 30px 20px;
+    background: #FFFFFF;
+    box-shadow: 0 4px 33px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    &-actions {
+        .ui-product-slide-header-action {
+            background: rgb(255 255 255 / 81%);
+            box-shadow: 0 6px 6px rgba(0, 0, 0, 0.05);
+            padding: 7px 9px;
+            border-radius: 50px;
+            &.ui-product-slide-header-action.ui-product-slide-header-action--hoverable:hover {
+                background: #fff;
+            }
+        }
+    }
+    &-clickable {
+        cursor: pointer;
+    }
+}

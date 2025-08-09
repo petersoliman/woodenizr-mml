@@ -1,0 +1,67 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% import 'adminTemplate/macros.html.twig' as macros %}
+{% set page_title %}Edit {{ siteSetting.title }}{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('site_setting_index') }}">Site Setting</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'}}) }}
+    <div class="panel panel-flat">
+        <div class="panel-body">
+            <div class="row">
+                {% set hint = null %}
+                {% if siteSetting.type == constant("App\\CMSBundle\\Enum\\SiteSettingTypeEnum::FAVICON") %}
+                    {% set hint = "Image Dimension must be 32px x 32px" %}
+                {% endif %}
+
+                {{ macros.input(form.value, 6, hint) }}
+                {% if form.type is defined %}
+                    {{ macros.input(form.type, 3) }}
+                {% endif %}
+                {% if form.manageBySuperAdminOnly is defined %}
+                    {{ macros.checkbox(form.manageBySuperAdminOnly, 3) }}
+                {% endif %}
+                {% if siteSetting.type in [constant("App\\CMSBundle\\Enum\\SiteSettingTypeEnum::IMAGE"), constant("App\\CMSBundle\\Enum\\SiteSettingTypeEnum::FAVICON")] %}
+                    <div class="col-md-6">
+                    <div class="thumb" style="width: 58px; height: 58px;object-fit: cover;">
+                        <a href="{{ asset(siteSetting.value) }}" data-popup="lightbox">
+                            <img src="{{ asset(siteSetting.value) }}" style="width: 58px; height: 58px;object-fit: cover; border-radius: 2px;" alt="">
+                            <span class="zoom-image"><i class="icon-plus2"></i></span>
+                        </a>
+                    </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="panel-footer">
+            {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/color/spectrum.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/components_thumbnails.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/media/fancybox.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $(".colorpicker-show-input").spectrum({
+                showInput: true
+            });
+        })
+
+    </script>
+{% endblock javascripts %}

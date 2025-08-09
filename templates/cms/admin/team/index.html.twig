@@ -1,0 +1,56 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Team list{% endset %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+    <ul class="fab-menu fab-menu-fixed fab-menu-bottom-right">
+        <li>
+            <a href="{{ path('team_new') }}"
+               class="fab-menu-btn btn bg-blue btn-float btn-rounded btn-icon">
+                <i class="fab-icon-open icon-plus3"></i>
+                <i class="fab-icon-close icon-cross2"></i>
+            </a>
+        </li>
+    </ul>
+    <!-- Ajax sourced data -->
+    <div class="panel panel-flat">
+        <div class="panel-body">
+            <table class="table datatable-ajax table-striped datatable-responsive">
+                <thead>
+                    <tr>
+                        <th>Sort No.</th>
+                        <th>Name</th>
+                        <th>Publish</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /ajax sourced data -->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    {{ include('adminTemplate/datatable.html.twig', {'path':path('team_datatable')}) }}
+{% endblock javascripts %}
+
+
+
+

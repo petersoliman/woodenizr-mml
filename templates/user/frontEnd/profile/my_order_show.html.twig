@@ -1,0 +1,179 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ "order_no_value_txt"|trans({"%orderNo%": "#"~order.id}) }}{% endblock %}
+{% import 'fe/macros.html.twig' as macros %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ macros.assetCSS(asset('pages-assets/profile-my-orders-order/profile-my-orders-order.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+    {% include "fe/_pages_header.html.twig" with {"pageTitle": "order_no_value_txt"|trans({"%orderNo%": "#"~order.id}), "marginBottomZero": true } %}
+    <div class="wrapper-profile">
+        <div class="l-container">
+            <div class="l-flex-row">
+                <div class="l-flex-col-xl-3 wrapper-profile-sidebar" data-profile-sidebar="true">
+                    {% include "user/frontEnd/profile/_sidemenu.html.twig" %}
+                </div>
+                <div class="l-flex-col-xl-9 wrapper-profile-card" data-profile-card="true">
+                    <div class="card-header">
+                        <a href="{{ path('fe_profile_my_orders') }}" class="back-btn">
+                            <svg width="10" height="17" viewBox="0 0 10 17" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0.261816 8.79401L7.52177 16.0538C7.68968 16.2219 7.91383 16.3145 8.15283 16.3145C8.39184 16.3145 8.61599 16.2219 8.7839 16.0538L9.31855 15.5193C9.66645 15.171 9.66645 14.6049 9.31855 14.2572L3.22219 8.16082L9.32531 2.0577C9.49323 1.88965 9.58594 1.66563 9.58594 1.42676C9.58594 1.18762 9.49323 0.963606 9.32531 0.795426L8.79067 0.261047C8.62262 0.0930003 8.39861 0.000423328 8.1596 0.000423307C7.92059 0.000423286 7.69644 0.0930002 7.52853 0.261047L0.261816 7.5275C0.0935038 7.69607 0.00105931 7.92115 0.00158953 8.16042C0.00105927 8.40062 0.0935037 8.62557 0.261816 8.79401Z"
+                                      fill="#686868"/>
+                            </svg>
+                        </a>
+                        <div>
+                            <h2 class="title">{{ "order_no_value_txt"|trans({"%orderNo%": "#"~ order.id}) }}</h2>
+                            <p class="subtitle">{{ "my_orders_description_txt"|trans }}</p>
+                        </div>
+                    </div>
+
+
+                    <div class="wrapper-order">
+                        <div class="order-card">
+                            <div class="l-flex-row">
+                                <div class="l-flex-col-12 l-flex-col-xl-8">
+                                    <div class="times">
+                                        <div class="time">
+                                            {{ "placed_on_txt"|trans }} :
+                                            <strong>{{ order.created|date('d M Y') }}</strong>
+                                        </div>
+                                        {% if order.successDate is not empty %}
+                                            <div class="delivery">
+                                                {{ "delivered_on_txt"|trans }} :
+                                                <strong>{{ order.successDate|date('d M Y') }}</strong>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="totals">
+                                        <div class="l-flex-row">
+                                            <div class="l-flex-col-12 l-flex-col-xl-4">
+                                                <span class="total">
+                                                    <span class="label">{{ "subtotal_txt"|trans }}</span>
+                                                    <span class="value">{{ order.subTotal|moneyFormat }}</span>
+                                                </span>
+                                            </div>
+                                            {% if order.discount > 0 %}
+                                                <div class="l-flex-col-12 l-flex-col-xl-4">
+                                                    <span class="total">
+                                                        <span class="label">{{ "discount_txt"|trans }}</span>
+                                                        <span class="value">{{ order.discount|moneyFormat }}</span>
+                                                    </span>
+                                                </div>
+                                            {% endif %}
+                                            {% if order.shippingCost > 0 %}
+                                                <div class="l-flex-col-12 l-flex-col-xl-4">
+                                                    <span class="total">
+                                                        <span class="label">{{ "shipping_fee_txt"|trans }}</span>
+                                                        <span class="value">{{ order.shippingCost|moneyFormat }}</span>
+                                                    </span>
+                                                </div>
+                                            {% endif %}
+                                            {% if order.extraFee > 0 %}
+                                                <div class="l-flex-col-12 l-flex-col-xl-4">
+                                                    <span class="total">
+                                                        <span class="label">{{ "extra_fees_txt"|trans }}</span>
+                                                        <span class="value">{{ order.extraFee|moneyFormat }}</span>
+                                                    </span>
+                                                </div>
+                                            {% endif %}
+                                            <div class="l-flex-col-12 l-flex-col-xl-4">
+                                                <span class="total">
+                                                    <span class="label">{{ "grand_total_txt"|trans }}</span>
+                                                    <span class="value primary">{{ order.totalPrice|moneyFormat }}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="l-flex-col-12 l-flex-col-xl-4">
+                                    {% include "user/frontEnd/profile/_order_status.html.twig" %}
+                                </div>
+                                <div class="l-flex-col-12">
+                                    <div class="wrapper-address">
+                                        {% if order.orderShippingAddress is not empty and order.orderShippingAddress.title is not empty %}
+                                            <p class="wrapper-address-name">
+                                                {{ "deliver_to_txt"|trans }}
+                                                :<strong>{{ order.orderShippingAddress.title }}</strong>
+                                            </p>
+                                        {% endif %}
+                                        <p class="wrapper-address-details">
+                                            {{ "name_txt"|trans }}<span>{{ order.buyerName }}</span>
+                                            <span class="space"></span>
+                                            {{ "mobile_txt"|trans }}<span>{{ order.buyerMobileNumber }}</span>
+                                        </p>
+                                        <p class="wrapper-address-address">{{ "address_txt"|trans }}
+                                            <span>{{ order.buyerAddress }}</span>
+                                        </p>
+                                        <p class="wrapper-address-payment">{{ "payment_method_txt"|trans }}
+                                            <span>{{ order.paymentMethod.title }}</span>
+                                        </p>
+                                    </div>
+                                    <div class="wrapper-cart-items">
+                                        <h6 class="wrapper-cart-items-title">{{ "order_items_items"|trans }}
+                                            <small>{{ order.itemNo }} {{ "items_txt"|trans }}</small></h6>
+                                        <div class="wrapper-cart-items-list">
+                                            {% for orderHasProductPrice in order.orderHasProductPrices %}
+                                                <div class="wrapper-cart-item">
+                                                    <div class="wrapper-cart-item-img">
+                                                        {% if orderHasProductPrice.productPrice.product.post.mainImage != null %}
+                                                            <img class="lazyload"
+                                                                 src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                                                 data-src="{{ asset(orderHasProductPrice.productPrice.product.post.mainImage.assetPath) }}"
+                                                                 alt="{{ orderHasProductPrice.productPrice.product.title }}">
+                                                        {% else %}
+                                                            <img class="lazyload"
+                                                                 src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                                                 data-src="{{ asset('assets/img/product-img-placeholder.webp') }}"
+                                                                 alt="{{ orderHasProductPrice.productPrice.product.title }}">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="wrapper-cart-item-body">
+                                                        <div class="wrapper-cart-item-details">
+                                                            <h5 class="wrapper-cart-item-name">
+                                                                {{ orderHasProductPrice.productPrice.product.title }}
+                                                            </h5>
+                                                            {% if orderHasProductPrice.productPrice.virtualVariants is defined and orderHasProductPrice.productPrice.virtualVariants|length > 0 %}
+                                                                <div class="wrapper-cart-item-variants">
+                                                                    {% for variant in  orderHasProductPrice.productPrice.virtualVariants %}
+                                                                        <p>{{ variant }}</p>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="wrapper-cart-item-meta">
+                                                            <p class="primary">{{ userCurrencySymbol() }}
+                                                                <strong>{{ orderHasProductPrice.totalPrice|number_format(2) }}</strong>
+                                                            </p>
+                                                            <p>{{ "qty_txt"|trans|upper }} :
+                                                                <strong>{{ orderHasProductPrice.qty }}</strong>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/profile-my-orders-order/profile-my-orders-order.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/profile-my-orders-order/profile-my-orders-order.js')) }}
+    {{ macros.assetJS(asset('pages-assets/profile-my-orders-order/profile-my-orders-order.lazy.js'), true) }}
+{% endblock %}

@@ -1,0 +1,67 @@
+{% set image = getDCA(8, false) %}
+{% if image is empty %}
+    {% set image = asset('/assets/img/placeholder-landscape.webp') %}
+{% endif %}
+<div class="l-featured-section l-featured-section--logo-only ui-featured-section ui-featured-section--logo-only lazyload"
+     data-bg="{{ image }}"
+     data-delay="5000"
+>
+    <div class="l-featured-section-content">
+        {{ editDCA(8) }}
+        <div class="l-container l-container--phone-spacing">
+            <div class="l-featured-section-logo-container">
+{#                {% include "fe/icons/logo.svg" %}#}
+                <h1 class="l-hidden-page-title">{{ getSiteSetting("website-title") }}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% if banners is not empty %}
+    <div class="ui-featured-floating-banners-section l-featured-floating-banners-section">
+        <div class="l-container l-container--phone-slider-spacing l-container--position-relative">
+            <div class="swiper l-slider-row" data-l-slider="featured-floating-banners">
+                <div class="l-flex-row l-flex-row--nowrap l-flex-row--spacing-0 swiper-wrapper">
+                    {% for banner in banners %}
+                        {% set image = asset(banner.image.assetPath) %}
+
+
+                        {% set hasLink = false %}
+
+                        {% if banner.url != '#' and banner.url is not empty %}
+                            {% set hasLink = true %}
+                        {% endif %}
+                        <div class="l-flex-col-lg-3 swiper-slide">
+                            <{{ hasLink ? "a":"div" }}
+                            class="l-featured-floating-banner ui-featured-floating-banner"
+                            {% if hasLink is same as (true) %}
+                                href="{{ path('banner_redirect', {'id':banner.id}) }}"
+                            {% endif %}
+                            {{ banner.openInNewTab ? 'target="_blank" rel="noreferrer"' : 'rel="dofollow"' }}
+                            >
+                            <img
+                                    class="l-featured-floating-banner-img lazyload"
+                                    width="388"
+                                    height="304"
+                                    data-expand="-20"
+                                    data-delay="5000"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                    data-src="{{ image|webp(null, 304) }}"
+                                    alt="{{ banner.title is not null ? banner.title : "Ad" }}"
+                            />
+                            <div class="l-featured-floating-banner-caption ui-featured-floating-banner-caption">
+                                <h2 class="ui-featured-floating-banner-caption-title l-featured-floating-banner-caption-title">{{ banner.title }}</h2>
+                                <p class="ui-featured-floating-banner-caption-txt l-featured-floating-banner-caption-txt">{{ banner.text }}</p>
+                            </div>
+                            {{ hasLink ? "</a>" : "</div>" }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination" data-l-slider-pagination="featured-floating-banners"></div>
+        <div class="swiper-button-prev" data-l-slider-navigation-prev="featured-floating-banners"></div>
+        <div class="swiper-button-next" data-l-slider-navigation-next="featured-floating-banners"></div>
+    </div>
+{% endif %}

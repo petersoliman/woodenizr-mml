@@ -1,0 +1,43 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Payment Methods list{% endset %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+
+    <!-- Ajax sourced data -->
+    <div class="panel panel-flat">
+        <div class="panel-body">
+            <table class="table datatable-ajax table-striped datatable-responsive">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Fees</th>
+                    <th>Active</th>
+                    <th>Last Update</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /ajax sourced data -->
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    {{ include('adminTemplate/datatable.html.twig', {'path':path('payment_method_datatable')}) }}
+{% endblock javascripts %}

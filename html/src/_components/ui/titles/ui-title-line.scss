@@ -1,0 +1,44 @@
+@import '../../mixins.scss';
+
+.ui-title-line-subtitle {
+    color: #686868;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 26px;
+}
+
+.ui-title-line-h-line {
+    background-color: #E9E9E9;
+    height: 2px;
+}
+
+.ui-title-line-h-empty,
+.ui-title-line-h-line {
+    width: 100%;
+}
+
+.ui-title-line-title {
+    color: #3F3F3F;
+    font-size: 22px;
+    font-weight: 400;
+    padding: 0 72px;
+    line-height: 26px;
+    &--centered {
+        margin-left: auto;
+        margin-right: auto;
+        flex-shrink: 1;
+        text-align: center;
+    }
+    &--semibold {
+        font-weight: 500;
+    }
+    @include media-max($md) {
+        padding: 0 42px;
+    }
+    &--size-25 {
+        font-size: 25px;
+        @include media-max($md) {
+            font-size: 18px;
+        }
+    }
+}

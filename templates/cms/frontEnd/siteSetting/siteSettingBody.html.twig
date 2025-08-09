@@ -1,0 +1,23 @@
+{% apply spaceless %}
+    {% if attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::GOOGLE_TAG_MANAGER_ID')) is not empty %}
+        <!-- Google Tag Manager -->
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id={{ attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::GOOGLE_TAG_MANAGER_ID')) }}" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <!-- End Google Tag Manager -->
+    {% endif %}
+    {% if attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::FACEBOOK_PIXEL_ID')) is not empty %}
+        <!-- Facebook Pixel Code -->
+        <noscript>
+            <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::FACEBOOK_PIXEL_ID')) }}&ev=PageView&noscript=1" alt="facebook pixel" />
+        </noscript>
+        <!-- END Facebook Pixel Code -->
+    {% endif %}
+    {% if attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::FACEBOOK_CHAT_PAGE_ID')) is not empty %}
+        <!-- Messenger Chat Plugin Code -->
+        <div id="fb-root"></div>
+        <!-- Your Chat Plugin code -->
+        <div id="fb-customer-chat" class="fb-customerchat"></div>
+    {% endif %}
+
+{% endapply %}

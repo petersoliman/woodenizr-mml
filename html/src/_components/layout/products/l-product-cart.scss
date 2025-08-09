@@ -1,0 +1,97 @@
+.l-product-cart {
+    &-add-to-cart-box {
+        @include media-max($xl) {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            right: 0;
+            z-index: 99;
+            display: flex;
+            gap: 10px;
+            animation: cart-box-animation 1.5s normal forwards ease-in-out;
+            .l-product-cart-btn-box {
+                flex: 1;
+            }
+        }
+        @keyframes cart-box-animation {
+            to {
+                bottom: -1px;
+            }
+        }
+    }
+    &-qty-box {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        .l-dropdown-menu {
+            @include media-max($xl) {
+                bottom: 100%;
+                top: unset;
+                @include ltr {
+                    left: 0;
+                    right: unset;
+                }
+                @include rtl {
+                    right: 0;
+                    left: unset;
+                }
+            }
+        }
+        .l-dropdown-button {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            &::before {
+                top: 22px;
+            }
+            @include ltr {
+                &::before {
+                    right: 20px;
+                }
+            }
+            @include rtl {
+                &::before {
+                    left: 20px;
+                }
+            }
+        }
+        @include media-max($xl) {
+            margin: 0;
+        }
+    }
+    &-qty-text-desktop {
+        @include media-max($xl) {
+            display: none;
+        }
+    }
+    &-qty-text-mobile {
+        @include media-min($xl) {
+            display: none;
+        }
+    }
+    &-btn {
+        display: block;
+        width: 100%;
+    }
+    &-bottom-actions {
+        margin-top: 16px;
+    }
+    &-bottom-action {
+        width: 100%;
+        display: block;
+    }
+    &-bottom-checkbox-action {
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+        &[hidden] {
+            display: none;
+        }
+        input {
+            flex-shrink: 0;
+        }
+        label {
+            flex: 1;
+            margin-top: -5px;
+        }
+    }
+}

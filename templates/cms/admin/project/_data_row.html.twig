@@ -1,0 +1,13 @@
+<tr>
+    <td>
+        {{ form_widget(form.title) }}
+        {{ form_errors(form.title) }}
+    </td>
+    <td>
+        {{ form_widget(form.value) }}
+        {{ form_errors(form.value) }}
+    </td>
+    <td class="col-md-1 text-right">
+        <a href="#" class="btn btn-danger delete" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-minus"></i></a>
+    </td>
+</tr>

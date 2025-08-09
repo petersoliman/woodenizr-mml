@@ -1,0 +1,40 @@
+@import '../../mixins.scss';
+
+.l-toasts {
+    position: fixed;
+    bottom: 15px;
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    max-width: 430px;
+    @include ltr(){
+        right: 15px;
+    }
+    @include rtl(){
+        left: 15px;
+    }
+}
+
+.l-toast {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    span {
+        display: inline-block;
+        width: calc(100% - 75px);
+
+
+        @include ltr(){
+            margin-right: 25px;
+            margin-left: 18px;
+        }
+        @include rtl(){
+            margin-left: 25px;
+            margin-right: 18px;
+        }
+    }
+    &:not(:last-child) {
+        margin-bottom: 10px;
+    }
+}

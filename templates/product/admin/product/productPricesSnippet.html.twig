@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-md-12">
+        <hr />
+        {% if constant("App\\BaseBundle\\SystemConfiguration::PRODUCT_PRICE_TYPE").value == constant("App\\BaseBundle\\ProductPriceTypeEnum::VARIANTS").value  and product.id is not empty %}
+            <div class="alert alert-primary alert-bordered" data-l-variant-msg="true" {{ product.enableVariants == false ? 'style="display: none"' }}>
+                Click
+                <a href="{{ path('product_variant_index', { 'id': product.id}) }}" class="alert-link">here</a> to add or update the
+                <span class="text-semibold">variants</span>
+            </div>
+        {% endif %}
+        {{ form_errors(form.prices) }}
+
+        <div class="panel panel-primary border-left-lg border-left-info">
+            <div class="panel-heading">
+                <h6 class="panel-title text-semibold">Product Prices</h6>
+                {% if form.prices.vars.allow_add == true %}
+                    <div class="heading-elements">
+                        {% if constant("App\\BaseBundle\\SystemConfiguration::PRODUCT_PRICE_TYPE").value == constant("App\\BaseBundle\\ProductPriceTypeEnum::MULTI_PRICES").value %}
+                            <button type="button" class="btn btn-default btn-block" id="addPrice">
+                                <i class="icon-plus3"></i>
+                                Add New Price
+                            </button>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="panel-body no-padding">
+                {% if form.prices.vars.prototype is defined %}
+                    <span id="price-prototype" data-prototype="{{ include('product/admin/product/productPriceRow.html.twig', { 'form': form.prices.vars.prototype })|e }}"></span>
+                {% endif %}
+                {# <div class="table-responsive"> #}
+                <div>
+                    <table class="table table-bordered sorted_table" id="addTable">
+                        <thead>
+                        <tr>
+                            {% if constant("App\\BaseBundle\\SystemConfiguration::PRODUCT_PRICE_TYPE").hasTitle == true %}
+                                <th style="width: 20%;">Title</th>
+                            {% endif %}
+                            <th style="width: 20%;">Unit Price</th>
+                            <th style="width: 20%;">Promotional Price</th>
+                            <th style="width: 20%;">Promotional Expiry Date</th>
+                            <th style="width: 10%;">Stock</th>
+                            <th style="width: 10%;">Weight</th>
+                            {% if constant("App\\BaseBundle\\SystemConfiguration::PRODUCT_PRICE_TYPE").value == constant("App\\BaseBundle\\ProductPriceTypeEnum::MULTI_PRICES").value %}
+                                <th style="width: 10%;">Actions</th>
+                            {% endif %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for child in form.prices.children %}
+                            {{ include('product/admin/product/productPriceRow.html.twig', { 'form': child }) }}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <hr />
+    </div>
+</div>
+

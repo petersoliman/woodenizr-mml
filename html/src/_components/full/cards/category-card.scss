@@ -1,0 +1,70 @@
+.category-card {
+    padding: 16px;
+    background: #FFFFFF;
+    border-radius: 5px;
+    display: block;
+    text-decoration: none;
+    border: 1px solid #fff;
+    margin-bottom: 20px;
+    .img {
+        height: 305px;
+        border-radius: 10px;
+        overflow: hidden;
+        img {
+            max-width: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .title {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 30px;
+        color: #3F3F3F;
+        margin: 14px 0 18px;
+    }
+    .count {
+        margin: 0;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        color: #686868;
+    }
+    .actions {
+        @include ltr() {
+            text-align: right;
+        }
+        @include rtl() {
+            text-align: left;
+        }
+    }
+    .action {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 21px;
+        color: var(--priamry-color);
+        margin: 0;
+        svg {
+            vertical-align: middle;
+            @include rtl() {
+                transform: rotate(180deg);
+            }
+            path{
+                fill: var(--primary-color);
+            }
+            @include ltr() {
+                margin-left: 7px;
+            }
+            @include rtl() {
+                margin-right: 7px;
+            }
+        }
+    }
+    &:hover {
+        border-color: var(---primary-color);
+        .img {
+            opacity: 0.7;
+        }
+    }
+}

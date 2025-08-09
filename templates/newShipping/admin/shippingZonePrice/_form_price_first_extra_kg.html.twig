@@ -1,0 +1,83 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+ {{ form_start(price_form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'}}) }}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(price_form.firstNoOfKg) }}
+                    <div class="input-group">
+                        {{ form_widget(price_form.firstNoOfKg) }}
+                        <span class="input-group-addon">Kg</span>
+                    </div>
+                    {{ form_errors(price_form.firstNoOfKg) }}
+                </div>
+            </div>
+            <div class="col-md-1 text-center">
+                <label class="control-label"></label>
+                <div class="mt-5">
+                    =
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {{ form_label(price_form.firstKgRate) }}
+                    <div class="input-group">
+                        {{ form_widget(price_form.firstKgRate) }}
+                        <span class="input-group-addon">{{ shippingZonePrice.currency.symbol }}</span>
+                    </div>
+                    {{ form_errors(price_form.firstKgRate) }}
+                </div>
+            </div>
+
+{#            <div class="col-md-4">#}
+{#                <div class="form-group">#}
+{#                    {{ form_label(price_form.maxWeight) }}#}
+{#                    <div class="input-group">#}
+{#                        {{ form_widget(price_form.maxWeight) }}#}
+{#                        <span class="input-group-addon">{{ shippingZonePrice.currency.symbol }}</span>#}
+{#                    </div>#}
+{#                    {{ form_errors(price_form.maxWeight) }}#}
+{#                </div>#}
+{#            </div>#}
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ form_label(price_form.extraKgRate) }}
+                    <div class="input-group">
+                        {{ form_widget(price_form.extraKgRate) }}
+                        <span class="input-group-addon">{{ shippingZonePrice.currency.symbol }}</span>
+                    </div>
+                    {{ form_errors(price_form.extraKgRate) }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ form_label(price_form.moreThanKg) }}
+                    <div class="input-group">
+                        {{ form_widget(price_form.moreThanKg) }}
+                        <span class="input-group-addon">Kg</span>
+                    </div>
+                    {{ form_errors(price_form.moreThanKg) }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ form_label(price_form.moreKgRate) }}
+                    <div class="input-group">
+                        {{ form_widget(price_form.moreKgRate) }}
+                        <span class="input-group-addon">{{ shippingZonePrice.currency.symbol }}</span>
+                    </div>
+                    {{ form_errors(price_form.moreKgRate) }}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>
+{{ form_end(price_form) }}

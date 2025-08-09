@@ -1,0 +1,18 @@
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for project in projects %}
+        [
+            "{{ project.id }}",
+            "{{ project.title }}",
+            "{% if project.tarteb  %}{{ project.tarteb }}{% else %}N/A{% endif %}",
+            "{% if project.publish %}<span class='label label-success'>Yes</span>{% else %}<span class='label label-danger'>No</span>{% endif %}",
+            "{% if project.featured %}<span class='label label-success'>Yes</span>{% else %}<span class='label label-danger'>No</span>{% endif %}",
+            "{% if project.created %}{{ project.created|dateTimeFormat }}{% else %}--{% endif %}",
+            "<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'>{% if is_granted('ROLE_ADMIN') %}<li><a href='{{ path('project_edit',{'id':project.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='{{ path('post_set_images', { 'id': project.post.id}) }}'><i class='icon-images3'></i> Image gallery</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('project_delete',{'id':project.id}) }}'><i class='icon-bin'></i> Remove</a></li>{% elseif is_granted("ROLE_IMAGE_GALLERY") %}<li><a href='{{ path('post_set_images', { 'id': project.post.id }) }}'><i class='icon-images3'></i> Image gallery</a></li>{% endif %}</ul></li></ul>"
+
+        ]{% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

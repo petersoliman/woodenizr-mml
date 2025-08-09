@@ -1,0 +1,17 @@
+<tr>
+    <td>
+        {{ form_widget(form.weight) }}
+        {{ form_errors(form.weight) }}
+    </td>
+    <td>
+        <div class="input-group">
+            {{ form_widget(form.rate) }}
+            <span class="input-group-addon">{{ shippingZonePrice.currency.symbol }}</span>
+        </div>
+        {{ form_errors(form.rate) }}
+    </td>
+    <td>
+        <a href="#" class="btn btn-danger delete" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-minus"></i></a>
+    </td>
+</tr>
+

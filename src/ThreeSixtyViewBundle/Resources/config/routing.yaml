@@ -1,0 +1,4 @@
+three_sixty_view_admin:
+  resource: "@ThreeSixtyViewBundle/Controller/Administration"
+  type:     annotation
+  prefix:   /admin/360-view

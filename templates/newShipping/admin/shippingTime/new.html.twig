@@ -1,0 +1,28 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}New Shipping time{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('shipping_time_index') }}">Shipping Times list</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'}}) }}
+    <div class="row">
+        <div class="col-md-9">
+            {% set defaultTwig= include ("newShipping/admin/shippingTime/_form.html.twig") %}
+            {{ include ("@PNLocale/new_or_edit_tab_structure.html.twig", {'defaultTwig': defaultTwig, "transTwigPath" : "newShipping/admin/shippingTime/_form_trans.html.twig"} ) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
+{% endblock javascripts %}

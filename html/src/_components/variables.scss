@@ -1,0 +1,7 @@
+$sm: 576px; // for phones
+$md: 768px; // for big screen phones/tablets/ipads/old devices
+$lg: 992px; // for tablets/ipads/old devices
+$xl: 1200px; // for tablets/ipads/old devices
+$xxl: 1600px; // for laptops - use media-max($xxl) for 1920x1080 resolution with 125% zoom / use media-min($xxl) for 1920x1080 resolution width 100% zoom and big screens
+$arrow_left_bg:  url("data:image/svg+xml,%0A%3Csvg width='17' height='26' viewBox='0 0 17 26' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.166 25.5L16.1035 22.5625L6.56185 13L16.1035 3.4375L13.166 0.5L0.66602 13L13.166 25.5Z' fill='%23686868'/%3E%3C/svg%3E%0A");
+$arrow_left_bg_active:  url("data:image/svg+xml,%0A%3Csvg width='17' height='26' viewBox='0 0 17 26' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.166 25.5L16.1035 22.5625L6.56185 13L16.1035 3.4375L13.166 0.5L0.66602 13L13.166 25.5Z' fill='%23BA9829'/%3E%3C/svg%3E%0A");

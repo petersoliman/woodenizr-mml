@@ -1,0 +1,69 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Shipping Times {% endset %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li>Shipping Prices</li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+
+    <!-- Ajax sourced data -->
+    <div class="panel panel-flat">
+        <div class="panel-body">
+            <table class="table datatable-ajax table-striped datatable-basic">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Shipping Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for shippingTime in shippingTimes %}
+                    <tr>
+                        <td>{{ shippingTime.id }}</td>
+                        <td>
+                            <a href="{{ path('shipping_zone_price_index', {"shippingTime":shippingTime.id }) }}">{{ shippingTime.name }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /ajax sourced data -->
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/extensions/fixed_header.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+
+            $.extend($.fn.dataTable.defaults, {
+                autoWidth: false,
+                fixedHeader: true,
+                pageLength: 100,
+                lengthMenu: [25, 50, 100],
+                dom: '<"datatable-header"flr><"datatable-scroll"t><"datatable-footer"ip>',
+                language: {
+                    search: '<span>Filter:</span> _INPUT_',
+                    searchPlaceholder: 'Type to filter...',
+                    lengthMenu: '<span>Show:</span> _MENU_',
+                    paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
+                },
+            });
+
+            $('.datatable-basic').DataTable();
+
+        })
+    </script>
+{% endblock javascripts %}

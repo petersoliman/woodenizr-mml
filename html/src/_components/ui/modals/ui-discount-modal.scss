@@ -1,0 +1,61 @@
+.ui-discount-modal {
+  padding: 17px 5px;
+
+  &-close-btn {
+    padding: 16px 18px 10px;
+    background: #fff;
+    border: 0;
+    cursor: pointer;
+    @include ltr {
+      border-top-right-radius: 15px;
+    }
+    @include rtl {
+      border-top-left-radius: 15px;
+    }
+
+    &:hover {
+      path {
+        fill: var(--primary-color);
+      }
+    }
+  }
+
+  &-body {
+    text-align: center;
+  }
+
+  &-body-title {
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 38px;
+    color: #3F3F3F;
+    padding-bottom: 36px;
+    @include media-max($md) {
+      font-size: 26px;
+      padding-bottom: 11px;
+    }
+  }
+
+  &-body-subtitle {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 23px;
+    color: #3F3F3F;
+    padding-bottom: 36px;
+    @include media-max($md) {
+      font-size: 16px;
+    }
+  }
+
+  &-body-input {
+    color: #C3A12F;
+    border: 0;
+    border-bottom: 1px solid #6D6D6D;
+    padding: 13px;
+    font-weight: 500;
+    font-size: 32.64px;
+    line-height: 49px;
+    text-align: center;
+    outline-color: #C3A12F;
+  }
+}

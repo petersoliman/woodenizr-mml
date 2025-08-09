@@ -1,0 +1,19 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(form.fullAddress, 6) }}
+            {{ macros.input(form.mobileNumber, 3) }}
+            {% if form.zone is defined %}
+                <div class="col-md-3">
+                    {{ form_row(form.zone, {"attr": {"class": "select-search"}}) }}
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>

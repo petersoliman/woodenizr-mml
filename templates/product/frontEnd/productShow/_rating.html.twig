@@ -1,0 +1,20 @@
+{% if noOfReviews > 0 %}
+    <div class="l-product-details-rating">
+        <div class="l-product-details-rating-stars">
+            {% if avgRating > 0 %}
+                {% for i in 1..5 %}
+                    <span class="l-product-details-rating-star">
+                        {% if i <= avgRating|round %}
+                            {% include "product/frontEnd/productShow/icons/star.svg" %}
+                        {% else %}
+                            {% include "product/frontEnd/productShow/icons/empty-star.svg" %}
+                        {% endif %}
+                    </span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <button class="l-product-details-rating-btn ui-product-details-rating-btn" data-product-open-reviews-tab="true">
+            {{ noOfReviews|number_format }} {{ "ratings_txt"|trans }}
+        </button>
+    </div>
+{% endif %}

@@ -1,0 +1,28 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.checkbox(form.openInNewTab, 12) }}
+            {{ macros.checkbox(form.publish, 12) }}
+        </div>
+        <div class="row">
+            <div class="col-xs-6">Creator</div>
+            <div class="col-xs-6">{% if banner.creator %}{{ banner.creator }}{% else %}--{% endif %}</div>
+        </div>
+        <div class="row mt-10">
+            <div class="col-xs-6">Created date</div>
+            <div class="col-xs-6">{% if banner.created %}{{ banner.created|dateFormat }}{% else %}--/--/----{% endif %}</div>
+        </div>
+        <div class="row mt-10">
+            <div class="col-xs-6">Modified by</div>
+            <div class="col-xs-6">{% if banner.modifiedBy %}{{ banner.modifiedBy }}{% else %}--{% endif %}</div>
+        </div>
+        <div class="row mt-10">
+            <div class="col-xs-6">Modified date</div>
+            <div class="col-xs-6">{% if banner.modified %}{{ banner.modified|dateFormat }}{% else %}--/--/----{% endif %}</div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>

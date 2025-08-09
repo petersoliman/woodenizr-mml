@@ -1,0 +1,101 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% import 'adminTemplate/macros.html.twig' as macros %}
+{% set page_title %}Upload Shipping Prices CSV ({{ calculatorName }}){% endset %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li>Shipping Prices</li>
+            <li>
+                <a href="{{ path('shipping_zone_price_shipping_times_index') }}">Shipping times</a></li>
+            <li>
+                <a href="{{ path('shipping_zone_price_index', {"shippingTime":shippingTime.id}) }}">Shipping
+                    Prices for "{{ shippingTime.name }}"</a>
+            </li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="alert bg-warning alert-styled-left">
+        <strong>Warning</strong>: We'll delete all shipping rates inside ({{ shippingTime.name }}) before adding a new ones
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_start(form, {'attr':{ "id": "upload-csv-form"} }) }}
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    {{ form_row(form.file) }}
+                </div>
+                <div class="panel-footer">
+                    <div class="pull-left">
+                        <a href="{{ path('shipping_zone_price_example_csv', {"calculator": calculator}) }}" class="btn bg-teal ml-20"><i class="icon-download4 position-left"></i>
+                            Download example file</a>
+                    </div>
+                    {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/sweet_alert.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            console.log(1);
+            $("#upload-csv-form").submit(function (e) {
+                e.preventDefault();
+                let form = $(this);
+                if (form.valid() == false) {
+                    console.log(1);
+                    return false;
+                }
+                var code = generateCode(5);
+
+                swal({
+                    title: "Are you sure you want to delete all shipping rates inside ({{ shippingTime.name }}), before adding a new ones",
+                    text: 'Please enter this code below "' + code + '" to submit this action',
+                    type: "input",
+                    showCancelButton: true,
+                    confirmButtonColor: "#EF5350",
+                    closeOnConfirm: false,
+                    animation: "slide-from-top",
+                    inputPlaceholder: "Write Code"
+                }, function (inputValue) {
+                    if (inputValue === false) {
+                        return false;
+                    } else if (inputValue === code) {
+                        swal({
+                            title: "Please wait ...",
+                            type: "success",
+                            showConfirmButton: false
+                        });
+                        form[0].submit();
+                    } else if (inputValue === "") {
+                        swal.showInputError("You need to write something!");
+                        return false;
+                    } else {
+                        swal.showInputError("Wrong, Please try again!!");
+                        return false;
+                    }
+                });
+            });
+        });
+        function generateCode(length) {
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+    </script>
+{% endblock javascripts %}

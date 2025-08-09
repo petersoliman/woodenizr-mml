@@ -1,0 +1,21 @@
+<tr class="image-row" id="image-{{ image.id }}" data-id="{{ image.id }}">
+    <td>{{ image.tarteb }}</td>
+    <td class="text-center no-padding-right" style="width: 45px;">
+        <div class="thumb">
+            <img src="{{ asset(image.assetPath) }}?v={{ random() }}">
+            <div class="caption-overflow">
+                <span>
+                    <a href="{{ asset(image.assetPath) }}?v={{ random() }}" data-popup="lightbox" title="{{ image.tarteb }}" rel="gallery"
+                       class="btn border-white text-white btn-flat btn-icon btn-rounded"><i class="icon-zoomin3"></i>
+                    </a>
+                </span>
+            </div>
+        </div>
+    </td>
+    <td class="text-center dimension">{{ image.width }} x {{ image.height }}</td>
+    <td class="text-center dimension">{{ image.nameExtension }}</td>
+    <td class="text-center size">{{ fileSizeConvert(image.size) }}</td>
+    <td class="text-center">
+        <a href="#" class="btn-default delete" data-action="{{ path("three_sixty_view_images_delete",{"id":threeSixtyView.id, "imageId":image.id}) }}"><i class="icon-trash" data-popup="tooltip" title="" data-original-title="Delete"></i></a>
+    </td>
+</tr>

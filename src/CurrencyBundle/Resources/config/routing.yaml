@@ -1,0 +1,4 @@
+currencyBundle_admin:
+  resource: "@CurrencyBundle/Controller/Administration/"
+  type:    annotation
+  prefix: /admin/currency

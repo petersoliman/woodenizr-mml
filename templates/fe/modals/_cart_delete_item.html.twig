@@ -1,0 +1,26 @@
+<div class="l-modal-dialog ui-modal-dialog" data-l-modal="cart-delete" data-header-cart-delete-modal="true">
+    <div class="ui-modal l-modal l-cart-delete-modal ui-cart-delete-modal">
+        <button class="ui-cart-delete-modal-close-btn l-cart-delete-modal-close-btn" type="button" data-l-modal-btn="cart-delete">
+            <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.10952 21.9886C1.56387 22.0203 1.02723 21.8389 0.612786 21.4826C-0.204587 20.6604 -0.204587 19.3324 0.612786 18.5102L18.5106 0.612312C19.3607 -0.183194 20.6947 -0.138972 21.4902 0.711168C22.2096 1.47995 22.2515 2.66158 21.5884 3.47937L3.58515 21.4826C3.17605 21.8337 2.64803 22.0148 2.10952 21.9886Z" fill="#646464" /><path d="M19.9867 21.9886C19.4337 21.9863 18.9036 21.7667 18.511 21.3773L0.613106 3.47936C-0.144148 2.59506 -0.0411955 1.26424 0.8431 0.506919C1.63236 -0.168973 2.79635 -0.168973 3.58554 0.506919L21.5888 18.4048C22.4387 19.2005 22.4827 20.5346 21.6869 21.3845C21.6553 21.4183 21.6226 21.451 21.5888 21.4827C21.148 21.866 20.5678 22.0492 19.9867 21.9886Z" fill="#646464" /></svg>
+        </button>
+        <div class="ui-cart-delete-modal-body l-cart-delete-modal-body">
+            <h4 class="ui-cart-delete-modal-title l-cart-delete-modal-title">{{ "are_you_sure_remove_item_from_cart_txt"|trans }}</h4>
+            <div class="ui-cart-delete-modal-product l-cart-delete-modal-product">
+                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Product" class="ui-cart-delete-modal-product-img l-cart-delete-modal-product-img" data-header-cart-delete-modal-product-img="true" />
+                <div>
+                    <p class="ui-cart-delete-modal-product-title l-cart-delete-modal-product-title" data-header-cart-delete-modal-product-title="true"></p>
+                    <span class="ui-cart-delete-modal-product-price l-cart-delete-modal-product-price" data-header-cart-delete-modal-product-price="true"></span>
+                </div>
+            </div>
+            <div class="l-cart-delete-modal-actions">
+                <button type="button" class="ui-cart-delete-modal-action ui-cart-delete-modal-action--save l-cart-delete-modal-action l-cart-delete-modal-action--save" data-l-modal-btn="cart-delete" data-header-cart-delete-modal-action-save="true">
+                    {{ "remove_from_cart_txt"|trans }} {{ "and_txt"|trans }}
+                    <strong>{{ "save_for_later_txt"|trans }}</strong>
+                </button>
+                <button type="button" class="ui-cart-delete-modal-action l-cart-delete-modal-action" data-l-modal-btn="cart-delete" data-header-cart-delete-modal-action-remove="true">
+                    {{ "just_remove_this_product_txt"|trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

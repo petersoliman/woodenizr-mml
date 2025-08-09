@@ -1,0 +1,50 @@
+services:
+  _defaults:
+    # automatically injects dependencies in your services
+    autowire: true
+    # automatically registers your services as commands, event subscribers, etc.
+    autoconfigure: true
+    # this means you cannot fetch services directly from the container via $container->get()
+    # if you need to do this, you can override this setting on individual services
+    public: false
+
+  App\ECommerceBundle\Service\:
+    resource: '../../Service/*'
+
+  App\ECommerceBundle\Form\:
+    resource: '../../Form/*'
+
+
+  App\ECommerceBundle\Controller\Administration\:
+    resource: '../../Controller/Administration'
+    tags: [ 'controller.service_arguments' ]
+
+  App\ECommerceBundle\Controller\FrontEnd\:
+    resource: '../../Controller/FrontEnd'
+    tags: [ 'controller.service_arguments' ]
+
+
+  App\ECommerceBundle\Repository\:
+    resource: '../../Repository/*'
+    tags: [ 'doctrine.repository_service' ]
+
+  ChangeOrderPaymentStatusAfterOnlinePaymentListener:
+    class: App\ECommerceBundle\EventListener\ChangeOrderPaymentStatusAfterOnlinePaymentListener
+    tags:
+      - { name: kernel.event_subscriber }
+
+  ChangeOrderPaymentStatusListener:
+    class: App\ECommerceBundle\EventListener\ChangeOrderPaymentStatusListener
+    tags:
+      - { name: kernel.event_subscriber }
+
+  OrderSubscriber:
+    class: App\ECommerceBundle\EventListener\OrderSubscriber
+    tags:
+      - { name: doctrine.event_subscriber }
+
+
+  OrderStockSubscriber:
+    class: App\ECommerceBundle\EventListener\OrderStockSubscriber
+    tags:
+      - { name: doctrine.event_subscriber }

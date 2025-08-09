@@ -1,0 +1,547 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Content Recommendations{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body -%}
+    {# Statistics Cards #}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-body bg-blue-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin text-white">{{ statistics.total }}</h3>
+                        <span class="text-uppercase text-size-mini text-white-70">Total Recommendations</span>
+                    </div>
+                    <div class="media-right media-middle">
+                        <i class="icon-list2 icon-3x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-body bg-green-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin text-white">{{ statistics[1] }}</h3>
+                        <span class="text-uppercase text-size-mini text-white-70">Accepted</span>
+                    </div>
+                    <div class="media-right media-middle">
+                        <i class="icon-checkmark3 icon-3x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-body bg-orange-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin text-white">{{ statistics[2] }}</h3>
+                        <span class="text-uppercase text-size-mini text-white-70">Rejected</span>
+                    </div>
+                    <div class="media-right media-middle">
+                        <i class="icon-cross2 icon-3x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-body bg-info-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin text-white">{{ statistics[3] }}</h3>
+                        <span class="text-uppercase text-size-mini text-white-70">New</span>
+                    </div>
+                    <div class="media-right media-middle">
+                        <i class="icon-plus3 icon-3x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Generate Recommendations Section #}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">
+                <i class="icon-cog3 position-left"></i>
+                Generate AI Recommendations
+                <a class="heading-elements-toggle"><i class="icon-more"></i></a>
+            </h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="media">
+                        <div class="media-left">
+                            <i class="icon-brain icon-3x text-primary"></i>
+                        </div>
+                        <div class="media-body">
+                            <h6 class="media-heading">Auto-Generate Content Recommendations</h6>
+                            <p class="text-muted">
+                                This will process all published products and generate AI-powered content recommendations
+                                including SEO titles, descriptions, keywords, and enhanced product information.
+                            </p>
+                            <div class="text-muted text-size-small">
+                                <i class="icon-info22 position-left"></i>
+                                <strong>API Endpoint:</strong> <code id="api-endpoint-display">http://localhost:3000/api/products/intelligence</code>
+                                <br>
+                                <i class="icon-info22 position-left"></i>
+                                <strong>Batch Processing:</strong> Products will be processed in batches to prevent timeouts
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-right">
+                        <div class="form-group">
+                            <label class="control-label">Batch Size:</label>
+                            <input type="number" id="batch-size" class="form-control" value="10" min="1" max="100" style="width: 80px; display: inline-block;">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">API Endpoint:</label>
+                            <input type="text" id="api-endpoint" class="form-control" value="http://localhost:3000/api/products/intelligence" style="font-size: 11px;">
+                        </div>
+                        <button type="button" id="generate-btn" class="btn btn-success btn-lg">
+                            <i class="icon-lightning position-left"></i>
+                            Generate Recommendations
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            {# Progress Section (hidden by default) #}
+            <div id="progress-section" style="display: none;" class="mt-20">
+                <hr>
+                <h6><i class="icon-spinner11 spinner position-left"></i> Processing...</h6>
+                <div class="progress progress-striped active">
+                    <div id="progress-bar" class="progress-bar progress-bar-success" style="width: 0%"></div>
+                </div>
+                <div id="progress-info" class="text-muted text-size-small"></div>
+                <div id="progress-results" class="mt-10"></div>
+            </div>
+        </div>
+    </div>
+
+    {# Filter Form #}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">
+                <i class="icon-filter4 position-left"></i>
+                Filter Content Recommendations
+                <a class="heading-elements-toggle"><i class="icon-more"></i></a>
+            </h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            {{ form_start(filter_form, {'attr': {'class': 'form-horizontal'}}) }}
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(filter_form.productTitle, null, {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(filter_form.productTitle) }}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form_label(filter_form.productId, null, {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(filter_form.productId) }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(filter_form.state, null, {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(filter_form.state) }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(filter_form.createdFrom, null, {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(filter_form.createdFrom) }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(filter_form.createdTo, null, {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(filter_form.createdTo) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="icon-search4 position-left"></i> Filter
+                    </button>
+                    <a href="{{ path('content_recommendation_index') }}" class="btn btn-default">
+                        <i class="icon-reload-alt position-left"></i> Reset
+                    </a>
+                </div>
+            {{ form_end(filter_form) }}
+        </div>
+    </div>
+
+    {# Main Content #}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">Content Recommendations</h5>
+            <div class="heading-elements">
+                <a href="{{ path('content_recommendation_new') }}" class="btn btn-sm btn-primary">
+                    <i class="icon-plus3 position-left"></i> Add New
+                </a>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product</th>
+                        <th>State</th>
+                        <th>Created</th>
+                        <th>Modified</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for recommendation in content_recommendations %}
+                    <tr>
+                        <td>{{ recommendation.id }}</td>
+                        <td>
+                            {% if recommendation.product %}
+                                <div class="media">
+                                    <div class="media-left">
+                                        {% if recommendation.product.mainImage %}
+                                            <img src="{{ asset(recommendation.product.mainImage.assetPath)|webp(40) }}" 
+                                                 alt="" class="img-circle img-xs">
+                                        {% else %}
+                                            <div class="img-circle img-xs bg-slate-300"></div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="media-body">
+                                        <strong>#{{ recommendation.product.id }}</strong><br>
+                                        <span class="text-muted text-size-small">{{ recommendation.product.title|pn_json_encode }}</span>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <span class="text-muted">Product not found</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="label {{ recommendation.stateBadgeClass }}" 
+                                  data-id="{{ recommendation.id }}" 
+                                  data-current-state="{{ recommendation.state }}">
+                                {{ recommendation.stateLabel }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="text-muted">{{ recommendation.created|dateTimeFormat }}</span>
+                        </td>
+                        <td>
+                            <span class="text-muted">{{ recommendation.modified|dateTimeFormat }}</span>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{{ path('content_recommendation_show', {'id': recommendation.id}) }}" 
+                                   class="btn btn-sm btn-default" title="View">
+                                    <i class="icon-eye"></i>
+                                </a>
+                                <a href="{{ path('content_recommendation_edit', {'id': recommendation.id}) }}" 
+                                   class="btn btn-sm btn-primary" title="Edit">
+                                    <i class="icon-pencil7"></i>
+                                </a>
+                                <button type="button" class="btn btn-sm btn-danger delete-btn" 
+                                        data-id="{{ recommendation.id }}" 
+                                        data-title="{{ recommendation.product ? recommendation.product.title|pn_json_encode : 'Unknown' }}"
+                                        title="Delete">
+                                    <i class="icon-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">No content recommendations found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if paginator.totalItems > 0 %}
+            <div class="panel-body">
+                {{ include('adminTemplate/pagination.html.twig', {'paginator': paginator}) }}
+            </div>
+        {% endif %}
+    </div>
+
+    {# Delete Form (hidden) #}
+    <form id="delete-form" method="post" style="display: none;">
+        <input type="hidden" name="_token" id="delete-token">
+    </form>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.date.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/sweet_alert.min.js') }}"></script>
+
+    <script>
+        $(function() {
+            // Initialize Select2
+            $('.select2').select2({
+                placeholder: function() {
+                    return $(this).data('placeholder');
+                },
+                allowClear: true
+            });
+
+            // Initialize date pickers
+            $('.datepicker-metronic').pickadate({
+                format: 'yyyy-mm-dd',
+                formatSubmit: 'yyyy-mm-dd'
+            });
+
+            // State update functionality
+            $('.label[data-id]').click(function() {
+                var $this = $(this);
+                var id = $this.data('id');
+                var currentState = $this.data('current-state');
+                
+                var states = {
+                    1: 'Accepted',
+                    2: 'Rejected', 
+                    3: 'New'
+                };
+
+                var options = '';
+                $.each(states, function(value, label) {
+                    var selected = value == currentState ? 'selected' : '';
+                    options += '<option value="' + value + '" ' + selected + '>' + label + '</option>';
+                });
+
+                swal({
+                    title: "Update State",
+                    text: "Select new state:",
+                    type: "input",
+                    inputType: "select",
+                    inputOptions: options,
+                    showCancelButton: true,
+                    confirmButtonText: "Update",
+                    closeOnConfirm: false
+                }, function(inputValue) {
+                    if (inputValue && inputValue != currentState) {
+                        $.post('{{ path("content_recommendation_update_state", {"id": "__ID__"}) }}'.replace('__ID__', id), {
+                            state: inputValue
+                        }).done(function(response) {
+                            if (response.success) {
+                                $this.removeClass().addClass('label ' + response.badgeClass)
+                                     .text(response.state)
+                                     .data('current-state', inputValue);
+                                swal("Success!", response.message, "success");
+                            } else {
+                                swal("Error!", response.message, "error");
+                            }
+                        }).fail(function() {
+                            swal("Error!", "An error occurred while updating the state.", "error");
+                        });
+                    } else {
+                        swal.close();
+                    }
+                });
+            });
+
+            // Delete functionality
+            $('.delete-btn').click(function() {
+                var id = $(this).data('id');
+                var title = $(this).data('title');
+
+                swal({
+                    title: "Are you sure?",
+                    text: "Delete content recommendation for \"" + title + "\"?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    closeOnConfirm: false
+                }, function() {
+                    var token = "{{ csrf_token('delete' ~ '__ID__') }}".replace('__ID__', id);
+                    $('#delete-token').val(token);
+                    $('#delete-form').attr('action', '{{ path("content_recommendation_delete", {"id": "__ID__"}) }}'.replace('__ID__', id));
+                    $('#delete-form').submit();
+                });
+            });
+
+            // Update API endpoint display when input changes
+            $('#api-endpoint').on('input', function() {
+                $('#api-endpoint-display').text($(this).val());
+            });
+
+            // Generate Recommendations functionality
+            $('#generate-btn').click(function() {
+                var $btn = $(this);
+                var $progressSection = $('#progress-section');
+                var $progressBar = $('#progress-bar');
+                var $progressInfo = $('#progress-info');
+                var $progressResults = $('#progress-results');
+                
+                var batchSize = parseInt($('#batch-size').val()) || 10;
+                var apiEndpoint = $('#api-endpoint').val() || 'http://localhost:3000/api/products/intelligence';
+
+                // Validate inputs
+                if (batchSize < 1 || batchSize > 100) {
+                    swal("Error!", "Batch size must be between 1 and 100.", "error");
+                    return;
+                }
+
+                if (!apiEndpoint.trim()) {
+                    swal("Error!", "API endpoint is required.", "error");
+                    return;
+                }
+
+                // Confirm action
+                swal({
+                    title: "Generate Recommendations?",
+                    text: "This will process products and call the AI API to generate content recommendations. Continue?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#5cb85c",
+                    confirmButtonText: "Yes, generate!",
+                    closeOnConfirm: false
+                }, function() {
+                    swal.close();
+                    
+                    // Disable button and show progress
+                    $btn.prop('disabled', true).html('<i class="icon-spinner11 spinner position-left"></i> Processing...');
+                    $progressSection.show();
+                    $progressBar.css('width', '0%');
+                    $progressInfo.text('Initializing...');
+                    $progressResults.empty();
+
+                    // Make AJAX request
+                    $.ajax({
+                        url: '{{ path("content_recommendation_generate") }}',
+                        method: 'POST',
+                        data: {
+                            api_endpoint: apiEndpoint,
+                            batch_size: batchSize,
+                            offset: 0
+                        },
+                        dataType: 'json',
+                        timeout: 300000, // 5 minutes timeout
+                        success: function(response) {
+                            $progressBar.css('width', '100%');
+                            
+                            if (response.success) {
+                                $progressInfo.html('<i class="icon-checkmark3 text-success"></i> Completed successfully!');
+                                
+                                var resultsHtml = '<div class="alert alert-success">' +
+                                    '<h6><i class="icon-checkmark3"></i> Generation Complete!</h6>' +
+                                    '<ul class="list-unstyled mb-0">' +
+                                    '<li><strong>Total Products:</strong> ' + (response.total_products || 'N/A') + '</li>' +
+                                    '<li><strong>Processed:</strong> ' + (response.processed || 'N/A') + '</li>' +
+                                    '<li><strong>Errors:</strong> ' + (response.errors ? response.errors.length : 0) + '</li>' +
+                                    '<li><strong>Message:</strong> ' + (response.message || 'Success') + '</li>' +
+                                    '</ul>' +
+                                    '</div>';
+
+                                if (response.errors && response.errors.length > 0) {
+                                    resultsHtml += '<div class="alert alert-warning">' +
+                                        '<h6><i class="icon-warning2"></i> Errors Encountered:</h6>' +
+                                        '<ul class="mb-0">';
+                                    
+                                    response.errors.slice(0, 5).forEach(function(error) {
+                                        resultsHtml += '<li><strong>Product #' + error.product_id + '</strong> (' + error.title + '): ' + error.error;
+                                        if (error.note) {
+                                            resultsHtml += ' - <em>' + error.note + '</em>';
+                                        }
+                                        resultsHtml += '</li>';
+                                    });
+                                    
+                                    if (response.errors.length > 5) {
+                                        resultsHtml += '<li><em>... and ' + (response.errors.length - 5) + ' more errors</em></li>';
+                                    }
+                                    
+                                    resultsHtml += '</ul></div>';
+                                }
+
+                                $progressResults.html(resultsHtml);
+                                
+                                // Show success message
+                                swal("Success!", response.message, "success");
+                                
+                                // Refresh page after a short delay to show updated data
+                                setTimeout(function() {
+                                    window.location.reload();
+                                }, 3000);
+                                
+                            } else {
+                                $progressInfo.html('<i class="icon-cross2 text-danger"></i> Failed: ' + (response.message || 'Unknown error'));
+                                $progressResults.html('<div class="alert alert-danger">' +
+                                    '<h6><i class="icon-cross2"></i> Generation Failed</h6>' +
+                                    '<p>' + (response.message || 'An unknown error occurred.') + '</p>' +
+                                    '</div>');
+                                swal("Error!", response.message || "Generation failed.", "error");
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            $progressBar.removeClass('progress-bar-success').addClass('progress-bar-danger').css('width', '100%');
+                            
+                            var errorMessage = 'Request failed';
+                            if (xhr.status === 403) {
+                                errorMessage = 'Access denied. Please check your permissions.';
+                            } else if (xhr.status === 404) {
+                                errorMessage = 'Endpoint not found. Please check the route configuration.';
+                            } else if (xhr.status === 500) {
+                                errorMessage = 'Server error occurred during processing.';
+                            } else if (status === 'timeout') {
+                                errorMessage = 'Request timed out. The process may still be running in the background.';
+                            } else if (xhr.responseText) {
+                                try {
+                                    var errorResponse = JSON.parse(xhr.responseText);
+                                    errorMessage = errorResponse.message || errorMessage;
+                                } catch (e) {
+                                    errorMessage += ': ' + xhr.responseText;
+                                }
+                            }
+                            
+                            $progressInfo.html('<i class="icon-cross2 text-danger"></i> Error: ' + errorMessage);
+                            $progressResults.html('<div class="alert alert-danger">' +
+                                '<h6><i class="icon-cross2"></i> Request Failed</h6>' +
+                                '<p><strong>Status:</strong> ' + xhr.status + ' ' + xhr.statusText + '</p>' +
+                                '<p><strong>Error:</strong> ' + errorMessage + '</p>' +
+                                '</div>');
+                            
+                            swal("Error!", errorMessage, "error");
+                        },
+                        complete: function() {
+                            // Re-enable button
+                            $btn.prop('disabled', false).html('<i class="icon-lightning position-left"></i> Generate Recommendations');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
+
+

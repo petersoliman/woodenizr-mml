@@ -1,0 +1,151 @@
+.ui-product-details {
+    &-meta-specs {
+        padding-bottom: 12px;
+        border-bottom: 1px solid #E9E9E9;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 22px;
+        color: #686868;
+        strong {
+            font-weight: 600;
+        }
+        @include media-max($xxl) {
+            font-size: 13px;
+            line-height: 18px;
+        }
+        a {
+            text-decoration: none;
+            color: #5D5BBD;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    &-title {
+        font-weight: 400;
+        font-size: 35px;
+        line-height: 44px;
+        color: #3F3F3F;
+        @include media-max($xxl) {
+            font-size: 20px;
+            line-height: 30px;
+        }
+    }
+    &-rating-btn {
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        padding: 0 0 5px 0;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 23px;
+        color: #686868;
+        border-bottom: 1px solid #686868;
+        @include media-max($xxl) {
+            font-size: 11px;
+            line-height: 18px;
+        }
+        &:hover {
+            color: #C3A12F;
+            border-bottom: 1px solid #C3A12F;
+        }
+    }
+    &-price-meta-top {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 23px;
+        color: var(--primary-color);
+    }
+    &-price {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 22px;
+        color: #686868;
+        border: 0;
+    }
+    &-list-price {
+        font-size: 18px;
+        line-height: 22px;
+        color: #686868;
+        position: relative;
+        &:before{
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            content: "";
+            background-color: #686868;
+            height: 1px;
+        }
+    }
+    
+    &-buy-price {
+        font-weight: 600;
+        font-size: 32px;
+        line-height: 22px;
+        color: var(--primary-color);
+    }
+    
+    &-discount-price {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        color: var(--primary-color);
+    }
+    &-price-table {
+        border: 0;
+        border-collapse: collapse;
+        .ui-product-details-price-table-row:not(:first-child) .ui-product-details-price-table-label-col,
+        .ui-product-details-price-table-row:not(:first-child) .ui-product-details-price-table-price-col {
+            padding-top: 7px;
+        }
+        .ui-product-details-price-table-row:not(:last-child) .ui-product-details-price-table-label-col,
+        .ui-product-details-price-table-row:not(:last-child) .ui-product-details-price-table-price-col {
+            padding-bottom: 7px;
+        }
+        .ui-product-details-price-table-price-col {
+            @include ltr() {
+                padding-left: 10px;
+            }
+            @include rtl() {
+                padding-right: 10px;
+            }
+        }
+    }
+    &-price-meta-bottom {
+        background: #F8F8F8;
+        border-radius: 5px;
+        padding: 7px 14px;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 23px;
+        color: #3F3F3F;
+        display: block;
+    }
+    &-seller-products-link {
+        @include ltr() {
+            padding-left: 21px;
+        }
+        @include rtl() {
+            padding-right: 21px;
+        }
+        font-size: 14px;
+        line-height: 29px;
+        font-weight: 500;
+        text-decoration: none;
+        color: #5D5BBD;
+        .ui-product-details-seller-see-all {
+            font-weight: 700;
+            text-decoration: underline;
+        }
+        &::before {
+            background: #A5B3FF;
+            border-radius: 10px;
+            transition: 0.09s all ease-in-out;
+        }
+        &:hover {
+            &::before {
+                background: #5D5BBD;
+            }
+        }
+    }
+}

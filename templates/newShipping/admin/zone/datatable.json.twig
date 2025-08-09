@@ -1,0 +1,28 @@
+{% macro actions(zone) %}
+{% apply spaceless %}
+    <ul class='icons-list'>
+        <li class='dropdown'>
+            <a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a>
+                <ul class='dropdown-menu dropdown-menu-right'>
+                <li><a href='{{ path('zone_edit',{'id':zone.id}) }}'><i class='icon-pencil7'></i> Edit</a></li>
+                <li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('zone_delete',{'id':zone.id}) }}'><i class='icon-bin'></i> Remove</a></li>
+            </ul>
+        </li>
+    </ul>
+{% endapply %}
+{% endmacro %}
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for zone in zones %}
+        [
+            "{% if zone.tarteb %}{{ zone.tarteb }}{% else %}N/A{% endif %}",
+            "{{ zone.title }}",
+            "{% if zone.created %}{{ zone.created|date('d/m/Y') }}{% else %}--{% endif %}",
+            "{{ _self.actions(zone) }}"
+
+        ]{% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

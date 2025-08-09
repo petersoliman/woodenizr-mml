@@ -1,0 +1,152 @@
+<div class="l-product-view-overview-section-col ui-product-view-overview-section-col l-product-view-overview-section-col-details">
+    <div class="l-product-details-desktop-title-ratings">
+        <div>
+            {% include "product/frontEnd/productShow/_admin_buttons.html.twig" %}
+            <h1 class="l-product-details-title ui-product-details-title">
+                {{ product.title }}
+            </h1>
+        </div>
+        {#        {% include "product/frontEnd/productShow/_rating.html.twig" %} #}
+    </div>
+    <div class="l-product-details-price-container">
+
+        <div class="ui-product-details-price">
+            <table class="ui-product-details-price-table">
+                <tr class="ui-product-details-price-table-row" data-price-row="true" hidden="hidden">
+                    <td class="ui-product-details-price-table-label-col">{{ "was_txt"|trans }}:</td>
+                    <td class="ui-product-details-price-table-price-col">
+                        <abbr class="ui-product-details-list-price" data-list-price="560">---</abbr>
+                    </td>
+                </tr>
+                <tr class="ui-product-details-price-table-row" data-price-row="true">
+                    <td class="ui-product-details-price-table-label-col" data-price-title="true"
+                        data-price-labels="{{ "price_txt"|trans }}:,{{ "now_txt"|trans }}:"></td>
+                    <td class="ui-product-details-price-table-price-col">
+                        <span class="ui-product-details-buy-price" data-price="400">---</span>
+                    </td>
+                </tr>
+                <tr class="ui-product-details-price-table-row" data-price-row="true" hidden="hidden">
+                    <td class="ui-product-details-price-table-label-col">{{ "saving_txt"|trans }}:</td>
+                    <td class="ui-product-details-price-table-price-col">
+                        <span class="ui-product-details-discount-price" data-discount="160" data-discount-percent="10">---</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="ui-product-details-price-meta-bottom l-product-details-price-meta-bottom">
+            {{ "all_prices_include_vat_txt"|trans }}
+        </div>
+        <br>
+        <div class="l-product-meta ui-product-meta">
+            {% if productPrice.unit is defined and productPrice.unit %}
+                <div class="l-product-meta-item ui-product-meta-item">{{ "measurement_unit_txt"|trans }}
+                    : {{ productPrice.unit.title }}</div>
+            {% endif %}
+            {% if productPrice.minimumPurchaseQty is defined and productPrice.minimumPurchaseQty > 1 %}
+                <div class="l-product-meta-item ui-product-meta-item">
+                    {{ "minimum_ordering_quantity_txt"|trans }}
+                    : {{ productPrice.minimumPurchaseQty }} {% if productPrice.unit %}{{ productPrice.unit.title }}{% endif %}
+                </div>
+            {% endif %}
+            {% if inStock %}
+                <div class="l-product-meta-item ui-product-meta-item stock">{{ "in_stock_txt"|trans }}</div>
+            {% else %}
+                <div class="l-product-meta-item ui-product-meta-item out-of-stock">{{ "out_of_stock_txt"|trans }}</div>
+            {% endif %}
+            {% if inStock and zones is not empty %}
+                <div class="l-product-meta-shipping-fees ui-product-meta-shipping-fees">
+                    <p>{{ "calculating_shipping_fees_txt"|trans }}:</p>
+                    <p class="ui-product-meta-shipping-time l-product-meta-shipping-time"
+                       data-shipping-time-text="true"></p>
+
+                    <div class="l-product-meta-shipping-fees-row">
+                        <div class="l-dropdown" data-shipping-fees-dropdown="true" data-l-dropdown="true">
+                            <button
+                                    class="l-dropdown-button ui-dropdown-button"
+                                    data-shipping-fees-dropdown-button="true"
+                                    data-shipping-fees-dropdown-button-url="{{ path('fe_shipping_address_calculate_shipping_price_ajax', {"slug":product.seo.slug}) }}"
+                                    data-l-dropdown-button="true"
+                            >
+                                {{ (zones|first).title }}
+                            </button>
+                            <div class="l-dropdown-menu ui-dropdown-menu" data-l-dropdown-menu="true">
+                                {% for zone in zones %}
+                                    <button class="l-dropdown-menu-item ui-dropdown-menu-item {{ loop.first ? "active" }}"
+                                            data-shipping-fees-dropdown-item-zone-id="{{ zone.id }}"
+                                            data-shipping-fees-dropdown-item="true"
+                                    >{{ zone.title }}</button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <span class="ui-product-meta-shipping-fee l-product-meta-shipping-fee"
+                              data-shipping-fees-dropdown-text="true">
+                        <span class="ui-product-meta-shipping-fee-price">--</span> {{ userCurrencySymbol() }}
+                    </span>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {#    <div class="ui-product-tab-specs l-product-tab-specs" data-tab-specs-container="true" data-tab-specs-url="{{ path("fe_product_specs_ajax", {"slug": product.seo.slug}) }}"></div> #}
+    <div class="l-flex-row" data-l-product-add-to-cart-single-price="true" hidden>
+        <div class="l-flex-col-6">
+            <div class="l-product-cart-qty-box ui-product-cart-qty-box">
+                <div class="l-dropdown" data-qty-dropdown="true" data-l-dropdown="true">
+                    <button class="l-dropdown-button ui-dropdown-button" data-qty-dropdown-button="true"
+                            data-l-dropdown-button="true" data-qty-dropdown-btn="true">
+                        <span class="l-product-cart-qty-text-desktop">{{ "quantity_txt"|trans }}</span>
+                        <span class="l-product-cart-qty-text-mobile">{{ "qty_txt"|trans|upper }}:&nbsp;</span>
+                        <span class="ui-product-cart-qty" data-qty-dropdown-text="true" data-qty="true">1</span>
+                    </button>
+                    <div class="l-dropdown-menu ui-dropdown-menu" data-l-dropdown-menu="true" data-qty-menu="true">
+                        <button class="l-dropdown-menu-item ui-dropdown-menu-item active"
+                                data-qty-dropdown-item-value="1" data-qty-dropdown-item="true">1
+                        </button>
+                        <button class="l-dropdown-menu-item ui-dropdown-menu-item" data-qty-dropdown-item-value="2"
+                                data-qty-dropdown-item="true">2
+                        </button>
+                        <button class="l-dropdown-menu-item ui-dropdown-menu-item" data-qty-dropdown-item-value="3"
+                                data-qty-dropdown-item="true">3
+                        </button>
+                        <button class="l-dropdown-menu-item ui-dropdown-menu-item" data-qty-dropdown-item-value="4"
+                                data-qty-dropdown-item="true">4
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="l-flex-col-6">
+            <div class="l-product-cart-qty-box ui-product-cart-qty-box">
+                <div class="l-product-cart-btn-box ui-product-cart-btn-box">
+                    <!-- IF -->
+                    <button class="l-product-cart-btn ui-product-cart-btn" data-cart-btn="true"
+                            data-cart-btn-labels="{{ "add_to_cart_txt"|trans }},{{ "out_of_stock_txt"|trans }}"
+                            data-header-cart-sidebar-btn="true" data-header-cart-sidebar-add-product-btn=""
+                            data-header-cart-sidebar-add-product-btn-qty="1" data-qty-dropdown-cart-btn="true">
+                        {{ "add_to_cart_txt"|trans }}
+                    </button>
+                    <!-- ELSE -->
+                    <!-- <button class="l-product-cart-btn ui-product-cart-btn out-of-stock" data-cart-btn="true" data-cart-btn-labels="Add To Cart,Out of Stock" disabled>
+                                        {{ "out_of_stock_txt"|trans }}
+                                    </button> -->
+                    <!-- ENDIF -->
+                </div>
+            </div>
+        </div>
+        <div class="l-flex-col-12">
+            {% if product.details.augmentedRealityUrl is not empty %}
+                <br>
+                <a class="l-product-cart-bottom-action ui-product-cart-bottom-action"
+                   href="{{ product.details.augmentedRealityUrl }}"
+                   rel="noreferrer"
+                   target="_blank"
+                >
+                    Augmented Reality Preview
+                </a>
+                <br>
+            {% endif %}
+        </div>
+    </div>
+</div>

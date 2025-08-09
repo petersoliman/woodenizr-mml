@@ -1,0 +1,234 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Content Recommendation #{{ content_recommendation.id }}{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('content_recommendation_index') }}">Content Recommendations</a></li>
+            <li class="active">Recommendation #{{ content_recommendation.id }}</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body -%}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">{{ page_title }}</h5>
+            <div class="heading-elements">
+                <a href="{{ path('content_recommendation_edit', {'id': content_recommendation.id}) }}" class="btn btn-sm btn-primary">
+                    <i class="icon-pencil7 position-left"></i> Edit
+                </a>
+                <a href="{{ path('content_recommendation_index') }}" class="btn btn-sm btn-default">
+                    <i class="icon-arrow-left5 position-left"></i> Back to List
+                </a>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="text-semibold">Basic Information</h6>
+                    <dl class="dl-horizontal">
+                        <dt>ID:</dt>
+                        <dd>{{ content_recommendation.id }}</dd>
+                        
+                        <dt>Product:</dt>
+                        <dd>
+                            {% if content_recommendation.product %}
+                                <div class="media">
+                                    <div class="media-left">
+                                        {% if content_recommendation.product.mainImage %}
+                                            <img src="{{ asset(content_recommendation.product.mainImage.assetPath)|webp(60) }}" 
+                                                 alt="" class="img-circle img-sm">
+                                        {% else %}
+                                            <div class="img-circle img-sm bg-slate-300"></div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="media-body">
+                                        <strong>#{{ content_recommendation.product.id }} - {{ content_recommendation.product.title|pn_json_encode }}</strong><br>
+                                        <span class="text-muted text-size-small">{{ content_recommendation.product.category.title|pn_json_encode }}</span>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <span class="text-muted">Product not found</span>
+                            {% endif %}
+                        </dd>
+                        
+                        <dt>State:</dt>
+                        <dd>
+                            <span class="label {{ content_recommendation.stateBadgeClass }}" 
+                                  data-id="{{ content_recommendation.id }}" 
+                                  data-current-state="{{ content_recommendation.state }}"
+                                  style="cursor: pointer;" 
+                                  title="Click to change state">
+                                {{ content_recommendation.stateLabel }}
+                            </span>
+                        </dd>
+                        
+                        <dt>UUID:</dt>
+                        <dd><code>{{ content_recommendation.uuid }}</code></dd>
+                    </dl>
+                </div>
+                
+                <div class="col-md-6">
+                    <h6 class="text-semibold">Timestamps</h6>
+                    <dl class="dl-horizontal">
+                        <dt>Created:</dt>
+                        <dd>{{ content_recommendation.created|dateTimeFormat }}</dd>
+                        
+                        <dt>Created by:</dt>
+                        <dd>{{ content_recommendation.creator }}</dd>
+                        
+                        <dt>Modified:</dt>
+                        <dd>{{ content_recommendation.modified|dateTimeFormat }}</dd>
+                        
+                        <dt>Modified by:</dt>
+                        <dd>{{ content_recommendation.modifiedBy }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if content_recommendation.recommended %}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Recommended Content</h6>
+        </div>
+        <div class="panel-body">
+            <pre class="prettyprint lang-json">{{ content_recommendation.recommended|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if content_recommendation.notes %}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Notes</h6>
+        </div>
+        <div class="panel-body">
+            {{ content_recommendation.notes|nl2br }}
+        </div>
+    </div>
+    {% endif %}
+
+    {# Actions Panel #}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Actions</h6>
+        </div>
+        <div class="panel-body">
+            <div class="btn-group">
+                <a href="{{ path('content_recommendation_edit', {'id': content_recommendation.id}) }}" class="btn btn-primary">
+                    <i class="icon-pencil7 position-left"></i> Edit
+                </a>
+                
+                {% if content_recommendation.product %}
+                <a href="{{ path('product_show', {'id': content_recommendation.product.id}) }}" class="btn btn-default">
+                    <i class="icon-eye position-left"></i> View Product
+                </a>
+                {% endif %}
+                
+                <button type="button" class="btn btn-danger delete-btn" 
+                        data-id="{{ content_recommendation.id }}" 
+                        data-title="{{ content_recommendation.product ? content_recommendation.product.title|pn_json_encode : 'Unknown' }}">
+                    <i class="icon-trash position-left"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {# Delete Form (hidden) #}
+    <form id="delete-form" method="post" style="display: none;">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ content_recommendation.id) }}">
+    </form>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/sweet_alert.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/code_editors/prism.min.js') }}"></script>
+
+    <script>
+        $(function() {
+            // State update functionality
+            $('.label[data-id]').click(function() {
+                var $this = $(this);
+                var id = $this.data('id');
+                var currentState = $this.data('current-state');
+                
+                var states = {
+                    1: 'Accepted',
+                    2: 'Rejected', 
+                    3: 'New'
+                };
+
+                var options = '';
+                $.each(states, function(value, label) {
+                    var selected = value == currentState ? 'selected' : '';
+                    options += '<option value="' + value + '" ' + selected + '>' + label + '</option>';
+                });
+
+                swal({
+                    title: "Update State",
+                    text: "Select new state:",
+                    type: "input",
+                    inputType: "select",
+                    inputOptions: options,
+                    showCancelButton: true,
+                    confirmButtonText: "Update",
+                    closeOnConfirm: false
+                }, function(inputValue) {
+                    if (inputValue && inputValue != currentState) {
+                        $.post('{{ path("content_recommendation_update_state", {"id": content_recommendation.id}) }}', {
+                            state: inputValue
+                        }).done(function(response) {
+                            if (response.success) {
+                                $this.removeClass().addClass('label ' + response.badgeClass)
+                                     .text(response.state)
+                                     .data('current-state', inputValue);
+                                swal("Success!", response.message, "success");
+                            } else {
+                                swal("Error!", response.message, "error");
+                            }
+                        }).fail(function() {
+                            swal("Error!", "An error occurred while updating the state.", "error");
+                        });
+                    } else {
+                        swal.close();
+                    }
+                });
+            });
+
+            // Delete functionality
+            $('.delete-btn').click(function() {
+                var id = $(this).data('id');
+                var title = $(this).data('title');
+
+                swal({
+                    title: "Are you sure?",
+                    text: "Delete content recommendation for \"" + title + "\"?\nThis action cannot be undone.",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    closeOnConfirm: false
+                }, function() {
+                    $('#delete-form').attr('action', '{{ path("content_recommendation_delete", {"id": content_recommendation.id}) }}');
+                    $('#delete-form').submit();
+                });
+            });
+
+            // Initialize syntax highlighting
+            if (typeof Prism !== 'undefined') {
+                Prism.highlightAll();
+            }
+        });
+    </script>
+{% endblock %}
+
+
+
+

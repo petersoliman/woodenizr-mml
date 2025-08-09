@@ -1,0 +1,49 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(form.code) }}
+            {{ macros.input(form.active) }}
+        </div>
+        <div class="row">
+            {{ macros.input(form.startDate) }}
+            {{ macros.input(form.expiryDate) }}
+        </div>
+        <div class="row">
+            {{ macros.input(form.discountType) }}
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.discountValue) }}
+                    <div class="input-group">
+                        {{ form_widget(form.discountValue) }}
+                        <span class="input-group-addon" id="discountSymbol"></span>
+                    </div>
+                    {{ form_errors(form.discountValue) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {{ macros.input(form.comment) }}
+            {{ macros.input(form.description,6,"This field appears on the website") }}
+        </div>
+        <div class="row">
+            {{ macros.input(form.shipping,4) }}
+            {{ macros.input(form.limitUsePerUser,4) }}
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ form_label(form.minimumPurchaseAmount) }}
+                    <div class="input-group">
+                        {{ form_widget(form.minimumPurchaseAmount) }}
+                        <span class="input-group-addon">EGP</span>
+                    </div>
+                    {{ form_errors(form.minimumPurchaseAmount) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>

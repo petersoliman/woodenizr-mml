@@ -1,0 +1,57 @@
+{% if blogs is not empty %}
+    <div class="ui-featured-readings-section">
+        <div class="l-featured-readings-container">
+            <div class="l-container l-container--phone-spacing">
+                <div class="ui-title-line-subtitle l-title-line-subtitle">{{ "home_page_blog_subtitle_txt"|trans }}</div>
+                <div class="l-title-line l-title-line--spacing-bottom">
+                    <div class="ui-title-line-h-line"></div>
+                    <div class="l-title-line-title ui-title-line-title">{{ "home_page_blog_title_txt"|trans }}</div>
+                    <div class="ui-title-line-h-line"></div>
+                </div>
+                <div class="l-flex-row">
+                    {% for blog in blogs %}
+                        {% if blog.post.mainImage %}
+                            {% set image = asset(blog.post.mainImage.assetPath) %}
+                        {% else %}
+                            {% set image = asset('assets/img/product-img-placeholder.webp') %}
+                        {% endif %}
+
+                        <div class="l-flex-col-xl-3 l-flex-col-lg-6 l-flex-col-md-6">
+                            <a href="{{ path('fe_blog_show', {'slug':blog.seo.slug}) }}" class="ui-reading-post-slide l-reading-post-slide">
+                                <div class="l-reading-post-slide-img-container">
+                                    <picture>
+                                        <!--[if IE 9]><video style="display: none;><![endif]-->
+                                        <source data-srcset="{{ image|webp(null, 408) }}" media="--small" />
+                                        <source data-srcset="{{ image|webp(null, 394) }}" media="--medium" />
+                                        <source data-srcset="{{ image|webp(null, 255) }}" media="--large" />
+                                        <source data-srcset="{{ image|webp(null, 328) }}" media="--x-large" />
+                                        <source data-srcset="{{ image|webp(null, 230) }}" media="--xx-large" />
+                                        <!--[if IE 9]></video><![endif]-->
+                                        <img
+                                                class="l-responsive-img l-reading-post-slide-img ui-reading-post-slide-img lazyload"
+                                                width="388"
+                                                height="283"
+                                                data-expand="-20"
+                                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                                data-src="{{ image|webp(null, 283) }}"
+                                                alt="{{ blog.title }}"
+                                        />
+                                    </picture>
+                                </div>
+                                <div class="ui-reading-post-slide-body l-reading-post-slide-body">
+                                    <div class="ui-reading-post-slide-body-box">
+                                        {#<h6 class="l-reading-post-slide-body-title ui-reading-post-slide-body-title">By Hany Ghobery</h6> #}
+                                        <h6 class="l-reading-post-slide-body-body ui-reading-post-slide-body-body">{{ blog.title }}</h6>
+                                    </div>
+                                    <div class="ui-reading-post-slide-actions l-reading-post-slide-actions">
+                                        {{ "read_more_txt"|trans }} {% include "fe/icons/arrow-right.svg" %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

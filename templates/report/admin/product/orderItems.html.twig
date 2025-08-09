@@ -1,0 +1,190 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Product Sales Report{% endset %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="{{ path('report_product_index') }}">Product Sales Dashboard</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="panel panel-flat panel-filter">
+        {{ form_start(filter_form) }}
+        <div class="panel-heading">
+            <h5 class="panel-title">Filter <a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse" class="rotate-180"></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_row(filter_form.orderId) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_row(filter_form.productName) }}
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        {{ form_label(filter_form.startDate) }}
+                        <div class="input-group">
+                            {{ form_widget(filter_form.startDate) }}
+                            <span class="input-group-btn">
+                                <button class="btn btn-default clear-date" type="button">Clear</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        {{ form_label(filter_form.endDate) }}
+                        <div class="input-group">
+                            {{ form_widget(filter_form.endDate) }}
+                            <span class="input-group-btn">
+                                <button class="btn btn-default clear-date" type="button">Clear</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    {{ form_row(filter_form.publish) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_row(filter_form.featured) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_row(filter_form.sortBy) }}
+                </div>
+
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="text-right">
+                <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')) }}" class="btn btn-default mr-5">
+                    Reset <i class="icon-reload-alt position-right"></i>
+                </a>
+                <button type="submit" class="btn btn-primary mr-20">
+                    Filter <i class="fa fa-search position-right"></i>
+                </button>
+            </div>
+        </div>
+        {{ form_end(filter_form) }}
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-md-offset-3 col-sm-4 col-sm-offset-2 col-xs-6">
+            <div class="panel panel-body bg-teal-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin">{{ totalQty|number_format }}</h3>
+                        <span class="text-uppercase text-size-mini">Total Qty</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6">
+            <div class="panel panel-body bg-success-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin">{{ totalSales|number_format }} EGP</h3>
+                        <span class="text-uppercase text-size-mini">Total Sales</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Product sales items report results<a class="heading-elements-toggle"><i
+                            class="icon-more"></i></a>
+            </h6>
+            <div class="heading-elements">
+                <div class="btn-group heading-btn">
+                    <a href="{{ path('report_product_order_items_csv', app.request.attributes.get('_route_params')|merge(app.request.query.all)) }}"
+                       class="btn btn-default"><i class="icon-file-excel"></i> Export CSV</a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            {{ include('adminTemplate/pagination.html.twig', {'paginator':paginator}) }}
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Product</th>
+                    <th>Total Qty</th>
+                    <th>Total Sales</th>
+                    <th>No. of orders</th>
+                    <th>Last Time Purchased</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for entity in entities %}
+                    <tr>
+                        <td>{{ entity.id }}</td>
+                        <td>
+                            <a href="#" class="single-product-statistics"
+                               data-href="{{ path('report_product_single_product_statistics_ajax', {"id": entity.id}) }}">{{ entity.title }}</a>
+                        </td>
+                        <td>{{ entity.totalQty|number_format }}</td>
+                        <td>{{ entity.totalSales|number_format }} EGP</td>
+                        <td>{{ entity.totalNoOfOrders|number_format }}</td>
+                        <td>{{ entity.lastTimePurchased|date('d/m/Y') }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">No record found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-body">
+            {{ include('adminTemplate/pagination.html.twig', {'paginator':paginator}) }}
+        </div>
+    </div>
+{% endblock %}
+{% block modalCode %}
+    <div id="modal-default" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/anytime.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/visualization/echarts/echarts.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('admin/js/plugins/forms/selects/bootstrap_multiselect.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/loaders/blockui.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $(".clear-date").click(function (e) {
+                $(this).closest(".input-group").find('input').val("").change();
+            });
+            $(".single-product-statistics").click(function (e) {
+                var href = $(this).data("href");
+                $("#modal-default").modal('show');
+                $("#modal-default .modal-content").empty().append("<h3 class='text-center'>Loading ...</h3>");
+                $.get(href, function (data) {
+                    $("#modal-default .modal-content").empty().append(data);
+                });
+            });
+
+        });
+    </script>
+{% endblock javascripts %}

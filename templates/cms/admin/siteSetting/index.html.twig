@@ -1,0 +1,116 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Site Setting{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+        <ul class="breadcrumb-elements">
+            <li><a href="{{ path('site_setting_remove_cache') }}"><i class="icon-database-remove position-left"></i>
+                    Remove Cache</a></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    <!-- Ajax sourced data -->
+    <div class="panel panel-flat">
+        <div class="panel-body">
+            <table class="table datatable table-striped datatable-responsive">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Value</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for siteSetting in siteSettings %}
+                    <tr>
+                        <td>
+                            <a href='{{ path('site_setting_edit',{'constantName':siteSetting.constantName}) }}'>
+                                {{ siteSetting.title }}
+                            </a>
+                        </td>
+                        <td>
+                            {% if siteSetting.value is not null and siteSetting.value is not empty or siteSetting.value == "0" %}
+                                {% if siteSetting.type == constant('App\\CMSBundle\\Enum\\SiteSettingTypeEnum::TEXT') or siteSetting.type == constant('App\\CMSBundle\\Enum\\SiteSettingTypeEnum::HTML_TAG') %}
+                                    {{ siteSetting.value|slice(0, 50) }}
+                                    {{ siteSetting.value|length > 50 ? "..." }}
+                                {% elseif siteSetting.type == constant('App\\CMSBundle\\Enum\\SiteSettingTypeEnum::COLOR_CODE') %}
+                                    <div style="background-color: {{ siteSetting.value }};width: 30px;height: 30px;border-radius: 5px;"></div>
+                                {% elseif siteSetting.type == constant('App\\CMSBundle\\Enum\\SiteSettingTypeEnum::SVG_CODE') %}
+                                    {{ siteSetting.value|raw }}
+                                {% elseif siteSetting.type == constant('App\\CMSBundle\\Enum\\SiteSettingTypeEnum::BOOLEAN') %}
+                                    {% if siteSetting.value %}<span class='label label-success'>Yes</span>{% else %}<span class='label label-danger'>No</span>{% endif %}
+                                {% elseif siteSetting.type == constant('App\\CMSBundle\\Enum\\SiteSettingTypeEnum::FAVICON') %}
+                                    <img src="{{ asset(siteSetting.value) }}" style="width: 32px; height: 32px;object-fit: cover; border-radius: 2px;" />
+                                {% else %}
+                                    {{ siteSetting.value }}
+                                {% endif %}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            <ul class='icons-list'>
+                                <li>
+                                    <a href='{{ path('site_setting_edit',{'constantName':siteSetting.constantName}) }}'
+                                       data-popup='tooltip' title='Edit'><i class='icon-pencil7'></i></a>
+                                </li>
+
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /ajax sourced data -->
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $.extend($.fn.dataTable.defaults, {
+                autoWidth: false,
+                fixedHeader: true,
+                pageLength: 100,
+                order: [[0, "desc"]],
+                columnDefs: [
+                    {orderable: false, targets: -1}
+                ],
+                lengthMenu: [25, 50, 100],
+                dom: '<"datatable-header"flr><"datatable-scroll"t><"datatable-footer"ip>',
+                language: {
+                    search: '<span>Filter:</span> _INPUT_',
+                    searchPlaceholder: 'Type to filter...',
+                    lengthMenu: '<span>Show:</span> _MENU_',
+                    paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
+                },
+                drawCallback: function () {
+                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
+                },
+                preDrawCallback: function () {
+                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
+                }
+            });
+
+            $('.datatable').DataTable({
+                fixedHeader: true,
+            });
+
+            $('.dataTables_length select').select2({
+                minimumResultsForSearch: Infinity,
+                width: 'auto'
+            });
+        });
+
+    </script>
+{% endblock javascripts %}
+

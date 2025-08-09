@@ -1,0 +1,23 @@
+.alert {
+    padding: 13px 28px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 34px;
+    letter-spacing: -0.33px;
+
+    &-spacing{
+      margin-bottom: 20px;
+    }
+    &.alert-danger {
+        background: #F2DEDE;
+        color: #EB5959;
+    }
+    &.alert-success {
+        background: #EAF7EE;
+        color: #37A446;
+    }
+    &.alert-warning {
+        background: #FFF3CD;
+        color: #964E03;
+    }
+}

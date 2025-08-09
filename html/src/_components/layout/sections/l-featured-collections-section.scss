@@ -1,0 +1,82 @@
+@import '../../mixins.scss';
+
+.l-featured-collections-section {
+  &-cat {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  &-cat-img-container {
+    margin-bottom: 36px;
+  }
+
+  &-cat-img {
+    width: auto;
+    max-width: 100%;
+    max-height: 191px;
+  }
+
+  .swiper-slide-active {
+    .l-featured-collections-section-cat-img {
+      max-height: 204px;
+    }
+  }
+
+  &-cat-title {
+    margin: 0 0 3px;
+  }
+
+  &-cat-subtitle {
+    margin: 0;
+  }
+
+  .swiper-pagination-bullets.swiper-pagination-horizontal {
+    bottom: -30px;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    height: 100%;
+    top: 0;
+    margin-top: 0;
+    width: 150px;
+
+    &::after {
+      position: relative;
+      right: 35px;
+      background-size: 10px 18px;
+    }
+
+    @include media-max($md) {
+      display: none;
+    }
+  }
+
+  &-actions {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 15;
+    top: -5px;
+    @include media-max($md) {
+       top: 35px;
+    }
+  }
+
+  &-action {
+    svg {
+      @include ltr() {
+        margin-left: 15px;
+      }
+      @include rtl() {
+        margin-right: 15px;
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

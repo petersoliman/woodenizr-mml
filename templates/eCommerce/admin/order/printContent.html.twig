@@ -1,0 +1,142 @@
+<!-- Invoice body markup -->
+<table class="body">
+    <tbody>
+        <tr>
+            <td>
+                <table class="invoice">
+
+                    <tbody>
+
+                        <!-- Your company information -->
+                        <!-- Invoice logo -->
+                        <tr class="store-info">
+                            <td colspan="2">
+                                <img class="invoice-logo"  src="{{ asset('logo.png') }}" />
+                            </td>
+                        </tr>
+                        <tr class="store-info">
+                            <td colspan="2" class="store-title">
+                                <!-- Store name -->
+                                <span>{{ getSiteSetting("website-title") }}</span>
+                            </td>
+                        </tr>
+                        <!-- Space between blocks -->
+                        <tr class="spacer"></tr>
+
+                        <!-- Shipping and billing information -->
+                        <tr>
+                            <td colspan="2" class="invoice-row">
+                                <table class="order-info">
+                                    <thead>
+                                        <tr>
+                                            <!-- Order date -->
+                                            <td class="title">
+                                                <span>Order #{{ order.id }}</span>
+                                            </td>
+                                            <td class="title">
+                                                <span>{{ order.created|date('M d, Y h:i A') }}</span>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            {% set shippingAddress = order.orderShippingAddress %}
+                                            <td>
+
+                                                <p class="text-uppercase">{{ order.buyerName }}</p>
+                                                {% if shippingAddress.mobileNumber|length > 0 %}
+                                                    <p>{{ shippingAddress.mobileNumber }}</p>
+                                                {% endif %}
+                                                {% if shippingAddress.mobileNumber|length > 0 %}
+                                                    <p>{{ order.buyerEmail }}</p>
+                                                {% endif %}
+
+                                            </td>
+                                            <td>
+                                                {% if shippingAddress.fullAddress %}
+                                                    <p>{{ shippingAddress.fullAddress }}</p>
+                                                {% endif %}
+                                                <p>{{ order.paymentMethod.title }}</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <!-- Order information -->
+                        <tr>
+                            <td colspan="2" class="order-items">
+                                <table>
+                                    <tbody class="invoice-row">
+                                        {% for orderHasProductPrice in order.orderHasProductPrices %}
+                                            {% set productPrice = orderHasProductPrice.productPrice %}
+                                            {% set product = productPrice.product %}
+                                            <!-- Ordered items list -->
+                                            <tr>
+                                                <td class="order-item-desc">
+                                                    <p class="order-item-title">{{ product.title }} {% if productPrice.title %} <span>{{ productPrice.title }}</span>{% endif %}</p>
+                                                </td>
+                                                <td class="order-item-count">
+                                                    <p>{{ orderHasProductPrice.qty }}</p>
+                                                </td>
+                                                <td class="order-item-total text-bold">
+                                                    <p>{{ orderHasProductPrice.totalPrice|number_format(2) }} EGP</p>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+
+                                    <!-- Order totals -->
+                                    <tbody class="invoice-row order-total">
+                                        <tr>
+                                            <td colspan="2" class="order-item-count">
+                                                <p>Sub Total</p>
+                                            </td>
+                                            <td class="order-item-total">
+                                                <p>{{ order.subTotal|number_format(2) }} EGP</p>
+                                            </td>
+                                        </tr>
+                                        {% if order.discount > 0 %}
+                                            <tr>
+                                                <td colspan="2" class="order-item-count">
+                                                    <p>Discount</p>
+                                                </td>
+                                                <td class="order-item-total">
+                                                    <p>- {{ order.discount|number_format(2) }} EGP</p>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                        <tr>
+                                            <td colspan="2" class="order-item-count">
+                                                <p>Shipping</p>
+                                            </td>
+                                            <td class="order-item-total">
+                                                <p>{{ order.shippingCost|number_format(2) }} EGP</p>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2" class="order-item-count  text-bold">
+                                                <p>Total</p>
+                                            </td>
+                                            <td class="order-item-total  text-bold">
+                                                <p>{{ order.totalPrice|number_format(2) }} EGP</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <!-- Invoice footer -->
+        <tr>
+            <td class="footer">
+                <div>Thank you for shopping with us!</div>
+            </td>
+        </tr>
+    </tbody>
+</table>

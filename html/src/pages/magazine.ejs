@@ -1,0 +1,30 @@
+<%- include ../_components/main/header/header.ejs %>
+<%- include ../_components/main/body/body-header.ejs %>
+<link rel="stylesheet" href="/pages-assets/magazine/magazine.styles.css">
+
+<div class="ui-featured-readings-section">
+    <div class="l-featured-readings-container">
+        <div class="l-container l-container--phone-spacing">
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="ui-title-line-subtitle l-title-line-subtitle">Our</div>
+            <div class="l-title-line l-title-line--spacing-bottom">
+                <div class="ui-title-line-h-line"></div>
+                <div class="l-title-line-title ui-title-line-title">C-Reality Magazine</div>
+                <div class="ui-title-line-h-line"></div>
+            </div>
+            <br>
+            <br>
+            <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="blog" data-l-lazy-section-type="simple" data-l-lazy-section-url="/partials-magazine-page.html"></div>
+        </div>
+    </div>
+</div>
+
+
+<%- include ../_components/main/body/body-footer.ejs %>
+<link rel="stylesheet" href="/pages-assets/magazine/magazine.lazy.styles.css" fetchpriority="low">
+<script src="/pages-assets/magazine/magazine.js"></script>
+<script src="/pages-assets/magazine/magazine.lazy.js" fetchpriority="low"></script>
+<%- include ../_components/main/footer/footer.ejs %>

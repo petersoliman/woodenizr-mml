@@ -1,0 +1,108 @@
+<div class="wrapper-card">
+    <div class="wrapper-card-header">
+        <h6 class="wrapper-card-header-title">{{ "contact_information_txt"|trans }}</h6>
+        <div class="wrapper-card-header-action">
+            Already have an account?
+            <button type="button" class="btn" data-l-modal-btn="account">Log in</button>
+        </div>
+    </div>
+    <div class="wrapper-card-section-1">
+        <div class="form-input-box" data-form-validate-input-box="true">
+            <label class="stack-input stack-input-block" data-stack-input="true">
+                <span class="label" data-stack-input-label="true">{{ "email_address_txt"|trans }}</span>
+                <input type="text" class="input" data-stack-input-input="true" autocomplete="email" name="guest[email]"
+                       data-validate-input="email" data-form-validate-input-rules="required|email"
+                       placeholder="{{ "email_address_txt"|trans }}"
+                       {% if cart.cartGuestData %}value="{{ cart.cartGuestData.email }}"{% endif %}
+                />
+            </label>
+            <ul class="form-input-errors" data-validate-input-errors="email">
+            </ul>
+        </div>
+        {#<input class="l-form-checkbox ui-form-checkbox ui-form-checkbox--color-light ui-form-checkbox--rounded-lg"
+               type="checkbox" name="newsletter" id="newsletter" value="1">
+        <label class="l-form-checkbox-label l-form-checkbox-label--spacing-6 ui-form-checkbox-label ui-form-checkbox-label--lg"
+               for="newsletter">Email me with news and offers</label>#}
+    </div>
+    <div class="wrapper-card-header">
+        <h6 class="wrapper-card-header-title">{{ "shipping_address_txt"|trans }}</h6>
+    </div>
+    <div class="wrapper-card-section-2">
+        <div class="l-flex-row">
+            <div class="l-flex-col-xl-6">
+
+                <div class="form-input-box" data-form-validate-input-box="true">
+                    <label class="stack-input stack-input-block" data-stack-input="true">
+                        <span class="label" data-stack-input-label="true" >{{ "name_txt"|trans }}</span>
+                        <input type="text" class="input" data-stack-input-input="true" name="guest[name]"autocomplete="given-name"
+                               data-validate-input="name" data-form-validate-input-rules="required"
+                               placeholder="{{ "name_txt"|trans }}"
+                        {% if cart.cartGuestData %}value="{{ cart.cartGuestData.name }}"{% endif %}
+                        />
+                    </label>
+                    <ul class="form-input-errors" data-validate-input-errors="name">
+                    </ul>
+                </div>
+            </div>
+            <div class="l-flex-col-xl-6">
+                <div class="form-input-box" data-form-validate-input-box="true">
+                    <label class="stack-input stack-input-block" data-stack-input="true">
+                        <span class="label" data-stack-input-label="true">Mobile</span>
+                        <input type="text" class="input" data-stack-input-input="true" name="guest[mobile]" autocomplete="tel"
+                               data-validate-input="mobile" data-form-validate-input-rules="required|phone"
+                               placeholder="Mobile" {% if cart.cartGuestData %}value="{{ cart.cartGuestData.mobileNumber }}"{% endif %}/>
+                    </label>
+                    <ul class="form-input-errors" data-validate-input-errors="mobile">
+                    </ul>
+                </div>
+            </div>
+
+            <div class="l-flex-col-xl-8">
+                <div class="form-input-box" data-form-validate-input-box="true">
+                    <label class="stack-input stack-input-block" data-stack-input="true">
+                        <span class="label" data-stack-input-label="true">Address</span>
+                        <input type="text" class="input" data-stack-input-input="true" name="guest[address]"
+                               autocomplete="street-address" data-validate-input="address"
+                               data-form-validate-input-rules="required" placeholder="Address"
+                               {% if cart.cartGuestData %}value="{{ cart.cartGuestData.address }}"{% endif %}
+                        />
+                    </label>
+                    <ul class="form-input-errors" data-validate-input-errors="address">
+                    </ul>
+                </div>
+            </div>
+            <div class="l-flex-col-xl-4">
+                <div class="form-input-box" data-form-validate-input-box="true">
+                    <label class="stack-input stack-input-select stack-input-block" data-stack-input="true">
+                        <span class="label" data-stack-input-label="true">{{ "city_txt"|trans }}</span>
+                        <select class="input" data-stack-input-input="true" name="guest[zone]"
+                                autocomplete="address-level2" data-validate-input="governorate"
+                                data-form-validate-input-rules="required">
+                            <option value="" selected>{{ "city_txt"|trans }}</option>
+                            {% for zone in zones %}
+                                <option {{ cart.cartGuestData and cart.cartGuestData.zone and cart.cartGuestData.zone.id==zone.id ? "selected" }} value="{{ zone.id }}">{{ zone.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <ul class="form-input-errors" data-validate-input-errors="governorate">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {#<input class="l-form-checkbox ui-form-checkbox ui-form-checkbox--color-light ui-form-checkbox--rounded-lg"
+               type="checkbox" name="save_session" id="save_session" value="1">
+        <label class="l-form-checkbox-label l-form-checkbox-label--spacing-6 ui-form-checkbox-label ui-form-checkbox-label--lg"
+               for="save_session">Save this information for next time</label>#}
+    </div>
+    <div class="wrapper-card-section-3">
+        <a href="{{ path('fe_cart_show') }}" class="btn btn-icon-2 btn-plain">
+            <span class="icon">
+                <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.47074 15.1133L9.22656 13.3508L3.52325 7.61328L9.22656 1.87578L7.47074 0.113281L-0.000850975 7.61328L7.47074 15.1133Z"
+                          fill="#686868"/>
+                </svg>
+            </span>
+            <span class="text">{{ "return_to_cart_txt"|trans }}</span>
+        </a>
+    </div>
+</div>

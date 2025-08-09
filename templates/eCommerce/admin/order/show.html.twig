@@ -1,0 +1,484 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Order #{{ order.id }}{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('order_index') }}">Orders list</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+        <ul class="breadcrumb-elements">
+            <li>
+                <a href="{{ path('order_print', { 'ids': [order.id]}) }}" class="fn-print-html">
+                    <i class="icon-printer position-left"></i> Print
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    <!-- Detailed task -->
+    <div class="row">
+        <div class="col-lg-6">
+            <!-- Task details -->
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title"><i class="icon-files-empty position-left"></i> Order # {{ order.id }}
+                        details
+                    </h6>
+                </div>
+                {{ form_start(form) }}
+                <table class="table table-borderless table-xs content-group-sm">
+                    <tbody>
+                    {% if boughtTogether is not empty %}
+                        <tr>
+                            <td><i class="icons-list position-left"></i> Bought together:</td>
+                            <td class="text-right">
+                                <span class="pull-right">
+                                    {% for childId in boughtTogether %}
+                                        <a href="{{ path('order_show', {"id": childId }) }}">{{ childId }}</a>
+                                        {{ loop.last == false ? ", " : "" }}
+                                    {% endfor %}
+                                </span>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td><i class="icon-mail5 position-left"></i> Payment Method:</td>
+                        <td class="text-right"><span class="pull-right">{{ order.paymentMethod.title }}</span></td>
+                    </tr>
+                    {% if order.orderHasCoupon %}
+                        <tr>
+                            <td><i class="fa fa-tag position-left"></i> Coupon:</td>
+                            <td class="text-right"><span class="pull-right">{{ order.orderHasCoupon.code }}</span></td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td><i class="icon-cash position-left"></i> Sub Total:</td>
+                        <td class="text-right">
+                            <span class="pull-right">{{ order.subTotal|number_format(2) }} EGP</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-plus-circle2 position-left"></i> Extra fee:</td>
+                        <td class="text-right">
+                            <span class="pull-right">+ {{ order.extraFee|number_format(2) }} EGP</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-minus2 position-left"></i> Discount:</td>
+                        <td class="text-right">- {{ order.discount|number_format(2) }} EGP</td>
+                    </tr>
+
+                    <tr>
+                        <td><i class="icon-plus2 position-left"></i> Shipping Fees:</td>
+                        <td class="text-right">+ {{ order.shippingCost|number_format(2) }} EGP</td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-cash3 position-left"></i> Total:</td>
+                        <td class="text-right text-semibold">{{ order.totalPrice|number_format(2) }} EGP</td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-alarm-add position-left"></i> Created:</td>
+                        <td class="text-right">{{ order.created|date('M d, Y h:i A') }}</td>
+                    </tr>
+                    {% if payments is not empty %}
+                        <tr>
+                            <td><i class="icon-city position-left"></i> Bank Message:</td>
+                            <td class="text-right">
+                                {% for payment in payments %}
+                                    {% if payment.txnMessage is not empty %}
+                                        <span data-popup="tooltip" title="{{ payment.created|dateTimeFormat }}">
+                                        {{ payment.txnMessage }}
+                                            {{ loop.last == false ? "<br>" }}
+                                    </span>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td><i class="icon-file-check position-left"></i> Waybill Number:</td>
+                        <td class="text-right">
+                            {{ form_widget(form.waybillNumber) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-file-check position-left"></i> State:</td>
+                        <td class="text-right">
+                            <div class="pull-left">
+                                <span class="label"
+                                      style="background-color:{{ order.stateBEColor }}">{{ order.stateName }}</span>
+                            </div>
+                            <div class="pull-right">
+                                {{ form_widget(form.state) }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-cash2 position-left"></i> Payment State:</td>
+                        <td class="text-right">
+                            <div class="pull-left">
+                                <span class="label"
+                                      style="background-color:{{ order.paymentStateBEColor }}">{{ order.paymentStateName }}</span>
+                            </div>
+                            <div class="pull-right">
+                                {{ form_widget(form.paymentState) }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-truck position-left"></i> Shipping State:</td>
+                        <td class="text-right">
+                            <div class="pull-left">
+                                <span class="label"
+                                      style="background-color: {{ order.shippingStateBEColor }};">{{ order.shippingStateName }}</span>
+                            </div>
+                            <div class="pull-right">
+                                {{ form_widget(form.shippingState) }}
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="panel-footer no-padding">
+                    <button type="submit" class="btn btn-info btn-block no-border"><i class="icon-check"></i> Submit
+                    </button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+
+            <!-- /task details -->
+        </div>
+
+
+        <div class="col-lg-6">
+            {% if order.orderShippingAddress %}
+                {% set shippingAddress = order.orderShippingAddress %}
+
+                <div class="table-responsive panel the-box">
+                    <table class="table table-th-block table-primary">
+                        <thead>
+                        <tr>
+                            <th colspan="2">Shipping details</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if order.shippingTime %}
+                            <tr>
+                                <td class="col-md-5">Shipping Time :</td>
+                                <td>
+                                    {{ order.shippingTime.name }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if shippingAddress.title %}
+                            <tr>
+                                <td class="col-md-5">Title :</td>
+                                <td>
+                                    {{ shippingAddress.title }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if shippingAddress.fullAddress %}
+                            <tr>
+                                <td class="col-md-5">Address :</td>
+                                <td>
+                                    {{ shippingAddress.fullAddress(false) }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if shippingAddress.zone %}
+                            <tr>
+                                <td class="col-md-5">City :</td>
+                                <td>
+                                    {{ shippingAddress.zone.title }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if shippingAddress.mobileNumber|length > 0 %}
+                            <tr>
+                                <td class="col-md-5">Mobile Number:</td>
+                                <td>
+                                    {{ shippingAddress.mobileNumber }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
+            <!-- Task details -->
+            <div class="table-responsive panel the-box">
+                <table class="table table-th-block table-primary">
+                    <thead>
+                    <tr>
+                        <th colspan="2">Customer details</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if order.user %}
+                        <tr>
+                            <td><i class="icon-hash position-left"></i> Code:</td>
+                            <td class="text-right"><span class="pull-right">{{ order.user.id }}</span></td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td><i class="icon-user position-left"></i> Name:</td>
+                        <td class="text-right">
+                                <span class="pull-right">
+                                    {% if order.user %}
+                                        <a href="{{ path('user_show',{'id':order.user.id}) }}">{{ order.user.fullName }}</a>
+                                    {% elseif order.orderGuestData %}
+                                        {{ order.orderGuestData.name }} (Guest)
+                                    {% else %}
+                                        --
+                                    {% endif %}
+                                </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-mail5 position-left"></i> Email:</td>
+                        <td class="text-right"><span class="pull-right">{{ order.buyerEmail }}</span></td>
+                    </tr>
+                    {% if order.user %}
+                        <tr>
+                            <td><i class="icon-file-check position-left"></i> Status:</td>
+                            <td class="text-right">
+                                {% if order.user.enabled %}
+                                    <span class="status-mark position-left bg-success"></span> Activated
+                                {% else %}
+                                    <span class="status-mark position-left bg-danger"></span> Blocked
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td><i class=" position-left"></i> User Type:</td>
+                        <td class="text-right">
+                            <span class="pull-right">{% if order.user %}Registered user{% else %}Guest{% endif %}</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- /task details -->
+            </div>
+
+        </div>
+    </div>
+    <!-- /detailed task -->
+
+
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">Order Items: {{ order.orderHasProductPrices.count }}</h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Qty</th>
+                    <th>Unit Price</th>
+                    <th>Commission</th>
+                    <th>Sub Total</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for orderHasProductPrice in order.orderHasProductPrices %}
+                    {% set productPrice = orderHasProductPrice.productPrice %}
+                    {% set product = productPrice.product %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('product_edit', {'id': product.id}) }}">{{ product.id }}</a>
+                        </td>
+                        <td>
+                            {% if product.post.mainImage != null %}
+                                <img src="{{ asset(product.post.mainImage.assetPath) }}"
+                                     height="50" alt="{{ product.title }}"/>
+                            {% else %}
+                                --
+                            {% endif %}
+                        </td>
+                        <td>
+                            <h6 class="no-margin">
+                                {{ product.title }}
+                                {% if productPrice is not empty %}
+                                    <small class="display-block">{{ productPrice.title }}</small>
+                                {% endif %}
+                                <h6 class="no-margin">
+                                    Vendor: {{ product.vendor is not empty ? product.vendor.title : "N/A" }}</h6>
+                            </h6>
+                        </td>
+                        <td>{{ orderHasProductPrice.qty }}</td>
+                        <td>
+                            {{ orderHasProductPrice.unitPrice|number_format(2) }} EGP
+                        </td>
+                        <td>{{ (orderHasProductPrice.totalPrice - orderHasProductPrice.totalPriceBeforeCommission)|number_format(2) }}
+                            EGP
+                        </td>
+                        <td>{{ orderHasProductPrice.totalPrice|number_format(2) }} EGP</td>
+                        <td>
+                            <a href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}" target="_blank"
+                               class="btn btn-info mr-5" data-toggle="tooltip" title="Preview">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            {% if order.state in [constant('\\App\\ECommerceBundle\\Enum\\OrderStatusEnum::NEW'), constant('\\App\\ECommerceBundle\\Enum\\OrderStatusEnum::PROCESSING')] %}
+                                <a href="#"
+                                   data-replace-product="{{ path("order_product_price_replace", {"id":order.id, "productPrice":productPrice.id}) }}"
+                                   class="btn btn-warning mr-5" data-toggle="modal" data-target="#modal_replace_product"
+                                   title="Replace Product">
+                                    <i class="fa fa-refresh"></i>
+                                </a>
+                            {% endif %}
+                            <a href="#"
+                               data-delete="{{ path("order_product_price_delete", {"id":order.id, "productPrice":productPrice.id}) }}"
+                               class="btn btn-danger delete-btn" data-toggle="modal" data-target="#modal_delete"
+                               title="Delete">
+                                <i class="fa fa-minus"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-flat timeline-content" id="comments-section">
+        <div class="panel-heading">
+            <h6 class="panel-title">Comments({{ order.comments.count }})</h6>
+        </div>
+
+        <div class="panel-body">
+            <ul class="media-list stack-media-on-mobile">
+                {% for comment in order.comments %}
+                    <li class="media">
+                        <div class="media-body">
+                            <div class="media-heading">
+                                <a href="#" class="text-semibold">{{ comment.creator }}</a>
+                                <span class="media-annotation dotted">{{ comment.created|date('M d, Y h:i A') }}</span>
+                            </div>
+
+                            <p>{{ comment.text }}</p>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="media">
+                        <div class="media-body">
+                            <p class="text-danger">No comments found !!</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+        <hr class="no-margin">
+        <div class="panel-body">
+            {{ form_start(comment_form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'}}) }}
+            <h6 class="no-margin-top content-group">Add comment</h6>
+            <div class="content-group">
+                {{ form_widget(comment_form.text) }}
+            </div>
+            <div class="text-right">
+                <button type="submit" class="btn bg-blue"><i class="icon-plus22"></i> Add comment</button>
+            </div>
+            {{ form_end(comment_form) }}
+        </div>
+    </div>
+    {% if order.logs is not empty %}
+        <div class="timeline-row">
+
+            <div class="panel panel-flat timeline-content">
+                <div class="panel-heading">
+                    <h6 class="panel-title">Logs</h6>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-feed">
+                        {% for log in order.logs %}
+                            <li>
+                                <strong>{{ log.creator }}</strong> {{ log.text|raw }}
+                                <div class="text-muted">{{ log.created|dateTimeFormat }}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block modalCode %}
+    <div id="modal_replace_product" class="modal fade">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title">Replace Product</h6>
+                </div>
+
+                <form method="post" action="#">
+                    <div class="modal-body">
+                        <label for="replaceProductInput" class="control-label">Select New Product</label>
+                        <select name="productPriceId" id="replaceProductInput" class="form-control" required>
+                            <option value="">Select Product</option>
+
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn bg-success">Save</button>
+                        <button type="reset" class="btn btn-link" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock modalCode %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+
+    <script>
+        let productPriceUrl = '{{ path('product_price_select_ajax') }}';
+
+        $(document).ready(function () {
+            $('[data-replace-product]').on('click', function (e) {
+                e.preventDefault();
+                var url = $(this).data('replace-product');
+                $('#modal_replace_product').find('form').attr('action', url);
+            });
+            $("#replaceProductInput").select2({
+                minimumInputLength: 2,
+                language: {
+                    inputTooShort: function () {
+                        return "Please enter product name";
+                    }
+                },
+                ajax: {
+                    url: productPriceUrl,
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                            page: params.page,
+                        };
+                    }
+                }
+            });
+
+        });
+    </script>
+{% endblock javascripts %}

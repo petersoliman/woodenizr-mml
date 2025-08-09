@@ -1,0 +1,34 @@
+<%- include ../_components/main/header/header.ejs %>
+<%- include ../_components/main/body/body-header.ejs %>
+<link rel="stylesheet" href="/pages-assets/categories/categories.styles.css">
+
+
+<div class="wrapper-featured-section">
+    <div class="l-featured-section ui-featured-section--spacing-bottom-0 ui-featured-section lazyload" data-bg="/assets/img/featured-section-bg.webp" data-delay="5000">
+        <div class="l-featured-section-content">
+            <div class="l-container">
+                <div class="l-flex-row">
+                    <div class="l-flex-col-lg-12">
+                        <div class="l-featured-section-content-box">
+                            <br>
+                            <div class="l-page-title-box l-page-title-box--no-description">
+                                <h1 class="l-page-title ui-page-title">Categories</h1>
+                                <p class="l-page-desc ui-page-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="categories" data-l-lazy-section-type="simple" data-l-lazy-section-url="/partials-categories-page.html"></div>
+
+<%- include ../_components/main/body/body-footer.ejs %>
+<link rel="stylesheet" href="/pages-assets/categories/categories.lazy.styles.css" fetchpriority="low">
+<script src="/pages-assets/categories/categories.js"></script>
+<script src="/pages-assets/categories/categories.lazy.js" fetchpriority="low"></script>
+<%- include ../_components/main/footer/footer.ejs %>

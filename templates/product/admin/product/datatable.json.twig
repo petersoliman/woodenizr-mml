@@ -1,0 +1,22 @@
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for product in products %}
+        [
+            "<input type='checkbox' id='check-{{ product.id }}' value='{{ product.id }}' class='check-table-row'>",
+            "<span class='entityId' data-id='{{ product.id }}'></span>{{ product.id|pn_json_encode }}",
+            "{% if product.sku %}{{ product.sku|pn_json_encode }}{% else %}N/A{% endif %}",
+            "{{ product.title|pn_json_encode }}",
+            "{% if product.mainImage %}<div class='thumb' style='width: 58px; height: 58px;object-fit: cover;'><a href='{{ asset(product.mainImage.assetPath) }}' data-popup='lightbox'><img src='{{ asset(product.mainImage.assetPath)|webp(60) }}' alt='' style='width: 58px; height: 58px;'><span class='zoom-image'><i class='icon-plus2'></i></span></a></div>{% else %}--{% endif %}",
+            "{{ product.category.title|pn_json_encode }}",
+            "{% if product.storeAddress %}{{ product.storeAddress.vendor.title }}{% else %}--{% endif %}",
+            "{% if product.created %}{{ product.created|dateTimeFormat }}{% else %}--{% endif %}",
+            "{% if product.publish %}<span class='label label-success'>Yes</span>{% else %}<span class='label label-danger'>No</span>{% endif %}",
+            "{% if is_granted('ROLE_ADMIN') %}<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'>{% if is_granted('ROLE_ADMIN') %}<li><a href='{{ path('product_edit',{'id':product.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='{{ path('post_set_images', { 'id': product.post.id}) }}'><i class='icon-images3'></i> Image Gallery</a></li><li><a href='{{ path('product_clone', { 'id': product.id}) }}'><i class='icon-copy4'></i> Duplicate</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('product_delete',{'id':product.id}) }}'><i class='icon-bin'></i> Remove</a></li>{% elseif is_granted("ROLE_IMAGE_GALLERY") %}<li><a href='{{ path('post_set_images', { 'id': product.post.id }) }}'><i class='icon-images3'></i> Image gallery</a></li>{% endif %}</ul></li></ul>{% endif %}"
+{#            "{% if is_granted('ROLE_ADMIN') %}<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'>{% if is_granted('ROLE_ADMIN') %}<li><a href='{{ path('product_edit',{'id':product.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='{{ path('post_set_images', { 'id': product.post.id}) }}'><i class='icon-images3'></i> Image Gallery</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('product_delete',{'id':product.id}) }}'><i class='icon-bin'></i> Remove</a></li>{% elseif is_granted("ROLE_IMAGE_GALLERY") %}<li><a href='{{ path('post_set_images', { 'id': product.post.id }) }}'><i class='icon-images3'></i> Image gallery</a></li>{% endif %}</ul></li></ul>{% endif %}"#}
+        ]
+        {% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

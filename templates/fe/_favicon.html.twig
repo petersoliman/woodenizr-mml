@@ -1,0 +1,3 @@
+{% if getSiteSetting("website-favicon") is not empty %}
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="{{ asset(getSiteSetting("website-favicon")) }}"/>
+{% endif %}

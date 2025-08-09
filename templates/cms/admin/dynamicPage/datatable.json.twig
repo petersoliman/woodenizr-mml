@@ -1,0 +1,14 @@
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for dynamicPage in dynamicPages %}
+            [
+            "{{ dynamicPage.title }}",
+            "{% if dynamicPage.created %}{{ dynamicPage.created|dateTimeFormat }}{% else %}--{% endif %}",
+                "<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'>{% if is_granted('ROLE_ADMIN') %}<li><a href='{{ path('dynamic_page_edit',{'id':dynamicPage.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='{{ path('post_set_images', { 'id': dynamicPage.post.id }) }}'><i class='icon-images3'></i> Image gallery</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('dynamic_page_delete',{'id':dynamicPage.id}) }}'><i class='icon-bin'></i> Remove</a></li>{% elseif is_granted("ROLE_IMAGE_GALLERY") %}<li><a href='{{ path('post_set_images', { 'id': dynamicPage.post.id}) }}'><i class='icon-images3'></i> Image gallery</a></li>{% endif %}</ul></li></ul>"
+
+            ]{% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

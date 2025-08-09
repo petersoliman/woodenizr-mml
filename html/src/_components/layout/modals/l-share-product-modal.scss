@@ -1,0 +1,62 @@
+.l-share-product-modal {
+    max-width: 700px;
+    @include media-max($lg){
+        width: 90%;
+    }
+    &-close-btn {
+        display: flex;
+        justify-content: flex-end;
+    }
+    &-title {
+        margin: 0 0 32px;
+    }
+    &-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        @include media-max($lg){
+            justify-content: flex-start;
+        }
+    }
+    &-action {
+        display: inline-flex;
+        flex-direction: column;
+        &:not(:last-child) {
+            @include ltr{
+            margin-right: 42px;
+                @include media-max($lg){
+                    margin-right: 26px;
+                }
+            }
+            @include rtl{
+                margin-left: 42px;
+                @include media-max($lg){
+                    margin-left: 26px;
+                }
+            }
+        }
+        @include media-max($lg){
+            margin-bottom: 44px;
+        }
+    }
+    &-action-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 84px;
+        height: 84px;
+        margin-bottom: 9px;
+    }
+    &-action-title {
+        display: flex;
+        justify-content: center;
+    }
+    &-input-title {
+        display: flex;
+        justify-content: center;
+        margin: 50px 0 18px 0;
+    }
+    &-input {
+        height: 61px;
+    }
+}

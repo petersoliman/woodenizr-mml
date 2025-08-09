@@ -1,0 +1,4 @@
+cms_admin:
+  resource: "@CMSBundle/Controller/Administration"
+  type:     annotation
+  prefix:   /admin

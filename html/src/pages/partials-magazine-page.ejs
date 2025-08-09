@@ -1,0 +1,72 @@
+<div class="l-flex-row">
+    <% for(var i = 1; i < 15; i++) { %>
+        <div class="l-flex-col-xl-3 l-flex-col-lg-6 l-flex-col-md-6">
+            <a href="#" class="ui-reading-post-slide l-reading-post-slide l-reading-post-slide--spacing-bottom">
+                <div class="l-reading-post-slide-img-container">
+                    <picture>
+                        <!--[if IE 9]><video style="display: none;><![endif]-->
+                        <source data-srcset="//placehold.co/559x408/3e6f7<%= i %>/ffffff.webp?text=576" media="--small" />
+                        <source data-srcset="//placehold.co/540x394/3e6f7<%= i %>/ffffff.webp?text=768" media="--medium" />
+                        <source data-srcset="//placehold.co/350x255/3e6f7<%= i %>/ffffff.webp?text=992" media="--large" />
+                        <source data-srcset="//placehold.co/450x328/3e6f7<%= i %>/ffffff.webp?text=1400" media="--x-large" />
+                        <source data-srcset="//placehold.co/315x230/3e6f7<%= i %>/ffffff.webp?text=1600" media="--xx-large" />
+                        <!--[if IE 9]></video><![endif]-->
+                        <img
+                                class="l-responsive-img l-reading-post-slide-img ui-reading-post-slide-img lazyload"
+                                width="388"
+                                height="283"
+                                data-expand="-20"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                data-src="//placehold.co/388x283/<%= i %>03e3e/ffffff.webp"
+                                alt="Reading Post <%= i %>"
+                        />
+                    </picture>
+                </div>
+                <div class="ui-reading-post-slide-body l-reading-post-slide-body">
+                    <div class="ui-reading-post-slide-body-box">
+                        <h6 class="l-reading-post-slide-body-title ui-reading-post-slide-body-title">By Hany Ghobery</h6>
+                        <p class="l-reading-post-slide-body-body ui-reading-post-slide-body-body">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, blanditiis.</p>
+                    </div>
+                    <div class="ui-reading-post-slide-actions l-reading-post-slide-actions">
+                        Read More <%- include ../_components/icons/arrow-right.svg.ejs %>
+                    </div>
+                </div>
+            </a>
+        </div>
+    <% } %>
+</div>
+<div class="l-product-list-grid-pagination" data-l-product-list-grid-pagination="true">
+    <div class="l-pagination ui-pagination">
+        <a href="#" class="ui-pagination-item l-pagination-item disabled" aria-label="Perv" data-l-product-list-grid-pagination-item="true">
+            <svg width="15" height="12" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.1602 1.41L9.58016 6L14.1602 10.59L12.7502 12L6.75016 6L12.7502 0L14.1602 1.41Z" fill="#C4CDD5"/><path d="M8.16016 1.41L3.58016 6L8.16016 10.59L6.75016 12L0.750156 6L6.75016 0L8.16016 1.41Z" fill="#C4CDD5"/></svg>
+        </a>
+        <a href="#" class="ui-pagination-item l-pagination-item disabled" aria-label="Perv" data-l-product-list-grid-pagination-item="true">
+            <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.16016 1.41L3.58016 6L8.16016 10.59L6.75016 12L0.750156 6L6.75016 0L8.16016 1.41Z" fill="#C4CDD5" />
+            </svg>
+        </a>
+        <a href="#" class="ui-pagination-item l-pagination-item active" aria-label="Page 1" data-l-product-list-grid-pagination-item="true">
+            1
+        </a>
+        <a href="#" class="ui-pagination-item l-pagination-item" aria-label="Page 2" data-l-product-list-grid-pagination-item="true">
+            2
+        </a>
+        <a href="#" class="ui-pagination-item l-pagination-item" aria-label="Page 3" data-l-product-list-grid-pagination-item="true">
+            3
+        </a>
+        <a href="#" class="ui-pagination-item l-pagination-item" aria-label="Page 4" data-l-product-list-grid-pagination-item="true">
+            4
+        </a>
+        <a href="#" class="ui-pagination-item l-pagination-item" aria-label="Page 4" data-l-product-list-grid-pagination-item="true">
+            5
+        </a>
+        <a href="#" class="ui-pagination-item l-pagination-item" aria-label="Next" data-l-product-list-grid-pagination-item="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13.41" height="12" viewBox="0 0 13.41 12"><g transform="translate(14.16 12) rotate(180)"><path d="M14.16,1.41,9.58,6l4.58,4.59L12.75,12l-6-6,6-6Z" fill="#C4CDD5"/><path d="M8.16,1.41,3.58,6l4.58,4.59L6.75,12l-6-6,6-6Z" fill="#c4cdd5"/></g></svg>
+        </a>
+        <a href="#" class="ui-pagination-item l-pagination-item" aria-label="Next" data-l-product-list-grid-pagination-item="true">
+            <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.839844 1.41L5.41984 6L0.839844 10.59L2.24984 12L8.24984 6L2.24984 0L0.839844 1.41Z" fill="#C4CDD5" />
+            </svg>
+        </a>
+    </div>
+</div>

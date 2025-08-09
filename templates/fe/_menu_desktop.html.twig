@@ -1,0 +1,104 @@
+<nav class="m-header-navbar">
+    <div class="l-container">
+        <ul class="m-header-navbar-menu l-mega-dropdown-container">
+            <li class="m-header-navbar-menu-item">
+                <a href="{{ path('fe_home') }}"
+                   class="m-header-navbar-menu-item-link {{ cr in ["fe_home"] ? "active" }}">
+                    {{ "home_txt"|trans }}
+                </a>
+            </li>
+            {% if hasOnSale %}
+                <li class="m-header-navbar-menu-item">
+                    <a href="{{ path("fe_product_filter_sale") }}"
+                       class="m-header-navbar-menu-item-link {{ cr in ["fe_product_filter_sale"] ? "active" }}">
+                        {{ "on_sale_txt"|trans }}
+                    </a>
+                </li>
+            {% endif %}
+            {% if mainCategories|length > 0 %}
+                <li class="m-header-navbar-menu-item" data-l-mega-dropdown="true" data-header-mega-dropdown="true">
+                    <button type="button"
+                            class="m-header-navbar-menu-item-link dropdown ui-mega-dropdown-button l-mega-dropdown-button {{ cr in ['fe_category_index', 'fe_product_filter_category', 'fe_category_index'] ? "active" }}"
+                            data-l-mega-dropdown-button="true">
+                        {{ "categories_txt"|trans }}
+                    </button>
+                    <div class="m-header-navbar-megamenu-dropdown ui-mega-dropdown l-mega-dropdown lg"
+                         data-l-mega-dropdown-menu="true">
+                        <div class="m-header-navbar-megamenu-header">
+                            <h5 class="m-header-navbar-megamenu-title">{{ "categories_txt"|trans }}</h5>
+                            <a class="m-header-navbar-megamenu-action" href="{{ path('fe_category_index') }}">
+                                <span>{{ "view_all_txt"|trans }}</span>
+                                <span class="m-header-navbar-megamenu-action-icon">
+                                <svg width="5" height="8" viewBox="0 0 5 8" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0.207558 0.207048C-0.0691864 0.48311 -0.0691864 0.930988 0.207558 1.20738L3.2901 3.99988L0.207558 6.79239C-0.0691862 7.06878 -0.0691861 7.51633 0.207558 7.79271C0.484303 8.0691 0.932566 8.0691 1.20931 7.79271L4.79539 4.54432C4.94492 4.39481 5.01086 4.19567 4.99855 3.99987C5.01086 3.80441 4.94492 3.60493 4.79539 3.45543L1.20931 0.207035C0.932566 -0.0690136 0.484316 -0.0690146 0.207558 0.207048Z"
+                                          fill="#686868"/>
+                                </svg>
+                            </span>
+                            </a>
+                        </div>
+
+                        <div class="m-header-navbar-megamenu-row">
+
+                            {% for row in mainCategories|batch( mainCategories|length / 4) %}
+                                <div class="m-header-navbar-megamenu-col">
+                                    <ul class="m-header-navbar-megamenu">
+                                        {% for category in row %}
+                                            {% set categoryUrl = path('fe_category_index',{'slug':category.seo.slug}) %}
+                                            {% if category.concatIds is same as(category.id|trans) %} {# convert int to string to check #}
+                                                {% set categoryUrl = path('fe_product_filter_category',{'slug':category.seo.slug}) %}
+                                            {% endif %}
+                                            <li class="m-header-navbar-megamenu-item">
+                                                <a href="{{ categoryUrl }}" class="m-header-navbar-megamenu-item-link">
+                                                    {{ category.title }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </li>
+            {% endif %}
+            {% if constant("App\\BaseBundle\\SystemConfiguration::ENABLE_COLLECTION") %}
+                <li class="m-header-navbar-menu-item">
+                    <a href="{{ path('fe_collection_index') }}"
+                       class="m-header-navbar-menu-item-link {{ cr in ['fe_collection_index', "fe_product_filter_collection"] ? "active" }}">
+                        {{ "collections_txt"|trans }}
+                    </a>
+                </li>
+            {% endif %}
+
+            <li class="m-header-navbar-menu-item">
+                <a href="{{ path('fe_brand_index') }}"
+                   class="m-header-navbar-menu-item-link {{ cr in ['fe_brand_index', "fe_product_filter_brand"] ? "active" }}">
+                    {{ "brands_txt"|trans }}
+                </a>
+            </li>
+
+            {% if occasion is not empty %}
+                <li class="m-header-navbar-menu-item">
+                    <a href="{{ path('fe_product_filter_occasion', {"slug": occasion.seo.slug}) }}"
+                       class="m-header-navbar-menu-item-link {{ cr in ["fe_product_filter_occasion"] ? "active" }}">
+                        {{ occasion.title }}
+                    </a>
+                </li>
+            {% endif %}
+            {% include "custom/frontEnd/_menu_desktop.html.twig" %}
+{#            <li class="m-header-navbar-menu-item">#}
+{#                <a href="{{ path('fe_project_index') }}"#}
+{#                   class="m-header-navbar-menu-item-link {{ cr in ['fe_project_index', "fe_project_show"] ? "active" }}">#}
+{#                    Projects#}
+{#                </a>#}
+{#            </li>#}
+            <li class="m-header-navbar-menu-item">
+                <a href="{{ path('fe_blog_index') }}"
+                   class="m-header-navbar-menu-item-link {{ cr in ['fe_blog_index', "fe_blog_show"] ? "active" }}">
+                    {{ "blogs_txt"|trans }}
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

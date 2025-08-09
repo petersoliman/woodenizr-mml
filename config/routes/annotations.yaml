@@ -1,0 +1,63 @@
+pn_seo:
+  resource: "@PNSeoBundle/Resources/config/routing.yml"
+
+pn_locale:
+  resource: "@PNLocaleBundle/Resources/config/routing.yml"
+
+pn_media:
+  resource: "@PNMediaBundle/Resources/config/routing.yml"
+
+pn_content:
+  resource: "@PNContentBundle/Resources/config/routing.yml"
+
+user_bundle:
+  resource: "@UserBundle/Resources/config/routing.yaml"
+
+cms_bundle:
+  resource: "@CMSBundle/Resources/config/routing.yaml"
+
+custom_bundle:
+  resource: "@CustomBundle/Resources/config/routing.yaml"
+
+report_bundle:
+  resource: "@ReportBundle/Resources/config/routing.yaml"
+
+product_bundle:
+  resource: "@ProductBundle/Resources/config/routing.yaml"
+
+currency_bundle:
+  resource: "@CurrencyBundle/Resources/config/routing.yaml"
+
+online_payment_bundle:
+  resource: "@OnlinePaymentBundle/Resources/config/routing.yaml"
+
+e-commerce_bundle:
+  resource: "@ECommerceBundle/Resources/config/routing.yaml"
+
+shipping_bundle:
+  resource: "@ShippingBundle/Resources/config/routing.yaml"
+
+new_shipping_bundle:
+  resource: "@NewShippingBundle/Resources/config/routing.yaml"
+
+three_sixty_view_bundle:
+  resource: "@ThreeSixtyViewBundle/Resources/config/routing.yaml"
+
+vendor_bundle:
+  resource: "@VendorBundle/Resources/config/routing.yaml"
+
+cms_frontend:
+  resource: "@CMSBundle/Controller/FrontEnd/"
+  type: annotation
+  prefix: /{_locale}/
+  defaults: { _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'
+
+home:
+  resource: "@HomeBundle/Controller/"
+  type: annotation
+  prefix: /{_locale}/
+  defaults: { _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'

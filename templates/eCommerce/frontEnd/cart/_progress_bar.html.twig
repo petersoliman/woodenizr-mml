@@ -1,0 +1,38 @@
+<div class="wrapper-progress-steps">
+    <nav class="progress-steps">
+        <div class="step first {{ step == 1 ? "active" }} {{ step > 1 ? "completed" }}">
+            <a href="{{ step > 1 and step < 5 ? path('fe_cart_show') : "#" }}">
+                <div class="step-content">
+                    <span class="step-icon">1</span>
+                    <span class="step-text">{{ "shopping_cart_txt"|trans }}</span>
+                </div>
+            </a>
+        </div>
+        <div class="step {{ step == 2 ? "active" }} {{ step > 2 ? "completed" }}">
+            <a href="{{ step > 2 and step < 5 ? path('fe_cart_shipping_address') : "#" }}">
+                <div class="step-content">
+                    <span class="step-icon">2</span>
+                    <span class="step-line"></span>
+                    <span class="step-text">{{ "contact_information_txt"|trans }}</span>
+                </div>
+            </a>
+        </div>
+        <div class="step {{ step == 3 ? "active" }} {{ step > 3 ? "completed" }}">
+            <a href="{{ step > 3 and step < 5 ? path('fe_cart_payment_method') : "#" }}">
+                <div class="step-content">
+                    <span class="step-icon">3</span>
+                    <span class="step-line"></span>
+                    <span class="step-text">{{ "payment_method_txt"|trans }}</span>
+                </div>
+            </a>
+        </div>
+        <div class="step last {{ step == 4 ? "active" }} {{ step > 4 ? "completed" }}">
+            <div class="step-content">
+                <span class="step-icon">4</span>
+                <span class="step-line"></span>
+                <span class="step-text">{{ "order_summary_txt"|trans }}</span>
+            </div>
+        </div>
+    </nav>
+</div>
+{% include "/fe/_flash_messages.html.twig" %}

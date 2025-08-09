@@ -1,0 +1,39 @@
+.ui-featured-offers-section {
+    margin-bottom: 70px;
+    @include media-max($md) {
+        margin-bottom: 40px;
+    }
+    &-banner {
+        transition: 0.09s all ease-in-out;
+        transform-origin: center;
+        &:hover {
+            transform: scale(1.01);
+        }
+    }
+    &-banner-caption {
+        padding: 30px;
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 30px;
+        text-align: center;
+        color: #FFFFFF;
+        transition: 0.3s all ease-in-out;
+        box-shadow: 0 -150px 52px -36px rgba(0,0,0,0) inset;
+        &-title {
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 24px;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            text-shadow: 0 4px 3px rgba(0, 0, 0, 0.25);
+        }
+        .ui-featured-offers-section-banner-caption-hidden {
+            transition: 0.3s all ease-in-out;
+        }
+    }
+    &-banner:hover {
+        .ui-featured-offers-section-banner-caption {
+            box-shadow: 0 -150px 52px -36px rgba(0,0,0,0.2) inset;
+        }
+    }
+}

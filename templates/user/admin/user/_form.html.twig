@@ -1,0 +1,38 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+
+{{ form_start(form, {'attr':{"data-toggle":"validator", 'novalidate':'novalidate'}}) }}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(form.fullName) }}
+            {{ macros.input(form.email) }}
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label> {{ form_label(form.plainPassword.first) }} : </label>
+                    {{ form_widget(form.plainPassword.first,{'attr':{'class':'form-control'},'required':false}) }}
+                    <label id="with_icon-error" class="validation-error-label" for="with_icon">{{ form_errors(form.plainPassword.first) }}</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label> {{ form_label(form.plainPassword.second) }} : </label>
+                    {{ form_widget(form.plainPassword.second,{'attr':{'class':'form-control'},'required':false}) }}
+                    <label id="with_icon-error" class="validation-error-label" for="with_icon">{{ form_errors(form.plainPassword.second) }}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {{ macros.input(form.phone, 4) }}
+            {{ macros.input(form.gender, 4) }}
+            {{ macros.checkbox(form.enabled, 4) }}
+        </div>
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>
+{{ form_end(form) }}

@@ -1,0 +1,98 @@
+.l-dropdown {
+  position: relative;
+}
+
+.l-dropdown-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &::before {
+    content: '';
+    top: 14px;
+    width: 14px;
+    height: 9px;
+    position: absolute;
+    @include ltr {
+      right: 34px;
+    }
+    @include rtl {
+      left: 34px;
+    }
+  }
+
+  &--style-2 {
+    &::before {
+      content: '';
+      top: calc(50% - 5px);
+      @include ltr {
+        right: 17px;
+      }
+      @include rtl {
+        left: 17px;
+      }
+    }
+
+    &::after {
+      content: '';
+      top: 25%;
+      width: 1px;
+      height: 50%;
+      position: absolute;
+      @include ltr {
+        right: 44px;
+      }
+      @include rtl {
+        left: 44px;
+      }
+    }
+  }
+
+  &--block {
+    display: block;
+    width: 100%;
+  }
+
+  &--text-start {
+    @include ltr {
+      text-align: left;
+    }
+    @include rtl {
+      text-align: right;
+    }
+  }
+}
+
+.l-dropdown-menu {
+  display: none;
+  position: absolute;
+  min-width: 225px;
+  top: 100%;
+  z-index: 2;
+  overflow: auto;
+  max-height: 300px;
+  @include ltr {
+    right: 0;
+  }
+  @include rtl {
+    left: 0;
+  }
+
+  &.show {
+    display: block;
+    margin-top: 6px;
+  }
+
+  &--size-full-width {
+    width: 100%;
+  }
+}
+
+.l-dropdown-menu-item {
+  display: block;
+  min-width: 100%;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}

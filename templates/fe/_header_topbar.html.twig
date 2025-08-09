@@ -1,0 +1,79 @@
+{% set cr = app.request.attributes.get('_route') %}
+<div class="m-header-topbar">
+    <div class="l-container m-header-topbar-container">
+        <div class="m-header-phone-offsidebar-btn-wrapper">
+            <button class="m-header-phone-offsidebar-btn" aria-label="Navigation Menu" aria-labelledby="Navigation Menu" data-header-phone-offsidebar-btn="true">
+                <svg width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.5926 8.92331H0.851852C0.381628 8.92331 0 8.50977 0 8.00023C0 7.49069 0.381628 7.07715 0.851852 7.07715H19.5926C20.0628 7.07715 20.4444 7.49069 20.4444 8.00023C20.4444 8.50977 20.0628 8.92331 19.5926 8.92331Z" fill="white" />
+                    <path d="M19.5926 1.84616H0.851852C0.381628 1.84616 0 1.43262 0 0.923079C0 0.413538 0.381628 0 0.851852 0H19.5926C20.0628 0 20.4444 0.413538 20.4444 0.923079C20.4444 1.43262 20.0628 1.84616 19.5926 1.84616Z" fill="white" />
+                    <path d="M19.5926 16H0.851852C0.381628 16 0 15.5864 0 15.0769C0 14.5673 0.381628 14.1538 0.851852 14.1538H19.5926C20.0628 14.1538 20.4444 14.5673 20.4444 15.0769C20.4444 15.5864 20.0628 16 19.5926 16Z" fill="white" />
+                </svg>
+            </button>
+        </div>
+        <div class="m-header-topbar-logo">
+            <a class="m-header-topbar-logo-link" href="{{ path('fe_home') }}">
+{#                {% include 'fe/icons/logo.svg' %}#}
+                {{ getSiteSetting('website-logo')|raw }}
+            </a>
+        </div>
+
+        {% include "fe/_search_bar.html.twig" %}
+
+        <div class="m-header-topbar-icons">
+            {% if constant('App\\BaseBundle\\SystemConfiguration::ENABLE_ARABIC_LANG') %}
+            {% include "fe/_languages.html.twig" %}
+        {% endif %}
+            {% include "fe/_header_topbar_right.html.twig" %}
+
+            {# {% include "fe/_header_topbar_right_notification.html.twig" %} #}
+
+            <button type="button" class="m-header-topbar-icon" aria-label="{{ "cart_txt"|trans }}" aria-labelledby="{{ "cart_txt"|trans }}" data-header-cart-sidebar-btn="true">
+                <span class="m-header-topbar-icon-badge m-header-topbar-icon-badge--has-count" data-header-cart-sidebar-total="true" style="display: none"><span data-header-cart-sidebar-total-text="true"></span></span>
+                <svg width="22" height="29" viewBox="0 0 22 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.0689 0C9.53064 0 8.05538 0.61107 6.96767 1.69878C5.87996 2.78649 5.26889 4.26174 5.26889 5.8V6.76667H4.46656C3.65274 6.76581 2.86994 7.07887 2.28114 7.64066C1.69233 8.20246 1.34289 8.9697 1.30556 9.78267L0.541892 25.6843C0.522316 26.1119 0.589525 26.5391 0.73947 26.94C0.889415 27.3409 1.11899 27.7074 1.41435 28.0172C1.70972 28.327 2.06476 28.5738 2.45808 28.7427C2.85139 28.9116 3.27484 28.9991 3.70289 29H18.4349C18.8629 28.9991 19.2864 28.9116 19.6797 28.7427C20.073 28.5738 20.4281 28.327 20.7234 28.0172C21.0188 27.7074 21.2484 27.3409 21.3983 26.94C21.5483 26.5391 21.6155 26.1119 21.5959 25.6843L20.8322 9.78267C20.7949 8.9697 20.4455 8.20246 19.8566 7.64066C19.2678 7.07887 18.485 6.76581 17.6712 6.76667H16.8689V5.8C16.8689 4.26174 16.2578 2.78649 15.1701 1.69878C14.0824 0.61107 12.6071 0 11.0689 0V0ZM7.20223 5.8C7.20223 4.7745 7.6096 3.79099 8.33475 3.06585C9.05989 2.34071 10.0434 1.93333 11.0689 1.93333C12.0944 1.93333 13.0779 2.34071 13.803 3.06585C14.5282 3.79099 14.9356 4.7745 14.9356 5.8V6.76667H7.20223V5.8ZM18.8989 9.86967L19.6626 25.781C19.6686 25.9473 19.6419 26.1131 19.5838 26.269C19.5258 26.4249 19.4375 26.5679 19.3242 26.6897C19.2085 26.8085 19.0703 26.903 18.9175 26.9678C18.7648 27.0325 18.6008 27.0661 18.4349 27.0667H3.70289C3.53703 27.0661 3.37295 27.0325 3.22024 26.9678C3.06753 26.903 2.92927 26.8085 2.81356 26.6897C2.70024 26.5679 2.61203 26.4249 2.55398 26.269C2.49593 26.1131 2.46917 25.9473 2.47523 25.781L3.23889 9.86967C3.25381 9.55423 3.38971 9.25667 3.61835 9.03883C3.84698 8.821 4.15077 8.69965 4.46656 8.7H17.6712C17.987 8.69965 18.2908 8.821 18.5194 9.03883C18.7481 9.25667 18.884 9.55423 18.8989 9.86967V9.86967Z" fill="white" />
+                    <path d="M6.58337 11.7834C7.11724 11.7834 7.55003 11.3506 7.55003 10.8168C7.55003 10.2829 7.11724 9.8501 6.58337 9.8501C6.04949 9.8501 5.6167 10.2829 5.6167 10.8168C5.6167 11.3506 6.04949 11.7834 6.58337 11.7834Z" fill="white" />
+                    <path d="M15.5541 11.7834C16.0879 11.7834 16.5207 11.3506 16.5207 10.8168C16.5207 10.2829 16.0879 9.8501 15.5541 9.8501C15.0202 9.8501 14.5874 10.2829 14.5874 10.8168C14.5874 11.3506 15.0202 11.7834 15.5541 11.7834Z" fill="white" />
+                </svg>
+            </button>
+            <div class="m-header-cart-sidebar" data-header-cart-sidebar="true">
+                <div class="m-header-cart-sidebar-box">
+                    <button class="m-header-cart-sidebar-close-btn" type="button" data-header-cart-sidebar-btn="true">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.63579 17.0487C1.21272 17.0733 0.796649 16.9326 0.475309 16.6564C-0.158436 16.0189 -0.158436 14.9893 0.475309 14.3517L14.3522 0.474749C15.0114 -0.142041 16.0457 -0.107754 16.6625 0.551397C17.2202 1.14746 17.2528 2.06363 16.7386 2.6977L2.77991 16.6564C2.46272 16.9286 2.05332 17.069 1.63579 17.0487Z" fill="#646464" />
+                            <path d="M15.4963 17.0487C15.0676 17.0469 14.6566 16.8767 14.3522 16.5747L0.475178 2.6977C-0.111953 2.01206 -0.0321297 0.980222 0.653503 0.393036C1.26545 -0.131012 2.16795 -0.131012 2.77984 0.393036L16.7385 14.27C17.3975 14.887 17.4316 15.9213 16.8146 16.5803C16.7901 16.6066 16.7647 16.6319 16.7385 16.6564C16.3967 16.9537 15.9469 17.0957 15.4963 17.0487Z" fill="#646464" />
+                        </svg>
+                    </button>
+                    <div class="m-header-cart-sidebar-header">
+                        <svg width="19" height="25" viewBox="0 0 19 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.07786 0C7.75178 0 6.48001 0.526784 5.54233 1.46447C4.60464 2.40215 4.07786 3.67392 4.07786 5V5.83333H3.38619C2.68462 5.83259 2.0098 6.10247 1.50221 6.58678C0.994618 7.07108 0.693375 7.7325 0.661193 8.43333L0.00286012 22.1417C-0.0140161 22.5103 0.0439234 22.8785 0.173186 23.2241C0.302449 23.5698 0.500357 23.8857 0.754983 24.1527C1.00961 24.4198 1.31568 24.6326 1.65475 24.7782C1.99381 24.9238 2.35885 24.9993 2.72786 25H15.4279C15.7969 24.9993 16.1619 24.9238 16.501 24.7782C16.84 24.6326 17.1461 24.4198 17.4007 24.1527C17.6554 23.8857 17.8533 23.5698 17.9825 23.2241C18.1118 22.8785 18.1697 22.5103 18.1529 22.1417L17.4945 8.43333C17.4623 7.7325 17.1611 7.07108 16.6535 6.58678C16.1459 6.10247 15.4711 5.83259 14.7695 5.83333H14.0779V5C14.0779 3.67392 13.5511 2.40215 12.6134 1.46447C11.6757 0.526784 10.4039 0 9.07786 0ZM5.74453 5C5.74453 4.11594 6.09572 3.2681 6.72084 2.64298C7.34596 2.01786 8.1938 1.66667 9.07786 1.66667C9.96192 1.66667 10.8098 2.01786 11.4349 2.64298C12.06 3.2681 12.4112 4.11594 12.4112 5V5.83333H5.74453V5ZM15.8279 8.50833L16.4862 22.225C16.4914 22.3683 16.4683 22.5113 16.4183 22.6457C16.3683 22.7801 16.2922 22.9033 16.1945 23.0083C16.0948 23.1108 15.9756 23.1923 15.8439 23.2481C15.7123 23.3039 15.5708 23.3329 15.4279 23.3333H2.72786C2.58488 23.3329 2.44342 23.3039 2.31178 23.2481C2.18014 23.1923 2.06095 23.1108 1.96119 23.0083C1.8635 22.9033 1.78746 22.7801 1.73742 22.6457C1.68737 22.5113 1.6643 22.3683 1.66953 22.225L2.32786 8.50833C2.34072 8.2364 2.45788 7.97988 2.65498 7.7921C2.85207 7.60431 3.11396 7.4997 3.38619 7.5H14.7695C15.0418 7.4997 15.3036 7.60431 15.5007 7.7921C15.6978 7.97988 15.815 8.2364 15.8279 8.50833Z" fill="#5E5E5E" />
+                            <path d="M5.21102 10.1584C5.67126 10.1584 6.04435 9.78527 6.04435 9.32503C6.04435 8.8648 5.67126 8.4917 5.21102 8.4917C4.75078 8.4917 4.37769 8.8648 4.37769 9.32503C4.37769 9.78527 4.75078 10.1584 5.21102 10.1584Z" fill="#5E5E5E" />
+                            <path d="M12.9444 10.1584C13.4047 10.1584 13.7778 9.78527 13.7778 9.32503C13.7778 8.8648 13.4047 8.4917 12.9444 8.4917C12.4842 8.4917 12.1111 8.8648 12.1111 9.32503C12.1111 9.78527 12.4842 10.1584 12.9444 10.1584Z" fill="#5E5E5E" />
+                        </svg>
+                        <h3 class="m-header-cart-sidebar-title">
+                            {{ "cart_txt"|trans }}
+                            <span data-header-cart-sidebar-total="true" style="display: none;">(<span data-header-cart-sidebar-total-text="true"></span>)</span>
+                        </h3>
+                    </div>
+                    <div class="m-header-cart-sidebar-items" data-header-cart-sidebar-items="true" style="display: none;"></div>
+                    <div class="m-header-cart-sidebar-items" data-header-cart-sidebar-items-empty="true">
+                        {{ "cart_empty_msg"|trans }}
+                    </div>
+                    <div class="m-header-cart-sidebar-footer">
+                        <div class="m-header-cart-sidebar-footer-total" data-header-cart-sidebar-footer-total="true" style="display: none;">
+                            <span>{{ "cart_total_txt"|trans }}</span>
+                            <span class="m-header-cart-sidebar-footer-total-price" data-header-cart-sidebar-footer-total-price="true"></span>
+                        </div>
+                        <div class="m-header-cart-sidebar-footer-actions">
+                            <button type="button" class="m-header-cart-sidebar-footer-action m-header-cart-sidebar-footer-action--lg" data-header-cart-sidebar-btn="true">
+                                {{ "continue_shopping_txt"|trans }}
+                            </button>
+                            <a href="{{ path("fe_cart_show") }}" class="m-header-cart-sidebar-footer-action m-header-cart-sidebar-footer-action--color-green" style="display: none;" data-header-cart-sidebar-footer-action-checkout="true">
+                                {{ "checkout_txt"|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

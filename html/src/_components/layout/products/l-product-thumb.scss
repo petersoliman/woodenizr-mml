@@ -1,0 +1,12 @@
+.l-product-thumb {
+    overflow: hidden;
+    width: 61px;
+    height: 61px;
+}
+
+.l-product-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 17px 15px;
+    margin-bottom: 40px;
+}

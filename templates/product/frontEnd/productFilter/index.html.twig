@@ -1,0 +1,76 @@
+{% extends 'fe/base.html.twig' %}
+{% set seo = seoPage.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+{% import 'fe/macros.html.twig' as macros %}
+
+{% block criticalCSS %}
+    {% include "product/frontEnd/productFilter/_critical_css.css.twig" %}
+{% endblock %}
+
+{% block metaTag -%}
+    {{ parent() }}
+
+    {% set canonicalUrl = null %}
+    {% set cr = app.request.attributes.get('_route') %}
+    {% if cr == "fe_product_filter_search" %}
+        {% set canonicalUrl = url("fe_product_filter_search", {'page':1, "_locale": "en"}) %}
+    {% elseif cr == "fe_product_filter_sale" %}
+        {% set canonicalUrl = url("fe_product_filter_sale", {'page':1, "_locale": "en"}) %}
+    {% elseif cr == "fe_product_filter_category" and slugObject.entity is instanceof("\\PN\\Bundle\\ProductBundle\\Entity\\Category")  %}
+        {% set canonicalUrl = url("fe_product_filter_category", {"slug": slugObject.entity.seo.slug, 'page':1, "_locale": "en"}) %}
+    {% elseif cr == "fe_product_filter_seller" and slugObject.entity is instanceof("\\PN\\Bundle\\UserBundle\\Entity\\Seller")  %}
+        {% set canonicalUrl = url("fe_product_filter_seller", {"slug": slugObject.entity.seo.slug, 'page':1, "_locale": "en"}) %}
+    {% endif %}
+
+    {% if canonicalUrl != null %}
+        <link rel="canonical" href="{{ canonicalUrl }}" />
+    {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/product-list/product-list.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+    {% include "product/frontEnd/productFilter/_header.html.twig" %}
+
+    <div class="l-container">
+        <div class="l-product-list-grid" data-l-product-list-grid="true" data-l-product-list-grid-url="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'page':1})) }}">
+            <div class="l-product-list-grid-col-filters">
+                <div class="l-backdrop ui-backdrop show backdrop"></div>
+                {% include "product/frontEnd/productFilter/_filter.html.twig" %}
+                <!--<div class="ui-filters-box l-filters-box-ad"></div>-->
+            </div>
+            <div class="l-product-list-grid-col-products {{ loadContentAjax ? "loading" }}" data-l-product-list-grid-products-container="true">
+                <div class="l-product-list-grid-col-products-header">
+                    <div class="l-flex-row">
+                        <div class="l-flex-col-lg-12">
+                            {% include "fe/_breadcrumb.html.twig" %}
+                        </div>
+                        <div class="l-flex-col-lg-6 l-product-list-grid-col-products-header-results-count">
+                            <span class="ui-products-list-results-count-box">
+                                <strong data-l-product-list-grid-total="true">{{ headerData.numberOfProducts|number_format }}</strong> {{ "results_txt"|trans }}
+                            </span>
+                        </div>
+                        {% include "product/frontEnd/productFilter/_sort_by.html.twig" %}
+                    </div>
+                </div>
+
+                {% include "product/frontEnd/productFilter/_product_list.html.twig" %}
+
+                <div class="l-product-list-grid-pagination" data-l-product-list-grid-pagination="true">
+                    {% include "fe/_pagination.html.twig" %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/product-list/product-list.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/product-list/product-list.js')) }}
+    {{ macros.assetJS(asset('pages-assets/product-list/product-list.lazy.js'), true) }}
+{% endblock %}

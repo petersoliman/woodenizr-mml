@@ -1,0 +1,267 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}New Product Bulk Generate Job{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('product_bulk_generate_index') }}">Product Bulk Generate</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body -%}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">{{ page_title }}</h5>
+            <div class="heading-elements">
+                <a href="{{ path('product_bulk_generate_index') }}" class="btn btn-sm btn-default">
+                    <i class="icon-arrow-left5 position-left"></i> Back to List
+                </a>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            {{ form_start(form, {'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'}}) }}
+                
+                <div class="form-group">
+                    {{ form_label(form.generatedFor, null, {'label_attr': {'class': 'col-lg-2 control-label required'}}) }}
+                    <div class="col-lg-10">
+                        {{ form_widget(form.generatedFor) }}
+                        {{ form_errors(form.generatedFor) }}
+                        <span class="help-block">{{ form_help(form.generatedFor) }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.startDate, null, {'label_attr': {'class': 'col-lg-2 control-label required'}}) }}
+                    <div class="col-lg-10">
+                        {{ form_widget(form.startDate) }}
+                        {{ form_errors(form.startDate) }}
+                        <span class="help-block">{{ form_help(form.startDate) }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.endDate, null, {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+                    <div class="col-lg-10">
+                        {{ form_widget(form.endDate) }}
+                        {{ form_errors(form.endDate) }}
+                        <span class="help-block">{{ form_help(form.endDate) }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.admin, null, {'label_attr': {'class': 'col-lg-2 control-label required'}}) }}
+                    <div class="col-lg-10">
+                        {{ form_widget(form.admin) }}
+                        {{ form_errors(form.admin) }}
+                        <span class="help-block">{{ form_help(form.admin) }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.totalRecommendations, null, {'label_attr': {'class': 'col-lg-2 control-label required'}}) }}
+                    <div class="col-lg-10">
+                        {{ form_widget(form.totalRecommendations) }}
+                        {{ form_errors(form.totalRecommendations) }}
+                        <span class="help-block">{{ form_help(form.totalRecommendations) }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.status, null, {'label_attr': {'class': 'col-lg-2 control-label required'}}) }}
+                    <div class="col-lg-10">
+                        {{ form_widget(form.status) }}
+                        {{ form_errors(form.status) }}
+                        <span class="help-block">{{ form_help(form.status) }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.processedCount, null, {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+                    <div class="col-lg-10">
+                        {{ form_widget(form.processedCount) }}
+                        {{ form_errors(form.processedCount) }}
+                        <span class="help-block">{{ form_help(form.processedCount) }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.errorCount, null, {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+                    <div class="col-lg-10">
+                        {{ form_widget(form.errorCount) }}
+                        {{ form_errors(form.errorCount) }}
+                        <span class="help-block">{{ form_help(form.errorCount) }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.adminNote, null, {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+                    <div class="col-lg-10">
+                        {{ form_widget(form.adminNote) }}
+                        {{ form_errors(form.adminNote) }}
+                        <span class="help-block">{{ form_help(form.adminNote) }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="icon-checkmark3 position-left"></i> Create Job
+                        </button>
+                        <a href="{{ path('product_bulk_generate_index') }}" class="btn btn-default">
+                            <i class="icon-cross2 position-left"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    {# Information Panel #}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Bulk Generation Types</h6>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-body border-left-info">
+                        <div class="media">
+                            <div class="media-left">
+                                <i class="icon-search4 icon-2x text-info"></i>
+                            </div>
+                            <div class="media-body">
+                                <h6 class="media-heading text-semibold">SEO</h6>
+                                <span class="text-muted">Generate SEO metadata, meta descriptions, keywords, and optimization recommendations for products.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-body border-left-success">
+                        <div class="media">
+                            <div class="media-left">
+                                <i class="icon-price-tag2 icon-2x text-success"></i>
+                            </div>
+                            <div class="media-body">
+                                <h6 class="media-heading text-semibold">Prices</h6>
+                                <span class="text-muted">Generate pricing recommendations, promotional prices, and competitive pricing analysis.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-body border-left-primary">
+                        <div class="media">
+                            <div class="media-left">
+                                <i class="icon-cog icon-2x text-primary"></i>
+                            </div>
+                            <div class="media-body">
+                                <h6 class="media-heading text-semibold">General</h6>
+                                <span class="text-muted">Generate general product information, descriptions, specifications, and related content.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.date.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.time.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+
+    <script>
+        $(function() {
+            // Initialize Select2
+            $('.select2').select2({
+                placeholder: function() {
+                    return $(this).data('placeholder');
+                },
+                allowClear: true
+            });
+
+            // Initialize datetime pickers
+            $('.datetimepicker').pickadate({
+                format: 'yyyy-mm-dd',
+                formatSubmit: 'yyyy-mm-dd'
+            });
+
+            // Form validation
+            $('form').validate({
+                rules: {
+                    'product_bulk_generate[generatedFor]': {
+                        required: true
+                    },
+                    'product_bulk_generate[startDate]': {
+                        required: true
+                    },
+                    'product_bulk_generate[admin]': {
+                        required: true
+                    },
+                    'product_bulk_generate[totalRecommendations]': {
+                        required: true,
+                        min: 1
+                    },
+                    'product_bulk_generate[status]': {
+                        required: true
+                    }
+                },
+                messages: {
+                    'product_bulk_generate[generatedFor]': {
+                        required: "Please select a generation type"
+                    },
+                    'product_bulk_generate[startDate]': {
+                        required: "Please select a start date"
+                    },
+                    'product_bulk_generate[admin]': {
+                        required: "Please select an admin user"
+                    },
+                    'product_bulk_generate[totalRecommendations]': {
+                        required: "Please enter the total recommendations",
+                        min: "Total recommendations must be at least 1"
+                    },
+                    'product_bulk_generate[status]': {
+                        required: "Please select a status"
+                    }
+                }
+            });
+
+            // Show/hide end date based on status
+            $('#product_bulk_generate_status').change(function() {
+                var status = $(this).val();
+                var $endDateGroup = $('#product_bulk_generate_endDate').closest('.form-group');
+                
+                if (status === 'completed' || status === 'failed') {
+                    $endDateGroup.show();
+                    if (!$('#product_bulk_generate_endDate').val()) {
+                        // Set current datetime as default end date
+                        var now = new Date();
+                        var dateStr = now.getFullYear() + '-' + 
+                                     String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                                     String(now.getDate()).padStart(2, '0');
+                        $('#product_bulk_generate_endDate').val(dateStr);
+                    }
+                } else {
+                    $endDateGroup.hide();
+                    $('#product_bulk_generate_endDate').val('');
+                }
+            }).trigger('change');
+        });
+    </script>
+{% endblock %}
+
+
+
+

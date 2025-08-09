@@ -1,0 +1,111 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ "forgot_password_question_txt"|trans }}{% endblock %}
+{% import 'fe/macros.html.twig' as macros %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/forgot-password/forgot-password.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+    {% include "fe/_pages_header.html.twig" with {"pageTitle": "forgot_password_question_txt"|trans } %}
+
+    <div class="l-container sign-form">
+        <br>
+        <br>
+        <div class="l-flex-row">
+            <div class="l-flex-col-xl-5">
+                <div>
+                    <div data-l-product-list-grid-products-container="true">
+                        <div class="l-product-list-grid-col-products-header">
+                            <div class="l-flex-row">
+                                <div class="l-flex-col-lg-6">
+                                    {% include "fe/_breadcrumb.html.twig" %}
+                                </div>
+                                <div class="l-flex-col-lg-6">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        {{ form_start(form, {"attr": {"data-form-validate": "true", "data-sign-form":"true"}}) }}
+                        <div class="l-flex-row">
+                            <div class="l-flex-col-xl-8">
+                                <h1 class="title">{{ "forgot_password_question_txt"|trans }}</h1>
+                                <p class="subtitle">
+                                    {{ "forgot_password_description_txt"|trans }}
+                                </p>
+                            </div>
+                            <div class="l-flex-col-xl-4">
+                            </div>
+                            <div class="l-flex-col-xl-12">
+                                <div class="form-input-box" data-form-validate-input-box="true">
+                                    <label class="stack-input stack-input-icon stack-input-block"
+                                           data-stack-input="true">
+                                        <div class="stack-input stack-input-inner stack-input-block">
+                                            <span class="label" data-stack-input-label="true">
+                                                {{ form.email.vars.label|trans }}
+                                            </span>
+
+                                            {{ form_widget(form.email) }}
+                                            {# <input
+                                                    type="email"
+                                                    class="input"
+                                                    data-stack-input-input="true"
+                                                    name="email"
+                                                    autocomplete="email"
+                                                    data-validate-input="email"
+                                                    data-form-validate-input-rules="required|email"
+                                                    placeholder="Email"
+                                            /> #}
+                                        </div>
+                                        <div class="stack-input-prefix">
+                                            <svg width="25" height="18" viewBox="0 0 25 18" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M22.8027 0H2.19727C0.988184 0 0 0.983838 0 2.19727V15.3809C0 16.5947 0.988818 17.5781 2.19727 17.5781H22.8027C24.0118 17.5781 25 16.5943 25 15.3809V2.19727C25 0.983545 24.0113 0 22.8027 0ZM22.4653 1.46484C21.7549 2.17759 13.4104 10.5493 13.0676 10.8933C12.7812 11.1805 12.2189 11.1807 11.9324 10.8933L2.53467 1.46484H22.4653ZM1.46484 15.1116V2.46655L7.76685 8.78906L1.46484 15.1116ZM2.53467 16.1133L8.80098 9.82656L10.895 11.9274C11.7531 12.7883 13.2473 12.7879 14.1051 11.9274L16.1991 9.82661L22.4653 16.1133H2.53467ZM23.5352 15.1116L17.2332 8.78906L23.5352 2.46655V15.1116Z"
+                                                      fill="#929292"/>
+                                            </svg>
+                                        </div>
+                                    </label>
+                                    <ul class="form-input-errors" data-validate-input-errors="email">
+                                        {{ form_errors(form.email) }}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="l-flex-col-xl-12">
+                                <br>
+                                <br>
+                                <div class="buttons">
+                                    <button class="btn btn-primary btn-lg btn-block" disabled type="submit">
+                                        {{ "send_me_txt"|trans }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <div class="l-flex-col-xl-1"></div>
+            <div class="l-flex-col-xl-6">
+                {% set image = getDCA(9, false) %}
+                {% if image is empty %}
+                    {% set image = asset('assets/img/sign-img-2.webp') %}
+                {% endif %}
+                {{ editDCA(9) }}
+                <img class="aside-img" src="{{ image }}" alt="{{ "forgot_password_question_txt"|trans }}"/>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/forgot-password/forgot-password.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/forgot-password/forgot-password.js')) }}
+    {{ macros.assetJS(asset('pages-assets/forgot-password/forgot-password.lazy.js'), true) }}
+{% endblock %}

@@ -1,0 +1,9 @@
+{#{% extends 'frontEndTemplate/base.html.twig' %}
+{% set seo = homePage.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+{% block content %}
+     {% if seo.metaDescription|trim|length > 0 %}
+            {{ seo.metaDescription|trim }}
+        {% endif %}
+    {{ dump(seo.seoSocials) }}
+{% endblock %}#}

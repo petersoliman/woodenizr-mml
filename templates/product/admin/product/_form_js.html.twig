@@ -1,0 +1,294 @@
+{% include '@PNSeo/Administration/Seo/seo.js.html.twig' with {'entity':product} %}
+
+<script type="text/javascript" src="{{ asset('admin/js/ckeditor/ckeditor.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/uniform.min.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.date.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/bootbox.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/sweet_alert.min.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('admin/js/core/libraries/jquery_ui/core.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/fancytree/jquery.fancytree.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/media/fancybox.min.js') }}"></script>
+
+<script>
+    let vendorUrl = '{{ path('vendor_select2_ajax') }}';
+    let relatedProductUrl = '{{ path('related_product_select_ajax') }}';
+    let brandUrl = '{{ path('brand_select_ajax') }}';
+    let getSpecsUrl = '{{ path('product_specs_form_ajax') }}';
+    let productId = {{ product.id is not null ? ('"' ~ product.id ~ '"')|raw : "null" }};
+    let specsAjaxRequest = null;
+    $(document).ready(function () {
+        $('[data-popup="lightbox"]').fancybox({
+            padding: 3
+        });
+        $("button[name*='action-btn']").click(function () {
+            if ($(this).closest('form').valid()) {
+                $(this).closest('form').append(
+                    $("<input/>", {type: "hidden", name: "action", value: $(this).val()})
+                );
+                $(this).closest('form')[0].submit();
+            }
+        });
+
+        $('[name*="[relatedProducts]"]').select2({
+            minimumInputLength: 2,
+            language: {
+                inputTooShort: function () {
+                    return "Please enter product name";
+                }
+            },
+            ajax: {
+                url: relatedProductUrl,
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page,
+                        notId: productId
+                    };
+                }
+            }
+        });
+
+        $('[name*="[brand]"]').select2({
+            minimumInputLength: 2,
+            language: {
+                inputTooShort: function () {
+                    return "Please enter product name";
+                }
+            },
+            ajax: {
+                url: brandUrl,
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page,
+                        notId: productId
+                    };
+                }
+            }
+        });
+        $('select[name*="[vendor]"]').select2({
+            minimumInputLength: 2,
+            language: {
+                inputTooShort: function () {
+                    return "Please enter vendor name";
+                }
+            },
+            ajax: {
+                url: vendorUrl,
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page
+                    };
+                }
+            }
+        }).on('select2:select', function (e) {
+            let data = e.params.data;
+            let currencySymbol = data.currency.symbol;
+            $(".currency-symbol").text(currencySymbol);
+        });
+
+        $('select[name*="[vendor]"]').change(function () {
+            let storeAddress = $('select[name*="[storeAddress]"]');
+            storeAddress.val('').trigger('change');
+            storeAddress.empty();
+            var $this = $(this);
+            var vendorId = $this.find("option:selected").val();
+            console.log(vendorId);
+            if (vendorId > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: '{{ path('vendor_store_address_select_ajax') }}',
+                    data: {'vendorId': vendorId},
+                    success: function (json) {
+                        json.results.forEach(function (node) {
+                            var newOption = new Option(node.text, node.id, false, false);
+                            storeAddress.append(newOption);
+                        });
+                        storeAddress.trigger('change');
+                    }
+                });
+            }
+        });
+        {% if form.category.vars.block_prefixes.1 == "hidden" %}
+        $('#myFancyTreeID').fancytree({
+            checkbox: true,
+            debugLevel: 0,
+            selectMode: 1,
+            click: function (event, data) {
+                if (typeof data.node.data.id != "undefined") {
+                    data.node.setSelected(true);
+                    return false;
+
+                }
+            },
+            select: function (event, data) {
+                // Display list of selected nodes
+                if (typeof data.node.data.id != "undefined") {
+                    changeCategory(data.node.data.id, data.node.title);
+                }
+            },
+            source: {
+                url: "{{ path('product_category_fancy_tree', {"id":product.id}) }}"
+            }
+        });
+        {% endif %}
+        $("select[name*='[currency]']").change(function () {
+            let symbol = $(this).find("option:selected").data("symbol");
+            $("[data-l-product-curency]").text(symbol);
+        });
+
+        $("select[name*='[subAttributes]']").change(function () {
+            let otherInputId = $(this).attr("id") + "_other";
+            let otherInput = $('#' + otherInputId);
+
+            if (otherInput.length > 0) {
+                let dropDownValue = $(this).find("option:selected").val();
+                if (dropDownValue === "other") {
+                    otherInput.closest(".form-group").parent().show();
+                } else {
+                    otherInput.closest(".form-group").parent().hide();
+                }
+            }
+        });
+        $("select[name*='[category]']").change(function () {
+            getSpecsForm($(this).val());
+        });
+
+    });
+
+    function changeCategory(id, title) {
+        $("#categoryName").text(title);
+        $("#product_category").val(id);
+        getSpecsForm(id);
+    }
+
+    function getSpecsForm(categoryId) {
+        let subAttributesBox = $("#sub-attributes-box");
+        let submitBtns = $("button[type=submit]");
+        submitBtns.attr("disabled", "disabled");
+        subAttributesBox.addClass("box-loading");
+        specsAjaxRequest = $.ajax({
+            type: "post",
+            url: getSpecsUrl,
+            dataType: "json",
+            data: {productId: productId, categoryId: categoryId},
+            beforeSend: function () {
+                if (specsAjaxRequest != null) {
+                    specsAjaxRequest.abort();
+                }
+            },
+            success: function (json) {
+                submitBtns.removeAttr("disabled");
+                subAttributesBox.removeClass("box-loading");
+                if (json.error == 0) {
+                    subAttributesBox.empty().append(json.html);
+                    subAttributesBox.find('.select-search').select2();
+                } else {
+                }
+            },
+        });
+    }
+
+    $(document).ready(function () {
+        initDatepicker();
+        var productPriceHolder = $('#addTable>tbody');
+
+        {% if
+            form.prices.vars.allow_add == true
+            and
+            (
+            constant("App\\BaseBundle\\SystemConfiguration::PRODUCT_PRICE_TYPE").value == constant("App\\BaseBundle\\ProductPriceTypeEnum::MULTI_PRICES").value
+            or constant("App\\BaseBundle\\SystemConfiguration::PRODUCT_PRICE_TYPE").value == constant("App\\BaseBundle\\ProductPriceTypeEnum::VARIANTS").value and product.enableVariants == false
+            )
+        %}
+            if (productPriceHolder.find("td").length == 0) {
+                addPrice();
+            }
+
+            $("#addPrice").on('click', function (e) {
+                e.preventDefault();
+                addPrice();
+            });
+        {% elseif constant("App\\BaseBundle\\SystemConfiguration::PRODUCT_PRICE_TYPE").value == constant("App\\BaseBundle\\ProductPriceTypeEnum::SINGLE_PRICE").value %}
+            if (productPriceHolder.find("td").length == 0) {
+                addPrice();
+            }
+        {% endif %}
+        function addPrice(productNumber=null) {
+            var collectionHolder = $('#price-prototype');
+            var prototype = collectionHolder.attr('data-prototype');
+            if(productNumber==null){
+                productNumber= productPriceHolder.children().length;
+            }
+
+            var form = prototype.replace(/\_\_name\_\_/g, productNumber);
+            productPriceHolder.append(form);
+            initDatepicker();
+        }
+
+        var clonedPrices = [];
+        $('[name*="[enableVariants]"]').click(function () {
+            if (document.querySelector('[name*="[enableVariants]"]').checked) {
+                $("[data-l-variant-msg]").show();
+                $('#addTable>tbody>tr').each(function () {
+                    clonedPrices.push($(this));
+                    $(this).remove();
+                });
+            } else {
+                $("[data-l-variant-msg]").hide();
+                var productNumber = $('#addTable>tbody>tr').length;
+                $('#addTable>tbody>tr').remove();
+                if (clonedPrices.length > 0) {
+                    $('#addTable>tbody').append(clonedPrices);
+                    clonedPrices = [];
+                } else {
+                    console.log(productNumber);
+                    addPrice(productNumber);
+                }
+            }
+        })
+
+        {% if form.prices.vars.allow_delete == true %}
+        $(document.body).on("click", ".delete", function (e) {
+            var $this = $(this);
+            bootbox.confirm({
+                title: 'Confirm dialog',
+                message: 'Are you sure you want to delete?',
+                buttons: {
+                    confirm: {
+                        label: 'OK',
+                        className: 'btn-primary'
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-link'
+                    }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                        $this.parent().parent().remove();
+                    }
+                }
+            });
+        });
+        {% endif %}
+
+        function initDatepicker() {
+            $(".datepicker").pickadate({
+                format: 'dd/mm/yyyy',
+                formatSubmit: 'dd/mm/yyyy'
+            });
+        }
+    });
+</script>

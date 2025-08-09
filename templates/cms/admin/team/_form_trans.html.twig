@@ -1,0 +1,14 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+
+{% set trans_form = form.translations[locale] %}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(trans_form.name,6) }}
+            {{ macros.input(trans_form.position, 6) }}
+        </div>
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>

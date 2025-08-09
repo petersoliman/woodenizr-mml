@@ -1,0 +1,36 @@
+.ui-pagination-item {
+    background: #FFFFFF;
+    text-decoration: none;
+    border: 1px solid #DFE3E8;
+    border-radius: 4px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    color: #212B36;
+    transition: 0.09s all ease-in-out;
+}
+
+a.ui-pagination-item {
+    &.active,
+    &:hover {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+        path {
+            fill: var(--primary-color);
+        }
+    }
+    &.active {
+        pointer-events: none;
+    }
+    &.disabled {
+        opacity: 0.5;
+        background-color: #919EAB;
+        border-color: #919EAB;
+        color: #212B36;
+        pointer-events: none;
+        path {
+            fill: #C4CDD5;
+        }
+    }
+}

@@ -1,0 +1,113 @@
+@import './../../_components/base-styles';
+
+/*/
+ * Layout Components
+/*/
+
+@import './../../_components/layout/grids/l-container';
+@import './../../_components/layout/grids/l-flex-row';
+
+@import './../../_components/layout/grids/l-flex-col-4';
+@import './../../_components/layout/grids/l-flex-col-6';
+@import './../../_components/layout/grids/l-flex-col-8';
+@import './../../_components/layout/grids/l-flex-col-12';
+
+@import './../../_components/layout/grids/l-flex-col-lg-2';
+@import './../../_components/layout/grids/l-flex-col-lg-3';
+@import './../../_components/layout/grids/l-flex-col-lg-6';
+@import './../../_components/layout/grids/l-flex-col-lg-8';
+@import './../../_components/layout/grids/l-flex-col-lg-12';
+
+@import './../../_components/layout/sections/l-featured-section';
+@import './../../_components/layout/sections/l-product-view-overview-section.scss';
+@import './../../_components/layout/sections/l-featured-best-seller-products-section.scss';
+
+@import './../../_components/layout/titles/l-page-title';
+@import './../../_components/layout/titles/l-page-desc';
+@import './../../_components/layout/titles/l-page-title-box';
+
+@import './../../_components/layout/breadcrumbs/l-breadcrumbs.scss';
+
+@import './../../_components/layout/modals/l-share-product-modal.scss';
+
+@import './../../_components/layout/titles/l-section-title';
+@import './../../_components/layout/titles/l-title-line';
+
+@import './../../_components/layout/products/l-product-img.scss';
+@import './../../_components/layout/products/l-product-thumb.scss';
+@import './../../_components/layout/products/l-product-details.scss';
+@import './../../_components/layout/products/l-product-meta.scss';
+@import './../../_components/layout/products/l-product-cart.scss';
+@import './../../_components/layout/products/l-product-reviews.scss';
+
+@import './../../_components/layout/sliders/l-slider-row';
+
+@import './../../_components/layout/slides/l-product-slide';
+
+@import './../../_components/layout/tables/l-striped-table.scss';
+
+@import './../../_components/layout/tabs/l-tab.scss';
+
+@import './../../_components/layout/backdrops/l-backdrop';
+
+/*/
+ * UI Components
+/*/
+
+@import './../../_components/ui/breadcrumbs/ui-breadcrumbs.scss';
+
+@import './../../_components/ui/modals/ui-share-product-modal.scss';
+
+@import './../../_components/ui/sections/ui-featured-best-seller-products-section.scss';
+@import './../../_components/ui/sections/ui-product-view-overview-section.scss';
+@import './../../_components/ui/sections/ui-product-view-content-tabs-section.scss';
+@import './../../_components/ui/sections/ui-featured-section';
+
+@import './../../_components/ui/titles/ui-section-title';
+@import './../../_components/ui/titles/ui-title-line';
+@import './../../_components/ui/titles/ui-page-title';
+@import './../../_components/ui/titles/ui-page-desc';
+
+@import './../../_components/ui/slides/ui-product-slide';
+
+@import './../../_components/ui/boxes/ui-editor-content-box.scss';
+
+@import './../../_components/ui/products/ui-product-img.scss';
+@import './../../_components/ui/products/ui-product-thumb.scss';
+@import './../../_components/ui/products/ui-product-details.scss';
+@import './../../_components/ui/products/ui-product-meta.scss';
+@import './../../_components/ui/products/ui-product-cart.scss';
+@import './../../_components/ui/products/ui-product-tab.scss';
+@import './../../_components/ui/products/ui-product-reviews.scss';
+
+@import './../../_components/ui/modals/ui-share-product-modal';
+
+@import './../../_components/ui/tables/ui-striped-table.scss';
+
+@import './../../_components/ui/tabs/ui-tab.scss';
+
+@import './../../_components/ui/backdrops/ui-backdrop';
+
+@import './../../_components/ui/products/product-styles.scss';
+@import './../../_components/full/products/product-variants.scss';
+@import './../../_components/utilities/js-cloudimage-360-view/js-cloudimage-360-view.min.css';
+
+.l-product-img {
+
+  .swiper {
+    height: 100%;
+
+    &-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+#three-sixty-view-container{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #fff;
+}

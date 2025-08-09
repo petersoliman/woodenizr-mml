@@ -1,0 +1,9 @@
+@import '../../mixins.scss';
+
+.l-featured-best-seller-products-section {
+    .swiper-button-prev, .swiper-button-next {
+        @include media-max($md) {
+            display: none;
+        }
+    }
+}

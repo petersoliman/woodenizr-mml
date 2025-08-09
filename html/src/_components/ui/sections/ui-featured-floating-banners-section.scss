@@ -1,0 +1,46 @@
+.ui-featured-floating-banners-section {
+    padding-bottom: 70px;
+}
+
+.ui-featured-floating-banner {
+    transition: 0.09s all ease-in-out;
+    transform-origin: center;
+    &:hover {
+        transform: scale(1.01);
+    }
+}
+
+.ui-featured-floating-banner-caption {
+    transition: 0.09s all ease-in-out;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    text-shadow: 0 4px 3px rgba(0, 0, 0, 0.25);
+    font-family: 'Montserrat';
+    padding: 16px 13px;
+    text-transform: uppercase;
+    @include ltr() {
+        text-align: left;
+    }
+    @include rtl() {
+        text-align: right;
+    }
+    &-title {
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 24px;
+    }
+    &-txt {
+        transition: 0.09s all ease-in-out;
+    }
+}
+
+.ui-featured-floating-banner {
+    &:hover {
+        .ui-featured-floating-banner-caption {
+            background: rgba(0, 0, 0, 0.55);
+        }
+    }
+}

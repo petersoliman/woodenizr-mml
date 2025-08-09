@@ -1,0 +1,149 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}{{ user.fullName }} Details{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('user_index') }}">Users List</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    <!-- Detailed task -->
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Task details -->
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title"><i class="icon-files-empty position-left"></i> User details</h6>
+                    <div class="heading-elements">
+                        <div class="heading-btn">
+                            <a href="{{ path("user_login_as_user", {"id":user.id}) }}" class="btn bg-info mr-5">
+                                <i class="fa fa-sign-in"></i> Log in as {{ user.fullname }}
+                            </a>
+                            <a href="{{ path('user_edit',{'id':user.id}) }}" class="btn bg-blue">
+                                <b><i class="fa fa-pencil"></i></b> Edit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body no-padding">
+                    <table class="table table-striped table-xs">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <i class="icon-user position-left"></i> Name:
+                            </td>
+                            <td class="text-left">
+                                {{ user.fullname }}
+                            </td>
+                            <td><i class="icon-mail5 position-left"></i> Email:</td>
+                            <td class="text-left">{{ user.email }}</td>
+                        </tr>
+                        <tr>
+                            <td><i class="icon-phone position-left"></i> Phone:</td>
+                            <td class="text-left">{{ user.phone }}</td>
+                            <td><i class="icon-alarm-add position-left"></i> Last Login:</td>
+                            <td class="text-left">{{ user.lastLogin|date('d F, Y') }}</td>
+                        </tr>
+                        <tr>
+                            <td><i class="icon-alarm-check position-left"></i> Reg. Date:</td>
+                            <td class="text-left">{{ user.created|date('d F, Y') }}</td>
+                            <td><i class="icon-file-check position-left"></i> Status:</td>
+                            <td class="text-left">
+                                {% if user.enabled %}
+                                    <span class="status-mark position-left bg-success"></span> Activated
+                                {% else %}
+                                    <span class="status-mark position-left bg-danger"></span> Blocked
+                                {% endif %}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /task details -->
+        </div>
+        <div class="col-lg-12">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h6 class="panel-title">Orders history </h6>
+                    <div class="heading-elements">
+                        <ul class="icons-list">
+                            <li><a data-action="collapse"></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body no-padding">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Purchase date</th>
+                                <th>Payment method</th>
+                                <th>Discount</th>
+                                <th>Shipping fees</th>
+                                <th>Total price</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if orders|length > 0 %}
+                                {% for order in orders %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ path('order_show', { 'id': order.id }) }}"
+                                               class="text-semibold">
+                                                {{ order.id }}
+                                            </a>
+                                            <div class="text-muted text-size-small">
+                                                <span class='status-mark position-left'
+                                                      style="background-color: {{ order.stateBEColor }};border-color: {{ order.stateBEColor }}"></span>
+                                                {{ order.stateName }}
+                                            </div>
+                                        </td>
+                                        <td>{% if order.created %}{{ order.created|date('d/m/Y h:i A') }}{% endif %}</td>
+                                        <td>{{ order.paymentMethod.title }}</td>
+                                        <td>{{ order.discount }} EGP</td>
+
+                                        <td>{{ order.shippingCost }} EGP</td>
+                                        <td>
+                                            <h6 class="no-margin text-semibold">{{ order.totalPrice }} EGP</h6>
+                                        </td>
+                                        <td class="text-center">
+                                            <ul class="icons-list">
+                                                <li>
+                                                    <a href="{{ path('order_show', { 'id': order.id }) }}"><i
+                                                                class="icon-eye"></i></a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="7" class="text-center">
+                                        <p>No orders for now </p>
+                                    </td>
+
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /detailed task -->
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock javascripts %}

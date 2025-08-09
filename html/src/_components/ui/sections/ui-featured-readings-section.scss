@@ -1,0 +1,13 @@
+@import '../../mixins.scss';
+
+.ui-featured-readings-section {
+    margin-bottom: 70px;
+    @include media-max($md) {
+        margin-bottom: 40px;
+    }
+    .l-flex-col-lg-3 {
+        @include media-max($md) {
+            margin-bottom: 20px;
+        }
+    }
+}

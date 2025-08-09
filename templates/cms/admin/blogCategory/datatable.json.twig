@@ -1,0 +1,17 @@
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for category in blogCategories %}
+        [
+            "{{ category.id }}",
+            "{% if category.tarteb %}{{ category.tarteb }}{% else %}--{% endif %}",
+            "{{ category.title }}",
+            "{% if category.publish %}<span class='label label-success'>Yes</span>{% else %}<span class='label label-danger'>No</span>{% endif %}",
+            "{% if category.created %}{{ category.created|dateTimeFormat }}{% else %}--{% endif %}",
+            "<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'>{% if is_granted('ROLE_ADMIN') %}<li><a href='{{ path('blog_category_edit',{'id':category.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('blog_category_delete',{'id':category.id}) }}'><i class='icon-bin'></i> Remove</a></li>{% endif %}</ul></li></ul>"
+
+        ]{% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

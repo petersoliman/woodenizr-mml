@@ -1,0 +1,113 @@
+{% extends 'fe/base.html.twig' %}
+{% set seo = seoPage.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+
+{% block content %}
+
+    {% set coverPhoto = asset('images/placeholders/placeholder-lg.jpg') %}
+    {% if getDCA(18) %}
+        {% set coverPhoto = getDCA(18) %}
+    {% endif %}
+    <section class="page-header">
+        <div class="page-header__bg" style="background-image: url({{ coverPhoto }})"></div>
+        <div class="container">
+            <div class="page-header__inner">
+                <ul class="thm-breadcrumb list-unstyled">
+                    <li><a href="{{ path('fe_home') }}">{{ 'home_txt'|trans }}</a></li>
+                    <li><span>/</span></li>
+                    <li>{{ 'career_txt'|trans }}</li>
+                </ul>
+                <h2>{{ 'career_txt'|trans }}</h2>
+            </div>
+        </div>
+    </section>
+    {{ editDCA(18) }}
+
+    <section class="message-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-4 col-lg-5">
+                    <div class="message-box__left">
+                        <div class="section-title text-left">
+                            <h2 class="section-title__title">
+                                {{ 'career_brief_txt'|trans }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8 col-lg-7">
+                    <div class="message-box__right">
+                        {{ form_start(career_form, {'attr':{"id":"career-form" } }) }}
+                            <div class="row">
+                                <!-- name -->
+                                <div class="col-xl-6">
+                                    <div class="comment-form__input-box">
+                                        {{ form_widget(career_form.name) }}
+                                        {{ form_errors(career_form.name) }}
+                                        <div class="comment-form__icon">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end name -->
+                                <!-- title -->
+                                <div class="col-xl-6">
+                                    <div class="comment-form__input-box">
+                                        {{ form_widget(career_form.title) }}
+                                        {{ form_errors(career_form.title) }}
+                                        <div class="comment-form__icon">
+                                            <i class="fas fa-suitcase"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end title -->
+                                <!-- phone -->
+                                <div class="col-xl-6">
+                                    <div class="comment-form__input-box">
+                                        {{ form_widget(career_form.phone) }}
+                                        {{ form_errors(career_form.phone) }}
+                                        <div class="comment-form__icon">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end phone -->
+                                <!-- email -->
+                                <div class="col-xl-6">
+                                    <div class="comment-form__input-box">
+                                        {{ form_widget(career_form.email) }}
+                                        {{ form_errors(career_form.email) }}
+                                        <div class="comment-form__icon">
+                                            <i class="far fa-envelope"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end email -->
+                            </div>
+                            <!-- cv -->
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="comment-form__input-box d-flex">
+                                        <label class="cv-label" for="cv">{{ 'upload_cv_txt'|trans }}</label>
+                                        {{ form_widget(career_form.resume) }}
+                                        {{ form_errors(career_form.resume) }}
+                                        <div
+                                                class="comment-form__icon contact-expert__icon-comment"
+                                        >
+                                            <i class="fas fa-paperclip"></i>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="thm-btn comment-form__btn">
+                                        {{ 'submit_application_txt'|trans }}
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- end cv -->
+                        {{ form_end(career_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

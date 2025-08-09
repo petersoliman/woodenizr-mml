@@ -1,0 +1,18 @@
+{% if form.subAttributes is defined and form.subAttributes.children|length > 0 %}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">
+                <span class="text-semibold">Specs</span> {{ currentCategory.title }}
+            </h6>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                {% for attr in form.subAttributes.children %}
+                    <div class="col-md-4" {{ (attr.vars.attr.hide is defined and attr.vars.attr.hide == true) ? 'style="display:none;"' }}>
+                        {{ form_row(attr) }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}

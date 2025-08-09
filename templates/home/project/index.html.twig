@@ -1,0 +1,47 @@
+{% extends 'fe/base.html.twig' %}
+{% set seo = seoPage.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+{% import 'fe/macros.html.twig' as macros %}
+
+{% block content %}
+    <section class="page-header">
+        {% set coverPhoto = asset('images/placeholders/placeholder-lg.jpg') %}
+        {% if getDCA(17) %}
+            {% set coverPhoto = getDCA(17) %}
+        {% endif %}
+        <div
+            class="page-header__bg"
+            style="background-image: url({{ coverPhoto }})"
+        ></div>
+        <div class="container">
+            <div class="page-header__inner">
+                <ul class="thm-breadcrumb list-unstyled">
+                    <li><a href="{{ path('fe_home') }}">{{ 'home_txt'|trans }}</a></li>
+                    <li><span>/</span></li>
+                    <li>{{ 'projects_txt'|trans }}</li>
+                </ul>
+                <h2>{{ 'our_projects_caps_txt'|trans }}</h2>
+            </div>
+        </div>
+    </section>
+    {{ editDCA(17) }}
+
+    {% if projects is not empty %}
+        <section class="services-one services-page">
+            <div class="container">
+                <div class="row">
+                    {% for project in projects %}
+                    <div
+                        class="col-xl-6 col-lg-6 wow fadeInUp"
+                        data-wow-delay="0ms"
+                        data-wow-duration="1500ms"
+                    >
+                        {{ macros.project(project) }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% include 'fe/pagination.html.twig' %}
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

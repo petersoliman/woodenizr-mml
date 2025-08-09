@@ -1,0 +1,33 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+{{ form_start(new_option_form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate', "id": "new-option-form", "data-ajax": "true"} }) }}
+<div class="panel bg-primary">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(new_option_form.title,3) }}
+            {% for translation in new_option_form.translations %}
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" for="{{ translation.title.vars.id }}">Title ({{ translation.vars.label }})</label>
+                        {{ form_widget(translation.title) }}
+                        {{ form_errors(translation.title) }}
+                    </div>
+                </div>
+            {% endfor %}
+            {% if new_option_form.value is defined and new_option_form.value.vars.attr.type is defined and new_option_form.value.vars.attr.type == "color" %}
+                {{ macros.input(new_option_form.value,3) }}
+            {% endif %}
+            {% if new_option_form.image is defined %}
+                {{ macros.input(new_option_form.image,3, include('@PNMedia/imageDimension.html.twig', {"type":102}), null, "file-styled") }}
+            {% endif %}
+            <div class="col-md-1">
+                <div class="form-group">
+                    <label class="control-label text-primary">Save</label>
+                    <button type="submit" class="btn btn-success btn-block">
+                        Add
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_end(new_option_form) }}

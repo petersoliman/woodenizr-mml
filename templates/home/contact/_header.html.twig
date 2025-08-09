@@ -1,0 +1,12 @@
+{% set mapCoordinate = getSiteSetting("contact-us-map-coordinate") %}
+{% set googleMapApiKey = getSiteSetting("google-map-api-key") %}
+
+{% if mapCoordinate is not empty and "," in mapCoordinate and googleMapApiKey is not empty %}
+    <div class="wrapper-page-iframe">
+        <iframe src="https://www.google.com/maps/embed/v1/place?key={{ googleMapApiKey }}&q={{ mapCoordinate }}&language={{ app.request.get('_locale') }}"
+                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+{% else %}
+    {% include "fe/_pages_header.html.twig" with {"pageTitle": pageTitle, "marginBottomZero": true } %}
+{% endif %}

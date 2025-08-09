@@ -1,0 +1,235 @@
+.l-product-reviews-row {
+    margin-left: -20px;
+    margin-right: -20px;
+    @include media-max($xl) {
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+}
+
+.l-product-reviews-col-stats {
+    @include media-min($xl) {
+        width: 30%;
+        position: relative;
+        &::after {
+            content: '';
+            position: absolute;
+            top: 38px;
+            bottom: 0;
+            @include ltr {
+                right: 0;
+            }
+            @include rtl {
+                left: 0;
+            }
+            width: 1px;
+            height: calc(90% - 38px);
+        }
+    }
+}
+
+.l-product-reviews-col-list {
+    @include media-min($xl) {
+        width: 70%;
+    }
+}
+
+.l-product-reviews-col-title {
+    display: block;
+    margin-bottom: 18px;
+}
+
+.l-product-reviews-total-rating {
+    display: block;
+    margin-bottom: 18px;
+}
+
+.l-product-reviews-total-rating-stars {
+    margin-bottom: 25px;
+    display: flex;
+}
+
+.l-product-reviews-total-rating-star {
+    @include ltr {
+        margin-right: 15px;
+    }
+    @include rtl {
+        margin-left: 15px;
+    }
+}
+
+.l-product-reviews-ratings-count-text {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.l-product-reviews-ratings-count-table {
+    width: 100%;
+}
+
+.l-product-reviews-ratings-count-table-progress-col {
+    width: 100%;
+}
+
+.l-product-reviews-ratings-count-table-progress {
+    width: 100%;
+    height: 27px;
+    position: relative;
+    overflow: hidden;
+}
+
+.l-product-reviews-ratings-count-table-progress-percent {
+    position: absolute;
+    height: 100%;
+}
+
+.l-product-reviews-customer-review-header {
+    display: flex;
+    align-items: center;
+}
+
+.l-product-reviews-customer-box {
+    display: flex;
+}
+
+.l-product-reviews-customer-avatar {
+    position: relative;
+    width: 71px;
+    height: 71px;
+    overflow: hidden;
+    @include ltr {
+        margin-right: 26px;
+    }
+    @include rtl {
+        margin-left: 26px;
+    }
+    @include media-max($xl) {
+        width: 35px;
+        height: 35px;
+        @include ltr {
+            margin-right: 15px;
+        }
+        @include rtl {
+            margin-left: 15px;
+        }
+    }
+    &-text,
+    &-img {
+        position: absolute;
+        width: 100%;
+        min-height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
+
+.l-product-reviews-customer-name {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.l-product-reviews-customer-stars {
+    display: flex;
+}
+
+.l-product-reviews-customer-star:not(:last-child) {
+    @include ltr {
+        margin-right: 9px;
+    }
+    @include rtl {
+        margin-left: 9px;
+    }
+}
+
+.l-product-reviews-customer-review-meta {
+    @include ltr {
+        margin-left: 20px;
+    }
+    @include rtl {
+        margin-right: 20px;
+    }
+}
+
+.l-product-reviews-verified {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    &-circle {
+        @include ltr {
+            margin-right: 15px;
+        }
+        @include rtl {
+            margin-left: 15px;
+        }
+    }
+}
+
+.l-product-reviews-verified-circle {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.l-product-reviews-customer-review-body {
+    &-title {
+        margin: 0 0 10px;
+    }
+    &-text {
+        margin: 0 0 10px;
+    }
+}
+
+.l-product-reviews-load-more-container {
+    margin-top: 32px;
+    margin-bottom: 12px;
+}
+
+.l-product-reviews-load-more-btn {
+    background: #fff;
+    padding: 10px 50px;
+    border: 1px solid #B6B4BA;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 29px;
+    text-align: center;
+    color: #686868;
+    cursor: pointer;
+    position: relative;
+    &:hover {
+        color: #fff;
+        background: #686868;
+        border-color: #686868;
+    }
+    &.loading {
+        overflow: hidden;
+        pointer-events: none;
+    }
+    &.loading::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    &.loading::after {
+        content: '';
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        width: 100%;
+        height: calc(100% - 2px);
+        border-radius: 50px;
+        z-index: 2;
+        pointer-events: none;
+        top: 1px;
+    }
+}

@@ -1,0 +1,69 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Edit {{ paymentMethod.title }}{% endset %}
+{% import 'adminTemplate/macros.html.twig' as macros %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('payment_method_index') }}">Payment Methods list</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'}}) }}
+    <div class="row">
+        <div class="col-md-9">
+            {% set defaultTwig= include ("onlinePayment/admin/paymentMethod/_form.html.twig") %}
+            {{ include ("@PNLocale/new_or_edit_tab_structure.html.twig", {'defaultTwig': defaultTwig, "transTwigPath" : "onlinePayment/admin/paymentMethod/_form_trans.html.twig"} ) }}
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    {% if form.active is defined %}
+                        <div class="row">
+                            {{ macros.checkbox(form.active,12) }}
+                        </div>
+                    {% endif %}
+                    {% if form.type is defined %}
+                        <div class="row">
+                            {{ macros.input(form.type,12) }}
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-xs-6">Creator</div>
+                        <div class="col-xs-6">{% if paymentMethod.creator %}{{ paymentMethod.creator }}{% else %}--{% endif %}</div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-xs-6">Created date</div>
+                        <div class="col-xs-6">{% if paymentMethod.created %}{{ paymentMethod.created|dateFormat }}{% else %}--/--/----{% endif %}</div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-xs-6">Modified by</div>
+                        <div class="col-xs-6">{% if paymentMethod.modifiedBy %}{{ paymentMethod.modifiedBy }}{% else %}--{% endif %}</div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-xs-6">Modified date</div>
+                        <div class="col-xs-6">{% if paymentMethod.modified %}{{ paymentMethod.modified|dateFormat }}{% else %}--/--/----{% endif %}</div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_layouts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/components_thumbnails.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/media/fancybox.min.js') }}"></script>
+{% endblock javascripts %}

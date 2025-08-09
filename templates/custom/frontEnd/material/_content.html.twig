@@ -1,0 +1,49 @@
+<div class="l-container">
+    <div class="l-flex-row l-flex-row--spacing-28">
+        {% for category in materialCategories %}
+            <div class="l-flex-col-xl-12">
+                <h2 class="wrapper-title">{{ category.title }}</h2>
+            </div>
+            {% for material in category.materials(true) %}
+                {% if material.post.mainImage %}
+                    {% set image = asset(material.post.mainImage.assetPath) %}
+                {% else %}
+                    {% set image = asset('assets/img/product-img-placeholder.webp') %}
+                {% endif %}
+                <div class="l-flex-col-lg-4 l-flex-col-md-6">
+                    <div class="material-card">
+                        <div class="img">
+                            <picture>
+                                <!--[if IE 9]>
+                                <video style="display: none;><![endif]-->
+                                <source data-srcset="{{ image|webp(null, 408) }}" media="--small"/>
+                                <source data-srcset="{{ image|webp(null, 394) }}" media="--medium"/>
+                                <source data-srcset="{{ image|webp(null, 255) }}" media="--large"/>
+                                <source data-srcset="{{ image|webp(null, 328) }}" media="--x-large"/>
+                                <source data-srcset="{{ image|webp(null, 230) }}" media="--xx-large"/>
+                                <!--[if IE 9]></video><![endif]-->
+                                <img
+                                        class="l-responsive-img l-reading-post-slide-img ui-reading-post-slide-img lazyload"
+                                        width="388"
+                                        height="283"
+                                        data-expand="-20"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                        data-src="{{ image|webp(null, 283) }}"
+                                        alt="{{ material.title }}"
+                                />
+                            </picture>
+                        </div>
+                        <div class="caption">
+                            <h3 class="title">{{ material.title }}</h3>
+                            <p class="desc">
+                                {{ material.post.content.brief }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            {% include "fe/_not_found_content.html.twig" %}
+        {% endfor %}
+    </div>
+</div>

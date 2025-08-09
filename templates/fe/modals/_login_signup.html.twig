@@ -1,0 +1,97 @@
+<div class="l-modal-dialog ui-modal-dialog" data-l-modal="account" data-header-account-modal="true">
+    <div class="ui-modal l-modal m-header-topbar-account-modal">
+        <button class="m-header-topbar-account-modal-close-btn" type="button" data-l-modal-btn="account">
+            <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.85372 21.9886C2.30807 22.0203 1.77144 21.8389 1.35699 21.4826C0.539614 20.6604 0.539614 19.3324 1.35699 18.5102L19.2548 0.612312C20.1049 -0.183194 21.4389 -0.138972 22.2344 0.711168C22.9538 1.47995 22.9957 2.66158 22.3326 3.47937L4.32935 21.4826C3.92025 21.8337 3.39223 22.0148 2.85372 21.9886Z"
+                      fill="#646464"/>
+                <path d="M20.7307 21.9886C20.1777 21.9863 19.6476 21.7667 19.255 21.3773L1.35712 3.47936C0.59987 2.59506 0.702823 1.26424 1.58712 0.506919C2.37638 -0.168973 3.54037 -0.168973 4.32956 0.506919L22.3328 18.4048C23.1827 19.2005 23.2267 20.5346 22.431 21.3845C22.3993 21.4183 22.3666 21.451 22.3328 21.4827C21.892 21.866 21.3118 22.0492 20.7307 21.9886Z"
+                      fill="#646464"/>
+            </svg>
+        </button>
+        <form action="{{ path("app_user_login") }}" method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token("authenticate") }}"/>
+            <div class="m-header-topbar-account-modal-body">
+                <h6 class="m-header-topbar-account-modal-title">
+                    {{ "login_txt"|trans }}
+                </h6>
+                {# <p class="m-header-topbar-account-modal-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p> #}
+                <div class="l-form-input-box l-form-input-box--spacing-bottom-18 l-form-input-and-icon-box-align-end--lg l-form-input-and-icon-box-align-end">
+                    <input type="email"
+                           class="l-form-input ui-form-input ui-form-input--lg ui-form-input--border-dark-gray-2 ui-form-input--focus-border-primary-light"
+                           name="_username"
+                           placeholder="{{ "email_txt"|trans }}"
+                           data-m-header-login-input="true"
+                    />
+                    <svg class="l-form-input-icon l-form-input-icon--md l-form-input-icon-align-end" width="28"
+                         height="19" viewBox="0 0 28 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25.5391 0H2.46094C1.10677 0 0 1.06342 0 2.375V16.625C0 17.9371 1.10748 19 2.46094 19H25.5391C26.8932 19 28 17.9366 28 16.625V2.375C28 1.0631 26.8927 0 25.5391 0ZM25.1612 1.58333C24.3655 2.35373 15.0196 11.4026 14.6357 11.7744C14.315 12.0848 13.6852 12.0851 13.3643 11.7744L2.83883 1.58333H25.1612ZM1.64062 16.3339V2.66607L8.69887 9.5L1.64062 16.3339ZM2.83883 17.4167L9.85709 10.6214L12.2024 12.8922C13.1634 13.8227 14.8369 13.8223 15.7977 12.8922L18.143 10.6215L25.1612 17.4167H2.83883ZM26.3594 16.3339L19.3011 9.5L26.3594 2.66607V16.3339Z"
+                              fill="#929292"/>
+                    </svg>
+                </div>
+                <div class="l-form-input-box l-form-input-and-icon-box-align-end--lg l-form-input-and-icon-box-align-end">
+                    <input type="password"
+                           class="l-form-input ui-form-input ui-form-input--lg ui-form-input--border-dark-gray-2 ui-form-input--focus-border-primary-light"
+                           name="_password"
+                           placeholder="{{ "password_txt"|trans }}"
+                           data-m-header-login-input="true"
+                           data-ui-form-password="login-password"
+                    />
+                    <svg class="l-form-input-icon l-form-input-icon-action l-form-input-icon--md l-form-input-icon-align-end ui-form-input-icon-action"
+                         width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                         data-ui-form-password-btn="login-password">
+                        <path d="M17.4761 12.4391L19.0664 10.7042C19.1821 11.1765 19.25 11.6702 19.25 12.1819C19.25 15.34 16.8949 17.9091 14 17.9091C13.531 17.9091 13.0784 17.8352 12.6455 17.7089L14.2358 15.974C15.9746 15.8447 17.3575 14.336 17.4761 12.4391ZM27.8897 11.7182C27.7821 11.507 26.2556 8.58921 23.2719 6.11647L21.9985 7.50556C24.1742 9.25071 25.5528 11.286 26.0955 12.1833C25.0584 13.906 20.9901 19.8182 14 19.8182C12.9517 19.8182 11.977 19.6719 11.0598 19.4385L9.62191 21.0071C10.9438 21.4493 12.3967 21.7273 14 21.7273C23.1597 21.7273 27.7009 13.0161 27.8897 12.6455C28.0367 12.357 28.0367 12.0067 27.8897 11.7182ZM24.2436 2.35676L4.99361 23.3567C4.82277 23.5431 4.59877 23.6364 4.37499 23.6364C4.15121 23.6364 3.92721 23.5431 3.75637 23.3567C3.41446 22.9837 3.41446 22.3797 3.75637 22.007L6.20548 19.3352C2.24612 16.7276 0.234281 12.8892 0.11025 12.6455C-0.0367499 12.357 -0.0367499 12.0065 0.11025 11.718C0.29903 11.3476 4.84027 2.63644 14 2.63644C16.3684 2.63644 18.4198 3.22587 20.1735 4.09737L23.0063 1.00704C23.3482 0.634048 23.9019 0.634048 24.2436 1.00704C24.5852 1.38002 24.5855 1.98401 24.2436 2.35676ZM7.51032 17.9118L9.7256 15.4951C9.11376 14.5587 8.74998 13.4168 8.74998 12.1819C8.74998 9.02376 11.105 6.45461 14 6.45461C15.132 6.45461 16.1787 6.85146 17.0371 7.51869L18.8284 5.5645C17.4131 4.9462 15.8049 4.54553 14 4.54553C7.00983 4.54553 2.94152 10.4577 1.90465 12.1804C2.56309 13.2691 4.45571 16.0249 7.51032 17.9118ZM10.9959 14.1091L15.7666 8.90468C15.2462 8.5694 14.647 8.3637 14 8.3637C12.0702 8.3637 10.5 10.0766 10.5 12.1819C10.5 12.8878 10.6885 13.5414 10.9959 14.1091Z"
+                              fill="#929292"/>
+                    </svg>
+                </div>
+                <div class="m-header-topbar-account-modal-remember-actions">
+                    <div>
+                        <input class="l-form-checkbox ui-form-checkbox" checked type="checkbox" name="_remember_me"
+                               id="remember">
+                        <label class="l-form-checkbox-label l-form-checkbox-label--spacing-6 ui-form-checkbox-label ui-form-checkbox-label--lg ui-form-checkbox-label--color-black"
+                               for="remember">
+                            {{ "remember_me_txt"|trans }}
+                        </label>
+                    </div>
+                    <a class="m-header-topbar-account-modal-remember-action"
+                       href="{{ path('app_user_forgot_password_request') }}">{{ "forgot_password_question_txt"|trans }}</a>
+                </div>
+                <div class="m-header-topbar-account-modal-login-actions">
+                    <button class="m-header-topbar-account-modal-login-action" type="submit"
+                            data-m-header-login-btn="true" disabled>
+                        {{ "login_txt"|trans }}
+                    </button>
+                    {#<a href="{{ path('connect_facebook_start') }}"
+                       class="m-header-topbar-account-modal-login-action m-header-topbar-account-modal-login-action--facebook">
+                        {% include "fe/icons/facebook.svg" %}
+                        {{ "login_with_facebook_txt"|trans }}
+                    </a>#}
+                    <a href="{{ path('connect_google_start') }}"
+                       class="m-header-topbar-account-modal-login-action m-header-topbar-account-modal-login-action--google">
+                        {% include "fe/icons/google.svg" %}
+                        {{ "login_with_google_txt"|trans }}
+                    </a>
+                </div>
+                <p class="m-header-topbar-account-modal-signup-title">
+                    {{ "dont_have_account_question"|trans }}
+                    <strong>{{ "get_started_txt"|trans }}</strong>
+                </p>
+                <div class="m-header-topbar-account-modal-login-actions m-header-topbar-account-modal-signup-actions">
+                    <a class="m-header-topbar-account-modal-login-action m-header-topbar-account-modal-login-action--google"
+                       href="{{ path('app_user_registration') }}">
+                        {{ "create_account_txt"|trans }}
+                    </a>
+                    {#<a href="{{ path('connect_facebook_start') }}"
+                       class="m-header-topbar-account-modal-login-action m-header-topbar-account-modal-login-action--facebook">
+                        {% include "fe/icons/facebook.svg" %}
+                        {{ "signup_with_facebook_txt"|trans }}
+                    </a>#}
+                    <a href="{{ path('connect_google_start') }}"
+                       class="m-header-topbar-account-modal-login-action m-header-topbar-account-modal-login-action--google">
+                        {% include "fe/icons/google.svg" %}
+                        {{ "signup_with_google_txt"|trans }}
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
