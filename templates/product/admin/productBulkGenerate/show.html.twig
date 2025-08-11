@@ -55,16 +55,14 @@
                         
                         <dt>Admin:</dt>
                         <dd>
-                            {% if product_bulk_generate.admin %}
-                                <div class="media media-sm">
-                                    <div class="media-body">
-                                        <strong>{{ product_bulk_generate.admin.fullName }}</strong><br>
-                                        <span class="text-muted text-size-small">{{ product_bulk_generate.admin.email }}</span>
-                                    </div>
+                            <div class="media media-sm">
+                                <div class="media-body">
+                                    <strong>{{ product_bulk_generate.adminName }}</strong>
+                                    {% if product_bulk_generate.adminEmail %}
+                                        <br><span class="text-muted text-size-small">{{ product_bulk_generate.adminEmail }}</span>
+                                    {% endif %}
                                 </div>
-                            {% else %}
-                                <span class="text-muted">Not assigned</span>
-                            {% endif %}
+                            </div>
                         </dd>
                         
                         <dt>UUID:</dt>
@@ -118,7 +116,7 @@
                         <dd>{{ product_bulk_generate.startDate ? product_bulk_generate.startDate|dateTimeFormat : '--' }}</dd>
                         
                         <dt>End Date:</dt>
-                        <dd>{{ product_bulk_generate.endDate ? product_bulk_generate.endDate|dateTimeFormat : '--' }}</dd>
+                        <dd>N/A</dd>
                     </dl>
                 </div>
                 <div class="col-md-4">

@@ -5,6 +5,9 @@ namespace App\ProductBundle\Repository;
 use App\ProductBundle\Entity\ProductBulkGenerate;
 use App\ProductBundle\Enum\ProductBulkGenerateTypeEnum;
 use App\UserBundle\Entity\User;
+use App\ContentBundle\Entity\Post;
+use App\ContentBundle\Entity\Translation\PostTranslation;
+use PN\LocaleBundle\Entity\Language;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
@@ -258,8 +261,7 @@ class ProductBulkGenerateRepository extends ServiceEntityRepository
                 COUNT(pbg.id) as totalJobs,
                 AVG(pbg.totalRecommendations) as avgRecommendations,
                 SUM(pbg.processedCount) as totalProcessed,
-                SUM(pbg.errorCount) as totalErrors,
-                AVG(TIMESTAMPDIFF(SECOND, pbg.startDate, pbg.endDate)) as avgDurationSeconds
+                SUM(pbg.errorCount) as totalErrors
             ')
             ->where('pbg.deleted IS NULL')
             ->andWhere('pbg.status = :status')
@@ -272,10 +274,151 @@ class ProductBulkGenerateRepository extends ServiceEntityRepository
             'avgRecommendations' => round((float) ($result['avgRecommendations'] ?? 0), 2),
             'totalProcessed' => (int) ($result['totalProcessed'] ?? 0),
             'totalErrors' => (int) ($result['totalErrors'] ?? 0),
-            'avgDurationSeconds' => (int) ($result['avgDurationSeconds'] ?? 0),
-            'avgDurationMinutes' => round(((int) ($result['avgDurationSeconds'] ?? 0)) / 60, 2),
+            'avgDurationSeconds' => 0,
+            'avgDurationMinutes' => 0,
         ];
     }
+
+    public function generateAllProductsCore(int $brandId): int
+    {
+        // Get the brand to extract the brand name
+        $brand = $this->getEntityManager()
+            ->getRepository('App\ProductBundle\Entity\Brand')
+            ->find($brandId);
+        
+        if (!$brand) {
+            throw new \InvalidArgumentException('Brand not found with ID: ' . $brandId);
+        }
+        
+        $brandName = $brand->getTitle();
+        
+        // Find all products with the given brand ID
+        $products = $this->getEntityManager()
+            ->getRepository('App\ProductBundle\Entity\Product')
+            ->createQueryBuilder('p')
+            ->where('p.brand = :brandId')
+            ->andWhere('p.deleted IS NULL')
+            ->setParameter('brandId', $brandId)
+            ->getQuery()
+            ->getResult();
+        
+        $processedCount = 0;
+        
+        foreach ($products as $product) {
+            try {
+                // Get the model number (SKU) from the product
+                $modelNumber = $product->getSku();
+                
+                if (!$modelNumber) {
+                    continue; // Skip products without SKU
+                }
+                
+                // Make cURL request to get product descriptions
+                $curl = curl_init();
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => "https://seo-catalog-generator.com/api.php?model_number=" . urlencode($product->getModelNumber()),
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 30,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "GET",
+                    CURLOPT_HTTPHEADER => [
+                        "Accept: application/json"
+                    ],
+                ]);
+                
+                $response = curl_exec($curl);
+                $err = curl_error($curl);
+                curl_close($curl);
+                
+                if ($err) {
+                    // Log error and continue with next product
+                    error_log("cURL Error for product {$product->getId()}: " . $err);
+                    continue;
+                }
+                
+                $data = json_decode($response, true);
+                
+                if ($data && isset($data['desc_en']) && isset($data['desc_ar'])) {
+                    // Get or create the product's post entity for storing descriptions
+                    $post = $product->getPost();
+                    if (!$post) {
+                        $post = new Post();
+                        $product->setPost($post);
+                    }
+                    
+                    // Get or create translations for English and Arabic
+                    $enTranslation = null;
+                    $arTranslation = null;
+                    
+                    foreach ($post->getTranslations() as $translation) {
+                        if ($translation->getLanguage()->getCode() === 'en') {
+                            $enTranslation = $translation;
+                        } elseif ($translation->getLanguage()->getCode() === 'ar') {
+                            $arTranslation = $translation;
+                        }
+                    }
+                    
+                    // Create English translation if it doesn't exist
+                    if (!$enTranslation) {
+                        $enLanguage = $this->getEntityManager()
+                            ->getRepository(Language::class)
+                            ->findOneBy(['code' => 'en']);
+                        
+                        if ($enLanguage) {
+                            $enTranslation = new PostTranslation();
+                            $enTranslation->setLanguage($enLanguage);
+                            $enTranslation->setTranslatable($post);
+                            $post->addTranslation($enTranslation);
+                        }
+                    }
+                    
+                    // Create Arabic translation if it doesn't exist
+                    if (!$arTranslation) {
+                        $arLanguage = $this->getEntityManager()
+                            ->getRepository(Language::class)
+                            ->findOneBy(['code' => 'ar']);
+                        
+                        if ($arLanguage) {
+                            $arTranslation = new PostTranslation();
+                            $arTranslation->setLanguage($arLanguage);
+                            $arTranslation->setTranslatable($post);
+                            $post->addTranslation($arTranslation);
+                        }
+                    }
+                    
+                    // Set the descriptions
+                    if ($enTranslation) {
+                        $enTranslation->setContent($data['desc_en']);
+                    }
+                    
+                    if ($arTranslation) {
+                        $arTranslation->setContent($data['desc_ar']);
+                    }
+                    
+                    // Persist the changes
+                    $this->getEntityManager()->persist($post);
+                    $this->getEntityManager()->persist($product);
+                    
+                    $processedCount++;
+                }
+                
+            } catch (\Exception $e) {
+                // Log error and continue with next product
+                error_log("Error processing product {$product->getId()}: " . $e->getMessage());
+                continue;
+            }
+        }
+        
+        // Flush all changes
+        $this->getEntityManager()->flush();
+        
+        return $processedCount;
+    }
+
+
+
 }
 
 

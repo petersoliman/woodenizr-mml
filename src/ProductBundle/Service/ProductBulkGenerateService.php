@@ -119,7 +119,6 @@ class ProductBulkGenerateService
     public function completeJob(ProductBulkGenerate $job): void
     {
         $job->setStatus('completed');
-        $job->setEndDate(new \DateTime());
         $job->setModifiedBy($this->userService->getUserName());
         
         $this->em->flush();
@@ -131,7 +130,6 @@ class ProductBulkGenerateService
     public function failJob(ProductBulkGenerate $job, ?string $error = null): void
     {
         $job->setStatus('failed');
-        $job->setEndDate(new \DateTime());
         $job->setModifiedBy($this->userService->getUserName());
         
         if ($error) {
@@ -182,8 +180,7 @@ class ProductBulkGenerateService
             ],
             'timing' => [
                 'start_date' => $job->getStartDate()?->format('Y-m-d H:i:s'),
-                'end_date' => $job->getEndDate()?->format('Y-m-d H:i:s'),
-                'duration_seconds' => $job->getDurationInSeconds(),
+                'duration_seconds' => null, // N/A until job is completed
             ],
             'admin' => $job->getAdmin() ? [
                 'id' => $job->getAdmin()->getId(),

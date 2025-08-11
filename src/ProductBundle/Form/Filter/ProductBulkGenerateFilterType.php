@@ -3,9 +3,6 @@
 namespace App\ProductBundle\Form\Filter;
 
 use App\ProductBundle\Enum\ProductBulkGenerateTypeEnum;
-use App\UserBundle\Entity\User;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -40,25 +37,7 @@ class ProductBulkGenerateFilterType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('adminId', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => function (User $user) {
-                    return sprintf('%s (%s)', $user->getFullName(), $user->getEmail());
-                },
-                'placeholder' => 'All Admins',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control select2',
-                    'data-placeholder' => 'Select admin user...'
-                ],
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->where('u.deleted IS NULL')
-                        ->andWhere('u.roles LIKE :role')
-                        ->setParameter('role', '%ROLE_ADMIN%')
-                        ->orderBy('u.fullName', 'ASC');
-                }
-            ])
+            // Admin filter removed - admin is set automatically from session
             ->add('createdFrom', DateType::class, [
                 'widget' => 'single_text',
                 'required' => false,

@@ -47,13 +47,19 @@ class ProductBulkGenerate implements DateTimeInterface, UUIDInterface
 
     /**
      * @Gedmo\Versioned
-     * @ORM\Column(name="end_date", type="datetime", nullable=true)
+     * @ORM\Column(name="start_time_option", type="string", length=50, nullable=false)
      */
-    private ?\DateTimeInterface $endDate = null;
+    private string $startTimeOption = 'now';
+
+    /**
+     * @Gedmo\Versioned
+     * @ORM\Column(name="custom_start_time", type="datetime", nullable=true)
+     */
+    private ?\DateTimeInterface $customStartTime = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="admin_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="admin_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
      */
     private ?User $admin = null;
 
@@ -149,14 +155,26 @@ class ProductBulkGenerate implements DateTimeInterface, UUIDInterface
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getStartTimeOption(): string
     {
-        return $this->endDate;
+        return $this->startTimeOption;
     }
 
-    public function setEndDate(?\DateTimeInterface $endDate): self
+    public function setStartTimeOption(string $startTimeOption): self
     {
-        $this->endDate = $endDate;
+        $this->startTimeOption = $startTimeOption;
+
+        return $this;
+    }
+
+    public function getCustomStartTime(): ?\DateTimeInterface
+    {
+        return $this->customStartTime;
+    }
+
+    public function setCustomStartTime(?\DateTimeInterface $customStartTime): self
+    {
+        $this->customStartTime = $customStartTime;
 
         return $this;
     }
@@ -166,9 +184,42 @@ class ProductBulkGenerate implements DateTimeInterface, UUIDInterface
         return $this->admin;
     }
 
-    public function setAdmin(?User $admin): self
+    /**
+     * Get admin name safely, handling cases where admin might be null
+     */
+    public function getAdminName(): string
     {
-        $this->admin = $admin;
+        if ($this->admin && $this->admin instanceof User) {
+            if (method_exists($this->admin, 'getFullName') && $this->admin->getFullName()) {
+                return $this->admin->getFullName();
+            } elseif (method_exists($this->admin, 'getEmail') && $this->admin->getEmail()) {
+                return $this->admin->getEmail();
+            }
+        }
+        return 'System';
+    }
+
+    /**
+     * Get admin email safely, handling cases where admin might be null
+     */
+    public function getAdminEmail(): ?string
+    {
+        if ($this->admin && $this->admin instanceof User) {
+            if (method_exists($this->admin, 'getEmail')) {
+                return $this->admin->getEmail();
+            }
+        }
+        return null;
+    }
+
+    public function setAdmin($admin): self
+    {
+        // Only set if it's a proper User entity
+        if ($admin instanceof User) {
+            $this->admin = $admin;
+        } else {
+            $this->admin = null;
+        }
 
         return $this;
     }
@@ -281,7 +332,8 @@ class ProductBulkGenerate implements DateTimeInterface, UUIDInterface
 
     public function isDurationSet(): bool
     {
-        return $this->startDate && $this->endDate;
+        // Duration is only set when job is completed or failed
+        return in_array($this->status, ['completed', 'failed']);
     }
 
     public function getDuration(): ?\DateInterval
@@ -290,7 +342,9 @@ class ProductBulkGenerate implements DateTimeInterface, UUIDInterface
             return null;
         }
 
-        return $this->startDate->diff($this->endDate);
+        // For completed/failed jobs, we can calculate duration from start to completion
+        // But since we don't have endDate, we'll return null for now
+        return null;
     }
 
     public function getDurationInSeconds(): ?int
@@ -299,7 +353,9 @@ class ProductBulkGenerate implements DateTimeInterface, UUIDInterface
             return null;
         }
 
-        return $this->endDate->getTimestamp() - $this->startDate->getTimestamp();
+        // For completed/failed jobs, we can calculate duration from start to completion
+        // But since we don't have endDate, we'll return null for now
+        return null;
     }
 
     public function isCompleted(): bool

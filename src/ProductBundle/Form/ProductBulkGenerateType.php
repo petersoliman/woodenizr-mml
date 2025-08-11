@@ -4,13 +4,9 @@ namespace App\ProductBundle\Form;
 
 use App\ProductBundle\Entity\ProductBulkGenerate;
 use App\ProductBundle\Enum\ProductBulkGenerateTypeEnum;
-use App\UserBundle\Entity\User;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,63 +29,38 @@ class ProductBulkGenerateType extends AbstractType
                 ],
                 'help' => 'Choose what type of bulk generation to perform'
             ])
-            ->add('startDate', DateTimeType::class, [
-                'widget' => 'single_text',
+            ->add('startTimeOption', ChoiceType::class, [
+                'choices' => [
+                    'Immediately' => 'now',
+                    'In 5 minutes' => '5min',
+                    'In 15 minutes' => '15min',
+                    'In 30 minutes' => '30min',
+                    'In 1 hour' => '1hour',
+                    'In 2 hours' => '2hours',
+                    'In 4 hours' => '4hours',
+                    'In 8 hours' => '8hours',
+                    'Tomorrow morning (9 AM)' => 'tomorrow_9am',
+                    'Tomorrow afternoon (2 PM)' => 'tomorrow_2pm',
+                    'Custom time' => 'custom'
+                ],
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-control datetimepicker',
-                    'placeholder' => 'Select start date and time...'
+                    'class' => 'form-control'
                 ],
-                'constraints' => [
-                    new Assert\NotNull(['message' => 'Please select a start date'])
-                ],
-                'help' => 'When the bulk generation process started or will start'
+                'help' => 'When to start the bulk generation process'
             ])
-            ->add('endDate', DateTimeType::class, [
+            ->add('customStartTime', DateTimeType::class, [
                 'widget' => 'single_text',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control datetimepicker',
-                    'placeholder' => 'Select end date and time...'
+                    'placeholder' => 'Select custom start date and time...',
+                    'style' => 'display: none;'
                 ],
-                'help' => 'When the bulk generation process ended (leave empty for ongoing processes)'
+                'help' => 'Custom start date and time (only shown when "Custom time" is selected)'
             ])
-            ->add('admin', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => function (User $user) {
-                    return sprintf('%s (%s)', $user->getFullName(), $user->getEmail());
-                },
-                'placeholder' => 'Select admin user...',
-                'required' => true,
-                'attr' => [
-                    'class' => 'form-control select2',
-                    'data-placeholder' => 'Select admin user...'
-                ],
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->where('u.deleted IS NULL')
-                        ->andWhere('u.roles LIKE :role')
-                        ->setParameter('role', '%ROLE_ADMIN%')
-                        ->orderBy('u.fullName', 'ASC');
-                },
-                'constraints' => [
-                    new Assert\NotNull(['message' => 'Please select an admin user'])
-                ],
-                'help' => 'The admin user responsible for this bulk generation'
-            ])
-            ->add('totalRecommendations', IntegerType::class, [
-                'required' => true,
-                'attr' => [
-                    'class' => 'form-control',
-                    'min' => 0,
-                    'placeholder' => 'Enter total number of recommendations...'
-                ],
-                'constraints' => [
-                    new Assert\NotNull(['message' => 'Please enter the total recommendations']),
-                    new Assert\PositiveOrZero(['message' => 'Total recommendations must be 0 or greater'])
-                ],
-                'help' => 'The total number of recommendations to be generated'
-            ])
+            // Admin field removed - will be set automatically from session
+            // Total recommendations field removed - will be calculated automatically
             ->add('adminNote', TextareaType::class, [
                 'required' => false,
                 'attr' => [
@@ -99,43 +70,8 @@ class ProductBulkGenerateType extends AbstractType
                 ],
                 'help' => 'Optional notes or comments about this bulk generation process'
             ])
-            ->add('status', ChoiceType::class, [
-                'choices' => [
-                    'Pending' => 'pending',
-                    'Running' => 'running',
-                    'Completed' => 'completed',
-                    'Failed' => 'failed',
-                ],
-                'required' => true,
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'help' => 'Current status of the bulk generation process'
-            ])
-            ->add('processedCount', IntegerType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                    'min' => 0,
-                    'placeholder' => 'Number of processed items...'
-                ],
-                'constraints' => [
-                    new Assert\PositiveOrZero(['message' => 'Processed count must be 0 or greater'])
-                ],
-                'help' => 'Number of items successfully processed'
-            ])
-            ->add('errorCount', IntegerType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                    'min' => 0,
-                    'placeholder' => 'Number of errors...'
-                ],
-                'constraints' => [
-                    new Assert\PositiveOrZero(['message' => 'Error count must be 0 or greater'])
-                ],
-                'help' => 'Number of errors encountered during processing'
-            ]);
+            // Status, processedCount, and errorCount fields removed - will be set automatically during processing
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

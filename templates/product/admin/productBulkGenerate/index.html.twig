@@ -137,12 +137,7 @@
                             {{ form_widget(filter_form.status) }}
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            {{ form_label(filter_form.adminId, null, {'label_attr': {'class': 'control-label'}}) }}
-                            {{ form_widget(filter_form.adminId) }}
-                        </div>
-                    </div>
+                    {# Admin filter removed - admin is set automatically from session #}
                     <div class="col-md-2">
                         <div class="form-group">
                             {{ form_label(filter_form.createdFrom, null, {'label_attr': {'class': 'control-label'}}) }}
@@ -194,7 +189,7 @@
                         <th>Type</th>
                         <th>Status</th>
                         <th>Progress</th>
-                        <th>Admin</th>
+                        <th>Created By</th>
                         <th>Start Date</th>
                         <th>Duration</th>
                         <th>Actions</th>
@@ -226,16 +221,14 @@
                             <small class="text-muted">{{ job.processedCount }}/{{ job.totalRecommendations }} ({{ job.successRate }}%)</small>
                         </td>
                         <td>
-                            {% if job.admin %}
-                                <div class="media media-sm">
-                                    <div class="media-body">
-                                        <strong>{{ job.admin.fullName }}</strong><br>
-                                        <span class="text-muted text-size-small">{{ job.admin.email }}</span>
-                                    </div>
+                            <div class="media media-sm">
+                                <div class="media-body">
+                                    <strong>{{ job.adminName }}</strong>
+                                    {% if job.adminEmail %}
+                                        <br><span class="text-muted text-size-small">{{ job.adminEmail }}</span>
+                                    {% endif %}
                                 </div>
-                            {% else %}
-                                <span class="text-muted">--</span>
-                            {% endif %}
+                            </div>
                         </td>
                         <td>
                             <span class="text-muted">{{ job.startDate ? job.startDate|dateTimeFormat : '--' }}</span>

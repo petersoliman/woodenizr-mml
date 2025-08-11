@@ -81,12 +81,13 @@ class ProductBulkGenerateController extends AbstractController
         $this->denyAccessUnlessGranted(['ROLE_ADMIN']);
 
         $productBulkGenerate = new ProductBulkGenerate();
-        $productBulkGenerate->setStartDate(new \DateTime());
-        $productBulkGenerate->setStatus('pending');
+        // Start date will be calculated based on the selected time option
+        // Status, processedCount, errorCount, and totalRecommendations are set to defaults in entity
+        // No need to set them manually as they have proper default values
         
-        // Set current admin as default
+        // Set current admin from session (only if it's a proper User entity)
         $currentUser = $this->userService->getUser();
-        if ($currentUser) {
+        if ($currentUser && $currentUser instanceof \App\UserBundle\Entity\User) {
             $productBulkGenerate->setAdmin($currentUser);
         }
 
@@ -94,13 +95,36 @@ class ProductBulkGenerateController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Calculate start date based on selected time option
+            $startDate = $this->calculateStartDate($productBulkGenerate->getStartTimeOption(), $productBulkGenerate->getCustomStartTime());
+            $productBulkGenerate->setStartDate($startDate);
+            
+            // Ensure admin is set from current session user
+            $currentUser = $this->userService->getUser();
+            if ($currentUser && $currentUser instanceof \App\UserBundle\Entity\User) {
+                $productBulkGenerate->setAdmin($currentUser);
+            }
+            
             $productBulkGenerate->setCreator($this->userService->getUserName());
             $productBulkGenerate->setModifiedBy($this->userService->getUserName());
 
             $this->em()->persist($productBulkGenerate);
             $this->em()->flush();
 
-            $this->addFlash('success', 'Product bulk generate job created successfully.');
+            // Check if user wants to start immediately
+            if ($request->request->get('start_immediately')) {
+                try {
+                    // Start the job immediately
+                    $service = $this->container->get('app.product_bulk_generate.service');
+                    $service->startJob($productBulkGenerate);
+                    
+                    $this->addFlash('success', 'Product bulk generate job created and started successfully.');
+                } catch (\Exception $e) {
+                    $this->addFlash('warning', 'Job created successfully but failed to start: ' . $e->getMessage());
+                }
+            } else {
+                $this->addFlash('success', 'Product bulk generate job created successfully.');
+            }
 
             return $this->redirectToRoute('product_bulk_generate_show', ['id' => $productBulkGenerate->getId()]);
         }
@@ -109,6 +133,43 @@ class ProductBulkGenerateController extends AbstractController
             'product_bulk_generate' => $productBulkGenerate,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * Calculate start date based on selected time option
+     */
+    private function calculateStartDate(string $timeOption, ?\DateTimeInterface $customTime): \DateTimeInterface
+    {
+        $now = new \DateTime();
+        
+        switch ($timeOption) {
+            case 'now':
+                return $now;
+            case '5min':
+                return (clone $now)->add(new \DateInterval('PT5M'));
+            case '15min':
+                return (clone $now)->add(new \DateInterval('PT15M'));
+            case '30min':
+                return (clone $now)->add(new \DateInterval('PT30M'));
+            case '1hour':
+                return (clone $now)->add(new \DateInterval('PT1H'));
+            case '2hours':
+                return (clone $now)->add(new \DateInterval('PT2H'));
+            case '4hours':
+                return (clone $now)->add(new \DateInterval('PT4H'));
+            case '8hours':
+                return (clone $now)->add(new \DateInterval('PT8H'));
+            case 'tomorrow_9am':
+                $tomorrow = (clone $now)->add(new \DateInterval('PT1D'));
+                return $tomorrow->setTime(9, 0, 0);
+            case 'tomorrow_2pm':
+                $tomorrow = (clone $now)->add(new \DateInterval('PT1D'));
+                return $tomorrow->setTime(14, 0, 0);
+            case 'custom':
+                return $customTime ?? $now;
+            default:
+                return $now;
+        }
     }
 
     /**
