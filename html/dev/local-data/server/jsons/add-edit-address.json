@@ -1,0 +1,28 @@
+{
+  "error": false,
+  "message": "Test",
+  "addresses": [
+    {
+      "id": 1,
+      "title": "Work 2",
+      "mobileNumber": "01225465465",
+      "address": "Alexandria, Egypt 2",
+      "zone": {
+        "id": 100,
+        "title": "Alexandria"
+      },
+      "default": true
+    },
+    {
+      "id": 2,
+      "title": "Home 2",
+      "mobileNumber": "01200000",
+      "address": "Cairo, Cairo 2",
+      "zone": {
+        "id": 102,
+        "title": "Cairo"
+      },
+      "default": false
+    }
+  ]
+}

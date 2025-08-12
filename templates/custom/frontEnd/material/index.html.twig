@@ -1,0 +1,36 @@
+{% extends 'fe/base.html.twig' %}
+{% set seo = seoPage.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+{% import 'fe/macros.html.twig' as macros %}
+
+
+{% block criticalCSS %}
+    {% include "custom/frontEnd/material/_critical_css.css.twig" %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/materials/materials.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+    {% set pageTitle = seoPage.seo.title %}
+    {% set pageDescription = null %}
+
+    {% include "fe/_pages_header.html.twig" with {"pageTitle": pageTitle, "marginBottomZero": true } %}
+
+    <div class="l-lazy-section ui-lazy-section loading"
+         data-l-lazy-section="materials"
+         data-l-lazy-section-type="simple"
+         data-l-lazy-section-url="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'content':true})) }}"
+    ></div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/materials/materials.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/materials/materials.js')) }}
+    {{ macros.assetJS(asset('pages-assets/materials/materials.lazy.js'), true) }}
+{% endblock %}

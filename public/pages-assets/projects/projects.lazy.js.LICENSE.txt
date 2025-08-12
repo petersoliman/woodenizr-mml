@@ -1,0 +1,5 @@
+/*!
+ * in-view-modern 0.6.4 - Get notified when a DOM element enters or exits the viewport.
+ * Copyright (c) 2020 Pillyx <1020450921@qq.com> - https://github.com/phillyx/in-view
+ * License: MIT
+ */

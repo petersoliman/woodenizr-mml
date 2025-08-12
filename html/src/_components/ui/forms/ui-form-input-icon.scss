@@ -1,0 +1,16 @@
+.ui-form-input-icon {
+    color: #686868;
+    path {
+        fill: #686868;
+    }
+}
+
+.ui-form-input-icon-action {
+    transition: 0.2s all ease-in-out;
+    cursor: pointer;
+    &:hover {
+        path {
+            fill: var(--primary-color);
+        }
+    }
+}

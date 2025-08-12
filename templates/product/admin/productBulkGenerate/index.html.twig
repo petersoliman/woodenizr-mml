@@ -1,0 +1,451 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Product Bulk Generate{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body -%}
+    {# Statistics Cards #}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-body bg-blue-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin text-white">{{ statistics.total }}</h3>
+                        <span class="text-uppercase text-size-mini text-white-70">Total Jobs</span>
+                    </div>
+                    <div class="media-right media-middle">
+                        <i class="icon-cog icon-3x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-body bg-green-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin text-white">{{ statistics.byStatus.completed }}</h3>
+                        <span class="text-uppercase text-size-mini text-white-70">Completed</span>
+                    </div>
+                    <div class="media-right media-middle">
+                        <i class="icon-checkmark3 icon-3x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-body bg-orange-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin text-white">{{ statistics.byStatus.running }}</h3>
+                        <span class="text-uppercase text-size-mini text-white-70">Running</span>
+                    </div>
+                    <div class="media-right media-middle">
+                        <i class="icon-spinner2 icon-3x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-body bg-info-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin text-white">{{ statistics.totalRecommendations|number_format }}</h3>
+                        <span class="text-uppercase text-size-mini text-white-70">Recommendations</span>
+                    </div>
+                    <div class="media-right media-middle">
+                        <i class="icon-statistics icon-3x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Performance Stats #}
+    {% if performance_stats.totalJobs > 0 %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title">Performance Statistics</h6>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h5 class="text-semibold">{{ performance_stats.avgRecommendations|number_format }}</h5>
+                                <span class="text-muted">Avg Recommendations</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h5 class="text-semibold">{{ performance_stats.totalProcessed|number_format }}</h5>
+                                <span class="text-muted">Total Processed</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h5 class="text-semibold">{{ performance_stats.avgDurationMinutes|number_format(1) }} min</h5>
+                                <span class="text-muted">Avg Duration</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h5 class="text-semibold">{{ performance_stats.totalErrors|number_format }}</h5>
+                                <span class="text-muted">Total Errors</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {# Filter Form #}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">
+                <i class="icon-filter4 position-left"></i>
+                Filter Bulk Generate Jobs
+                <a class="heading-elements-toggle"><i class="icon-more"></i></a>
+            </h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            {{ form_start(filter_form, {'attr': {'class': 'form-horizontal'}}) }}
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(filter_form.generatedFor, null, {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(filter_form.generatedFor) }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(filter_form.status, null, {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(filter_form.status) }}
+                        </div>
+                    </div>
+                    {# Admin filter removed - admin is set automatically from session #}
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(filter_form.createdFrom, null, {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(filter_form.createdFrom) }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ form_label(filter_form.createdTo, null, {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(filter_form.createdTo) }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">&nbsp;</label>
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    <i class="icon-search4 position-left"></i> Filter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <a href="{{ path('product_bulk_generate_index') }}" class="btn btn-default">
+                        <i class="icon-reload-alt position-left"></i> Reset
+                    </a>
+                </div>
+            {{ form_end(filter_form) }}
+        </div>
+    </div>
+
+    {# Main Content #}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">Bulk Generate Jobs</h5>
+            <div class="heading-elements">
+                <a href="{{ path('product_bulk_generate_new') }}" class="btn btn-sm btn-primary">
+                    <i class="icon-plus3 position-left"></i> Create New Job
+                </a>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Progress</th>
+                        <th>Created By</th>
+                        <th>Start Date</th>
+                        <th>Duration</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for job in bulk_generate_jobs %}
+                    <tr>
+                        <td>{{ job.id }}</td>
+                        <td>
+                            <span class="label {{ job.generatedForBadgeClass }}">
+                                <i class="{{ job.generatedForIcon }} position-left"></i>
+                                {{ job.generatedForLabel }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="label {{ job.statusBadgeClass }}" 
+                                  data-id="{{ job.id }}" 
+                                  data-status="{{ job.status }}">
+                                {{ job.status|title }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="progress progress-micro">
+                                {% set progress = job.totalRecommendations > 0 ? (job.processedCount / job.totalRecommendations * 100)|round : 0 %}
+                                <div class="progress-bar {% if job.isCompleted %}bg-success{% elseif job.isFailed %}bg-danger{% else %}bg-primary{% endif %}" 
+                                     style="width: {{ progress }}%"></div>
+                            </div>
+                            <small class="text-muted">{{ job.processedCount }}/{{ job.totalRecommendations }} ({{ job.successRate }}%)</small>
+                        </td>
+                        <td>
+                            <div class="media media-sm">
+                                <div class="media-body">
+                                    <strong>{{ job.adminName }}</strong>
+                                    {% if job.adminEmail %}
+                                        <br><span class="text-muted text-size-small">{{ job.adminEmail }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="text-muted">{{ job.startDate ? job.startDate|dateTimeFormat : '--' }}</span>
+                        </td>
+                        <td>
+                            {% if job.durationInSeconds %}
+                                {% set duration = job.durationInSeconds %}
+                                {% if duration > 3600 %}
+                                    {{ (duration / 3600)|round(1) }}h
+                                {% elseif duration > 60 %}
+                                    {{ (duration / 60)|round(1) }}m
+                                {% else %}
+                                    {{ duration }}s
+                                {% endif %}
+                            {% else %}
+                                <span class="text-muted">--</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{{ path('product_bulk_generate_show', {'id': job.id}) }}" 
+                                   class="btn btn-sm btn-default" title="View">
+                                    <i class="icon-eye"></i>
+                                </a>
+                                <a href="{{ path('product_bulk_generate_edit', {'id': job.id}) }}" 
+                                   class="btn btn-sm btn-primary" title="Edit">
+                                    <i class="icon-pencil7"></i>
+                                </a>
+                                {% if job.isPending %}
+                                <button type="button" class="btn btn-sm btn-success start-job-btn" 
+                                        data-id="{{ job.id }}" title="Start Job">
+                                    <i class="icon-play3"></i>
+                                </button>
+                                {% endif %}
+                                {% if job.isRunning %}
+                                <button type="button" class="btn btn-sm btn-warning complete-job-btn" 
+                                        data-id="{{ job.id }}" title="Complete Job">
+                                    <i class="icon-checkmark3"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger fail-job-btn" 
+                                        data-id="{{ job.id }}" title="Fail Job">
+                                    <i class="icon-cross2"></i>
+                                </button>
+                                {% endif %}
+                                <button type="button" class="btn btn-sm btn-danger delete-btn" 
+                                        data-id="{{ job.id }}" 
+                                        data-title="{{ job.generatedForLabel }}"
+                                        title="Delete">
+                                    <i class="icon-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">No bulk generate jobs found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if paginator.totalItems > 0 %}
+            <div class="panel-body">
+                {{ include('adminTemplate/pagination.html.twig', {'paginator': paginator}) }}
+            </div>
+        {% endif %}
+    </div>
+
+    {# Delete Form (hidden) #}
+    <form id="delete-form" method="post" style="display: none;">
+        <input type="hidden" name="_token" id="delete-token">
+    </form>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.date.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/sweet_alert.min.js') }}"></script>
+
+    <script>
+        $(function() {
+            // Initialize Select2
+            $('.select2').select2({
+                placeholder: function() {
+                    return $(this).data('placeholder');
+                },
+                allowClear: true
+            });
+
+            // Initialize date pickers
+            $('.datepicker-metronic').pickadate({
+                format: 'yyyy-mm-dd',
+                formatSubmit: 'yyyy-mm-dd'
+            });
+
+            // Start job functionality
+            $('.start-job-btn').click(function() {
+                var id = $(this).data('id');
+                var $btn = $(this);
+                
+                swal({
+                    title: "Start Job",
+                    text: "Are you sure you want to start this bulk generation job?",
+                    type: "info",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, start it!",
+                    closeOnConfirm: false
+                }, function() {
+                    $.post('{{ path("product_bulk_generate_start", {"id": "__ID__"}) }}'.replace('__ID__', id))
+                    .done(function(response) {
+                        if (response.success) {
+                            swal("Started!", response.message, "success");
+                            location.reload();
+                        } else {
+                            swal("Error!", response.message, "error");
+                        }
+                    }).fail(function() {
+                        swal("Error!", "An error occurred while starting the job.", "error");
+                    });
+                });
+            });
+
+            // Complete job functionality
+            $('.complete-job-btn').click(function() {
+                var id = $(this).data('id');
+                
+                swal({
+                    title: "Complete Job",
+                    text: "Mark this job as completed?",
+                    type: "success",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, complete it!",
+                    closeOnConfirm: false
+                }, function() {
+                    $.post('{{ path("product_bulk_generate_complete", {"id": "__ID__"}) }}'.replace('__ID__', id))
+                    .done(function(response) {
+                        if (response.success) {
+                            swal("Completed!", response.message, "success");
+                            location.reload();
+                        } else {
+                            swal("Error!", response.message, "error");
+                        }
+                    }).fail(function() {
+                        swal("Error!", "An error occurred while completing the job.", "error");
+                    });
+                });
+            });
+
+            // Fail job functionality
+            $('.fail-job-btn').click(function() {
+                var id = $(this).data('id');
+                
+                swal({
+                    title: "Fail Job",
+                    text: "Reason for failure:",
+                    type: "input",
+                    showCancelButton: true,
+                    confirmButtonText: "Mark as Failed",
+                    inputPlaceholder: "Enter failure reason...",
+                    closeOnConfirm: false
+                }, function(inputValue) {
+                    if (inputValue === false) return false;
+                    if (inputValue === "") {
+                        swal.showInputError("You need to write something!");
+                        return false;
+                    }
+                    
+                    $.post('{{ path("product_bulk_generate_fail", {"id": "__ID__"}) }}'.replace('__ID__', id), {
+                        reason: inputValue
+                    }).done(function(response) {
+                        if (response.success) {
+                            swal("Failed!", response.message, "success");
+                            location.reload();
+                        } else {
+                            swal("Error!", response.message, "error");
+                        }
+                    }).fail(function() {
+                        swal("Error!", "An error occurred while failing the job.", "error");
+                    });
+                });
+            });
+
+            // Delete functionality
+            $('.delete-btn').click(function() {
+                var id = $(this).data('id');
+                var title = $(this).data('title');
+
+                swal({
+                    title: "Are you sure?",
+                    text: "Delete bulk generate job for \"" + title + "\"?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    closeOnConfirm: false
+                }, function() {
+                    var token = "{{ csrf_token('delete' ~ '__ID__') }}".replace('__ID__', id);
+                    $('#delete-token').val(token);
+                    $('#delete-form').attr('action', '{{ path("product_bulk_generate_delete", {"id": "__ID__"}) }}'.replace('__ID__', id));
+                    $('#delete-form').submit();
+                });
+            });
+
+            // Auto-refresh for running jobs
+            if ($('.label:contains("Running")').length > 0) {
+                setInterval(function() {
+                    location.reload();
+                }, 30000); // Refresh every 30 seconds
+            }
+        });
+    </script>
+{% endblock %}
+
+
+
+

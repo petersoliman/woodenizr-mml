@@ -1,0 +1,34 @@
+<script type="text/javascript" src="{{ asset('admin/js/core/libraries/jquery_ui/core.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/fancytree/jquery.fancytree.js') }}"></script>
+
+{% if filter_form.category.vars.block_prefixes.1 == "hidden" %}
+    <script>
+        $(document).ready(function () {
+            $('#myFancyTreeID').fancytree({
+                checkbox: true,
+                debugLevel: 0,
+                selectMode: 1,
+                click: function (event, data) {
+                    if (typeof data.node.data.id != "undefined") {
+                        data.node.setSelected(true);
+                        return false;
+
+                    }
+                },
+                select: function (event, data) {
+                    // Display list of selected nodes
+                    if (typeof data.node.data.id != "undefined") {
+                        changeCategory(data.node.data.id, data.node.title);
+                    }
+                },
+                source: {
+                    url: "{{ path('product_category_fancy_tree') }}"
+                }
+            });
+            function changeCategory(id, title) {
+                $("#categoryName").text(title);
+                $("[name*='[category]']").val(id);
+            }
+        });
+    </script>
+{% endif %}

@@ -1,0 +1,19 @@
+{% if new_option_form is defined %}
+    <div class="panel panel-flat" id="options-box">
+        <div class="panel-heading">
+            <h6 class="panel-title">Variants</h6>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    {% include "product/admin/productVariant/option/_form.html.twig" %}
+                </div>
+
+                <div id="edit-options-container">
+                    {% include "product/admin/productVariant/option/_edit_options_form.html.twig" %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endif %}

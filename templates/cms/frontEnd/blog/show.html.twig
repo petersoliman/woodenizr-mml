@@ -1,0 +1,135 @@
+{% extends 'fe/base.html.twig' %}
+{% set seo = blog.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+{% import 'fe/macros.html.twig' as macros %}
+
+
+{% block criticalCSS %}
+    {% include "cms/frontEnd/blog/_show_critical_css.css.twig" %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/magazine-single/magazine-single.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="ui-featured-readings-section">
+        <div class="l-featured-readings-container">
+            <div class="l-container l-container--phone-spacing">
+                <br>
+                <br>
+                <br>
+                <br>
+
+
+                <div class="l-title-line l-title-line--spacing-bottom">
+                    <h1 class="l-title-line-title ui-title-line-title ui-title-line-title--centered ui-title-line-title--semibold">{{ blog.title }}</h1>
+                </div>
+                {% if blog.post.imageByType(constant("\\App\\MediaBundle\\Entity\\Image::TYPE_COVER_PHOTO")) %}
+                    {% set image = asset(blog.post.imageByType(constant("\\App\\MediaBundle\\Entity\\Image::TYPE_COVER_PHOTO")).assetPath) %}
+                {% else %}
+                    {% set image = asset('assets/img/placeholder-landscape.webp') %}
+                {% endif %}
+
+                <picture>
+                    <!--[if IE 9]>
+                    <video style="display: none;><![endif]-->
+                    <source data-srcset="{{ image|webp(null, 162) }}" media="--small"/>
+                    <source data-srcset="{{ image|webp(null, 162) }}" media="--medium"/>
+                    <source data-srcset="{{ image|webp(null, 220) }}" media="--large"/>
+                    <source data-srcset="{{ image|webp(null, 366) }}" media="--x-large"/>
+                    <source data-srcset="{{ image|webp(null, 410) }}" media="--xx-large"/>
+                    <!--[if IE 9]></video><![endif]-->
+                    <img
+                            class="l-responsive-img l-reading-post-slide-img ui-reading-post-slide-img lazyload"
+                            width="1388"
+                            height="500"
+                            data-expand="-20"
+                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                            data-src="{{ image|webp(null, 500) }}"
+                            alt="{{ blog.title }}"
+                    />
+                </picture>
+                <br><br>
+                <div class="ui-editor-content-box">
+                    {{ blog.post.content.description|raw }}
+                </div>
+
+                <br>
+                <br>
+                <br>
+            </div>
+            {% if relatedBlogs|length >0 %}
+                <div class="u-bg-light" style="height: 31px;"></div>
+                <div class="l-container">
+
+                    <br>
+                    <br>
+                    <br>
+                    <div class="l-title-line l-title-line--spacing-bottom">
+                        <div class="l-title-line-title ui-title-line-title ui-title-line-title--centered ui-title-line-title--semibold">
+                            {{ "related_articles_txt"|trans }}
+                        </div>
+                    </div>
+                    <br>
+                    <div class="l-flex-row">
+                        {% for blog in relatedBlogs %}
+                            {% if blog.post.mainImage %}
+                                {% set image = asset(blog.post.mainImage.assetPath) %}
+                            {% else %}
+                                {% set image = asset('assets/img/product-img-placeholder.webp') %}
+                            {% endif %}
+
+                            <div class="l-flex-col-xl-3 l-flex-col-lg-6 l-flex-col-md-6">
+                                <a href="{{ path('fe_blog_show', {'slug':blog.seo.slug}) }}"
+                                   class="ui-reading-post-slide l-reading-post-slide">
+                                    <div class="l-reading-post-slide-img-container">
+                                        <picture>
+                                            <!--[if IE 9]>
+                                            <video style="display: none;><![endif]-->
+                                            <source data-srcset="{{ image|webp(null, 408) }}" media="--small"/>
+                                            <source data-srcset="{{ image|webp(null, 394) }}" media="--medium"/>
+                                            <source data-srcset="{{ image|webp(null, 255) }}" media="--large"/>
+                                            <source data-srcset="{{ image|webp(null, 328) }}" media="--x-large"/>
+                                            <source data-srcset="{{ image|webp(null, 230) }}" media="--xx-large"/>
+                                            <!--[if IE 9]></video><![endif]-->
+                                            <img
+                                                    class="l-responsive-img l-reading-post-slide-img ui-reading-post-slide-img lazyload"
+                                                    width="388"
+                                                    height="283"
+                                                    data-expand="-20"
+                                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                                    data-src="{{ image|webp(null, 283) }}"
+                                                    alt="{{ blog.title }}"
+                                            />
+                                        </picture>
+                                    </div>
+                                    <div class="ui-reading-post-slide-body l-reading-post-slide-body">
+                                        <div class="ui-reading-post-slide-body-box">
+                                            {# <h6 class="l-reading-post-slide-body-title ui-reading-post-slide-body-title">By Hany Ghobery</h6> #}
+                                            <h6 class="l-reading-post-slide-body-body ui-reading-post-slide-body-body">{{ blog.title }}</h6>
+                                        </div>
+                                        <div class="ui-reading-post-slide-actions l-reading-post-slide-actions">
+                                            {{ "read_more_txt"|trans }} {% include "fe/icons/arrow-right.svg" %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/magazine-single/magazine-single.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/magazine-single/magazine-single.js')) }}
+    {{ macros.assetJS(asset('pages-assets/magazine-single/magazine-single.lazy.js'), true) }}
+{% endblock %}

@@ -1,0 +1,41 @@
+<tr>
+    {% if constant("App\\BaseBundle\\SystemConfiguration::PRODUCT_PRICE_TYPE").hasTitle == true %}
+        <td>
+            {{ form_widget(form.title) }}
+            {{ form_errors(form.title) }}
+        </td>
+    {% endif %}
+    <td>
+        <div class="input-group">
+            {{ form_widget(form.unitPrice) }}
+            <span class="input-group-addon" data-l-product-curency="true">{{ product.currency.symbol }}</span>
+        </div>
+        {{ form_errors(form.unitPrice) }}
+    </td>
+    <td>
+        <div class="input-group">
+            {{ form_widget(form.promotionalPrice) }}
+            <span class="input-group-addon" data-l-product-curency="true">{{ product.currency.symbol }}</span>
+        </div>
+        {{ form_errors(form.promotionalPrice) }}
+    </td>
+    <td>
+        <div style="position:relative;">
+            {{ form_widget(form.promotionalExpiryDate) }}
+            {{ form_errors(form.promotionalExpiryDate) }}
+        </div>
+    </td>
+    <td>
+        {{ form_widget(form.stock) }}
+        {{ form_errors(form.stock) }}
+    </td>
+    <td>
+        {{ form_widget(form.weight) }}
+        {{ form_errors(form.weight) }}
+    </td>
+    {% if constant("App\\BaseBundle\\SystemConfiguration::PRODUCT_PRICE_TYPE").value == constant("App\\BaseBundle\\ProductPriceTypeEnum::MULTI_PRICES").value %}
+        <td class="text-center">
+            <a href="#" class="btn btn-danger delete" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-minus"></i></a>
+        </td>
+    {% endif %}
+</tr>

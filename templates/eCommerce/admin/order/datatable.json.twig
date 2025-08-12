@@ -1,0 +1,21 @@
+{% import 'eCommerce/admin/order/macros.html.twig' as macros %}
+{
+"recordsTotal": {{ recordsTotal }},
+"recordsFiltered": {{ recordsFiltered }},
+"data": [
+{% for order in orders %}
+    [
+    "<span class='entityId' data-id='{{ order.id }}'></span><a href='{{ path('order_show', { 'id': order.id }) }}' class='text-semibold'>{{ order.id }}</a>",
+    "{{ macros.orderStateList(order) }}",
+    "{{ macros.shippingStateList(order) }}",
+    "{% if order.user %}<a href='{{ path('user_show',{'id':order.user.id}) }}'>{{ order.user.fullName }}</a>{% elseif order.orderGuestData %}{{ order.orderGuestData.name }}{% else %}--{% endif %}",
+    "{{ order.itemQty }}",
+    "{{ order.paymentMethod.title }}<br>{{ macros.paymentStateList(order) }}",
+    "{{ order.totalPrice|number_format(1) }} EGP",
+    "{% if order.created %}{{ order.created|dateTimeFormat }}{% else %}--{% endif %}",
+    "<ul class='icons-list'><li><a href='{{ path('order_show',{'id':order.id}) }}'><i class='icon-eye'></i></a></li></ul>"
+
+    ]{% if loop.last == false %},{% endif %}
+{% endfor %}
+]
+}

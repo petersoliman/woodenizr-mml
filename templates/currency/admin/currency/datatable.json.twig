@@ -1,0 +1,17 @@
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for currency in currencies %}
+        [
+            "{{ currency.code }}",
+            "{{ currency.title }}",
+            "{{ currency.symbol }}",
+            "{% if currency.default %}<span class='label label-success'>Yes</span>{% else %}<span class='label label-danger'>No</span>{% endif %}",
+            "{% if currency.created %}{{ currency.created|dateTimeFormat }}{% else %}--{% endif %}",
+            "<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'>{% if is_granted('ROLE_ADMIN') %}{% if currency.default == false %}<li><a href='#' class='change-default-btn' data-toggle='modal' data-target='#modal_change_default' data-currency-title='{{ currency.title }}' data-action='{{ path('currency_change_default',{'id':currency.id}) }}'><i class='icon-check'></i> Make Default</a></li><li class='divider'></li>{% endif %}<li><a href='{{ path('currency_edit',{'id':currency.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('currency_delete',{'id':currency.id}) }}'><i class='icon-bin'></i> Remove</a></li>{% endif %}</ul></li></ul>"
+
+        ]{% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

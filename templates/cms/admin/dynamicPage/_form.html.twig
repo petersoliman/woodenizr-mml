@@ -1,0 +1,18 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(form.title) }}
+        </div>
+        <div class="row">
+            {{ macros.input(form.post.brief) }}
+        </div>
+        <div class="row">
+            {{ macros.input(form.post.description,12,null,null,'form-control ckeditor') }}
+        </div>
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>
+{% include '@PNSeo/Administration/Seo/seo.html.twig' with { 'seoForm':form.seo, 'entity':dynamicPage } %}

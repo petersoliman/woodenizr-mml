@@ -1,0 +1,78 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% import 'adminTemplate/macros.html.twig' as macros %}
+{% set page_title %}Edit {{ brand.title }}{% endset %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('brand_index') }}">Brands List</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+        <ul class="breadcrumb-elements">
+            <li>
+                <a href="{{ path('post_set_images', { 'id': brand.post.id}) }}"><i class="fa fa-image position-left"></i> Manage image gallery</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'}}) }}
+    <div class="row">
+        <div class="col-md-9">
+            {% set defaultTwig= include ("product/admin/brand/_form.html.twig") %}
+            {{ include ("@PNLocale/new_or_edit_tab_structure.html.twig", {'defaultTwig': defaultTwig, "transTwigPath" : "product/admin/brand/_form_trans.html.twig"} ) }}
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <div class="row">
+                        {{ macros.checkbox(form.publish, 12) }}
+                    </div>
+                    <div class="row">
+                        {{ macros.checkbox(form.featured, 12) }}
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">Creator</div>
+                        <div class="col-xs-6">{% if brand.creator %}{{ brand.creator }}{% else %}--{% endif %}</div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-xs-6">Created date</div>
+                        <div class="col-xs-6">{% if brand.created %}{{ brand.created|dateFormat }}{% else %}--/--/----{% endif %}</div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-xs-6">Modified by</div>
+                        <div class="col-xs-6">{% if brand.modifiedBy %}{{ brand.modifiedBy }}{% else %}--{% endif %}</div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-xs-6">Modified date</div>
+                        <div class="col-xs-6">{% if brand.modified %}{{ brand.modified|dateFormat }}{% else %}--/--/----{% endif %}</div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    {% include 'product/admin/brand/_save_btns.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.date.js') }}"></script>
+    {% include '@PNSeo/Administration/Seo/seo.js.html.twig' with {'entity':brand} %}
+    <script>
+        $(document).ready(function () {
+            $(document.body).on("click", ".clear-products-btn", function () {
+                var action = $(this).data('action');
+                $('#clear-products-form').attr('action', action);
+            });
+        });
+    </script>
+{% endblock javascripts %}

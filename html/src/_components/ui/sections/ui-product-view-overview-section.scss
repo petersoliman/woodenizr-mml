@@ -1,0 +1,22 @@
+.ui-product-view-overview-section {
+    background: #fff;
+    border-bottom: 33px solid #F7F7FA;
+    &-col {
+        padding-left: 25px;
+        padding-right: 25px;
+        @include media-max($xl) {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    }
+    &-col-details {
+        @include media-min($md) {
+            @include ltr() {
+                padding-right: 6%;
+            }
+            @include rtl() {
+                padding-left: 6%;
+            }
+        }
+    }
+}

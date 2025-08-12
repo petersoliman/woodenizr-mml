@@ -1,0 +1,254 @@
+.ui-product-slide {
+  border: 1px solid #E9E9E9;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: 0.09s all ease-in-out;
+  width: 100%;
+
+  &--spacing-x-7 {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+  &:hover {
+    border-color: #AEB3BE;
+  }
+
+  &-col {
+    padding-bottom: 57px;
+  }
+
+  &-header-action {
+    padding: 5px;
+    border: 0;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: 0.09s all ease-in-out;
+
+    path {
+      transition: 0.09s all ease-in-out;
+    }
+
+    &.ui-product-slide-header-action--not-clickable {
+      cursor: default;
+    }
+
+    &.ui-product-slide-header-action--active {
+      path {
+        stroke: #686868;
+        fill: #686868;
+      }
+    }
+
+    &.ui-product-slide-header-action--hoverable {
+      &:hover {
+        path {
+          stroke: var(--primary-color);
+          fill: var(--primary-color);
+        }
+      }
+    }
+  }
+
+  &-img-link {
+    padding: 14px 14px 8px;
+  }
+
+  &-img-link--full-width {
+    padding-top: 45px;
+    padding-bottom: 15px;
+  }
+
+  &-img-link--full-width-sm {
+    padding-top: 25px;
+    padding-bottom: 5px;
+  }
+
+  &-img {
+    //padding: 19px 13px 0;
+
+    &.ui-product-slide-img--placeholder {
+      padding-left: 0;
+    }
+  }
+
+  &-img--full-width {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &-img--full-width-sm {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &-badge {
+    padding: 7px 12px;
+    color: #fff;
+    line-height: 1;
+    text-align: center;
+
+    font-size: 16px;
+    font-weight: 500;
+    background: #AEB3BE;
+    @include ltr {
+      border-radius: 5px 0 5px 0;
+    }
+    @include rtl {
+      border-radius: 0 5px 0 5px;
+    }
+    @include media-max($xxl) {
+      font-size: 13px;
+      padding: 5px 10px;
+    }
+
+    &.ui-product-slide-badge--color-gold {
+      background: #E0BF62;
+    }
+
+    &.ui-product-slide-badge--color-bronze {
+      background: #B89784;
+    }
+  }
+
+  &-body {
+    padding: 14px 14px 9px;
+    color: #3F3F3F;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: 0.09s all ease-in-out;
+    @include media-max($xxl) {
+      padding: 10px 10px 6px;
+    }
+
+    &:hover {
+      color: var(--primary-color);
+    }
+    &-txt{
+      color: #686868;
+      font-size: 14px;
+      font-weight: 300;
+      margin: 0 14px;
+
+    }
+  }
+
+  &-body-title {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25px;
+    @include media-max($xxl) {
+      font-size: 13px;
+      line-height: 22px;
+    }
+  }
+
+  &-footer {
+    padding: 14px 14px 28px;
+    color: #3F3F3F;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 25px;
+    @include media-max($xxl) {
+      padding: 10px 10px 16px;
+    }
+  }
+
+  &-footer--full-width-sm {
+    padding-top: 0;
+  }
+
+  &-price-container {
+    text-decoration: none;
+    color: #3F3F3F;
+  }
+
+  &-price {
+    color: var(--primary-color);
+    font-size: 18px;
+    font-weight: 600;
+    @include media-max($xxl) {
+      font-size: 16px;
+    }
+  }
+
+  &-price-desc {
+    font-size: 14px;
+    font-weight: 400;
+    @include media-max($xxl) {
+      line-height: 1;
+      font-size: 12px;
+    }
+  }
+
+  &-rating-container {
+    text-decoration: none;
+    color: #3F3F3F;
+    transition: 0.09s all ease-in-out;
+
+    &:hover {
+      color: #EEC337;
+    }
+  }
+
+  &-rating {
+    color: #EEC337;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
+    @include media-max($xxl) {
+      font-size: 12px;
+    }
+
+    span {
+      padding-left: 2px;
+    }
+  }
+
+  &-rating-count {
+    padding-left: 7px;
+    @include media-max($xxl) {
+      padding-left: 5px;
+      font-size: 12px;
+    }
+  }
+
+  &-footer-action {
+    background-color: #fff;
+    border: 1.25px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 19px;
+    text-align: center;
+    color: #686868;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 14px;
+    cursor: pointer;
+    transition: 0.09s all ease-in-out;
+    @include media-max($xxl) {
+      font-size: 13px;
+      padding: 16px;
+    }
+
+    &:disabled {
+      background-color: #686868;
+      border-color: #686868;
+      color: #fff;
+      pointer-events: none;
+    }
+
+    &:not(:disabled):hover {
+      color: #FFF;
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+    &.active{
+      color: #FFF;
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+  }
+}

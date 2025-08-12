@@ -1,0 +1,92 @@
+.ui-cart-delete-modal {
+
+
+  &-close-btn {
+    border: 0;
+    cursor: pointer;
+    background: transparent;
+
+    &:hover {
+      path {
+        fill: var(--primary-color);
+      }
+    }
+  }
+
+  &-body {
+    padding-left: 10px;
+    padding-right: 10px;
+    @include ltr {
+      text-align: left;
+    }
+    @include rtl {
+      text-align: right;
+    }
+  }
+
+  &-title {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 36px;
+    color: #595959;
+    padding: 0;
+    @include media-max($md){
+      font-size: 18px;
+    }
+  }
+
+  &-product {
+    border: 1px solid #DEDEDE;
+    border-radius: 10px;
+    padding: 20px 28px;
+  }
+
+  &-product-title {
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 29px;
+    color: #3F3F3F;
+    @include media-max($md){
+      font-size: 16px;
+    }
+  }
+
+  &-product-price {
+    font-weight: 600;
+    font-size: 21.1358px;
+    line-height: 29px;
+    color: var(--primary-color);
+  }
+
+  &-action {
+    padding: 17px 42px;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    font-weight: 600;
+    background: transparent;
+    font-size: 18px;
+    line-height: 30px;
+    text-align: center;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: 0.2s all ease-in-out;
+    &:hover {
+      box-shadow: 0 0 0 1px #BCBCBC, 5px 5px 9px 7px rgba(215, 215, 215, 0.5);
+    }
+    @include media-max($md) {
+      font-size: 16px;
+    }
+  }
+
+  &-action--save {
+    padding: 17px;
+    border: 1px solid var(--primary-color);
+    font-weight: 500;
+    color: #fff;
+    background: var(--primary-color);
+
+    strong {
+      font-weight: 600;
+    }
+  }
+}

@@ -1,0 +1,60 @@
+@import '../../mixins';
+
+.l-modal-dialog {
+  &.show-modal {
+    .l-discount-modal {
+      flex-direction: row;
+      @include media-max($lg) {
+        flex-direction: column;
+        .l-discount-modal-img {
+          margin: 12px 15px;
+        }
+      }
+    }
+  }
+}
+
+.l-discount-modal {
+  max-width: 700px;
+  @include media-max($sm) {
+    width: 90%;
+    .l-discount-modal-img {
+      width: calc(100% - 30px);
+    }
+  }
+
+  &-close-btn {
+    position: absolute;
+    top: 0;
+    @include ltr {
+      right: 0;
+    }
+    @include rtl {
+      left: 0;
+    }
+  }
+
+  &-body {
+    @include ltr {
+      padding: 90px 80px 50px 13px;
+    }
+    @include rtl {
+      padding: 90px 13px 50px 80px;
+    }
+    @include media-max($lg) {
+      padding: 45px 15px 53px !important;
+    }
+  }
+
+  &-body-title {
+    margin: 0;
+  }
+
+  &-body-subtitle {
+    margin: 0;
+  }
+
+  &-body-input {
+    max-width: 146px;
+  }
+}

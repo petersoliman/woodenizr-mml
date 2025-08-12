@@ -1,0 +1,17 @@
+{% for label, messages in app.flashes %}
+    {% set alertColor = 'bg-primary' %}
+    {% if label == 'error' %}
+        {% set alertColor = 'bg-danger' %}
+    {% elseif label == 'warning' %}
+        {% set alertColor = 'bg-warning' %}
+    {% elseif label == 'success' %}
+        {% set alertColor = 'bg-success' %}
+    {% endif %}
+
+    {% for message in messages %}
+        <div class="alert {{ alertColor }} alert-styled-left">
+            <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}

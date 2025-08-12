@@ -1,0 +1,43 @@
+{% for review in reviews %}
+    <div class="l-product-reviews-customer-review ui-product-reviews-customer-review">
+        <div class="l-product-reviews-customer-review-header ui-product-reviews-customer-review-header">
+            <div class="l-product-reviews-customer-box ui-product-reviews-customer-box">
+                <div class="l-product-reviews-customer-avatar ui-product-reviews-customer-avatar">
+                    <span class="l-product-reviews-customer-avatar-text ui-product-reviews-customer-avatar-text">{{ review.user.nameAcronym }}</span>
+                    {# <!-- <img src="{{ asset('assets/img/product-img-placeholder.webp') }}" alt="" class="customer-avatar-img"> --> #}
+                </div>
+                <div class="l-product-reviews-customer-details ui-product-reviews-customer-details">
+                    <span class="l-product-reviews-customer-name ui-product-reviews-customer-name">{{ review.user.name }}</span>
+                    <div class="l-product-reviews-customer-stars ui-product-reviews-customer-stars">
+                        {% for i in 1..5 %}
+                            <span class="l-product-reviews-customer-star ui-product-reviews-customer-star">
+                            {% if i <= review.rating|round %}
+                                <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.6717 12.2052L16.6717 12.2052L16.6649 12.2118C16.194 12.6681 15.9788 13.3265 16.0857 13.9713L16.0856 13.9713L16.0877 13.9828L17.0495 19.306C17.0746 19.4455 17.016 19.5877 16.8976 19.6694L16.8887 19.6756L16.8799 19.682C16.7619 19.7682 16.6025 19.7801 16.4697 19.7089L16.4697 19.7089L16.4615 19.7046L11.6751 17.2083C11.674 17.2077 11.6729 17.207 11.6717 17.2064C11.3927 17.0586 11.0867 16.9812 10.7786 16.9724L10.7671 16.972H10.7556H10.4624H10.4027L10.3438 16.9808C10.1555 17.0089 9.96722 17.069 9.79104 17.1642L5.01057 19.6689C4.92817 19.7091 4.83682 19.7238 4.7473 19.7118C4.54381 19.6675 4.40819 19.472 4.43933 19.2645L5.4008 13.9494L5.4009 13.9495L5.403 13.9367C5.50925 13.2902 5.29496 12.6325 4.82817 12.1729L4.82819 12.1729L4.82366 12.1685L0.916598 8.38156C0.813757 8.28179 0.77926 8.13395 0.825412 8.00118L0.825438 8.00119L0.827568 7.9949C0.876441 7.85046 0.999918 7.74597 1.14843 7.72128L6.50589 6.94407C7.18174 6.86797 7.77306 6.45428 8.07709 5.84621L8.07713 5.84623L8.08061 5.8391L10.4446 0.992402C10.4568 0.969978 10.4698 0.951224 10.4826 0.935908L10.5348 0.89533L10.5905 0.852009L10.6082 0.832345L10.6099 0.831715L10.6247 0.826319L10.6391 0.820356L10.6758 0.805266H10.9194C11.0429 0.82743 11.1484 0.904543 11.2063 1.01403L13.602 5.84C13.6024 5.84075 13.6028 5.8415 13.6031 5.84225C13.8934 6.43353 14.455 6.84199 15.1015 6.94104L15.1015 6.94107L15.1079 6.94199L20.4857 7.72216L20.4875 7.72241C20.6404 7.74426 20.7694 7.84881 20.8228 7.99387C20.8637 8.12818 20.8253 8.27465 20.7212 8.37228L20.7187 8.37469L16.6717 12.2052Z" fill="#EEC337" stroke="#EEC337" stroke-width="1.61053" /></svg>
+                            {% else %}
+                                <svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.0311 12.2052L17.0311 12.2052L17.0243 12.2118C16.5534 12.6681 16.3382 13.3265 16.4451 13.9713L16.445 13.9713L16.4471 13.9828L17.4089 19.306C17.434 19.4455 17.3754 19.5877 17.2569 19.6694L17.248 19.6756L17.2393 19.682C17.1213 19.7682 16.9618 19.7801 16.829 19.7089L16.8291 19.7089L16.8209 19.7046L12.0345 17.2083C12.0334 17.2077 12.0322 17.207 12.0311 17.2064C11.7521 17.0586 11.446 16.9812 11.138 16.9724L11.1265 16.972H11.115H10.8218H10.7621L10.7031 16.9808C10.5149 17.0089 10.3266 17.069 10.1504 17.1642L5.36994 19.6689C5.28754 19.7091 5.19619 19.7238 5.10668 19.7118C4.90319 19.6675 4.76756 19.472 4.79871 19.2645L5.76017 13.9494L5.76027 13.9495L5.76237 13.9367C5.86862 13.2902 5.65433 12.6325 5.18755 12.1729L5.18756 12.1729L5.18304 12.1685L1.27597 8.38156C1.17313 8.28179 1.13863 8.13395 1.18479 8.00118L1.18481 8.00119L1.18694 7.9949C1.23582 7.85046 1.35929 7.74597 1.5078 7.72128L6.86526 6.94407C7.54112 6.86797 8.13243 6.45428 8.43647 5.84621L8.4365 5.84623L8.43998 5.8391L10.804 0.992402C10.8162 0.969978 10.8292 0.951224 10.842 0.935908L10.8941 0.89533L10.9498 0.852009L10.9676 0.832345L10.9693 0.831715L10.984 0.826319L10.9985 0.820356L11.0352 0.805266H11.2787C11.4023 0.82743 11.5078 0.904543 11.5657 1.01403L13.9614 5.84C13.9618 5.84075 13.9621 5.8415 13.9625 5.84225C14.2527 6.43353 14.8144 6.84199 15.4609 6.94104L15.4609 6.94107L15.4672 6.94199L20.8451 7.72216L20.8468 7.72241C20.9998 7.74426 21.1288 7.84881 21.1822 7.99387C21.2231 8.12818 21.1847 8.27465 21.0806 8.37228L21.0781 8.37469L17.0311 12.2052Z" stroke="#EEC337" stroke-width="1.61053" /></svg>
+                            {% endif %}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="l-product-reviews-customer-review-meta ui-product-reviews-customer-review-meta">
+                {% if review.isPurchasedVerified %}
+                    <div class="l-product-reviews-verified ui-product-reviews-verified">
+                        <span class="l-product-reviews-verified-circle ui-product-reviews-verified-circle"></span>
+                        <span>{{ "verified_purchase_txt"|trans }}</span>
+                    </div>
+                {% endif %}
+                <div>
+                    {{ review.created|date("d") ~ " " ~ review.created|date("M")|trans ~ ", " ~ review.created|date("Y") }}
+                </div>
+            </div>
+        </div>
+        <div class="l-product-reviews-customer-review-body ui-product-reviews-customer-review-body">
+            {# <h5 class="l-product-reviews-customer-review-body-title ui-product-reviews-customer-review-body-title">Good material good finish</h5> #}
+            <p class="l-product-reviews-customer-review-body-text ui-product-reviews-customer-review-body-text">
+                {{ review.review|nl2br }}
+            </p>
+        </div>
+    </div>
+{% endfor %}

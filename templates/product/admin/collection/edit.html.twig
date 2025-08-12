@@ -1,0 +1,43 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% import 'adminTemplate/macros.html.twig' as macros %}
+{% set page_title %}Edit {{ collection.title }}{% endset %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('collection_index') }}">Collections List</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+        <ul class="breadcrumb-elements">
+            <li>
+                <a href="#" data-action="{{ path('collection_clear_products',{'id':collection.id}) }}" class="clear-products-btn" data-toggle="modal" data-target="#modal_clear_products">
+                    <i class="icon-minus3 position-left"></i> Clear All Products
+                </a>
+            </li>
+            <li><a href="{{ path('post_set_images', { 'id': collection.post.id}) }}"><i class="fa fa-image position-left"></i> Manage image gallery</a></li>
+            <li><a href="{{ path('collection_manage_product', { 'id': collection.id}) }}"><i class="icon-briefcase position-left"></i> Manage Products ({{ collection.noOfProducts }})</a></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'}}) }}
+    <div class="row">
+        <div class="col-md-9">
+            {% set defaultTwig= include ("product/admin/collection/_form.html.twig") %}
+            {{ include ("@PNLocale/new_or_edit_tab_structure.html.twig", {'defaultTwig': defaultTwig, "transTwigPath" : "product/admin/collection/_form_trans.html.twig"} ) }}
+        </div>
+        <div class="col-md-3">
+            {% include"product/admin/collection/_new_edit_aside.html.twig" %}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block modalCode %}
+    {% include "product/admin/collection/_clear_product_modal.html.twig" %}
+{% endblock modalCode %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include "product/admin/collection/_form_js.html.twig" %}
+{% endblock javascripts %}

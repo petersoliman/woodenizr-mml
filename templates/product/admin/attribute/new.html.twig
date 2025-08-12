@@ -1,0 +1,73 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Create new Specs{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('category_index') }}">Categories</a></li>
+            {% for categoryParent in categoryParents %}
+                <li>
+                    {% if loop.last == false %}
+                        <a href="{{ path('category_index',{"parentCategory":categoryParent.id}) }}">
+                            {{ categoryParent.title }}
+                        </a>
+                    {% else %}
+                        {{ categoryParent.title }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+            <li>
+                <a href="{{ path('attribute_index', {"id": attribute.category.id}) }}">{{ attribute.category.title }}'s Specs List</a>
+            </li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'} }) }}
+    <div class="row">
+        <div class="col-md-12">
+            {% set defaultTwig= include ("product/admin/attribute/_form.html.twig") %}
+            {{ include ("@PNLocale/new_or_edit_tab_structure.html.twig", {'defaultTwig': defaultTwig, "transTwigPath" : "product/admin/attribute/_form_trans.html.twig"} ) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_layouts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_select2.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            showHideSubAttributesBox();
+            $("select[name*='[type]']").on('change', function (e) {
+                showHideSubAttributesBox();
+            });
+        });
+
+        function showHideSubAttributesBox() {
+            let value = $("select[name*='[type]']").val();
+            let searchField = $("input[name*='[search]']").closest("div[class*='col-']");
+            let subAttributesBox = $("#sub-attributes-box");
+
+            if (value == '{{ constant('App\\ProductBundle\\Entity\\Attribute::TYPE_TEXT') }}') {
+                searchField.slideUp();
+                subAttributesBox.slideUp();
+            } else if (value == '{{ constant('App\\ProductBundle\\Entity\\Attribute::TYPE_NUMBER') }}') {
+                searchField.slideUp();
+                subAttributesBox.slideUp();
+            } else if (value == '{{ constant('App\\ProductBundle\\Entity\\Attribute::TYPE_DROPDOWN') }}') {
+                searchField.slideDown();
+                subAttributesBox.slideDown();
+            } else {
+                searchField.slideDown();
+                subAttributesBox.slideDown();
+            }
+        }
+    </script>
+{% endblock javascripts %}

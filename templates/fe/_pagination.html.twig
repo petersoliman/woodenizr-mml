@@ -1,0 +1,58 @@
+{% if queryParams is not defined %}
+    {% set queryParams = app.request.query.all %}
+{% endif %}
+
+{% if paginator.items is defined and paginator.items|length > 1 %}
+    <div class="l-pagination ui-pagination">
+        {% if paginator.fisrt is defined %}
+            <a
+                    href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'page':paginator.fisrt})|merge(queryParams)) }}"
+                    data-page="{{ paginator.fisrt }}"
+                    class="ui-pagination-item l-pagination-item {{ paginator.fisrt is not defined ? "disabled" }}"  aria-label="Previous" aria-labelledby="Previous"
+            >
+                <svg width="15" height="12" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.1602 1.41L9.58016 6L14.1602 10.59L12.7502 12L6.75016 6L12.7502 0L14.1602 1.41Z" fill="#C4CDD5"/><path d="M8.16016 1.41L3.58016 6L8.16016 10.59L6.75016 12L0.750156 6L6.75016 0L8.16016 1.41Z" fill="#C4CDD5"/></svg>
+            </a>
+        {% endif %}
+        {% if paginator.prev is defined %}
+            <a
+                    href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'page':paginator.prev})|merge(queryParams)) }}"
+                    data-page="{{ paginator.prev }}"
+                    class="ui-pagination-item l-pagination-item {{ paginator.prev is not defined ? "disabled" }}"  aria-label="Previous" aria-labelledby="Previous"
+            >
+                <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.16016 1.41L3.58016 6L8.16016 10.59L6.75016 12L0.750156 6L6.75016 0L8.16016 1.41Z" fill="#C4CDD5" />
+                </svg>
+            </a>
+        {% endif %}
+        {% if paginator.items is defined %}
+            {% for item in paginator.items %}
+                <a
+                        href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'page':item})|merge(queryParams)) }}"
+                        data-page="{{ item }}"
+                        aria-label="Page {{ item }}"
+                        class="ui-pagination-item l-pagination-item {{ paginator.currentPage == item ? "active" }}"
+                >
+                    {{ item }}
+                </a>
+            {% endfor %}
+        {% endif %}
+        {% if paginator.next is defined %}
+            <a
+                    href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'page':paginator.next})|merge(queryParams)) }}" data-page="{{ paginator.next }}"
+                    class="ui-pagination-item l-pagination-item {{ paginator.next is not defined ? "disabled" }}" aria-label="Next" aria-labelledby="Next"
+            >
+                <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.839844 1.41L5.41984 6L0.839844 10.59L2.24984 12L8.24984 6L2.24984 0L0.839844 1.41Z" fill="#C4CDD5" />
+                </svg>
+            </a>
+        {% endif %}
+        {% if paginator.last is defined %}
+            <a
+                    href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({'page':paginator.last})|merge(queryParams)) }}" data-page="{{ paginator.last }}"
+                    class="ui-pagination-item l-pagination-item {{ paginator.last is not defined ? "disabled" }}" aria-label="Next" aria-labelledby="Next"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="13.41" height="12" viewBox="0 0 13.41 12"><g transform="translate(14.16 12) rotate(180)"><path d="M14.16,1.41,9.58,6l4.58,4.59L12.75,12l-6-6,6-6Z" fill="#C4CDD5"/><path d="M8.16,1.41,3.58,6l4.58,4.59L6.75,12l-6-6,6-6Z" fill="#c4cdd5"/></g></svg>
+            </a>
+        {% endif %}
+    </div>
+{% endif %}

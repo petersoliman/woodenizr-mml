@@ -1,0 +1,9 @@
+{% include 'fe/modals/_share_product.html.twig' %}
+{% if app.user is empty %}
+    {% include "fe/modals/_login_signup.html.twig" %}
+{% endif %}
+{% include 'fe/modals/_cart_delete_item.html.twig' %}
+{% if constant("App\\BaseBundle\\SystemConfiguration::PRODUCT_PRICE_TYPE").value in [constant("App\\BaseBundle\\ProductPriceTypeEnum::VARIANTS").value, constant("App\\BaseBundle\\ProductPriceTypeEnum::MULTI_PRICES").value] %}
+    {% include 'fe/modals/_product_quick_view.html.twig' %}
+{% endif %}
+{# {% include 'fe/modals/_discount.html.twig' %} #}

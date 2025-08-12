@@ -1,0 +1,21 @@
+{% set trans_form = form.translations[locale] %}
+{% set post_form = form.post.translations[locale] %}
+{% set seo_form = form.seo %}
+{% import 'adminTemplate/macros.html.twig' as macros %}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(trans_form.title) }}
+            {{ macros.input(trans_form.contactText) }}
+        </div>
+        <div class="row">
+            {{ macros.input(post_form.brief, 12) }}
+            {{ macros.input(post_form.description, 12, null,null, 'form-control ckeditor') }}
+        </div>
+
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>
+{% include '@PNSeo/Administration/Seo/seo.html.twig' with { 'seoForm':seo_form, 'entity':service } %}

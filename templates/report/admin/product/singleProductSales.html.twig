@@ -1,0 +1,68 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h5 class="modal-title">{{ product.title }} Statistics</h5>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-4">
+            <form action="#">
+                <div class="form-group no-margin-bottom">
+                    <select class="change-date select-sm" id="select-date-single-product">
+                        <optgroup label="<i class='icon-watch pull-right'></i> Years">
+                            {% for year in "now"|date("Y") .. startYear %}
+                                <option {{ loop.index == 1? "selected" }} value="{{ year }}">{{ year }}</option>
+                            {% endfor %}
+                        </optgroup>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% include 'report/admin/product/singleProductSalesContent.html.twig' %}
+</div>
+<script>
+    $("#select-date-single-product").multiselect({
+        buttonClass: 'btn btn-link text-semibold',
+        enableHTML: true,
+        dropRight: $('html').attr('dir') == 'rtl' ? false : true,
+        onChange: function () {
+            getProductStatistics();
+        },
+        buttonText: function (options, element) {
+            var selected = '';
+            options.each(function () {
+                selected += $(this).html() + ', ';
+            });
+            return '<span class="status-mark border-warning position-left"></span>' + selected.substr(0, selected.length - 2);
+        }
+    });
+    function getProductStatistics() {
+        var singleProductStatisticsElement = $("#single-product-statistics");
+        var year = $("#select-date-single-product").find("option:selected").val();
+
+        addLoader(singleProductStatisticsElement);
+
+        $.get("{{ path('report_product_single_product_statistics_ajax', {"id":product.id}) }}", {"year": year, "content": true}, function (data) {
+            singleProductStatisticsElement.empty().append(data);
+            removeLoader(singleProductStatisticsElement);
+        });
+    }
+    function addLoader(element) {
+        element.block({
+            message: '<i class="icon-spinner2 spinner"></i>',
+            overlayCSS: {
+                backgroundColor: '#fff',
+                opacity: 0.8,
+                cursor: 'wait'
+            },
+            css: {
+                border: 0,
+                padding: 0,
+                backgroundColor: 'none'
+            }
+        });
+    }
+    function removeLoader(element) {
+        element.unblock();
+    }
+</script>

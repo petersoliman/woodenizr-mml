@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-12">
+        <hr/>
+        <div class="panel panel-primary border-left-lg border-left-info">
+            <div class="panel-heading">
+                <h6 class="panel-title text-semibold">Project Data</h6>
+                <div class="heading-elements">
+                    <button type="button" class="btn btn-default btn-block" id="addPrice"
+                            data-prototype="{{ include('cms/admin/project/_data_row.html.twig', { 'form': form.data.vars.prototype })|e }}">
+                        <i class="icon-plus3"></i>
+                        Add new data
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered sorted_table" id="addTable">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for child in form.data.children %}
+                            {{ include('cms/admin/project/_data_row.html.twig', { 'form': child }) }}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <hr/>
+    </div>
+</div>
+

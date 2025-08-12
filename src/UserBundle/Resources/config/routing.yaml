@@ -1,0 +1,76 @@
+user_admin:
+  resource: "@UserBundle/Controller/Administration/"
+  type: annotation
+  prefix: /admin
+
+user_front:
+  resource: "@UserBundle/Controller/FrontEnd"
+  type:     annotation
+  prefix:   /{_locale}/user
+  defaults: { _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'
+
+user_oAuth:
+  resource: "@UserBundle/Controller/OAuth"
+  type:     annotation
+  prefix:   /{_locale}/user/oAuth
+  defaults: { _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'
+
+app_user_login:
+  path: /{_locale}/login
+  defaults: { _controller: App\UserBundle\Controller\LoginController::login, _locale: '%locale%' }
+  methods: [ GET, POST ]
+  requirements:
+    _locale: '%app.locales%'
+
+app_user_logout:
+  path: /{_locale}/logout
+  defaults: { _controller: App\UserBundle\Controller\LoginController::logout, _locale: '%locale%' }
+  methods: [ GET, POST ]
+  requirements:
+    _locale: '%app.locales%'
+
+app_user_registration:
+  path: /{_locale}/register
+  defaults: { _controller: App\UserBundle\Controller\RegistrationController::register, _locale: '%locale%' }
+  methods: [ GET, POST ]
+  requirements:
+    _locale: '%app.locales%'
+
+app_user_forgot_password_request:
+  path: /{_locale}/reset-password
+  defaults: { _controller: App\UserBundle\Controller\ResetPasswordController::request, _locale: '%locale%' }
+  methods: [ GET, POST ]
+  requirements:
+    _locale: '%app.locales%'
+
+app_user_check_email:
+  path: /{_locale}/reset-password/check-email
+  defaults: { _controller: App\UserBundle\Controller\ResetPasswordController::checkEmail, _locale: '%locale%' }
+  methods: [ GET, POST ]
+  requirements:
+    _locale: '%app.locales%'
+
+app_user_reset_password:
+  path: /{_locale}/reset/{token}
+  defaults: { _controller: App\UserBundle\Controller\ResetPasswordController::reset, token: null, _locale: '%locale%' }
+  methods: [ GET, POST ]
+  requirements:
+    _locale: '%app.locales%'
+
+app_user_change_password:
+  path: /{_locale}/change-password
+  defaults: { _controller: App\UserBundle\Controller\ChangePasswordController::changePassword, _locale: '%locale%' }
+  methods: [ GET, POST ]
+  requirements:
+    _locale: '%app.locales%'
+
+app_user_profile_edit:
+  path: /{_locale}/profile
+  defaults: { _controller: App\UserBundle\Controller\ProfileController::edit, _locale: '%locale%' }
+  methods: [ GET, POST ]
+  requirements:
+    _locale: '%app.locales%'

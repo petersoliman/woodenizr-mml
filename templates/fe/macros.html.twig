@@ -1,0 +1,14 @@
+{% macro assetCSS(path, defer = false) %}
+    {% apply spaceless %}
+        <link rel="preload" href="{{ path ~ "?v=" ~ constant('App\\Kernel::globalAssetVersion') }}" {{ defer ? 'defer fetchpriority="low"' }} as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript>
+            <link rel="stylesheet" href="{{ path ~ "?v=" ~ constant('App\\Kernel::globalAssetVersion') }}">
+        </noscript>
+    {% endapply %}
+{% endmacro %}
+
+{% macro assetJS(path, defer = false) %}
+    {% apply spaceless %}
+        <script src="{{ path ~ "?v=" ~ constant('App\\Kernel::globalAssetVersion') }}" {{ defer ? 'defer fetchpriority="low"' }}></script>
+    {% endapply %}
+{% endmacro %}

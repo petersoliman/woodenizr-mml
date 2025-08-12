@@ -1,0 +1,19 @@
+.ui-breadcrumbs-item {
+    color: #B6B4BA;
+    font-weight: 400;
+    line-height: 23px;
+    font-size: 16px;
+    text-decoration: none;
+    @include media-max($xl) {
+        font-size: 11px;
+        font-weight: 500;
+    }
+    &.separator {
+        font-weight: 500;
+        padding: 0 5px;
+    }
+    &.active,
+    &:not(.separator):hover {
+        color: #3F3F3F;
+    }
+}

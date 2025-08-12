@@ -1,0 +1,54 @@
+.l-form-input-and-icon-box {
+  .ui-form-input {
+    @include ltr {
+      padding-left: 45px;
+    }
+    @include rtl {
+      padding-right: 45px;
+    }
+  }
+
+  &--md {
+    .ui-form-input {
+      @include ltr {
+        padding-left: 55px;
+      }
+      @include rtl {
+        padding-right: 55px;
+      }
+    }
+  }
+}
+
+.l-form-input-and-icon-box-align-end {
+  .ui-form-input {
+    @include ltr {
+      padding-right: 45px;
+    }
+    @include rtl {
+      padding-left: 45px;
+    }
+  }
+
+  &--md {
+    .ui-form-input {
+      @include ltr {
+        padding-right: 55px;
+      }
+      @include rtl {
+        padding-left: 55px;
+      }
+    }
+  }
+
+  &--lg {
+    .ui-form-input {
+      @include ltr {
+        padding-right: 60px;
+      }
+      @include rtl {
+        padding-left: 60px;
+      }
+    }
+  }
+}

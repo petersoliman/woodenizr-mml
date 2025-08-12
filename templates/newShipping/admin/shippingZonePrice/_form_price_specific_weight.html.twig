@@ -1,0 +1,61 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+ {{ form_start(price_form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'}}) }}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ form_label(price_form.extraKgRate) }}
+                    <div class="input-group">
+                        {{ form_widget(price_form.extraKgRate) }}
+                        <span class="input-group-addon">{{ shippingZonePrice.currency.symbol }}</span>
+                    </div>
+                    {{ form_errors(price_form.extraKgRate) }}
+                </div>
+            </div>
+{#            <div class="col-md-4">#}
+{#                <div class="form-group">#}
+{#                    {{ form_label(price_form.maxWeight) }}#}
+{#                    <div class="input-group">#}
+{#                        {{ form_widget(price_form.maxWeight) }}#}
+{#                        <span class="input-group-addon">{{ shippingZonePrice.currency.symbol }}</span>#}
+{#                    </div>#}
+{#                    {{ form_errors(price_form.maxWeight) }}#}
+{#                </div>#}
+{#            </div>#}
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-10 text-right">
+                <hr>
+                <button type="button" class="btn btn-primary heading-btn m-b-10" id="addWeight" data-prototype="{% filter escape %}{{ include('newShipping/admin/shippingZonePrice/_specific_weight_snippet.html.twig', { 'form': price_form.specificWeights.vars.prototype }) }}{% endfilter %}">
+                    <i class="icon-plus3"></i>
+                    Add Weight
+                </button>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="addTable">
+                        <thead>
+                        <tr>
+                            <th class="text-center">Weight</th>
+                            <th class="text-center">Rate</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for child in price_form.specificWeights.children %}
+                            {{ include('newShipping/admin/shippingZonePrice/_specific_weight_snippet.html.twig', { 'form': child }) }}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>
+{{ form_end(price_form) }}

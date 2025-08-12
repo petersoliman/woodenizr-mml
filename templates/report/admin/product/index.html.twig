@@ -1,0 +1,351 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Product Sales Dashboard{% endset %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+{% block headerBtns %}
+    <div class="heading-elements">
+        <div class="heading-btn-group">
+            <a href="{{ path('report_product_order_items') }}" class="btn btn-link btn-float has-text">
+                <i class="icon-calculator text-primary"></i>
+                <span>Products Sales report</span>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="#">Reports</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-4 col-xs-6">
+            <div class="panel panel-body bg-teal-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin">{{ noOfProduct|number_format }}</h3>
+                        <span class="text-uppercase text-size-mini">T. No of Products</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-xs-6">
+            <div class="panel panel-body bg-blue-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin">{{ soldProductAndTotalSales.totalProducts|number_format }}</h3>
+                        <span class="text-uppercase text-size-mini">T. Number of Products sold: <strong>{{ soldProductAndTotalSales.totalSales|number_format }} EGP</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-xs-6">
+            <div class="panel panel-body bg-danger-400 has-bg-image">
+                <div class="media no-margin">
+                    <div class="media-body">
+                        <h3 class="no-margin">{{ totalProductsInCart|number_format }}</h3>
+                        <span class="text-uppercase text-size-mini">T. Products in Cart NOW</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-2">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h5 class="panel-title">Featured</h5>
+                </div>
+
+                <div class="panel-body">
+                    <div class="chart-container">
+                        <div class="chart" id="pieFeature" style="width: 100%; min-height: 150px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h5 class="panel-title">Published</h5>
+                </div>
+
+                <div class="panel-body">
+                    <div class="chart-container">
+                        <div class="chart" id="piePublish" style="width: 100%; min-height: 150px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+
+        <div class="col-md-5">
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <div class="tabbable tab-content-bordered">
+                        <ul class="nav nav-tabs nav-tabs-highlight">
+                            <li class="active"><a href="#tab-bestsellers" data-toggle="tab">Bestsellers</a></li>
+                            <li><a href="#tab-top-cart" data-toggle="tab">Top Cart</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane has-padding active" id="tab-bestsellers">
+                                <div class="table-responsive" style="max-height:300px;">
+                                    <table class="table table-xxs">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Total Sales</th>
+                                                <th>Qty</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for product in bestsellers %}
+                                                <tr>
+                                                    <td>{{ product.title }}</td>
+                                                    <td>{{ product.totalSales|number_format }} EGP</td>
+                                                    <td>{{ product.totalQty|number_format }}</td>
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <td colspan="3">No record found</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane has-padding" id="tab-top-cart">
+                                <div class="table-responsive" style="max-height:300px;">
+                                    <table class="table table-xxs">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Qty</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for product in topProductsInCart %}
+                                                <tr>
+                                                    <td>{{ product.title }}</td>
+                                                    <td>{{ product.count|number_format }}</td>
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <td colspan="2">No record found</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-7">
+            <div class="panel panel-flat" id="order-statistics">
+                <div class="panel-heading">
+                    <h6 class="panel-title">Order statistics</h6>
+                    <div class="heading-elements">
+                        <form class="heading-form" action="#">
+                            <div class="form-group">
+                                <select class="change-date select-sm" id="select_date">
+                                    <optgroup label="<i class='icon-watch pull-right'></i> Years">
+                                        {% for year in "now"|date("Y") .. startYear %}
+                                            <option {{ loop.index == 1? "selected" }} value="{{ year }}">{{ year }}</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-body" style="min-height: 335px">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/anytime.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/visualization/echarts/echarts.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/bootstrap_multiselect.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/loaders/blockui.min.js') }}"></script>
+    <script>
+        var noOfProductFeatured = {{ noOfProductFeatured }};
+                var noOfProductNotFeatured = {{ noOfProductNotFeatured }};
+                var noOfProductPublish = {{ noOfProductPublish }};
+                var noOfProductNotPublish = {{ noOfProductNotPublish }};
+        $(document).ready(function () {
+            getOrderStatistics();
+
+            $("#select_date").multiselect({
+                buttonClass: 'btn btn-link text-semibold',
+                enableHTML: true,
+                dropRight: $('html').attr('dir') == 'rtl' ? false : true,
+                onChange: function () {
+                    getOrderStatistics();
+                },
+                buttonText: function (options, element) {
+                    var selected = '';
+                    options.each(function () {
+                        selected += $(this).html() + ', ';
+                    });
+                    return '<span class="status-mark border-warning position-left"></span>' + selected.substr(0, selected.length - 2);
+                }
+            });
+            echarts.init(document.getElementById('pieFeature')).setOption({
+                // Colors
+                color: [
+                    '#2ec7c9', '#b6a2de', '#5ab1ef', '#ffb980', '#d87a80',
+                    '#8d98b3', '#e5cf0d', '#97b552', '#95706d', '#dc69aa',
+                    '#07a2a4', '#9a7fd1', '#588dd5', '#f5994e', '#c05050',
+                    '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
+                ],
+                // Global text styles
+                textStyle: {
+                    fontFamily: 'Roboto, Arial, Verdana, sans-serif',
+                    fontSize: 13
+                },
+                // Add title
+                title: {
+                    left: 'center',
+                    textStyle: {
+                        fontSize: 17,
+                        fontWeight: 500
+                    },
+                    subtextStyle: {
+                        fontSize: 12
+                    }
+                },
+                // Add tooltip
+                tooltip: {
+                    trigger: 'item',
+                    backgroundColor: 'rgba(0,0,0,0.75)',
+                    padding: [10, 15],
+                    textStyle: {
+                        fontSize: 13,
+                        fontFamily: 'Roboto, sans-serif'
+                    },
+                    formatter: "{b}: {c} ({d}%)"
+                },
+                // Add series
+                series: [{
+                        name: 'VAT',
+                        type: 'pie',
+                        radius: '70%%',
+                        center: ['50%', '50%'],
+                        itemStyle: {
+                            normal: {
+                                borderWidth: 1,
+                                borderColor: '#fff'
+                            }
+                        },
+                        data: [
+                            {value: noOfProductFeatured, name: 'Featured'},
+                            {value: noOfProductNotFeatured, name: 'Not Featured'},
+                        ]
+                    }]
+            });
+            echarts.init(document.getElementById('piePublish')).setOption({
+                // Colors
+                color: [
+                    '#2ec7c9', '#b6a2de', '#5ab1ef', '#ffb980', '#d87a80',
+                    '#8d98b3', '#e5cf0d', '#97b552', '#95706d', '#dc69aa',
+                    '#07a2a4', '#9a7fd1', '#588dd5', '#f5994e', '#c05050',
+                    '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
+                ],
+                // Global text styles
+                textStyle: {
+                    fontFamily: 'Roboto, Arial, Verdana, sans-serif',
+                    fontSize: 13
+                },
+                // Add title
+                title: {
+                    left: 'center',
+                    textStyle: {
+                        fontSize: 17,
+                        fontWeight: 500
+                    },
+                    subtextStyle: {
+                        fontSize: 12
+                    }
+                },
+                // Add tooltip
+                tooltip: {
+                    trigger: 'item',
+                    backgroundColor: 'rgba(0,0,0,0.75)',
+                    padding: [10, 15],
+                    textStyle: {
+                        fontSize: 13,
+                        fontFamily: 'Roboto, sans-serif'
+                    },
+                    formatter: "{b}: {c} ({d}%)"
+                },
+                // Add series
+                series: [{
+                        name: 'Published',
+                        type: 'pie',
+                        radius: '70%',
+                        center: ['50%', '50%'],
+                        itemStyle: {
+                            normal: {
+                                borderWidth: 1,
+                                borderColor: '#fff'
+                            }
+                        },
+                        data: [
+                            {value: noOfProductPublish, name: 'Published'},
+                            {value: noOfProductNotPublish, name: 'Not Published'},
+                        ]
+                    }]
+            });
+            function getOrderStatistics() {
+                var orderStatisticsElement = $("#order-statistics");
+                var year = orderStatisticsElement.find("select").find("option:selected").val();
+
+                addLoader(orderStatisticsElement);
+
+                $.get("{{ path('report_product_dashboard_order_statistics_ajax') }}", {"year": year}, function (data) {
+                    orderStatisticsElement.find(".panel-body").empty().append(data);
+                    removeLoader(orderStatisticsElement);
+                });
+            }
+
+            function addLoader(element) {
+                element.block({
+                    message: '<i class="icon-spinner2 spinner"></i>',
+                    overlayCSS: {
+                        backgroundColor: '#fff',
+                        opacity: 0.8,
+                        cursor: 'wait'
+                    },
+                    css: {
+                        border: 0,
+                        padding: 0,
+                        backgroundColor: 'none'
+                    }
+                });
+            }
+            function removeLoader(element) {
+                element.unblock();
+            }
+        });
+    </script>
+{% endblock javascripts %}

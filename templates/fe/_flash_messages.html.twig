@@ -1,0 +1,16 @@
+{% for label, messages in app.flashes %}
+    {% set alertColor = 'alert-primary' %}
+    {% if label == 'error' %}
+        {% set alertColor = 'alert-danger' %}
+    {% elseif label == 'warning' %}
+        {% set alertColor = 'alert-warning' %}
+    {% elseif label == 'success' %}
+        {% set alertColor = 'alert-success' %}
+    {% endif %}
+
+    {% for message in messages %}
+        <div class="alert {{ alertColor }} alert-spacing" role="alert">
+            {{ message|raw }}
+        </div>
+    {% endfor %}
+{% endfor %}

@@ -1,0 +1,39 @@
+doctrine:
+  dbal:
+    url: '%env(resolve:DATABASE_URL)%'
+
+    # IMPORTANT: You MUST configure your server version,
+    # either here or in the DATABASE_URL env var (see .env file)
+    #server_version: '13'
+  orm:
+    auto_generate_proxy_classes: true
+    naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+    auto_mapping: true
+    mappings:
+      gedmo_loggable:
+        type: annotation
+        prefix: Gedmo\Loggable\Entity
+        dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity"
+        alias: GedmoLoggable # (optional) it will default to the name set for the mapping
+        is_bundle: false
+    dql:
+      string_functions:
+        MATCH_AGAINST: PN\ServiceBundle\Extensions\Doctrine\MatchAgainst
+        DATEDIFF: DoctrineExtensions\Query\Mysql\DateDiff
+        JSON_CONTAINS: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mysql\JsonContains
+        RAND: DoctrineExtensions\Query\Mysql\Rand
+        IFELSE: DoctrineExtensions\Query\Mysql\IfElse
+        DATE: DoctrineExtensions\Query\Mysql\Date
+        DATESUB: DoctrineExtensions\Query\Mysql\DateSub
+        TIMESTAMPDIFF: DoctrineExtensions\Query\Mysql\TimestampDiff
+        LEAST: DoctrineExtensions\Query\Mysql\Least
+        GREATEST: DoctrineExtensions\Query\Mysql\Greatest
+        IFNULL: DoctrineExtensions\Query\Mysql\IfNull
+        MONTH: DoctrineExtensions\Query\Mysql\Month
+        YEAR: DoctrineExtensions\Query\Mysql\Year
+        STR_TO_DATE: DoctrineExtensions\Query\Mysql\StrToDate
+    resolve_target_entities:
+      Arxy\EntityTranslationsBundle\Model\Language: PN\LocaleBundle\Entity\Language
+      PN\MediaBundle\Entity\Image: App\MediaBundle\Entity\Image
+      PN\MediaBundle\Entity\Document: App\MediaBundle\Entity\Document
+      PN\SeoBundle\Entity\Seo: App\SeoBundle\Entity\Seo

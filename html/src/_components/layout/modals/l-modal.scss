@@ -1,0 +1,43 @@
+.l-modal {
+    max-width: 100%;
+    position: relative;
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    &-dialog {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 900;
+        overflow: auto;
+        &.show-modal {
+            display: flex;
+        }
+    }
+    &-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        &.show {
+            display: flex;
+        }
+        &--header-body-footer {
+            z-index: 650;
+        }
+        &--body-footer {
+            z-index: 480;
+        }
+    }
+}

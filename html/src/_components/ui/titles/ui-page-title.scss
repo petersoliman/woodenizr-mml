@@ -1,0 +1,18 @@
+.ui-page-title {
+    font-weight: 500;
+    font-size: 35px;
+    line-height: 40px;
+    color: #ffffff;
+    text-shadow: 0 4px 12px #000000;
+    max-width: 35%;
+    &--no-description{
+        max-width: 100%;
+        text-align: center;
+        margin: 0 !important;
+    }
+    @include media-max($md){
+        font-size: 20px;
+        max-width: 100%;
+    }
+
+}

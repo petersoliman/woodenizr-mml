@@ -1,0 +1,48 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% import 'adminTemplate/macros.html.twig' as macros %}
+{% set page_title %}Product upload CSV{% endset %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('product_index') }}">Products</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {% if noOfProductInQueue > 0 %}
+        <div class="alert alert-info alert-styled-left">
+            <span class="text-semibold">{{ noOfProductInQueue|number_format }}</span> products(s) in queue
+{#            <a href="#" class="alert-link">check yourself</a>.#}
+        </div>
+    {% endif %}
+    {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'}}) }}
+    <div class="panel panel-flat">
+        <div class="panel-body">
+            <div class="row">
+                {{ macros.input(form.file) }}
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="pull-right">
+                <button type="reset" class="btn btn-default mr-5">Reset <i class="icon-reload-alt position-right"></i>
+                </button>
+                <button type="submit" class="btn btn-primary mr-20">Save
+                    <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+            <div class="pull-left">
+                <a href="{{ path('product_download_csv_sample') }}" class="btn bg-indigo-400 ml-20"><i class="icon-download position-left"></i>
+                    Download sample csv file</a>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+{% endblock javascripts %}

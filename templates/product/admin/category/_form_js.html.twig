@@ -1,0 +1,21 @@
+<script type="text/javascript" src="{{ asset('admin/js/ckeditor/ckeditor.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/pages/form_layouts.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/uniform.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/pages/components_thumbnails.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/media/fancybox.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
+{% include '@PNSeo/Administration/Seo/seo.js.html.twig' with {'entity':category} %}
+<script>
+    $(document).ready(function () {
+        $("button[name*='action-btn']").click(function () {
+            if($(this).closest('form').valid()) {
+                $(this).closest('form').append(
+                    $("<input/>", {type: "hidden", name: "action", value: $(this).val()})
+                );
+                $(this).closest('form')[0].submit();
+            }
+        });
+    });
+</script>

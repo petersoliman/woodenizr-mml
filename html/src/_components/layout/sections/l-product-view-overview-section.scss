@@ -1,0 +1,51 @@
+.l-product-view-overview-section {
+    margin-top: 70px;
+    // margin-bottom: 50px;
+    &-row {
+        margin-left: -25px;
+        margin-right: -25px;
+        @include media-max($xl) {
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+    }
+    &-col {
+        margin-top: 35px;
+        @include media-max($xl) {
+            margin-top: 15px;
+        }
+    }
+    &-col-photo {
+        @include media-min($xl) {
+            //width: 40%;
+            width: 60%;
+        }
+        @include media-min(1300px) {
+        }
+        @include media-min(1800px) {
+            width: 40%;
+        }
+    }
+    &-col-details {
+        @include media-min($xl) {
+            //width: 30%;
+            width: 40%;
+        }
+        @include media-min(1300px) {
+        }
+        @include media-min(1800px) {
+            width: 28%;
+        }
+    }
+    &-col-meta-actions {
+        @include media-min($xl) {
+            width: 100%;
+            //width: 30%;
+        }
+        @include media-min(1300px) {
+        }
+        @include media-min(1800px) {
+            width: 32%;
+        }
+    }
+}

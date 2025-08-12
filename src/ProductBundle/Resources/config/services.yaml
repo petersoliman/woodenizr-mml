@@ -1,0 +1,86 @@
+services:
+  _defaults:
+    # automatically injects dependencies in your services
+    autowire: true
+    # automatically registers your services as commands, event subscribers, etc.
+    autoconfigure: true
+    # this means you cannot fetch services directly from the container via $container->get()
+    # if you need to do this, you can override this setting on individual services
+    public: false
+
+  App\ProductBundle\Form\:
+    resource: '../../Form/*'
+    tags: [ form.type ]
+
+  App\ProductBundle\Form\Filter\:
+    resource: '../../Form/Filter/*'
+    tags: [ form.type ]
+
+  App\ProductBundle\Messenger\:
+    resource: '../../Messenger/*'
+    tags: [ messenger.message_handler ]
+
+  App\ProductBundle\Form\Transformer\:
+    resource: '../../Form/Transformer/*'
+
+  App\ProductBundle\DTO\:
+    resource: '../../DTO/*'
+
+  App\ProductBundle\Service\:
+    resource: '../../Service/*'
+    public: true
+
+  App\ProductBundle\Command\ProductSearchIndex\:
+    resource: '../../Command/ProductSearchIndex/*'
+
+#  App\ProductBundle\Controller\FrontEnd\:
+#    resource: '../../Controller/FrontEnd'
+#    tags: [ 'controller.service_arguments' ]
+
+  App\ProductBundle\Controller\Administration\:
+    resource: '../../Controller/Administration'
+    tags: [ 'controller.service_arguments' ]
+
+  App\ProductBundle\Repository\:
+    resource: '../../Repository/*'
+    tags: [ 'doctrine.repository_service' ]
+
+  CategorySubscriber:
+    class: App\ProductBundle\EventListener\CategorySubscriber
+    tags:
+      - { name: 'doctrine.event_subscriber' }
+
+  CollectionSubscriber:
+    class: App\ProductBundle\EventListener\CollectionSubscriber
+    tags:
+      - { name: 'doctrine.event_subscriber' }
+
+  OccasionSubscriber:
+    class: App\ProductBundle\EventListener\OccasionSubscriber
+    tags:
+      - { name: 'doctrine.event_subscriber' }
+
+  ProductMainImageSubscriber:
+    class: App\ProductBundle\EventListener\ProductMainImageSubscriber
+    tags:
+      - { name: 'doctrine.event_subscriber' }
+
+  ProductSearchIndexing:
+    class: App\ProductBundle\EventListener\ProductSearchIndexing
+    tags:
+      - { name: 'doctrine.event_subscriber' }
+
+  ProductSubscriber:
+    class: App\ProductBundle\EventListener\ProductSubscriber
+    tags:
+      - { name: 'doctrine.event_subscriber' }
+
+  ProductVariantSubscriber:
+    class: App\ProductBundle\EventListener\ProductVariantSubscriber
+    tags:
+      - { name: 'doctrine.event_subscriber' }
+
+  ProductPriceSubscriber:
+    class: App\ProductBundle\EventListener\ProductPriceSubscriber
+    tags:
+      - { name: 'doctrine.event_subscriber' }

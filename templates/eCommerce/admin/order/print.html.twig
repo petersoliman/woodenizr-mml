@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Print</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <style type="text/css">
+            html,body {
+                min-height:100%;
+                margin:0;
+                padding:0;
+            }
+
+            body {
+                background-color:#fff;
+                width:210mm;
+                -moz-box-sizing:border-box;
+                box-sizing:border-box;
+                padding:20mm 10mm 15mm;
+            }
+
+            body > div {
+                height:100%;
+            }
+
+            body p:empty {
+                display:none;
+            }
+
+            body a {
+                text-decoration:none;
+                color:#000;
+            }
+
+            body table {
+                border-collapse:collapse;
+                border-spacing:0;
+            }
+
+            body .body {
+                height:100%;
+                width:130mm;
+                margin:0 auto;
+                border:1px solid transparent /*fix too large top margin for chrome 57.0.2987.133*/
+            }
+
+            body .body td {
+                vertical-align:top;
+                height:0;
+                font-family:Arial, Helvetica, "Sans Serif";
+                font-size:8pt;
+                line-height:10pt;
+                color:#000;
+                padding:0;
+            }
+
+            body .body td.footer {
+                height:100%;
+                text-align:center;
+                vertical-align:bottom;
+            }
+
+            body .body td.footer div {
+                padding:20mm 0 5pt;
+            }
+
+            body .body .invoice td td {
+                vertical-align:top;
+                padding:0;
+            }
+
+            body .body .invoice p {
+                margin:2pt 0;
+            }
+
+            body .body .invoice .spacer {
+                height: 16pt;
+            }
+
+            body .body .invoice .store-info .invoice-logo {
+                max-height:30mm;
+                max-width: 70mm;
+                width:auto;
+                display:block;
+                margin:0 0 5mm;
+            }
+
+            body .body .invoice .store-info .store-title {
+                font-size:10pt;
+                line-height:12pt;
+                font-weight:600;
+                padding:5pt 1mm;
+            }
+
+            body .body .invoice .store-info .store-main-info {
+                width:89mm;
+                padding-right:5mm;
+            }
+
+            body .body .invoice .store-info .store-main-info .title-detached {
+                margin-top:5pt;
+                margin-bottom:5pt;
+            }
+
+
+            body .body .invoice .store-info .store-customer-info {
+                vertical-align:top;
+            }
+
+            body .body .invoice .store-info .store-customer-info p {
+                max-width:60mm;
+                word-wrap:break-word;
+            }
+
+            body .body .invoice td.invoice-row,body .body .invoice .invoice-row > tr:first-child > td {
+                border-top:1px solid #000;
+            }
+
+            body .body .invoice .order-comment {
+                padding-bottom: 12pt;
+            }
+
+            body .body .invoice .order-info {
+                margin-bottom:11pt;
+                padding:0;
+            }
+
+            body .body .invoice .order-items {
+                margin-bottom:16pt;
+                padding:0;
+            }
+
+            body .body .invoice .order-info td,body .body .invoice .order-items td {
+                width:42mm;
+                padding-right:5mm;
+            }
+
+            body .body .invoice .order-info td:last-child,body .body .invoice .order-items td:last-child {
+                width:auto;
+            }
+
+            body .body .invoice .order-info .title,body .body .invoice .order-items .title {
+                font-weight:600;
+                padding-top:5pt;
+                padding-bottom:12pt;
+                margin:0;
+            }
+
+            body .body .invoice .order-info td:last-child {
+                padding-right:0;
+            }
+
+            body .body .invoice .order-info p {
+                max-width:42mm;
+                word-wrap:break-word;
+            }
+
+            body .body .invoice .order-info .order-comment p {
+                max-width: 100%;
+                word-break: break-all;
+                white-space: pre-wrap;
+            }
+
+            body .body .invoice .order-comment-title {
+                margin-bottom: 4pt;
+            }
+
+            body .body .invoice .order-items table tbody tr:last-child td {
+                padding-bottom:3pt;
+            }
+
+            body .body .invoice .order-items .title {
+                padding-bottom:5pt;
+            }
+
+            body .body .invoice .order-items .order-item-desc {
+                width:87mm;
+            }
+
+            body .body .invoice .order-items .order-item-count {
+                width:11mm;
+            }
+
+            body .body .invoice .order-items .order-item-count,body .body .invoice .order-items .order-item-total {
+                text-align:right;
+                padding-right:1mm;
+            }
+
+            body .body .invoice .order-items .order-item-total {
+                padding-right:2mm;
+                white-space: nowrap;
+            }
+
+            body .body .invoice .order-items .order-total td {
+                padding-top:1pt;
+                padding-bottom:1pt;
+            }
+
+            body .body .invoice,body .body .invoice .order-items table {
+                width:100%;
+            }
+
+            body .body .invoice td,body .body .invoice .order-items table td {
+                padding:0 1mm;
+            }
+
+            body .body .invoice .text-uppercase,body .body .invoice .order-info .title::first-letter,body .body .invoice .order-items .title::first-letter {
+                text-transform:uppercase;
+            }
+
+            body .body .invoice .text-bold,body .body .invoice .order-items .order-item-title {
+                font-weight:600;
+            }
+            body .body .invoice .order-items .order-item-title span {
+                display: block;
+                font-weight:400;
+            }
+
+            body .body .invoice .store-info .store-main-info .url,body .body .invoice .order-info .title-detached,body .body .invoice .order-items .title-detached {
+                margin-bottom:5pt;
+            }
+
+            body .body .invoice .store-info .store-main-info p,body .body .invoice .order-items .order-item-desc p {
+                max-width:87mm;
+                word-wrap:break-word;
+            }
+
+            body .body .invoice .order-items .order-item-desc .order-discount-coupon {
+                max-width: 64mm;
+            }
+
+            body .body .invoice .order-items table tbody tr td,body .body .invoice .order-items .order-total tr:first-child td {
+                padding-top:7pt;
+            }
+            body .body .barcode {
+                text-align:center;
+            }
+            body .body .paragraph {
+                margin-bottom:5pt;
+            }
+            @media print{
+                * {
+                    -webkit-print-color-adjust:exact;
+                }
+
+                body {
+                    padding:0;
+                }
+
+                @page {
+                    margin:20mm 0 15mm;
+                }
+                body .body {
+                    page-break-after: always;
+                    page-break-inside: avoid;
+                }
+                body .body .invoice {
+                    page-break-inside: avoid;
+                }
+            }
+        </style>
+        <script>
+            var isIPhone = (!!(navigator.userAgent.match(/iPhone/i))
+                    || !!(navigator.userAgent.match(/iPod/i)));
+
+            var isIPad = !!(navigator.userAgent.match(/iPad/i));
+            var isMobileAndroidChrome = !!(navigator.userAgent.match('Android.*Chrome/[.0-9]* Mobile'));
+
+            function printFrame() {
+                window.document.close();
+                window.focus();
+                window.print();
+                setTimeout(function () {
+                    if (!isIPhone && !isIPad && !isMobileAndroidChrome) {
+                        window.close();
+                    }
+                }, 5000);
+            }
+
+            if (isIPhone) {
+                document.addEventListener("DOMContentLoaded", printFrame, false);
+                var mediaQueryList = window.matchMedia('print');
+            } else {
+                window.onload = printFrame;
+            }
+        </script>
+    </head>
+    <body>
+        {% if order is defined  %}
+            {% set orders = [order] %}
+        {% endif %}
+        {% for order in orders %}
+            {% include 'eCommerce/admin/order/printContent.html.twig' with {'order': order} %}
+        {% endfor %}
+    </body>
+</html>

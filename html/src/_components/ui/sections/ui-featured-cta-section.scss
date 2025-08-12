@@ -1,0 +1,69 @@
+@import '../../mixins.scss';
+
+.ui-featured-cta-section {
+    background-color: #1B3656;
+    background-image: url('/assets/img/just-gift-section-bg.webp');
+    padding: 36px 60px 60px;
+    color: #fff;
+    background-size: cover;
+    @include media-max($md) {
+        padding: 46px 38px;
+    }
+    &-title {
+        font-weight: 200;
+        font-size: 26px;
+        line-height: 44px;
+        @include media-max($md) {
+            font-size: 18px;
+        }
+    }
+    &-title-highlight {
+        font-weight: 400;
+        font-size: 43.47px;
+        line-height: 29px;
+        @include media-max($md) {
+            font-size: 29.03px;
+        }
+        span {
+            color: #E4B15D;
+            font-size: 40.41px;
+            line-height: 40.41px;
+            @include media-max($md) {
+                font-size: 26.99px;
+            }
+        }
+    }
+    &-subtitle {
+        font-weight: 200;
+        font-size: 26px;
+        line-height: 44px;
+        padding-left: 17px;
+        border-left: 6px solid #D29B41;
+        strong {
+            font-weight: 600;
+        }
+    }
+    &-content {
+        font-weight: 100;
+        font-size: 18px;
+        line-height: 30px;
+        padding-left: 17px;
+        border-left: 6px solid #232323;
+    }
+    &-action {
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 44px;
+        background: rgba(38, 94, 79, 0.46);
+        border: 1px solid #FFFFFF;
+        border-radius: 5px;
+        color: #fff;
+        padding: 5px 36px;
+        text-decoration: none;
+        transition: 0.09s all ease-in-out;
+        &:hover {
+            background-color: #fff;
+            color: rgba(38, 94, 79, 1);
+        }
+    }
+}

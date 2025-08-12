@@ -1,0 +1,86 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Administrators List{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <ul class="fab-menu fab-menu-fixed fab-menu-bottom-right">
+            <li>
+                <a href="{{ path('admin_new') }}"
+                   class="fab-menu-btn btn bg-blue btn-float btn-rounded btn-icon">
+                    <i class="fab-icon-open icon-plus3"></i>
+                    <i class="fab-icon-close icon-cross2"></i>
+                </a>
+            </li>
+        </ul>
+    {% endif %}
+    <div class="panel panel-flat">
+        <div class="panel-body">
+            <table class="table datatable-ajax table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Last Login</th>
+                    <th>State</th>
+                    <th>Role</th>
+                    <th>Created</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+ {% block modalCode %}
+     <div id="modal_change_state" class="modal fade">
+         <div class="modal-dialog modal-xs">
+             <div class="modal-content bg-danger-600">
+                 <div class="modal-header bg-danger-600">
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     <h6 class="modal-title">Be careful</h6>
+                 </div>
+
+                 <form method="post" id="change-state-form" action="#">
+                     <div class="modal-body text-center">
+                         <h2>Are you sure?</h2>
+                         <p>Are you sure you want to change this user state?</p>
+                     </div>
+
+                     <div class="modal-footer">
+                         <button type="submit" class="btn bg-danger-700">Change</button>
+                         <button type="reset" class="btn btn-link text-white" data-dismiss="modal">Close</button>
+                     </div>
+                 </form>
+             </div>
+         </div>
+     </div>
+ {% endblock modalCode %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
+    {{ include('adminTemplate/datatable.html.twig', {'path':path('admin_datatable')}) }}
+    <script>
+        $(document).ready(function () {
+            $(document.body).on("click", ".change-state-btn", function () {
+                var id = $(this).data('state');
+                $('#change-state-form').attr('action', id);
+            });
+        })
+    </script>
+{% endblock javascripts %}

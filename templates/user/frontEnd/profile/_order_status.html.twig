@@ -1,0 +1,13 @@
+{% if order.state == constant('App\\ECommerceBundle\\Enum\\OrderStatusEnum::NEW') %}
+    <div class="status">{{ "in_queue_txt"|trans }}</div>
+{% elseif order.state == constant('App\\ECommerceBundle\\Enum\\OrderStatusEnum::SUCCESS') %}
+    <div class="status status-3">{{ "delivered_txt"|trans }}</div>
+{% elseif order.state == constant('App\\ECommerceBundle\\Enum\\OrderStatusEnum::CANCELED') %}
+    <div class="status status-4">{{ "canceled_txt"|trans }}</div>
+{% elseif order.state == constant('App\\ECommerceBundle\\Enum\\OrderStatusEnum::POSTPONE') %}
+    <div class="status status-2">{{ "postpone_txt"|trans }}</div>
+{% elseif order.state == constant('App\\ECommerceBundle\\Enum\\OrderStatusEnum::FAILURE') %}
+    <div class="status status-4">{{ "failure_txt"|trans }}</div>
+{% elseif order.state == constant('App\\ECommerceBundle\\Enum\\OrderStatusEnum::PROCESSING') %}
+    <div class="status status-1">{{ "processing_txt"|trans }}</div>
+{% endif %}

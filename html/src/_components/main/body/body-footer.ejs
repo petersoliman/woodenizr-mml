@@ -1,0 +1,63 @@
+</div>
+
+<script>
+    // Global functions
+    function __(string) {
+        return typeof APP.messages[string] != "undefined" ? APP.messages[string] : string;
+    }
+
+    // Constants
+    var APP = {
+        currency: "EGP",
+        gtmEnhancedEcommerceCurrencyCode: "EGP",
+        cartLastUpdateHash: "8c5a4891b440b1ce07fcbd4cb05ca759",
+        isLoggedIn: true,
+        cartUrls: {
+            list: "/api/cart-list.json",
+            addItem: "http://localhost:3000/api/cart/add-to-cart",
+            removeItem: "http://localhost:3000/api/cart/remove-from-cart",
+            updateQty: "http://localhost:3000/api/cart/update-qty",
+            removeFromCartAndAddToWishlist: "http://localhost:3000/api/cart/remove-from-cart-and-add-to-wishlist",
+            addCouponCode: "http://localhost:3000/api/cart/add-coupon-code",
+            removeCouponCode: "http://localhost:3000/api/cart/remove-coupon-code",
+        },
+        productUrls: {
+            variants: "/api/product-variants.json",
+        },
+        newsletter: {
+            link: "http://localhost:3000/api/user/newsletter-subscribe",
+            _token : "sadasdas"
+        },
+        addressUrls: {
+            list: "/api/address-list-empty.json",
+            makeDefault: "http://localhost:3000/api/user/make-default-address",
+            add: "http://localhost:3000/api/user/add-edit-address",
+            edit: "http://localhost:3000/api/user/add-edit-address",
+            remove: "http://localhost:3000/api/user/remove-address",
+        },
+        messages: {
+            "Copied": "Copied",
+            "Add to Wishlist": "Add to Wishlist",
+            "Remove from Wishlist": "Remove from Wishlist",
+            "Save for Later": "Save for Later",
+            "Delete": "Delete",
+            "Share": "Share",
+            "Fulfilled by JustPiece": "Fulfilled by JustPiece",
+            "Out of Stock": "Out of Stock",
+            "Add to Cart": "Add to Cart",
+            "Ratings": "Ratings",
+            "Saved": "Saved",
+            "Please type correct email address": "Please type correct email address",
+            "Please login first": "Please login first",
+        }
+    }
+    var APP_DOM = {
+        modals: {},
+        tooltips: {
+            refresh: () => {}
+        }
+    }
+    var APP_DATA = {
+        cart: {}
+    }
+</script>

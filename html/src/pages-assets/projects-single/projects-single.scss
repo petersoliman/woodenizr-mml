@@ -1,0 +1,249 @@
+@import './../../_components/base-styles';
+
+/*/
+ * Layout Components
+/*/
+
+@import './../../_components/layout/grids/l-container';
+@import './../../_components/layout/grids/l-flex-row';
+
+@import './../../_components/layout/grids/l-flex-col-6';
+
+@import './../../_components/layout/grids/l-flex-col-md-4';
+@import './../../_components/layout/grids/l-flex-col-md-6';
+
+@import './../../_components/layout/grids/l-flex-col-lg-2';
+@import './../../_components/layout/grids/l-flex-col-lg-4';
+@import './../../_components/layout/grids/l-flex-col-lg-5';
+@import './../../_components/layout/grids/l-flex-col-lg-6';
+@import './../../_components/layout/grids/l-flex-col-lg-8';
+@import './../../_components/layout/grids/l-flex-col-lg-12';
+
+@import './../../_components/layout/grids/l-flex-col-xl-1';
+@import './../../_components/layout/grids/l-flex-col-xl-2';
+@import './../../_components/layout/grids/l-flex-col-xl-3';
+@import './../../_components/layout/grids/l-flex-col-xl-4';
+@import './../../_components/layout/grids/l-flex-col-xl-5';
+@import './../../_components/layout/grids/l-flex-col-xl-6';
+@import './../../_components/layout/grids/l-flex-col-xl-8';
+@import './../../_components/layout/grids/l-flex-col-xl-9';
+
+@import './../../_components/layout/grids/l-flex-col-xxl-2';
+@import './../../_components/layout/grids/l-flex-col-xxl-3';
+@import './../../_components/layout/grids/l-flex-col-xxl-5';
+
+@import './../../_components/layout/grids/l-product-list-grid';
+@import './../../_components/layout/sections/l-404';
+
+@import './../../_components/layout/boxes/l-filters-box';
+
+@import './../../_components/layout/accordions/l-filter-accordion-item';
+
+@import './../../_components/layout/sections/l-featured-section';
+@import './../../_components/layout/sections/l-featured-full-width-banner-section';
+
+@import './../../_components/layout/titles/l-page-title';
+@import './../../_components/layout/titles/l-page-desc';
+@import './../../_components/layout/titles/l-page-title-box';
+@import './../../_components/layout/titles/l-title-line.scss';
+
+@import './../../_components/layout/slides/l-product-slide';
+
+@import './../../_components/layout/pagination/l-pagination';
+
+@import './../../_components/layout/breadcrumbs/l-breadcrumbs';
+
+@import './../../_components/layout/dropdowns/l-dropdown';
+
+@import './../../_components/layout/forms/l-form-input-box';
+@import './../../_components/layout/forms/l-form-input-and-icon-box';
+@import './../../_components/layout/forms/l-form-input-icon';
+@import './../../_components/layout/forms/l-form-checkbox';
+@import './../../_components/layout/forms/l-form-radio';
+
+@import './../../_components/layout/titles/l-section-title.scss';
+
+@import './../../_components/layout/backdrops/l-backdrop';
+
+@import './../../_components/layout/modals/l-share-product-modal';
+
+@import './../../_components/layout/slides/l-reading-post-slide.scss';
+
+/*/
+ * UI Components
+/*/
+
+@import './../../_components/ui/boxes/ui-filters-box';
+
+@import './../../_components/ui/accordions/ui-filter-accordion-item';
+
+@import './../../_components/ui/sections/ui-featured-section';
+@import './../../_components/ui/sections/ui-featured-full-width-banner-section';
+@import './../../_components/ui/sections/ui-featured-readings-section.scss';
+
+@import './../../_components/ui/titles/ui-section-title.scss';
+
+@import './../../_components/ui/titles/ui-page-title';
+@import './../../_components/ui/titles/ui-title-line.scss';
+@import './../../_components/ui/titles/ui-page-desc';
+
+@import './../../_components/ui/slides/ui-product-slide';
+
+@import './../../_components/ui/pagination/ui-pagination';
+
+@import './../../_components/ui/breadcrumbs/ui-breadcrumbs';
+
+@import './../../_components/ui/boxes/ui-products-list-results-count-box';
+
+@import './../../_components/ui/products/product-styles.scss';
+
+@import './../../_components/ui/dropdowns/ui-dropdown';
+
+@import './../../_components/ui/forms/ui-form-checkbox';
+@import './../../_components/ui/forms/ui-form-radio';
+@import './../../_components/ui/forms/ui-form-input-icon';
+
+@import './../../_components/ui/backdrops/ui-backdrop';
+
+@import './../../_components/ui/modals/ui-share-product-modal';
+
+@import './../../_components/ui/slides/ui-reading-post-slide.scss';
+@import './../../_components/ui/boxes/ui-editor-content-box';
+
+@import './../../_components/full/form/form.scss';
+@import './../../_components/full/form/stack-input.scss';
+@import './../../_components/full/form/sign-form.scss';
+@import './../../_components/full/buttons/btn.scss';
+@import './../../_components/full/alerts/alert.scss';
+
+/*/
+ * Utilities
+/*/
+
+@import './../../_components/utilities/u-bg.scss';
+
+.wrapper-content {
+  margin-top: 88px;
+}
+
+.wrapper-slider {
+  margin-bottom: 88px;
+
+  .slider {
+    height: 500px;
+    .slider-wrapper {
+      .slider-slide {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .slide {
+          cursor: pointer;
+          margin-bottom: 32px;
+          max-width: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+
+  .thumbs {
+    margin-bottom: 82px;
+
+    .thumbs-wrapper {
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+
+      .thumb-slide {
+        margin-top: 4px;
+        margin-bottom: 3px;
+
+        &.active {
+          box-shadow: 0 0 0 2px var(--primary-color);
+        }
+      }
+
+      .thumb-slide,
+      .thumb {
+        width: 56px !important;
+        height: 56px;
+        object-fit: cover;
+        max-width: 100%;
+      }
+
+      .thumb {
+        cursor: pointer;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.wrapper-details {
+  margin-bottom: 88px;
+  color: #3F3F3F;
+
+  h2 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 30.5px;
+    margin-bottom: 60px;
+    margin-top: 0;
+    @include media-max($lg) {
+      font-size: 22px;
+    }
+  }
+
+  .wrapper-meta {
+    padding-bottom: 16px;
+
+    p {
+      margin: 0 0 32px 0;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 30.5px;
+      color: rgba(63, 63, 63, 0.60);
+      text-transform: uppercase;
+      @include media-max($xxl) {
+        font-size: 18px;
+        margin: 0 0 12px 0;
+      }
+    }
+
+    strong {
+      font-weight: 500;
+      color: #3F3F3F;
+      text-transform: none;
+    }
+  }
+
+  hr {
+    margin-top: 0;
+    margin-bottom: 48px;
+  }
+
+  .ui-editor-content-box {
+
+    p {
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 30.5px;
+      @include media-max($xxl) {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+.wrapper-separator {
+  background-color: #F7F7FA;
+  height: 30px;
+}
+
+.wrapper-used-products {
+  padding-top: 64px;
+  padding-bottom: 102px;
+}

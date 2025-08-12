@@ -1,0 +1,15 @@
+{
+    "id": 45394,
+    "noOfItems": 0,
+    "paymentMethod": null,
+    "coupon": null,
+    "shippingAddress": null,
+    "lastUpdateDate" : "2022-11-11 16:26:36",
+    "lastUpdateHash" : "8c5a4891b440b1ce07fcbd4cb05ca759",
+    "products": [],
+    "subTotal": 0,
+    "discount": 0,
+    "shippingFee": 0,
+    "extraFees": 0,
+    "grandTotal": 0
+}

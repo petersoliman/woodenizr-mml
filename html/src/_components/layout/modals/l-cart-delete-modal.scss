@@ -1,0 +1,100 @@
+@import '../../mixins.scss';
+
+.l-cart-delete-modal {
+  max-width: 820px;
+  padding: 34px;
+
+  &-close-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+
+    @include media-max($md) {
+      width: 17px;
+      height: 17px;
+      padding: 0;
+      margin-bottom: 20px;
+      @include ltr{
+        margin-left: 10px;
+      }
+      @include rtl{
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &-title {
+    margin-bottom: 30px;
+    margin-top: 0;
+    @include media-min($md) {
+      width: 80%;
+    }
+    @include media-max($md) {
+      margin-bottom: 39px;
+    }
+  }
+
+  &-product {
+    display: flex;
+    align-items: center;
+  }
+
+  &-product-img {
+    height: 100px;
+    width: auto;
+    @include ltr {
+      margin-right: 50px;
+    }
+    @include rtl {
+      margin-left: 50px;
+    }
+    @include media-max($md) {
+      height: 67px;
+    }
+  }
+
+  &-product-title {
+    margin: 0 0 10px 0;
+  }
+
+  &-product-price {
+    margin: 0;
+  }
+
+  &-actions {
+    display: flex;
+    margin-top: 54px;
+    margin-bottom: 31px;
+    @include media-max($md) {
+      flex-direction: column;
+    }
+  }
+
+  &-action {
+    display: block;
+    @include media-max($md) {
+      &:not(:last-child) {
+        margin-bottom: 18px;
+      }
+    }
+  }
+
+  &-action--save {
+    width: 100%;
+    flex: 1;
+    @include ltr {
+      margin-right: 25px;
+    }
+    @include rtl {
+      margin-left: 25px;
+    }
+    @include media-max($md) {
+      @include ltr {
+        margin-right: 0;
+      }
+      @include rtl {
+        margin-left: 0;
+      }
+    }
+  }
+}

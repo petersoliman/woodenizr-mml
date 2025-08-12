@@ -1,0 +1,67 @@
+@import '../../mixins.scss';
+
+.l-featured-reviews-section {
+    &-blockquote {
+        margin: 27px 0 0;
+    }
+    &-blockquote-img {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 41px;
+    }
+    &-title {
+        margin: 0;
+        display: inline-flex;
+    }
+    &-rating-form-rating-container {
+        margin-top: 18px;
+        margin-bottom: 30px;
+    }
+    &-rating-form-text {
+        margin: 0 0 12px;
+    }
+    &-rating-form-footer {
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+    }
+    &-rating-form-footer-action {
+        display: flex;
+        margin-top: 14px;
+        margin-bottom: 14px;
+        svg {
+            margin-left: 15px;
+        }
+    }
+    &-last-order-products-section-container-box {
+        position: relative;
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1px;
+            height: 108%;
+        }
+        .swiper-button-prev {
+            left: 0;
+            top: calc(100% + 59px);
+        }
+        .swiper-button-next {
+            right: 0;
+            top: calc(100% + 50px);
+        }
+        .swiper-button-prev::after, .swiper-button-next::after {
+            background-size: 10px 16px;
+        }
+        .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+            bottom: -66px;
+        }
+
+        @include media-max($md) {
+            .swiper-button-prev, .swiper-button-next, .swiper-pagination-bullets.swiper-pagination-horizontal {
+                display: none;
+            }
+        }
+    }
+}

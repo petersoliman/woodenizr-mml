@@ -1,0 +1,26 @@
+.l-title-line {
+    display: flex;
+    align-items: center;
+    &--spacing-bottom {
+        padding-bottom: 45px;
+    }
+    &--spacing-bottom-12 {
+        padding-bottom: 12px;
+    }
+    &--spacing-bottom-30 {
+        padding-bottom: 30px;
+    }
+}
+
+.l-title-line-title {
+    flex-shrink: 0;
+}
+
+.l-title-line-subtitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &--spacing-bottom-50 {
+        padding-bottom: 50px;
+    }
+}

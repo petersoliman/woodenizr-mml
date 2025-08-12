@@ -1,0 +1,35 @@
+.l-form-input-icon {
+  position: absolute;
+  margin-left: 14px;
+  margin-right: 14px;
+  pointer-events: none;
+
+  top: 0;
+  height: 100%;
+  @include ltr {
+    left: 0;
+  }
+  @include rtl {
+    right: 0;
+  }
+
+  &--md {
+    margin-left: 21px;
+    margin-right: 21px;
+  }
+
+  &-align-end {
+    @include ltr {
+      right: 0;
+      left: unset;
+    }
+    @include rtl {
+      left: 0;
+      right: unset;
+    }
+  }
+
+  &-action {
+    pointer-events: auto;
+  }
+}

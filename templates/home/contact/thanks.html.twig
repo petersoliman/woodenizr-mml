@@ -1,0 +1,39 @@
+{% extends 'fe/base.html.twig' %}
+{% import 'fe/macros.html.twig' as macros %}
+{% set seo = seoPage.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/contact-us-success/contact-us-success.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+    {% include "home/contact/_header.html.twig" with {"pageTitle": "contact_us_thanks_msg"|trans} %}
+
+    <div class="l-container wrapper-contact-us-success">
+        <svg width="95" height="73" viewBox="0 0 95 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M31.9659 72.8871L0.614937 36.3786L13.9392 24.9389L33.1912 47.3577L81.9009 0.561811L94.0706 13.2248L31.9659 72.8871Z" fill="#79BBC3"/>
+        </svg>
+        <h4>{{ "contact_us_thanks_msg"|trans }}</h4>
+        <div class="l-flex-row">
+            <div class="l-flex-col-xl-4"></div>
+            <div class="l-flex-col-xl-4">
+                <a href="{{ path('fe_home') }}" class="btn btn-rounded btn-outline-primary btn-block btn-md">
+                    {{ "continue_shopping_txt"|trans }}
+                </a>
+            </div>
+            <div class="l-flex-col-xl-4"></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/contact-us-success/contact-us-success.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/contact-us-success/contact-us-success.js')) }}
+    {{ macros.assetJS(asset('pages-assets/contact-us-success/contact-us-success.lazy.js'), true) }}
+{% endblock %}

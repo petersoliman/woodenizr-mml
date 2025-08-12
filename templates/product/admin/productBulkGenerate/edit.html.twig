@@ -1,0 +1,250 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Edit Product Bulk Generate Job #{{ product_bulk_generate.id }}{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('product_bulk_generate_index') }}">Product Bulk Generate</a></li>
+            <li><a href="{{ path('product_bulk_generate_show', {'id': product_bulk_generate.id}) }}">Job #{{ product_bulk_generate.id }}</a></li>
+            <li class="active">Edit</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body -%}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">{{ page_title }}</h5>
+            <div class="heading-elements">
+                <a href="{{ path('product_bulk_generate_show', {'id': product_bulk_generate.id}) }}" class="btn btn-sm btn-default">
+                    <i class="icon-eye position-left"></i> View
+                </a>
+                <a href="{{ path('product_bulk_generate_index') }}" class="btn btn-sm btn-default">
+                    <i class="icon-arrow-left5 position-left"></i> Back to List
+                </a>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            {{ form_start(form, {'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'}}) }}
+                
+                <div class="form-group">
+                    {{ form_label(form.generatedFor, null, {'label_attr': {'class': 'col-lg-2 control-label required'}}) }}
+                    <div class="col-lg-10">
+                        {{ form_widget(form.generatedFor) }}
+                        {{ form_errors(form.generatedFor) }}
+                        <span class="help-block">{{ form_help(form.generatedFor) }}</span>
+                    </div>
+                </div>
+
+                                        <div class="form-group">
+                            {{ form_label(form.startTimeOption, null, {'label_attr': {'class': 'col-lg-2 control-label required'}}) }}
+                            <div class="col-lg-10">
+                                {{ form_widget(form.startTimeOption) }}
+                                {{ form_errors(form.startTimeOption) }}
+                                <span class="help-block">{{ form_help(form.startTimeOption) }}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="custom-time-group" style="display: none;">
+                            {{ form_label(form.customStartTime, null, {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+                            <div class="col-lg-10">
+                                {{ form_widget(form.customStartTime) }}
+                                {{ form_errors(form.customStartTime) }}
+                                <span class="help-block">{{ form_help(form.customStartTime) }}</span>
+                            </div>
+                        </div>
+
+                                        {# Admin field removed - cannot be modified after creation #}
+
+                                        {# Total recommendations, status, processed count, and error count fields removed - cannot be modified after creation #}
+
+                <div class="form-group">
+                    {{ form_label(form.adminNote, null, {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+                    <div class="col-lg-10">
+                        {{ form_widget(form.adminNote) }}
+                        {{ form_errors(form.adminNote) }}
+                        <span class="help-block">{{ form_help(form.adminNote) }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="icon-checkmark3 position-left"></i> Update Job
+                        </button>
+                        <a href="{{ path('product_bulk_generate_show', {'id': product_bulk_generate.id}) }}" class="btn btn-default">
+                            <i class="icon-cross2 position-left"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    {# Current Status Information #}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Current Status</h6>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="dl-horizontal">
+                        <dt>Type:</dt>
+                        <dd>
+                            <span class="label {{ product_bulk_generate.generatedForBadgeClass }}">
+                                <i class="{{ product_bulk_generate.generatedForIcon }} position-left"></i>
+                                {{ product_bulk_generate.generatedForLabel }}
+                            </span>
+                        </dd>
+                        
+                        <dt>Current Status:</dt>
+                        <dd>
+                            <span class="label {{ product_bulk_generate.statusBadgeClass }}">
+                                {{ product_bulk_generate.status|title }}
+                            </span>
+                        </dd>
+                        
+                        <dt>Progress:</dt>
+                        <dd>
+                            <div class="progress progress-micro">
+                                {% set progress = product_bulk_generate.totalRecommendations > 0 ? (product_bulk_generate.processedCount / product_bulk_generate.totalRecommendations * 100)|round : 0 %}
+                                <div class="progress-bar {% if product_bulk_generate.isCompleted %}bg-success{% elseif product_bulk_generate.isFailed %}bg-danger{% else %}bg-primary{% endif %}" 
+                                     style="width: {{ progress }}%"></div>
+                            </div>
+                            {{ product_bulk_generate.processedCount }}/{{ product_bulk_generate.totalRecommendations }} ({{ product_bulk_generate.successRate }}%)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="dl-horizontal">
+                        <dt>Start Date:</dt>
+                        <dd>{{ product_bulk_generate.startDate ? product_bulk_generate.startDate|dateTimeFormat : '--' }}</dd>
+                        
+                        <dt>End Date:</dt>
+                        <dd>N/A</dd>
+                        
+                        <dt>Duration:</dt>
+                        <dd>
+                            {% if product_bulk_generate.durationInSeconds %}
+                                {% set duration = product_bulk_generate.durationInSeconds %}
+                                {% if duration > 3600 %}
+                                    {{ (duration / 3600)|round(1) }}h
+                                {% elseif duration > 60 %}
+                                    {{ (duration / 60)|round(1) }}m
+                                {% else %}
+                                    {{ duration }}s
+                                {% endif %}
+                            {% else %}
+                                --
+                            {% endif %}
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Audit Information #}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title">Audit Information</h6>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="dl-horizontal">
+                        <dt>Created:</dt>
+                        <dd>{{ product_bulk_generate.created|dateTimeFormat }}</dd>
+                        <dt>Created by:</dt>
+                        <dd>{{ product_bulk_generate.creator }}</dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="dl-horizontal">
+                        <dt>Modified:</dt>
+                        <dd>{{ product_bulk_generate.modified|dateTimeFormat }}</dd>
+                        <dt>Modified by:</dt>
+                        <dd>{{ product_bulk_generate.modifiedBy }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.date.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.time.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+
+    <script>
+        $(function() {
+            // Initialize Select2
+            $('.select2').select2({
+                placeholder: function() {
+                    return $(this).data('placeholder');
+                },
+                allowClear: true
+            });
+
+            // Initialize datetime pickers
+            $('.datetimepicker').pickadate({
+                format: 'yyyy-mm-dd',
+                formatSubmit: 'yyyy-mm-dd'
+            });
+
+            // Form validation
+            $('form').validate({
+                rules: {
+                    'product_bulk_generate[generatedFor]': {
+                        required: true
+                    },
+                    'product_bulk_generate[startTimeOption]': {
+                        required: true
+                    },
+                    // Admin field validation removed - field cannot be modified
+                    // Total recommendations, status, processed count, and error count validation removed - fields cannot be modified
+                },
+                messages: {
+                    'product_bulk_generate[generatedFor]': {
+                        required: "Please select a generation type"
+                    },
+                    'product_bulk_generate[startTimeOption]': {
+                        required: "Please select a start time option"
+                    },
+                                // Admin field validation removed - field cannot be modified
+                    // Total recommendations, status, processed count, and error count validation messages removed - fields cannot be modified
+                }
+            });
+
+            // Status-based end date logic removed - status field is no longer in form
+
+            // Handle start time option changes
+            $('#product_bulk_generate_startTimeOption').change(function() {
+                var selectedOption = $(this).val();
+                var $customTimeGroup = $('#custom-time-group');
+                
+                if (selectedOption === 'custom') {
+                    $customTimeGroup.show();
+                } else {
+                    $customTimeGroup.hide();
+                }
+            }).trigger('change');
+
+            // Progress validation logic removed - fields are no longer in form
+        });
+    </script>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,30 @@
+.l-product-img {
+    min-height: 150px;
+    position: relative;
+    margin-bottom: 17px;
+    height: 400px;
+    &-actions {
+        position: absolute;
+        top: 18px;
+        z-index: 40;
+        @include ltr() {
+            left: 12px;
+        }
+        @include rtl() {
+            right: 12px;
+        }
+        .l-product-slide-header-action {
+            width: 34px;
+            height: 34px;
+        }
+        .l-product-slide-header-action:not(:last-child) {
+            margin-bottom: 10px;
+        }
+    }
+    &-full {
+        width: auto;
+        max-width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}

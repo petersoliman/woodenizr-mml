@@ -1,0 +1,318 @@
+<%- include ../_components/main/header/header.ejs %>
+<%- include ../_components/main/body/body-header.ejs %>
+<link rel="stylesheet" href="/pages-assets/product-list/product-list.styles.css">
+<div class="l-featured-section ui-featured-section lazyload" data-bg="/assets/img/featured-section-bg.webp" data-delay="5000">
+    <div class="l-featured-section-content">
+        <div class="l-container">
+            <div class="l-flex-row">
+                <div class="l-flex-col-lg-12">
+                    <div class="l-featured-section-content-box">
+                        <div class="l-page-title-box">
+                            <h1 class="l-page-title ui-page-title">Metabo Tools</h1>
+                            <p class="l-page-desc ui-page-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="l-container">
+    <div class="l-product-list-grid" data-l-product-list-grid="true" data-l-product-list-grid-url="http://localhost:3000/api/product-list/sale">
+        <div class="l-product-list-grid-col-filters">
+            <div class="l-backdrop ui-backdrop show backdrop"></div>
+            <div class="ui-filters-box l-filters-box loading" data-l-product-list-grid-filters="true" data-l-product-list-grid-filters-auto-load-from-url="http://localhost:3000/api/product-list/sale">
+                <span class="l-filters-box-title ui-filters-box-title">Filters</span>
+                <div class="l-form-input-box l-form-input-and-icon-box">
+                    <input type="text" class="l-form-input ui-form-input ui-form-input--rounded-pill" placeholder="Search in 445 Results" data-l-product-list-grid-filters-input="str" />
+                    <svg class="l-form-input-icon ui-form-input-icon" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.46547 0.65918C3.80015 0.65918 0 4.45933 0 9.12466C0 13.79 3.80015 17.5901 8.46547 17.5901C10.4942 17.5901 12.3574 16.8697 13.8176 15.6738L18.8721 20.7283C18.9501 20.8096 19.0435 20.8744 19.1469 20.9191C19.2503 20.9638 19.3615 20.9874 19.4742 20.9885C19.5868 20.9897 19.6985 20.9684 19.8028 20.9258C19.9071 20.8832 20.0018 20.8203 20.0814 20.7406C20.1611 20.661 20.224 20.5662 20.2666 20.462C20.3092 20.3577 20.3305 20.246 20.3294 20.1333C20.3282 20.0207 20.3046 19.9095 20.2599 19.8061C20.2152 19.7027 20.1504 19.6092 20.0691 19.5312L15.0146 14.4768C16.2105 13.0166 16.9309 11.1534 16.9309 9.12466C16.9309 4.45933 13.1308 0.65918 8.46547 0.65918ZM8.46547 2.35227C12.2158 2.35227 15.2379 5.37435 15.2379 9.12466C15.2379 12.875 12.2158 15.897 8.46547 15.897C4.71517 15.897 1.69309 12.875 1.69309 9.12466C1.69309 5.37435 4.71517 2.35227 8.46547 2.35227Z" fill="#686868" />
+                    </svg>
+                </div>
+                <div class="l-filters-box-item ui-filters-box-item">
+                    <div class="l-filter-accordion-item-checkbox l-filter-accordion-item-checkbox--spacing-20">
+                        <input class="l-form-checkbox ui-form-checkbox" type="checkbox" name="cat" id="featured" value="1" data-l-product-list-grid-filters-input="featured" />
+                        <label class="l-form-checkbox-label ui-form-checkbox-label ui-form-checkbox-label--lg ui-form-checkbox-label--color-black" for="featured">Featured</label>
+                    </div>
+                    <div class="l-filter-accordion-item-checkbox l-filter-accordion-item-checkbox--spacing-20">
+                        <input class="l-form-checkbox ui-form-checkbox" type="checkbox" name="cat" id="onsale" value="1" data-l-product-list-grid-filters-input="offer" />
+                        <label class="l-form-checkbox-label ui-form-checkbox-label ui-form-checkbox-label--lg ui-form-checkbox-label--color-black" for="onsale">On sale</label>
+                    </div>
+                    <div class="l-filter-accordion-item-checkbox l-filter-accordion-item-checkbox--spacing-20">
+                        <input class="l-form-checkbox ui-form-checkbox" type="checkbox" name="cat" id="newarrivals" value="1" data-l-product-list-grid-filters-input="newarrivals" />
+                        <label class="l-form-checkbox-label ui-form-checkbox-label ui-form-checkbox-label--lg ui-form-checkbox-label--color-black" for="newarrivals">New Arrivals</label>
+                    </div>
+                </div>
+                <div class="l-filter-accordion-item ui-filter-accordion-item expanded" data-l-filter-accordion="Categories">
+                    <div class="l-filter-accordion-item-title ui-filter-accordion-item-title ui-filter-accordion-item-title--clickable" data-l-filter-accordion-title="true--clickable">
+                        <span>Categories</span>
+                        <span class="ui-filter-accordion-item-title-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12,15a1,1,0,0,1-.71-.29l-4-4A1,1,0,0,1,8.71,9.29L12,12.59l3.29-3.29a1,1,0,0,1,1.41,1.41l-4,4A1,1,0,0,1,12,15Z" /></svg>
+                        </span>
+                    </div>
+                    <div class="l-filter-accordion-item-content ui-filter-accordion-item-content" data-l-filter-accordion-content="true">
+                        <div class="l-filter-accordion-item-content-box ui-filter-accordion-item-content-box">
+                            <% for(var i = 1; i < 15; i++) { %>
+                                <label class="l-filter-accordion-item-checkbox ui-filter-accordion-item-checkbox">
+                                    <input class="l-form-checkbox ui-form-checkbox" type="checkbox" name="cat" id="cat<%= i %>" value="cat<%= i %>" data-l-product-list-grid-filters-input="categories[]" />
+                                    <span class="l-form-checkbox-label ui-form-checkbox-label" for="cat<%= i %>">Category <%= i %></span>
+                                </label>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-filter-accordion-item ui-filter-accordion-item expanded" data-l-filter-accordion="Brands">
+                    <div class="l-filter-accordion-item-title ui-filter-accordion-item-title ui-filter-accordion-item-title--clickable" data-l-filter-accordion-title="true--clickable">
+                        <span>Brands</span>
+                        <span class="ui-filter-accordion-item-title-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12,15a1,1,0,0,1-.71-.29l-4-4A1,1,0,0,1,8.71,9.29L12,12.59l3.29-3.29a1,1,0,0,1,1.41,1.41l-4,4A1,1,0,0,1,12,15Z" /></svg>
+                        </span>
+                    </div>
+                    <div class="l-filter-accordion-item-content ui-filter-accordion-item-content" data-l-filter-accordion-content="true">
+                        <div class="l-filter-accordion-item-content-box ui-filter-accordion-item-content-box">
+                            <% for(var i = 1; i < 15; i++) { %>
+                                <label class="l-filter-accordion-item-checkbox ui-filter-accordion-item-checkbox">
+                                    <input class="l-form-radio ui-form-radio" type="radio" name="brand" id="brand<%= i %>" value="brand<%= i %>" data-l-product-list-grid-filters-input="brand" />
+                                    <span class="l-form-radio-label ui-form-radio-label" for="brand<%= i %>">Brand <%= i %></span>
+                                </label>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-filter-accordion-item ui-filter-accordion-item" data-l-filter-accordion="Country">
+                    <div class="l-filter-accordion-item-title ui-filter-accordion-item-title ui-filter-accordion-item-title--clickable" data-l-filter-accordion-title="true--clickable">
+                        <span>Country</span>
+                        <span class="ui-filter-accordion-item-title-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12,15a1,1,0,0,1-.71-.29l-4-4A1,1,0,0,1,8.71,9.29L12,12.59l3.29-3.29a1,1,0,0,1,1.41,1.41l-4,4A1,1,0,0,1,12,15Z" /></svg>
+                        </span>
+                    </div>
+                    <div class="l-filter-accordion-item-content ui-filter-accordion-item-content" data-l-filter-accordion-content="true">
+                        <div class="l-filter-accordion-item-content-box ui-filter-accordion-item-content-box">
+                            <% for(var i = 1; i < 15; i++) { %>
+                                <label class="l-filter-accordion-item-checkbox ui-filter-accordion-item-checkbox">
+                                    <input class="l-form-checkbox ui-form-checkbox" type="checkbox" name="country" id="country<%= i %>" value="country<%= i %>" data-l-product-list-grid-filters-input="origin[]" />
+                                    <span class="l-form-checkbox-label ui-form-checkbox-label" for="country<%= i %>">Country <%= i %></span>
+                                </label>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-filter-accordion-item ui-filter-accordion-item" data-l-filter-accordion="ShippedFrom">
+                    <div class="l-filter-accordion-item-title ui-filter-accordion-item-title ui-filter-accordion-item-title--clickable" data-l-filter-accordion-title="true--clickable">
+                        <span>Shipped From</span>
+                        <span class="ui-filter-accordion-item-title-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12,15a1,1,0,0,1-.71-.29l-4-4A1,1,0,0,1,8.71,9.29L12,12.59l3.29-3.29a1,1,0,0,1,1.41,1.41l-4,4A1,1,0,0,1,12,15Z" /></svg>
+                        </span>
+                    </div>
+                    <div class="l-filter-accordion-item-content ui-filter-accordion-item-content" data-l-filter-accordion-content="true">
+                        <div class="l-filter-accordion-item-content-box ui-filter-accordion-item-content-box">
+                            <label class="l-filter-accordion-item-checkbox ui-filter-accordion-item-checkbox">
+                                <input class="l-form-checkbox ui-form-checkbox" type="checkbox" name="shipping" id="shipping1" value="local" data-l-product-list-grid-filters-input="shippedFrom[]" />
+                                <span class="l-form-checkbox-label ui-form-checkbox-label" for="shipping1">Shipped from Egypt</span>
+                            </label>
+                            <label class="l-filter-accordion-item-checkbox ui-filter-accordion-item-checkbox">
+                                <input class="l-form-checkbox ui-form-checkbox" type="checkbox" name="shipping" id="shipping2" value="global" data-l-product-list-grid-filters-input="shippedFrom[]" />
+                                <span class="l-form-checkbox-label ui-form-checkbox-label" for="shipping2">Shipped from overseas</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-filter-accordion-item-title ui-filter-accordion-item-title">
+                    <span>Price Range</span>
+                </div>
+                <div class="ui-form-range">
+                    <div data-ui-form-range="price" data-ui-form-range-options='{"min": "1", "max": "30000"}'></div>
+                </div>
+                <div class="ui-filters-box-range-item">
+                    <div class="l-flex-row l-flex-row--align-center">
+                        <div class="l-flex-col-xxl-5 l-flex-col-xl-5 l-flex-col-lg-5">
+                            <div class="l-form-input-group ui-form-input-group ui-form-input-group--border-dark-gray">
+                                <input class="l-form-input ui-form-input ui-form-input-group-item ui-form-input-group-input ui-form-input--sm" type="number" name="min" value="3000" data-ui-form-range-min="price" data-l-product-list-grid-filters-input="minPrice" data-l-product-list-grid-filters-input-default="3000" />
+                                <span class="ui-form-input-group-item l-form-input-group-text ui-form-input-group-text">EGP</span>
+                            </div>
+                        </div>
+                        <div class="l-flex-col-xxl-2 l-flex-col-xl-2 l-flex-col-lg-2">
+                            -
+                        </div>
+                        <div class="l-flex-col-xxl-5 l-flex-col-xl-5 l-flex-col-lg-5">
+                            <div class="l-form-input-group ui-form-input-group ui-form-input-group--border-dark-gray">
+                                <input class="l-form-input ui-form-input ui-form-input-group-item ui-form-input-group-input ui-form-input--sm" type="number" name="max" value="8000" data-ui-form-range-max="price" data-l-product-list-grid-filters-input="maxPrice" data-l-product-list-grid-filters-input-default="8000" />
+                                <span class="ui-form-input-group-item l-form-input-group-text ui-form-input-group-text">EGP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="ui-filters-box l-filters-box-ad"></div>-->
+        </div>
+        <div class="l-product-list-grid-col-products loading" data-l-product-list-grid-products-container="true">
+            <div class="l-product-list-grid-col-products-header">
+                <div class="l-flex-row">
+                    <div class="l-flex-col-lg-12">
+                        <div class="l-breadcrumbs ui-breadcrumbs">
+                            <a class="ui-breadcrumbs-item" href="#">Home</a>
+                            <span class="ui-breadcrumbs-item separator">/</span>
+                            <a class="ui-breadcrumbs-item" href="#">Categories</a>
+                            <span class="ui-breadcrumbs-item separator active">/</span>
+                            <span class="ui-breadcrumbs-item active">Metabo Tools</span>
+                        </div>
+                    </div>
+                    <div class="l-flex-col-lg-6 l-product-list-grid-col-products-header-results-count">
+                        <span class="ui-products-list-results-count-box"><strong data-l-product-list-grid-total="true">145</strong> Results</span>
+                    </div>
+                    <div class="l-flex-col-lg-6 l-product-list-grid-col-products-header-sort">
+                        <span>Sort by</span>
+                        <div class="l-dropdown" data-product-list-grid-sort-dropdown="true" data-l-dropdown="true">
+                            <button class="l-dropdown-button ui-dropdown-button" data-l-dropdown-button="true">
+                                Recommended
+                            </button>
+                            <div class="l-dropdown-menu ui-dropdown-menu" data-l-dropdown-menu="true">
+                                <a class="l-dropdown-menu-item ui-dropdown-menu-item active" data-l-product-list-sort-btn="true" data-l-product-list-sort-btn-default-url="/product-list.html?offer=1" href="#">Recommended</a>
+                                <a class="l-dropdown-menu-item ui-dropdown-menu-item" data-l-product-list-sort-btn="true" data-l-product-list-sort-btn-default-url="/product-list.html?offer=1" href="#">Recently Added</a>
+                                <a class="l-dropdown-menu-item ui-dropdown-menu-item" data-l-product-list-sort-btn="true" data-l-product-list-sort-btn-default-url="/product-list.html?offer=1" href="#">Price Low to High</a>
+                                <a class="l-dropdown-menu-item ui-dropdown-menu-item" data-l-product-list-sort-btn="true" data-l-product-list-sort-btn-default-url="/product-list.html?offer=1" href="#">Price High to Low</a>
+                            </div>
+                        </div>
+                        <button class="filter-dropdown">
+                            <svg width="29" height="21" viewBox="0 0 29 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.60892 3.97551C8.28697 5.22625 7.1516 6.15046 5.80033 6.15046C4.19872 6.15046 2.90039 4.85213 2.90039 3.25052C2.90039 1.64892 4.19872 0.350586 5.80033 0.350586C7.1516 0.350586 8.28697 1.2748 8.60892 2.52554H28.2753C28.6756 2.52554 29.0003 2.85008 29.0003 3.25052C29.0003 3.65096 28.6756 3.97551 28.2753 3.97551H8.60892ZM7.2503 3.25052C7.2503 4.0514 6.60106 4.70049 5.80033 4.70049C4.9996 4.70049 4.35036 4.05125 4.35036 3.25052C4.35036 2.4498 4.9996 1.80056 5.80033 1.80056C6.60106 1.80056 7.2503 2.44964 7.2503 3.25052Z" fill="#686868" />
+                                <path d="M0.724985 3.97536H2.99129C2.93161 3.7437 2.89994 3.50071 2.89994 3.25038C2.89994 3.00004 2.93161 2.75706 2.99129 2.52539H0.724985C0.324545 2.52539 0 2.84994 0 3.25038C0 3.65082 0.324545 3.97536 0.724985 3.97536Z" fill="#686868" />
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M17.3086 17.0255C16.9866 15.7748 15.8511 14.8506 14.5 14.8506C13.1489 14.8506 12.0132 15.7748 11.6914 17.0255H0.724985C0.324545 17.0255 0 17.3502 0 17.7505C0 18.1508 0.324545 18.4755 0.724985 18.4755H11.6913C12.0132 19.7263 13.1487 20.6505 14.4998 20.6505C15.851 20.6505 16.9866 19.7263 17.3084 18.4755H28.2747C28.675 18.4755 28.9997 18.1508 28.9997 17.7505C28.9997 17.3502 28.675 17.0255 28.2747 17.0255H17.3086ZM14.5 19.2005C15.3009 19.2005 15.95 18.5514 15.95 17.7505C15.95 16.9496 15.3009 16.3006 14.5 16.3006C13.6991 16.3006 13.05 16.9496 13.05 17.7505C13.05 18.5514 13.6991 19.2005 14.5 19.2005Z" fill="#686868" />
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M26.0086 9.77554C25.6866 8.5248 24.5511 7.60059 23.2 7.60059C21.8488 7.60059 20.7132 8.5248 20.3914 9.77554H0.724985C0.324545 9.77554 0 10.1002 0 10.5005C0 10.9008 0.324545 11.2255 0.724985 11.2255H20.3914C20.7133 12.4763 21.8488 13.4005 23.2 13.4005C24.5511 13.4005 25.6868 12.4763 26.0086 11.2255H28.2749C28.6751 11.2255 28.9998 10.9008 28.9998 10.5005C28.9998 10.1002 28.6751 9.77554 28.2749 9.77554H26.0086ZM23.2 11.9505C24.0008 11.9505 24.6499 11.3014 24.6499 10.5005C24.6499 9.69965 24.0007 9.05056 23.2 9.05056C22.3991 9.05056 21.75 9.69965 21.75 10.5005C21.75 11.3014 22.3991 11.9505 23.2 11.9505Z" fill="#686868" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="l-404-row" data-l-product-list-grid-items-empty="true" style="display: none;">
+                <div class="l-404-row-picture">
+                    <svg width="271" height="172" viewBox="0 0 271 172" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M168.821 1.91406H270.936V170.239H168.821V1.91406ZM0.496094 1.91406H168.821V170.239H0.496094V1.91406Z"
+                              fill="#F8B372"/>
+                        <path d="M67.6406 86.0771H101.679V170.239H67.6406V86.0771Z" fill="#FACFB0"/>
+                        <path d="M182.173 157.894C177.805 157.426 173.343 156.965 168.82 156.479V170.239H270.935V160.054C241.381 161.968 211.737 161.057 182.173 157.894ZM73.6549 130.175C43.3386 109.937 25.0382 75.1879 16.2407 40.5987C12.985 27.7971 11.2544 14.8849 10.489 1.91504H0.496094V170.24H168.82V156.48C136.309 152.985 100.633 148.183 73.6549 130.175Z"
+                              fill="#DB8E53"/>
+                        <path d="M90.2884 110.16C93.9257 112.323 97.7379 114.246 101.679 115.976V86.0781H67.6406V90.2098C74.0335 98.1008 81.5339 104.953 90.2884 110.16Z"
+                              fill="#FACFB0"/>
+                        <path d="M73.6565 130.175C71.6023 128.796 69.5958 127.347 67.6406 125.831V170.239H101.679V143.699C91.7187 140.259 82.2383 135.903 73.6565 130.175Z"
+                              fill="#F2B78F"/>
+                        <path d="M167.852 1.91421V170.24C167.852 171.485 169.786 171.487 169.786 170.24V1.91421C169.788 0.669048 167.852 0.66679 167.852 1.91421Z"
+                              fill="#010735" style="fill:var(--primary-color);"/>
+                    </svg>
+                </div>
+                <div class="l-404-row-content">
+                    <div class="l-404-row-content-body">
+                        <p class="l-404-row-content-body-title">No Result!</p>
+                        <p class="l-404-row-content-body-subtitle">We couldn’t find what you are looking for</p>
+                        <a href="#" class="l-404-row-content-body-anchor">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+            <div class="l-flex-row l-product-slide-row" data-l-product-list-grid-items="true">
+                <% for(var i = 1; i < 15; i++) { %>
+                    <div class="l-flex-col-xxl-3 l-flex-col-md-4 l-flex-col-xs-12 l-product-slide-col ui-product-slide-col">
+                        <article class="ui-product-slide">
+                            <div class="l-product-slide-header ui-product-slide-header">
+                                <div class="l-product-slide-header-corner-start">
+                                    <span class="l-product-slide-badge ui-product-slide-badge ui-product-slide-badge--color-gold">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="l-product-slide-header-corner-end">
+                                    <div class="l-product-slide-header-actions">
+                                        <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Add to Wishlist" title="Add to Wishlist" aria-label="Add to Wishlist" role="button" data-toggle-product-wishlist="true" data-toggle-product-wishlist-url="http://localhost:3000/api/product/toggle-product-wishlist">
+                                            <%- include ../_components/icons/wish-list.svg.ejs %>
+                                        </button>
+                                        <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Share" title="Share" aria-label="Share" role="button" data-l-modal-btn="share-product" data-share-product-modal-btn="https://justpiece.com/en/product/bosch-gop-accessories-universal-set13-pcs-for-multi-tool">
+                                            <%- include ../_components/icons/share.svg.ejs %>
+                                        </button>
+                                        <span class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--not-clickable" data-tooltip="true" data-tippy-content="Fulfilled by JustPiece" title="Fulfilled by JustPiece" aria-label="Fulfilled by JustPiece" role="button">
+                                            <%- include ../_components/icons/logo-badge.svg.ejs %>
+                                        </span>
+                                    </div>
+                                </div>
+                                <a class="l-product-slide-img-link ui-product-slide-img-link" href="#">
+                                    <img 
+                                        class="l-product-slide-img ui-product-slide-img lazyload"
+                                        width="146"
+                                        height="146"
+                                        data-expand="-20"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                        data-src="https://i.ibb.co/89tb7qN/Rectangle-21172.webp"
+                                        alt="Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs"
+                                    />
+                                </a>
+                            </div>
+                            <a href="#" class="l-product-slide-body ui-product-slide-body">
+                                <h2 class="l-product-slide-body-title ui-product-slide-body-title">Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs</h2>
+                            </a>
+                            <div class="l-product-slide-footer ui-product-slide-footer">
+                                <div class="l-product-slide-meta">
+                                    <div>
+                                        <a href="#" class="ui-product-slide-price-container">
+                                            <p class="l-product-slide-price ui-product-slide-price">4,000 EGP</p>
+                                            <span class="l-product-slide-price-desc ui-product-slide-price-desc">(Save 1,000 EGP)</span>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a class="l-product-slide-rating-container ui-product-slide-rating-container" data-tooltip="true" data-tippy-content="Ratings" title="Ratings" href="#">
+                                            <span class="l-product-slide-rating ui-product-slide-rating">
+                                                <%- include ../_components/icons/star.svg.ejs %>
+                                                <span>3.7</span>
+                                            </span>
+                                            <span class="ui-product-slide-rating-count">(3)</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <button type="button" class="l-product-slide-footer-action ui-product-slide-footer-action" data-header-cart-sidebar-btn="true" data-header-cart-sidebar-add-product-btn="3">Add to Cart</button>
+                            </div>
+                        </article>
+                    </div>
+                <% } %>
+            </div>
+            <div class="l-product-list-grid-pagination" data-l-product-list-grid-pagination="true">
+                <div class="l-pagination ui-pagination">
+                    <a href="#" class="ui-pagination-item l-pagination-item disabled" aria-label="Perv" data-l-product-list-grid-pagination-item="true">
+                        <svg width="15" height="12" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.1602 1.41L9.58016 6L14.1602 10.59L12.7502 12L6.75016 6L12.7502 0L14.1602 1.41Z" fill="#C4CDD5"/><path d="M8.16016 1.41L3.58016 6L8.16016 10.59L6.75016 12L0.750156 6L6.75016 0L8.16016 1.41Z" fill="#C4CDD5"/></svg>
+                    </a>
+                    <a href="#" class="ui-pagination-item l-pagination-item disabled" aria-label="Perv" data-l-product-list-grid-pagination-item="true">
+                        <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.16016 1.41L3.58016 6L8.16016 10.59L6.75016 12L0.750156 6L6.75016 0L8.16016 1.41Z" fill="#C4CDD5" />
+                        </svg>
+                    </a>
+                    <a href="#" class="ui-pagination-item l-pagination-item active" aria-label="Page 1" data-l-product-list-grid-pagination-item="true">
+                        1
+                    </a>
+                    <a href="#" class="ui-pagination-item l-pagination-item" aria-label="Page 2" data-l-product-list-grid-pagination-item="true">
+                        2
+                    </a>
+                    <a href="#" class="ui-pagination-item l-pagination-item" aria-label="Page 3" data-l-product-list-grid-pagination-item="true">
+                        3
+                    </a>
+                    <a href="#" class="ui-pagination-item l-pagination-item" aria-label="Page 4" data-l-product-list-grid-pagination-item="true">
+                        4
+                    </a>
+                    <a href="#" class="ui-pagination-item l-pagination-item" aria-label="Page 4" data-l-product-list-grid-pagination-item="true">
+                        5
+                    </a>
+                    <a href="#" class="ui-pagination-item l-pagination-item" aria-label="Next" data-l-product-list-grid-pagination-item="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13.41" height="12" viewBox="0 0 13.41 12"><g transform="translate(14.16 12) rotate(180)"><path d="M14.16,1.41,9.58,6l4.58,4.59L12.75,12l-6-6,6-6Z" fill="#C4CDD5"/><path d="M8.16,1.41,3.58,6l4.58,4.59L6.75,12l-6-6,6-6Z" fill="#c4cdd5"/></g></svg>
+                    </a>
+                    <a href="#" class="ui-pagination-item l-pagination-item" aria-label="Next" data-l-product-list-grid-pagination-item="true">
+                        <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.839844 1.41L5.41984 6L0.839844 10.59L2.24984 12L8.24984 6L2.24984 0L0.839844 1.41Z" fill="#C4CDD5" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include ../_components/main/body/body-footer.ejs %>
+<link rel="stylesheet" href="/pages-assets/product-list/product-list.lazy.styles.css" fetchpriority="low">
+<script src="/pages-assets/product-list/product-list.js"></script>
+<script src="/pages-assets/product-list/product-list.lazy.js" fetchpriority="low"></script>
+<%- include ../_components/main/footer/footer.ejs %>

@@ -1,0 +1,66 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}
+    {% if clone is not defined %}
+    Create New Product
+    {% else %}
+        Clone {{ product.title }}
+    {% endif %}
+{% endset %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .box-loading {
+            position: relative;
+        }
+
+        .box-loading:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .box-loading:after {
+            content: "\eb51";
+            font-family: 'icomoon';
+            position: absolute;
+            z-index: 2;
+            top: 50%;
+            left: 50%;
+            -webkit-animation: rotation 1s linear infinite;
+            -o-animation: rotation 1s linear infinite;
+            animation: rotation 1s linear infinite;
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('product_index') }}">Products List</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'} }) }}
+    <div class="row">
+        <div class="col-lg-9">
+            {% set defaultTwig= include ("product/admin/product/_form.html.twig") %}
+            {{ include ("@PNLocale/new_or_edit_tab_structure.html.twig", {'defaultTwig': defaultTwig, "transTwigPath" : "product/admin/product/_form_trans.html.twig"} ) }}
+        </div>
+        <div class="col-lg-3">
+            {% include "product/admin/product/_new_edit_aside.html.twig" %}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'product/admin/product/_form_js.html.twig' %}
+{% endblock javascripts %}

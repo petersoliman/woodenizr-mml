@@ -1,0 +1,579 @@
+<%- include ../_components/main/header/header.ejs %>
+<%- include ../_components/main/body/body-header.ejs %>
+
+<link rel="stylesheet" href="/pages-assets/home/home.styles.css">
+
+<!-- Sections -->
+<div class="l-featured-section l-featured-section--logo-only ui-featured-section ui-featured-section--logo-only lazyload" data-bg="/assets/img/featured-section-bg.webp" data-delay="5000">
+    <div class="l-featured-section-content">
+        <div class="l-container l-container--phone-spacing">
+            <div class="l-featured-section-logo-container">
+                <%- include ../_components/icons/logo-sm.svg.ejs %>
+                <h1 class="l-hidden-page-title">C.Reality</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ui-featured-floating-banners-section l-featured-floating-banners-section">
+    <div class="l-container l-container--phone-slider-spacing l-container--position-relative">
+        <div class="swiper l-slider-row" data-l-slider="featured-floating-banners">
+            <div class="l-flex-row l-flex-row--nowrap l-flex-row--spacing-0 swiper-wrapper">
+                <% for(var i = 1; i < 5; i++) { %>
+                <div class="l-flex-col-lg-3 swiper-slide">
+                    <a class="l-featured-floating-banner ui-featured-floating-banner" href="#">
+                        <img
+                            class="l-featured-floating-banner-img lazyload"
+                            width="388"
+                            height="304"
+                            data-expand="-20"
+                            data-delay="5000"
+                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                            data-src="/assets/img/demo/featured-floating-banners-section-banner-<%= i %>.webp"
+                            alt="Banner 1"
+                        />
+                        <div class="l-featured-floating-banner-caption ui-featured-floating-banner-caption">
+                            <h5 class="ui-featured-floating-banner-caption-title l-featured-floating-banner-caption-title">MEDITERRANEO OFFICES</h5>
+                            <p class="ui-featured-floating-banner-caption-txt l-featured-floating-banner-caption-txt">INTERIOR CONSULTING & FURNITURE</p>
+                        </div>
+                    </a>
+                </div>
+                <% } %>
+                <% for(var i = 1; i < 5; i++) { %>
+                <div class="l-flex-col-lg-3 swiper-slide">
+                    <a class="l-featured-floating-banner ui-featured-floating-banner" href="#">
+                        <img
+                            class="l-featured-floating-banner-img lazyload"
+                            width="388"
+                            height="304"
+                            data-expand="-20"
+                            data-delay="5000"
+                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                            data-src="/assets/img/demo/featured-floating-banners-section-banner-<%= i %>.webp"
+                            alt="Banner 1"
+                        />
+                        <div class="l-featured-floating-banner-caption ui-featured-floating-banner-caption">
+                            <h5 class="ui-featured-floating-banner-caption-title l-featured-floating-banner-caption-title">MEDITERRANEO OFFICES</h5>
+                            <p class="ui-featured-floating-banner-caption-txt l-featured-floating-banner-caption-txt">INTERIOR CONSULTING & FURNITURE</p>
+                        </div>
+                    </a>
+                </div>
+                <% } %>
+            </div>
+        </div>
+        <div class="swiper-pagination" data-l-slider-pagination="featured-floating-banners"></div>
+        <div class="swiper-button-prev" data-l-slider-navigation-prev="featured-floating-banners"></div>
+        <div class="swiper-button-next" data-l-slider-navigation-next="featured-floating-banners"></div>
+    </div>
+</div>
+
+<div class="info-cards">
+    <div class="l-container">
+        <h2 class="title">GOOD DESIGN IS ALL ABOUT STORYTELLING!</h2>
+        <div class="l-flex-row l-flex-row--spacing-28">
+            <div class="l-flex-col-xl-4 card-container">
+                <div class="card">
+                    <div class="card-img">
+                        <img
+                            class="lazyload"
+                            width="470"
+                            height="282"
+                            data-expand="-20"
+                            data-delay="5000"
+                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                            data-src="/assets/img/demo/info-card-1.webp"
+                            alt="Info Card 1"
+                        />
+                    </div>
+                    <div class="card-title">
+                        <h3>WHO WE ARE</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Our brand philosophy is a constant reminder that any concept is not complete without coming to reality, we have turned it into our motto and a call for action to implement this concept throughout.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="l-flex-col-xl-4 card-container">
+                <div class="card">
+                    <div class="card-img">
+                        <img
+                            class="lazyload"
+                            width="470"
+                            height="282"
+                            data-expand="-20"
+                            data-delay="5000"
+                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                            data-src="/assets/img/demo/info-card-2.webp"
+                            alt="Info Card 1"
+                        />
+                    </div>
+                    <div class="card-title">
+                        <h3>WHAT WE DO</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Our brand philosophy is a constant reminder that any concept is not complete without coming to reality, we have turned it into our motto and a call for action to implement this concept throughout.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="l-flex-col-xl-4 card-container">
+                <div class="card">
+                    <div class="card-img">
+                        <img
+                            class="lazyload"
+                            width="470"
+                            height="282"
+                            data-expand="-20"
+                            data-delay="5000"
+                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                            data-src="/assets/img/demo/info-card-3.webp"
+                            alt="Info Card 1"
+                        />
+                    </div>
+                    <div class="card-title">
+                        <h3>OUR VISION</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Our brand philosophy is a constant reminder that any concept is not complete without coming to reality, we have turned it into our motto and a call for action to implement this concept throughout.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ui-featured-on-sale-products-section l-featured-on-sale-products-section">
+    <div class="l-container l-container--phone-spacing l-container--position-relative">
+        <div class="ui-section-title ui-section-title--style-1 l-section-title l-flex-row l-flex-row--align-center l-flex-row--spacing-0">
+            <div class="l-flex-col-8">
+                <h2 class="l-section-title-title ui-section-title-title ui-section-title-title--bold ui-section-title-title--color-primary">New Arrival <span class="ui-section-title-subtitle">Products</span></h2>
+            </div>
+            <div class="l-flex-col-4 ui-section-title-action-container">
+                <a class="l-section-title-action ui-section-title-action" href="#">
+                    <span>View All</span>
+                    <span class="l-section-title-action-icon">
+                        <%- include ../_components/icons/arrow-right.svg.ejs %>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="l-container l-container--phone-spacing l-container--position-relative">
+        <div class="swiper l-slider-row" data-l-slider="on-sale-products">
+            <div class="l-flex-row l-flex-row--nowrap l-flex-row--spacing-0 swiper-wrapper">
+                <div class="l-flex-col-lg-3 swiper-slide">
+                    <article class="ui-product-slide">
+                        <div class="l-product-slide-header ui-product-slide-header">
+                            <div class="l-product-slide-header-corner-start">
+                                <span class="l-product-slide-badge ui-product-slide-badge ui-product-slide-badge--color-gold">
+                                    50%
+                                </span>
+                            </div>
+                            <div class="l-product-slide-header-corner-end">
+                                <div class="l-product-slide-header-actions">
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Add to Wishlist" title="Add to Wishlist" aria-label="Add to Wishlist" role="button" data-toggle-product-wishlist="true" data-toggle-product-wishlist-url="http://localhost:3000/api/product/toggle-product-wishlist">
+                                        <%- include ../_components/icons/wish-list.svg.ejs %>
+                                    </button>
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Share" title="Share" aria-label="Share" role="button" data-l-modal-btn="share-product" data-share-product-modal-btn="https://justpiece.com/en/product/bosch-gop-accessories-universal-set13-pcs-for-multi-tool">
+                                        <%- include ../_components/icons/share.svg.ejs %>
+                                    </button>
+                                </div>
+                            </div>
+                            <a class="l-product-slide-img-link ui-product-slide-img-link" href="#">
+                                <img 
+                                    class="l-product-slide-img ui-product-slide-img lazyload"
+                                    width="146"
+                                    height="146"
+                                    data-expand="-20"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                    data-src="https://i.ibb.co/89tb7qN/Rectangle-21172.webp"
+                                    alt="Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs"
+                                />
+                            </a>
+                        </div>
+                        <a href="#" class="l-product-slide-body ui-product-slide-body">
+                            <h2 class="l-product-slide-body-title ui-product-slide-body-title">Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs</h2>
+                        </a>
+                        <div class="l-product-slide-footer ui-product-slide-footer">
+                            <div class="l-product-slide-meta">
+                                <div>
+                                    <a href="#" class="ui-product-slide-price-container">
+                                        <p class="l-product-slide-price ui-product-slide-price">4,000 EGP</p>
+                                        <span class="l-product-slide-price-desc ui-product-slide-price-desc">(Save 1,000 EGP)</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button type="button" class="l-product-slide-footer-action ui-product-slide-footer-action" data-header-cart-sidebar-btn="true" data-header-cart-sidebar-add-product-btn="3">Add to Cart</button>
+                        </div>
+                    </article>
+                </div>
+                <div class="l-flex-col-lg-3 swiper-slide">
+                    <article class="ui-product-slide">
+                        <div class="l-product-slide-header ui-product-slide-header">
+                            <div class="l-product-slide-header-corner-start">
+                                <span class="l-product-slide-badge ui-product-slide-badge ui-product-slide-badge--color-gold">
+                                    50%
+                                </span>
+                            </div>
+                            <div class="l-product-slide-header-corner-end">
+                                <div class="l-product-slide-header-actions">
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable ui-product-slide-header-action--active" data-tooltip="true" data-tippy-content="Add to Wishlist" title="Add to Wishlist" aria-label="Add to Wishlist" role="button" data-toggle-product-wishlist="true" data-toggle-product-wishlist-url="http://localhost:3000/api/product/toggle-product-wishlist">
+                                        <%- include ../_components/icons/wish-list.svg.ejs %>
+                                    </button>
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Share" title="Share" aria-label="Share" role="button" data-l-modal-btn="share-product" data-share-product-modal-btn="https://justpiece.com/en/product/bosch-gop-accessories-universal-set13-pcs-for-multi-tool">
+                                        <%- include ../_components/icons/share.svg.ejs %>
+                                    </button>
+                                </div>
+                            </div>
+                            <a class="l-product-slide-img-link ui-product-slide-img-link" href="#">
+                                <img 
+                                    class="l-product-slide-img ui-product-slide-img lazyload"
+                                    width="146"
+                                    height="146"
+                                    data-expand="-20"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                    data-src="https://i.ibb.co/pfn9vxH/Rectangle-2117.png"
+                                    alt="Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs"
+                                />
+                            </a>
+                        </div>
+                        <a href="#" class="l-product-slide-body ui-product-slide-body">
+                            <h2 class="l-product-slide-body-title ui-product-slide-body-title">Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs</h2>
+                        </a>
+                        <div class="l-product-slide-footer ui-product-slide-footer">
+                            <div class="l-product-slide-meta">
+                                <div>
+                                    <a href="#" class="ui-product-slide-price-container">
+                                        <p class="l-product-slide-price ui-product-slide-price">4,000 EGP</p>
+                                        <span class="l-product-slide-price-desc ui-product-slide-price-desc">(Save 1,000 EGP)</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button type="button" class="l-product-slide-footer-action ui-product-slide-footer-action" disabled>Out of Stock</button>
+                        </div>
+                    </article>
+                </div>
+                <div class="l-flex-col-lg-3 swiper-slide">
+                    <article class="ui-product-slide">
+                        <div class="l-product-slide-header ui-product-slide-header">
+                            <div class="l-product-slide-header-corner-start">
+                                <span class="l-product-slide-badge ui-product-slide-badge">
+                                    50%
+                                </span>
+                            </div>
+                            <div class="l-product-slide-header-corner-end">
+                                <div class="l-product-slide-header-actions">
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Add to Wishlist" title="Add to Wishlist" aria-label="Add to Wishlist" role="button" data-toggle-product-wishlist="true" data-toggle-product-wishlist-url="http://localhost:3000/api/product/toggle-product-wishlist">
+                                        <%- include ../_components/icons/wish-list.svg.ejs %>
+                                    </button>
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Share" title="Share" aria-label="Share" role="button" data-l-modal-btn="share-product" data-share-product-modal-btn="https://justpiece.com/en/product/bosch-gop-accessories-universal-set13-pcs-for-multi-tool">
+                                        <%- include ../_components/icons/share.svg.ejs %>
+                                    </button>
+                                </div>
+                            </div>
+                            <a class="l-product-slide-img-link ui-product-slide-img-link" href="#">
+                                <img 
+                                    class="l-product-slide-img ui-product-slide-img lazyload"
+                                    width="146"
+                                    height="146"
+                                    data-expand="-20"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                    data-src="https://i.ibb.co/89tb7qN/Rectangle-21172.webp"
+                                    alt="Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs"
+                                />
+                            </a>
+                        </div>
+                        <a href="#" class="l-product-slide-body ui-product-slide-body">
+                            <h2 class="l-product-slide-body-title ui-product-slide-body-title">Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs</h2>
+                        </a>
+                        <div class="l-product-slide-footer ui-product-slide-footer">
+                            <div class="l-product-slide-meta">
+                                <div>
+                                    <a href="#" class="ui-product-slide-price-container">
+                                        <p class="l-product-slide-price ui-product-slide-price">4,000 EGP</p>
+                                        <span class="l-product-slide-price-desc ui-product-slide-price-desc">(Save 1,000 EGP)</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button type="button" class="l-product-slide-footer-action ui-product-slide-footer-action" data-header-cart-sidebar-btn="true" data-header-cart-sidebar-add-product-btn="3">Add to Cart</button>
+                        </div>
+                    </article>
+                </div>
+                <div class="l-flex-col-lg-3 swiper-slide">
+                    <article class="ui-product-slide">
+                        <div class="l-product-slide-header ui-product-slide-header">
+                            <div class="l-product-slide-header-corner-start">
+                                <span class="l-product-slide-badge ui-product-slide-badge ui-product-slide-badge--color-bronze">
+                                    50%
+                                </span>
+                            </div>
+                            <div class="l-product-slide-header-corner-end">
+                                <div class="l-product-slide-header-actions">
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Add to Wishlist" title="Add to Wishlist" aria-label="Add to Wishlist" role="button" data-toggle-product-wishlist="true" data-toggle-product-wishlist-url="http://localhost:3000/api/product/toggle-product-wishlist">
+                                        <%- include ../_components/icons/wish-list.svg.ejs %>
+                                    </button>
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Share" title="Share" aria-label="Share" role="button" data-l-modal-btn="share-product" data-share-product-modal-btn="https://justpiece.com/en/product/bosch-gop-accessories-universal-set13-pcs-for-multi-tool">
+                                        <%- include ../_components/icons/share.svg.ejs %>
+                                    </button>
+                                </div>
+                            </div>
+                            <a class="l-product-slide-img-link ui-product-slide-img-link" href="#">
+                                <img 
+                                    class="l-product-slide-img ui-product-slide-img lazyload"
+                                    width="146"
+                                    height="146"
+                                    data-expand="-20"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                    data-src="https://i.ibb.co/pfn9vxH/Rectangle-2117.png"
+                                    alt="Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs"
+                                />
+                            </a>
+                        </div>
+                        <a href="#" class="l-product-slide-body ui-product-slide-body">
+                            <h2 class="l-product-slide-body-title ui-product-slide-body-title">Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs</h2>
+                        </a>
+                        <div class="l-product-slide-footer ui-product-slide-footer">
+                            <div class="l-product-slide-meta">
+                                <div>
+                                    <a href="#" class="ui-product-slide-price-container">
+                                        <p class="l-product-slide-price ui-product-slide-price">4,000 EGP</p>
+                                        <span class="l-product-slide-price-desc ui-product-slide-price-desc">(Save 1,000 EGP)</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button type="button" class="l-product-slide-footer-action ui-product-slide-footer-action" data-header-cart-sidebar-btn="true" data-header-cart-sidebar-add-product-btn="8">Add to Cart</button>
+                        </div>
+                    </article>
+                </div>
+                <div class="l-flex-col-lg-3 swiper-slide">
+                    <article class="ui-product-slide">
+                        <div class="l-product-slide-header ui-product-slide-header">
+                            <div class="l-product-slide-header-corner-start">
+                                <span class="l-product-slide-badge ui-product-slide-badge ui-product-slide-badge--color-gold">
+                                    50%
+                                </span>
+                            </div>
+                            <div class="l-product-slide-header-corner-end">
+                                <div class="l-product-slide-header-actions">
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Add to Wishlist" title="Add to Wishlist" aria-label="Add to Wishlist" role="button" data-toggle-product-wishlist="true" data-toggle-product-wishlist-url="http://localhost:3000/api/product/toggle-product-wishlist">
+                                        <%- include ../_components/icons/wish-list.svg.ejs %>
+                                    </button>
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Share" title="Share" aria-label="Share" role="button" data-l-modal-btn="share-product" data-share-product-modal-btn="https://justpiece.com/en/product/bosch-gop-accessories-universal-set13-pcs-for-multi-tool">
+                                        <%- include ../_components/icons/share.svg.ejs %>
+                                    </button>
+                                </div>
+                            </div>
+                            <a class="l-product-slide-img-link ui-product-slide-img-link" href="#">
+                                <img 
+                                    class="l-product-slide-img ui-product-slide-img lazyload"
+                                    width="146"
+                                    height="146"
+                                    data-expand="-20"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                    data-src="https://i.ibb.co/89tb7qN/Rectangle-21172.webp"
+                                    alt="Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs"
+                                />
+                            </a>
+                        </div>
+                        <a href="#" class="l-product-slide-body ui-product-slide-body">
+                            <h2 class="l-product-slide-body-title ui-product-slide-body-title">Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs</h2>
+                        </a>
+                        <div class="l-product-slide-footer ui-product-slide-footer">
+                            <div class="l-product-slide-meta">
+                                <div>
+                                    <a href="#" class="ui-product-slide-price-container">
+                                        <p class="l-product-slide-price ui-product-slide-price">4,000 EGP</p>
+                                        <span class="l-product-slide-price-desc ui-product-slide-price-desc">(Save 1,000 EGP)</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button type="button" class="l-product-slide-footer-action ui-product-slide-footer-action" data-header-cart-sidebar-btn="true" data-header-cart-sidebar-add-product-btn="8">Add to Cart</button>
+                        </div>
+                    </article>
+                </div>
+                <div class="l-flex-col-lg-3 swiper-slide">
+                    <article class="ui-product-slide">
+                        <div class="l-product-slide-header ui-product-slide-header">
+                            <div class="l-product-slide-header-corner-start">
+                                <span class="l-product-slide-badge ui-product-slide-badge ui-product-slide-badge--color-gold">
+                                    50%
+                                </span>
+                            </div>
+                            <div class="l-product-slide-header-corner-end">
+                                <div class="l-product-slide-header-actions">
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Add to Wishlist" title="Add to Wishlist" aria-label="Add to Wishlist" role="button" data-toggle-product-wishlist="true" data-toggle-product-wishlist-url="http://localhost:3000/api/product/toggle-product-wishlist">
+                                        <%- include ../_components/icons/wish-list.svg.ejs %>
+                                    </button>
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Share" title="Share" aria-label="Share" role="button" data-l-modal-btn="share-product" data-share-product-modal-btn="https://justpiece.com/en/product/bosch-gop-accessories-universal-set13-pcs-for-multi-tool">
+                                        <%- include ../_components/icons/share.svg.ejs %>
+                                    </button>
+                                </div>
+                            </div>
+                            <a class="l-product-slide-img-link ui-product-slide-img-link" href="#">
+                                <img 
+                                    class="l-product-slide-img ui-product-slide-img lazyload"
+                                    width="146"
+                                    height="146"
+                                    data-expand="-20"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                    data-src="https://i.ibb.co/pfn9vxH/Rectangle-2117.png"
+                                    alt="Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs"
+                                />
+                            </a>
+                        </div>
+                        <a href="#" class="l-product-slide-body ui-product-slide-body">
+                            <h2 class="l-product-slide-body-title ui-product-slide-body-title">Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs</h2>
+                        </a>
+                        <div class="l-product-slide-footer ui-product-slide-footer">
+                            <div class="l-product-slide-meta">
+                                <div>
+                                    <a href="#" class="ui-product-slide-price-container">
+                                        <p class="l-product-slide-price ui-product-slide-price">4,000 EGP</p>
+                                        <span class="l-product-slide-price-desc ui-product-slide-price-desc">(Save 1,000 EGP)</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button type="button" class="l-product-slide-footer-action ui-product-slide-footer-action" data-header-cart-sidebar-btn="true" data-header-cart-sidebar-add-product-btn="8">Add to Cart</button>
+                        </div>
+                    </article>
+                </div>
+                <div class="l-flex-col-lg-3 swiper-slide">
+                    <article class="ui-product-slide">
+                        <div class="l-product-slide-header ui-product-slide-header">
+                            <div class="l-product-slide-header-corner-start">
+                                <span class="l-product-slide-badge ui-product-slide-badge ui-product-slide-badge--color-gold">
+                                    50%
+                                </span>
+                            </div>
+                            <div class="l-product-slide-header-corner-end">
+                                <div class="l-product-slide-header-actions">
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Add to Wishlist" title="Add to Wishlist" aria-label="Add to Wishlist" role="button" data-toggle-product-wishlist="true" data-toggle-product-wishlist-url="http://localhost:3000/api/product/toggle-product-wishlist">
+                                        <%- include ../_components/icons/wish-list.svg.ejs %>
+                                    </button>
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Share" title="Share" aria-label="Share" role="button" data-l-modal-btn="share-product" data-share-product-modal-btn="https://justpiece.com/en/product/bosch-gop-accessories-universal-set13-pcs-for-multi-tool">
+                                        <%- include ../_components/icons/share.svg.ejs %>
+                                    </button>
+                                </div>
+                            </div>
+                            <a class="l-product-slide-img-link ui-product-slide-img-link" href="#">
+                                <img 
+                                    class="l-product-slide-img ui-product-slide-img lazyload"
+                                    width="146"
+                                    height="146"
+                                    data-expand="-20"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                    data-src="https://i.ibb.co/89tb7qN/Rectangle-21172.webp"
+                                    alt="Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs"
+                                />
+                            </a>
+                        </div>
+                        <a href="#" class="l-product-slide-body ui-product-slide-body">
+                            <h2 class="l-product-slide-body-title ui-product-slide-body-title">Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs</h2>
+                        </a>
+                        <div class="l-product-slide-footer ui-product-slide-footer">
+                            <div class="l-product-slide-meta">
+                                <div>
+                                    <a href="#" class="ui-product-slide-price-container">
+                                        <p class="l-product-slide-price ui-product-slide-price">4,000 EGP</p>
+                                        <span class="l-product-slide-price-desc ui-product-slide-price-desc">(Save 1,000 EGP)</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button type="button" class="l-product-slide-footer-action ui-product-slide-footer-action" data-header-cart-sidebar-btn="true" data-header-cart-sidebar-add-product-btn="8">Add to Cart</button>
+                        </div>
+                    </article>
+                </div>
+                <div class="l-flex-col-lg-3 swiper-slide">
+                    <article class="ui-product-slide">
+                        <div class="l-product-slide-header ui-product-slide-header">
+                            <div class="l-product-slide-header-corner-start">
+                                <span class="l-product-slide-badge ui-product-slide-badge ui-product-slide-badge--color-gold">
+                                    50%
+                                </span>
+                            </div>
+                            <div class="l-product-slide-header-corner-end">
+                                <div class="l-product-slide-header-actions">
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Add to Wishlist" title="Add to Wishlist" aria-label="Add to Wishlist" role="button" data-toggle-product-wishlist="true" data-toggle-product-wishlist-url="http://localhost:3000/api/product/toggle-product-wishlist">
+                                        <%- include ../_components/icons/wish-list.svg.ejs %>
+                                    </button>
+                                    <button type="button" class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable" data-tooltip="true" data-tippy-content="Share" title="Share" aria-label="Share" role="button" data-l-modal-btn="share-product" data-share-product-modal-btn="https://justpiece.com/en/product/bosch-gop-accessories-universal-set13-pcs-for-multi-tool">
+                                        <%- include ../_components/icons/share.svg.ejs %>
+                                    </button>
+                                </div>
+                            </div>
+                            <a class="l-product-slide-img-link ui-product-slide-img-link" href="#">
+                                <img 
+                                    class="l-product-slide-img ui-product-slide-img lazyload"
+                                    width="146"
+                                    height="146"
+                                    data-expand="-20"
+                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                    data-src="https://i.ibb.co/pfn9vxH/Rectangle-2117.png"
+                                    alt="Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs"
+                                />
+                            </a>
+                        </div>
+                        <a href="#" class="l-product-slide-body ui-product-slide-body">
+                            <h2 class="l-product-slide-body-title ui-product-slide-body-title">Cordless Impact Drill + 2 Battery 18v With Multi-Material Drill Bits and Screw Drivers 14 Pcs</h2>
+                        </a>
+                        <div class="l-product-slide-footer ui-product-slide-footer">
+                            <div class="l-product-slide-meta">
+                                <div>
+                                    <a href="#" class="ui-product-slide-price-container">
+                                        <p class="l-product-slide-price ui-product-slide-price">4,000 EGP</p>
+                                        <span class="l-product-slide-price-desc ui-product-slide-price-desc">(Save 1,000 EGP)</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button type="button" class="l-product-slide-footer-action ui-product-slide-footer-action" data-header-cart-sidebar-btn="true" data-header-cart-sidebar-add-product-btn="8">Add to Cart</button>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination" data-l-slider-pagination="on-sale-products"></div>
+        <div class="swiper-button-prev" data-l-slider-navigation-prev="on-sale-products"></div>
+        <div class="swiper-button-next" data-l-slider-navigation-next="on-sale-products"></div>
+    </div>
+</section>
+
+<!-- Lazy Sections -->
+<div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-banner" data-l-lazy-section-type="simple" data-l-lazy-section-url="/partials-home-featured-banner-section.html"></div>
+
+<br>
+<br>
+
+<!--<div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-reviews" data-l-lazy-section-type="simple" data-l-lazy-section-url="/partials-home-featured-reviews-section.html"></div>-->
+
+<div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-offers-2" data-l-lazy-section-type="simple" data-l-lazy-section-url="/partials-home-featured-offers-2-section.html"></div>
+
+
+
+<div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="best-seller" data-l-lazy-section-type="products" data-l-lazy-section-url="/api/best-seller-section.json"></div>
+
+<!--<div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-just-gift" data-l-lazy-section-type="simple" data-l-lazy-section-url="/partials-home-featured-just-gift-section.html"></div>-->
+<br>
+<br>
+<br>
+
+
+<div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-collections" data-l-lazy-section-type="simple" data-l-lazy-section-url="/partials-home-featured-collections-section.html"></div>
+
+<br>
+<br>
+
+<div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-offers-4" data-l-lazy-section-type="simple" data-l-lazy-section-url="/partials-home-featured-offers-4-section.html"></div>
+
+<br>
+<br>
+
+<div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-reading" data-l-lazy-section-type="simple" data-l-lazy-section-url="/partials-home-featured-readings-section.html"></div>
+
+
+
+<div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-categories-products" data-l-lazy-section-type="products" data-l-lazy-section-url="/api/products-multi-sections.json"></div>
+
+<%- include ../_components/main/body/body-footer.ejs %>
+<link rel="stylesheet" href="/pages-assets/home/home.lazy.styles.css" fetchpriority="low">
+<script src="/pages-assets/home/home.js"></script>
+<script src="/pages-assets/home/home.lazy.js" fetchpriority="low"></script>
+<%- include ../_components/main/footer/footer.ejs %>

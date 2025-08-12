@@ -1,0 +1,98 @@
+{% apply spaceless %}
+    {% set cr = app.request.attributes.get('_route') %}
+    {% set locale = app.request.get('_locale') %}
+
+    <!doctype html>
+    <html lang="{% if locale == '' %}en{% else %}{{ app.request.get('_locale') }}{% endif %}"
+          dir="{{ locale == "ar" ? 'rtl': "ltr" }}">
+    <head>
+        <title>
+            {% block title %}{% endblock %} | {{ getSiteSetting("website-title") }}
+        </title>
+
+        {% block criticalCSS %}{% endblock %}
+        <style>
+            {% set primaryColor = getSiteSetting("website-primary-color") %}
+            {% set headerColor = getSiteSetting("website-header-color") %}
+            {% set headerTextColor = getSiteSetting("website-header-text-color") %}
+            {% set footerColor = getSiteSetting("website-footer-color") %}
+            {% set footerTextColor = getSiteSetting("website-footer-text-color") %}
+            :root {
+                --primary-color: {{ primaryColor }} !important;
+                --primary-color-rgb: {{ convertHexToRgb(primaryColor) }};
+                --text-on-primary-color: #ffffff !important;
+                --header-color: {{ headerColor }};
+                --header-text-color: {{ headerTextColor }};
+                --footer-color: {{ footerColor }};
+                --footer-text-color: {{ footerTextColor }};
+            }
+            .m-header-topbar-logo{
+                width: 220px !important;
+            }
+            .m-header-topbar-delivery{
+                justify-content: end !important;
+            }
+            .m-header-topbar-logo a svg{
+                max-width: 100%;
+            }
+            .m-header{
+                background-color: var(--header-color) !important;
+            }
+            .m-footer{
+                background-color: var(--footer-color) !important;
+            }
+            .m-header-topbar-icon svg path{
+                fill: var(--header-text-color) !important;
+            }
+            .m-header-topbar-delivery-dropdown-button {
+                color:  var(--header-text-color) !important;
+            }
+            .m-footer-widget-title,
+            .m-footer-widget-content,
+            .m-footer-widget-content a{
+                color: var(--footer-text-color) !important;
+            }
+            .m-footer-widget-content-social-icons svg path{
+                fill: var(--footer-text-color) !important;
+            }
+        </style>
+
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta property="og:site_name"
+              content="{{ getSiteSetting("website-title") }}"/>
+        {% block stylesheets %}{% endblock %}
+
+        {% include "fe/_favicon.html.twig" %}
+        {% block metaTag %}{% endblock %}
+
+        {# SITE SETTINGS #}
+        {% if 'Google' not in app.request.headers.get('User-Agent') %}
+            {{ render(controller("App\\CMSBundle\\Controller\\FrontEnd\\SiteSettingController::siteSettingHead") ) }}
+        {% endif %}
+        {# END SITE SETTINGS #}
+    </head>
+
+    <body>
+    {% if 'Google' not in app.request.headers.get('User-Agent') %}
+        {{ render(controller("App\\CMSBundle\\Controller\\FrontEnd\\SiteSettingController::siteSettingBody") ) }}
+    {% endif %}
+
+    {% include 'fe/_header.html.twig' %}
+
+    <div class="m-body">
+        <div class="l-backdrop ui-backdrop" data-m-body-backdrop="true"></div>
+        {% block content %}{% endblock %}
+    </div>
+    {% block modals %}{% endblock %}
+
+    {{ render(controller('App\\HomeBundle\\Controller\\HeaderFooterController::footer')) }}
+    {% include 'fe/_modals.html.twig' %}
+    <div class="l-toasts" data-toasts="true"></div>
+
+    {% include 'fe/_global_variables.html.twig' %}
+    {% block javascripts %}
+    {% endblock %}
+    </body>
+    </html>
+{% endapply %}

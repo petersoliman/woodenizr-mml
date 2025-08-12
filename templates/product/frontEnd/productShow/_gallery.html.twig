@@ -1,0 +1,97 @@
+<div class="l-product-view-overview-section-col ui-product-view-overview-section-col l-product-view-overview-section-col-photo"
+     data-l-gallery="product-imgs">
+    <div class="l-product-details-mobile-title-ratings">
+        <div>
+            {% include 'product/frontEnd/productShow/_admin_buttons.html.twig' %}
+
+            <p class="l-product-details-title ui-product-details-title">{{ product.title }}</p>
+        </div>
+        {#        {% include "product/frontEnd/productShow/_rating.html.twig" %} #}
+    </div>
+
+
+    <div class="l-product-img ui-product-img">
+        <div class="l-product-img-actions ui-product-img-actions">
+
+            <div class="l-product-slide-header-actions">
+                <button type="button"
+                        class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable {{ isFavorite ? 'ui-product-slide-header-action--active' }}"
+                        data-tooltip="true"
+                        role="button"
+                        data-toggle-product-wishlist="true"
+                        data-tippy-content="{{ "add_to_wishlist_txt"|trans }}"
+                        title="{{ "add_to_wishlist_txt"|trans }}"
+                        aria-label="{{ "add_to_wishlist_txt"|trans }}"
+                        data-toggle-product-wishlist-url="{{ path('fe_product_add_to_favorite_ajax',{"slug": product.seo.slug}) }}"
+                >
+                    {% include 'fe/icons/wish-list.svg' %}
+                </button>
+                <button type="button"
+                        class="l-product-slide-header-action ui-product-slide-header-action ui-product-slide-header-action--hoverable"
+                        data-tooltip="true"
+                        role="button"
+                        data-l-modal-btn="share-product"
+                        data-tippy-content="{{ "share_txt"|trans }}"
+                        title="{{ "share_txt"|trans }}"
+                        aria-label="{{ "share_txt"|trans }}"
+                        data-share-product-modal-btn="{{ url('fe_product_show', {'slug':product.seo.slug}) }}">
+                    {% include 'fe/icons/share.svg' %}
+                </button>
+            </div>
+        </div>
+        {% set hasThreeSixtyView = product.threeSixtyView is not empty and product.threeSixtyView.images.count > 0 %}
+        {% if images|length > 0 or hasThreeSixtyView %}
+            <div class="swiper" data-l-slider="product-imgs-slider" data-l-gallery-slider="product-imgs">
+                <div class="swiper-wrapper">
+                    {% if hasThreeSixtyView %}
+                        {% set firstImage = product.threeSixtyView.images.first %}
+
+                        {% set basePath = firstImage.assetPath|replace({(firstImage.name) : ''}) %}
+                        <div class="swiper-slide">
+                            <div id="three-sixty-view-container"
+                                 data-folder="{{ absolute_url(asset(basePath)) }}"
+                                 data-filename-x="image-{index}.{{ firstImage.nameExtension }}?v={{ random() }}"
+                                 data-amount-x="{{ product.threeSixtyView.images.count }}"
+                            >
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% for image in images %}
+                        <div class="swiper-slide">
+                            <img class="lazyload l-product-img-full"
+                                 width="400"
+                                 height="400"
+                                 data-expand="-20"
+                                 src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                 data-thumb="{{ asset(image.assetPath)|webp(60) }}"
+                                 data-src="{{ asset(image.assetPath)|webp }}"
+                                 data-fancybox="gallery"
+                                 data-l-gallery-lightbox="product-imgs"/>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                 data-src="{{ asset('assets/img/product-img-placeholder.webp') }}"
+                 class="l-product-img-full lazyload" alt="{{ product.title }}"/>
+        {% endif %}
+    </div>
+    {% if (images|length > 0 and hasThreeSixtyView) or (images|length > 1 and hasThreeSixtyView == false) %}
+        <div class="l-product-thumbs">
+            {% if hasThreeSixtyView %}
+                <button class="l-product-thumb ui-product-thumb active" data-l-gallery-thumb="product-imgs"
+                        data-l-gallery-thumb-id="0">
+                    360°
+                </button>
+            {% endif %}
+            {% for image in images %}
+                <button class="l-product-thumb ui-product-thumb {{ loop.index == 1 and hasThreeSixtyView == false ? "active" }}"
+                        data-l-gallery-thumb="product-imgs"
+                        data-l-gallery-thumb-id="{{ hasThreeSixtyView ? loop.index : loop.index - 1 }}">
+                    <img src="{{ asset(image.assetPath)|webp(60) }}" alt="{{ product.title }}" width="40" height="40"/>
+                </button>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

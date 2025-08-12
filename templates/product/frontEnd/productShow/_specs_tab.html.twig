@@ -1,0 +1,49 @@
+{% if specs is not empty %}
+    <div class="l-flex-row">
+        {% for batch in specs|batch( specs|length / 2) %}
+            <div class="l-flex-col-lg-6">
+                <table class="ui-striped-table l-striped-table">
+                    <tbody>
+                    {% for key, spec in batch %}
+                        <tr>
+                            <td>{{ spec.title }}</td>
+                            <td>
+                                {% if spec.url is not empty %}
+                                    <a href="{{ spec.url }}" {{ key == "brand" ? 'class="special"' }}>{{ spec.value }}</a>
+                                {% else %}
+                                    {{ spec.value }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p style="text-align: center">{{ "no_specifications_for_this_product_txt"|trans }}</p>
+{% endif %}
+
+{# {% if specs is not empty %} #}
+{#    <div class="l-flex-row"> #}
+{#        <div class="l-flex-col-lg-12"> #}
+{#            <table class="ui-striped-table l-striped-table"> #}
+{#                <tbody> #}
+{#                {% for key, spec in specs %} #}
+{#                    <tr> #}
+{#                        <td>{{ spec.title }}</td> #}
+{#                        <td> #}
+{#                            {% if spec.url is not empty %} #}
+{#                                <a href="{{ spec.url }}" {{ key == "brand" ? 'class="special"' }}>{{ spec.value }}</a> #}
+{#                            {% else %} #}
+{#                                {{ spec.value }} #}
+{#                            {% endif %} #}
+{#                        </td> #}
+{#                    </tr> #}
+{#                {% endfor %} #}
+{#                </tbody> #}
+{#            </table> #}
+{#        </div> #}
+{#    </div> #}
+{# {% endif %} #}

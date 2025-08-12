@@ -1,0 +1,175 @@
+@import './../../_components/base-styles';
+
+/*/
+ * Layout Components
+/*/
+
+@import './../../_components/layout/grids/l-container';
+@import './../../_components/layout/grids/l-flex-row';
+
+@import './../../_components/layout/grids/l-flex-col-8';
+@import './../../_components/layout/grids/l-flex-col-4';
+
+@import './../../_components/layout/grids/l-flex-col-md-4';
+@import './../../_components/layout/grids/l-flex-col-md-6';
+
+@import './../../_components/layout/grids/l-flex-col-lg-2';
+@import './../../_components/layout/grids/l-flex-col-lg-4';
+@import './../../_components/layout/grids/l-flex-col-lg-5';
+@import './../../_components/layout/grids/l-flex-col-lg-6';
+@import './../../_components/layout/grids/l-flex-col-lg-8';
+@import './../../_components/layout/grids/l-flex-col-lg-12';
+
+@import './../../_components/layout/grids/l-flex-col-xl-2';
+@import './../../_components/layout/grids/l-flex-col-xl-4';
+@import './../../_components/layout/grids/l-flex-col-xl-5';
+@import './../../_components/layout/grids/l-flex-col-xl-6';
+@import './../../_components/layout/grids/l-flex-col-xl-8';
+
+@import './../../_components/layout/grids/l-flex-col-xxl-2';
+@import './../../_components/layout/grids/l-flex-col-xxl-3';
+@import './../../_components/layout/grids/l-flex-col-xxl-5';
+
+@import './../../_components/layout/grids/l-product-list-grid';
+@import './../../_components/layout/sections/l-404';
+
+@import './../../_components/layout/boxes/l-filters-box';
+
+@import './../../_components/layout/accordions/l-filter-accordion-item';
+
+@import './../../_components/layout/sections/l-featured-section';
+@import './../../_components/layout/sections/l-featured-full-width-banner-section';
+
+@import './../../_components/layout/titles/l-page-title';
+@import './../../_components/layout/titles/l-page-desc';
+@import './../../_components/layout/titles/l-page-title-box';
+
+@import './../../_components/layout/slides/l-product-slide';
+
+@import './../../_components/layout/pagination/l-pagination';
+
+@import './../../_components/layout/breadcrumbs/l-breadcrumbs';
+
+@import './../../_components/layout/dropdowns/l-dropdown';
+
+@import './../../_components/layout/forms/l-form-input-box';
+@import './../../_components/layout/forms/l-form-input-and-icon-box';
+@import './../../_components/layout/forms/l-form-input-icon';
+@import './../../_components/layout/forms/l-form-checkbox';
+@import './../../_components/layout/forms/l-form-radio';
+
+@import './../../_components/layout/backdrops/l-backdrop';
+
+@import './../../_components/layout/modals/l-share-product-modal';
+
+@import './../../_components/layout/sliders/l-slider-row';
+
+@import './../../_components/layout/sections/l-lazy-section.scss';
+
+@import './../../_components/layout/titles/l-section-title';
+
+@import './../../_components/layout/titles/l-title-line';
+@import './../../_components/ui/products/product-styles.scss';
+
+
+/*/
+ * UI Components
+/*/
+
+@import './../../_components/ui/boxes/ui-filters-box';
+
+@import './../../_components/ui/accordions/ui-filter-accordion-item';
+
+@import './../../_components/ui/sections/ui-featured-section';
+@import './../../_components/ui/sections/ui-featured-full-width-banner-section';
+
+@import './../../_components/ui/titles/ui-page-title';
+@import './../../_components/ui/titles/ui-page-desc';
+
+@import './../../_components/ui/slides/ui-product-slide';
+
+@import './../../_components/ui/pagination/ui-pagination';
+
+@import './../../_components/ui/breadcrumbs/ui-breadcrumbs';
+
+@import './../../_components/ui/boxes/ui-products-list-results-count-box';
+
+@import './../../_components/ui/dropdowns/ui-dropdown';
+
+@import './../../_components/ui/forms/ui-form-checkbox';
+@import './../../_components/ui/forms/ui-form-radio';
+@import './../../_components/ui/forms/ui-form-input-icon';
+
+@import './../../_components/ui/backdrops/ui-backdrop';
+
+@import './../../_components/ui/modals/ui-share-product-modal';
+
+@import './../../_components/ui/sections/ui-featured-section';
+
+@import './../../_components/ui/titles/ui-section-title';
+@import './../../_components/ui/titles/ui-title-line';
+/*/
+ * Full
+/*/
+
+@import './../../_components/full/steps/progress-steps.scss';
+@import './../../_components/full/cart/cart-summary.scss';
+@import './../../_components/full/buttons/btn.scss';
+@import './../../_components/full/form/form.scss';
+@import './../../_components/full/form/stack-input.scss';
+@import './../../_components/full/alerts/alert.scss';
+
+
+.wrapper-progress-steps {
+  padding-top: 82px;
+  padding-bottom: 130px;
+}
+
+.wrapper-order-status {
+  text-align: center;
+  &-icon {
+    svg {
+      max-height: 80px
+    }
+  }
+  &-title {
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 35px;
+    color: #3F3F3F;
+    margin: 54px 0 0;
+  }
+  &-subtitle {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 27px;
+    color: #3F3F3F;
+    max-width: 590px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+  }
+  &-btn {
+    margin-top: 30px;
+    margin-bottom: 140px;
+    background: #FFFFFF;
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 35px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    color: #3F3F3F;
+    max-width: 590px;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block
+  }
+}
+
+/*/
+ * Utilities
+/*/
+
+@import './../../_components/utilities/u-bg.scss';

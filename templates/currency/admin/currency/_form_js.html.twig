@@ -1,0 +1,21 @@
+<script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $("[name*='[code]']").change(function () {
+            var title = $(this).find("option:selected").data("title");
+            var symbol = $(this).find("option:selected").data("symbol");
+
+            var titleInput = $("[name*='currency[title]']");
+            var symbolInput = $("[name*='currency[symbol]']");
+
+            if (titleInput.val() === "") {
+                titleInput.val(title);
+            }
+            if (symbolInput.val() === "") {
+                symbolInput.val(symbol);
+            }
+        });
+    });
+</script>

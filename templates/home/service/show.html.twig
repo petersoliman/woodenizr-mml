@@ -1,0 +1,96 @@
+{% extends 'fe/base.html.twig' %}
+{% set seo = service.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+{% import 'fe/macros.html.twig' as macros %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendors/swiper/swiper.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    {% set image = 'images/placeholders/placeholder-lg.jpg' %}
+    {% if service.post.imageByType(constant("\\App\\MediaBundle\\Entity\\Image::TYPE_COVER_PHOTO")) %}
+        {% set image = service.post.imageByType(constant("\\App\\MediaBundle\\Entity\\Image::TYPE_COVER_PHOTO")).assetPath %}
+    {% endif %}
+    <section class="pt-20 service-details-header-section mb-7" data-animate="fadeInUp">
+        <div class="container container-xxl">
+            <div class="img-container">
+                <img class="w-100" src="{{ asset(image) }}" alt="{{ service.title }}">
+            </div>
+        </div>
+    </section>
+
+    {# DESCRIPTION SECTION #}
+    <section class="service-details-description" data-animate="fadeInUp">
+        <div class="container">
+            <h1 class="mb-2">{{ service.title }}</h1>
+            <div>
+                {{ service.post.content.description|raw }}
+            </div>
+        </div>
+    </section>
+    {# END DESCRIPTION SECTION #}
+
+    {# CONTACT SECTION #}
+    <div class="container">
+        <div class="service-details-contact-section" data-animate="fadeInUp">
+            <div class="text">
+                <h3 class="section-title">{% trans %}Want this service ?{% endtrans %}</h3>
+                <p class="section-description">
+                    {{ service.contactText }}
+                </p>
+            </div>
+            <a href="{{ path('fe_contact_index') }}"
+               class="btn btn-outline-primary text-uppercase letter-spacing-05 btn-style-1">{{ "contact_us_txt"|trans }}</a>
+        </div>
+    </div>
+    {# END CONTACT SECTION #}
+
+    {% if projectUsingTheService is not empty %}
+        {# PROJECTS SECTION #}
+        <section class="pb-8 pb-lg-5 pt-8 mt-10 service-details-projects-section">
+            <div class="container container-xxl">
+                <h2 class="mb-9 text-center fs-30 fs-md-40">{% trans %}Projects using the service{% endtrans %}</h2>
+                <div class="swiper-container"
+                     data-swiper-options='{"slidesPerView": 1.2,"loop":false,"spaceBetween":10,"freeMode":true,"lazy":{"preloadImages":false,"loadPrevNext":true,"loadPrevNextAmount":4},"navigation":{"nextEl":".swiper-btn-next","prevEl":".swiper-btn-prev"},"breakpoints":{"991.98":{"slidesPerView":3,"spaceBetween":20,"allowTouchMove":false}}}'>
+                    <div class="swiper-wrapper">
+                        {% for project in projectUsingTheService %}
+                            <div class="swiper-slide">
+                                {{ macros.project(project, true) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        {# END PROJECTS SECTION #}
+    {% endif %}
+
+    {% if relatedServices is not empty %}
+        {# RELATED SERVICES SECTION #}
+        <section class="pb-11 pb-lg-15 mt-10">
+            <div class="container container-xxl">
+                <h2 class="mb-9 text-center fs-30 fs-md-40">{% trans %}Other Services{% endtrans %}</h2>
+                <div class="swiper-container"
+                     data-swiper-options='{"slidesPerView": 1.2,"loop":false,"spaceBetween":10,"freeMode":true,"lazy":{"preloadImages":false,"loadPrevNext":true,"loadPrevNextAmount":4},"navigation":{"nextEl":".swiper-btn-next","prevEl":".swiper-btn-prev"},"breakpoints":{"991.98":{"slidesPerView":3,"spaceBetween":20,"allowTouchMove":false}}}'>
+                    <div class="swiper-wrapper">
+                        {% for service in relatedServices %}
+                            <div class="swiper-slide">
+                                {{ macros.service(service, true) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        {# END RELATED SERVICES SECTION #}
+    {% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('vendors/swiper/swiper.min.js') }}"></script>
+{% endblock %}

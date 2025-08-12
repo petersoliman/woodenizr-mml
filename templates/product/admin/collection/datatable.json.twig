@@ -1,0 +1,17 @@
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for collection in collections %}
+        [
+            "{{ collection.tarteb }}",
+            "{{ collection.title }}",
+            "{% if collection.publish == true %}<span class='label label-success'>Yes</span>{% else %}<span class='label label-danger'>No</span>{% endif %}",
+            "{% if collection.featured == true %}<span class='label label-success'>Yes</span>{% else %}<span class='label label-danger'>No</span>{% endif %}",
+            "{% if collection.created %}{{ collection.created|dateTimeFormat }}{% else %}--{% endif %}",
+            "<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'><li><a href='{{ path('collection_manage_product',{'id':collection.id}) }}'><i class='icon-briefcase'></i> Products ({{ collection.noOfProducts }})</a></li>{% if collection.noOfProducts > 0 %}<li><a href='#' class='clear-products-btn' data-toggle='modal' data-target='#modal_clear_products' data-action='{{ path('collection_clear_products',{'id':collection.id}) }}'><i class='icon-minus3'></i> Clear Products</a></li>{% endif %}<li><a href='{{ path('collection_clone',{'id':collection.id}) }}'><i class='icon-copy3'></i> Clone</a></li><li class='divider'></li><li><li><a href='{{ path('collection_edit',{'id':collection.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('collection_delete',{'id':collection.id}) }}'><i class='icon-bin'></i> Remove</a></li></ul></li></ul>"
+
+        ]{% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

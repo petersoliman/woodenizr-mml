@@ -1,0 +1,128 @@
+
+
+<!-- Address List Modal -->
+<div class="l-modal-dialog ui-modal-dialog" data-l-modal="address-list" data-address-list-modal="true">
+    <div class="ui-modal l-modal wrapper-address-modal">
+        <div class="wrapper-address-modal-header">
+            <button class="btn" type="button" data-l-modal-btn="address-list">
+                <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.10977 21.9881C1.56411 22.0198 1.02748 21.8384 0.61303 21.4821C-0.204343 20.6599 -0.204343 19.3319 0.61303 18.5097L18.5108 0.611823C19.361 -0.183682 20.695 -0.13946 21.4905 0.71068C22.2098 1.47946 22.2518 2.66109 21.5886 3.47888L3.5854 21.4821C3.17629 21.8333 2.64827 22.0143 2.10977 21.9881Z"
+                          fill="#646464"/>
+                    <path d="M19.9869 21.9886C19.4339 21.9863 18.9039 21.7667 18.5112 21.3773L0.61335 3.47936C-0.143904 2.59506 -0.0409514 1.26424 0.843344 0.506919C1.6326 -0.168973 2.7966 -0.168973 3.58579 0.506919L21.589 18.4048C22.439 19.2005 22.4829 20.5346 21.6872 21.3845C21.6555 21.4183 21.6228 21.451 21.589 21.4827C21.1482 21.866 20.568 22.0492 19.9869 21.9886Z"
+                          fill="#646464"/>
+                </svg>
+            </button>
+        </div>
+        <div class="wrapper-address-modal-body">
+            <div class="wrapper-address-modal-body-header">
+                <h6 class="wrapper-address-modal-body-title">{{ "choose_address_txt"|trans }}</h6>
+                <div class="wrapper-address-modal-body-action">
+                    <button class="btn" data-l-modal-btn="address-add" type="button" data-address-add-btn="true">
+                        {{ "add_new_address_txt"|trans }}
+                    </button>
+                </div>
+            </div>
+            <div class="wrapper-address-list" data-address-list="true">
+            </div>
+            <div class="l-flex-row">
+                <div class="l-flex-col-xl-9"></div>
+                <div class="l-flex-col-xl-3">
+                    <button class="btn btn-primary btn-md btn-block btn-rounded" type="button"
+                            data-address-list-save-btn="true" data-l-modal-btn="address-list">
+                        {{ "continue_txt"|trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Address Add Modal -->
+<div class="l-modal-dialog ui-modal-dialog" data-l-modal="address-add" data-address-add-modal="true">
+    <div class="ui-modal l-modal wrapper-address-modal">
+        <div class="wrapper-address-modal-header">
+            <button class="btn" type="button" data-l-modal-btn="address-add">
+                <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.10977 21.9881C1.56411 22.0198 1.02748 21.8384 0.61303 21.4821C-0.204343 20.6599 -0.204343 19.3319 0.61303 18.5097L18.5108 0.611823C19.361 -0.183682 20.695 -0.13946 21.4905 0.71068C22.2098 1.47946 22.2518 2.66109 21.5886 3.47888L3.5854 21.4821C3.17629 21.8333 2.64827 22.0143 2.10977 21.9881Z"
+                          fill="#646464"/>
+                    <path d="M19.9869 21.9886C19.4339 21.9863 18.9039 21.7667 18.5112 21.3773L0.61335 3.47936C-0.143904 2.59506 -0.0409514 1.26424 0.843344 0.506919C1.6326 -0.168973 2.7966 -0.168973 3.58579 0.506919L21.589 18.4048C22.439 19.2005 22.4829 20.5346 21.6872 21.3845C21.6555 21.4183 21.6228 21.451 21.589 21.4827C21.1482 21.866 20.568 22.0492 19.9869 21.9886Z"
+                          fill="#646464"/>
+                </svg>
+            </button>
+        </div>
+        <div class="wrapper-address-modal-body">
+            <div class="wrapper-address-modal-body-header">
+                <h6 class="wrapper-address-modal-body-title">{{ "add_new_address_txt"|trans }}</h6>
+            </div>
+            <div>
+                <form action="" data-form-validate="true" data-address-add-form="true">
+                    <div class="l-flex-row">
+                        <div class="l-flex-col-xl-6">
+                            <div class="form-input-box" data-form-validate-input-box="true">
+                                <label class="stack-input stack-input-block" data-stack-input="true">
+                                    <span class="label" data-stack-input-label="true">Title</span>
+                                    <input type="text" class="input" data-stack-input-input="true" name="title"
+                                           autocomplete="off" data-validate-input="title"
+                                           data-form-validate-input-rules="required" placeholder="Title"/>
+                                </label>
+                                <ul class="form-input-errors" data-validate-input-errors="title">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="l-flex-col-xl-6">
+                            <div class="form-input-box" data-form-validate-input-box="true">
+                                <label class="stack-input stack-input-block" data-stack-input="true">
+                                    <span class="label" data-stack-input-label="true">Mobile</span>
+                                    <input type="text" class="input" data-stack-input-input="true" name="mobileNumber"
+                                           autocomplete="tel" data-validate-input="mobile"
+                                           data-form-validate-input-rules="required|phone"
+                                           placeholder="{{ "mobile_txt"|trans }}"/>
+                                </label>
+                                <ul class="form-input-errors" data-validate-input-errors="mobile">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="l-flex-col-xl-8">
+                            <div class="form-input-box" data-form-validate-input-box="true">
+                                <label class="stack-input stack-input-block" data-stack-input="true">
+                                    <span class="label" data-stack-input-label="true">Address</span>
+                                    <input type="text" class="input" data-stack-input-input="true" name="address"
+                                           autocomplete="street-address" data-validate-input="address"
+                                           data-form-validate-input-rules="required"
+                                           placeholder="{{ "address_txt"|trans }}"/>
+                                </label>
+                                <ul class="form-input-errors" data-validate-input-errors="address">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="l-flex-col-xl-4">
+                            <div class="form-input-box" data-form-validate-input-box="true">
+                                <label class="stack-input stack-input-select stack-input-block" data-stack-input="true">
+                                    <span class="label" data-stack-input-label="true">{{ "city_txt"|trans }}</span>
+                                    <select class="input" data-stack-input-input="true" name="zoneId"
+                                            autocomplete="address-level2" data-validate-input="governorate"
+                                            data-form-validate-input-rules="required">
+                                        <option value="" selected>{{ "city_txt"|trans }}</option>
+                                        {% for zone in zones %}
+                                            <option value="{{ zone.id }}">{{ zone.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                                <ul class="form-input-errors" data-validate-input-errors="governorate">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="l-flex-row">
+                        <div class="l-flex-col-xl-9"></div>
+                        <div class="l-flex-col-xl-3">
+                            <button class="btn btn-primary btn-md btn-block btn-rounded" type="submit">
+                                {{ "save_txt"|trans }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

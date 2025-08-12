@@ -1,0 +1,53 @@
+@import '../../mixins.scss';
+
+.l-reading-post-slide {
+  display: flex;
+  flex-direction: column;
+  @include media-max($xl){
+    margin-bottom: 20px;
+  }
+  &--spacing-bottom {
+    margin-bottom: 85px;
+    @include media-max($xl){
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.l-reading-post-slide-img-container {
+  height: 283px;
+}
+
+.l-reading-post-slide-img {
+  width: 100%;
+  height: 100%;
+}
+
+.l-reading-post-slide-body-title {
+  margin: 0 0 23px;
+}
+
+.l-reading-post-slide-body-body {
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  height: 50px;
+}
+
+.l-reading-post-slide-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  svg {
+    @include rtl() {
+      transform: rotate(180deg);
+      margin-right: 12px;
+    }
+    @include ltr() {
+      margin-left: 12px;
+    }
+  }
+}

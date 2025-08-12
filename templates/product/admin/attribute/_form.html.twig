@@ -1,0 +1,27 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(form.title,3) }}
+            {{ macros.input(form.tarteb,3) }}
+            {% if form.type is defined %}
+                {{ macros.input(form.type,3) }}
+            {% else %}
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Type</label>
+                        <div class="form-control-static">{{ attribute.typeName }}</div>
+                    </div>
+                </div>
+            {% endif %}
+            {{ macros.checkbox(form.mandatory,3) }}
+        </div>
+        <div class="row">
+            {{ macros.checkbox(form.search,3) }}
+        </div>
+
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>

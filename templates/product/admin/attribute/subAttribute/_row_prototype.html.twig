@@ -1,0 +1,13 @@
+<tr>
+    <td>{{ form.vars.data.id }}</td>
+    <td>{{ form_widget(form.title) }}</td>
+    {% for translation in form.translations %}
+        <td>{{ form_widget(translation.title) }}</td>
+    {% endfor %}
+    <td>
+        {%  set isUsed = form.vars.data.isUsed %}
+        <a href="#" class="btn btn-danger {{ isUsed == false ? "delete" }}"  {{ isUsed == true ? "disabled" }}
+           {% if isUsed == false %}data-url="{{ path('sub_attribute_delete',{"id": form.vars.data.id}) }}"{% endif %}
+           data-popup="tooltip" title="{{ isUsed == false ? "Delete": "You can't delete this item because it is already used in products" }}"><i class="fa fa-minus"></i></a>
+    </td>
+</tr>

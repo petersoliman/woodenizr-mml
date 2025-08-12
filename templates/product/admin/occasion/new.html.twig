@@ -1,0 +1,74 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% import 'adminTemplate/macros.html.twig' as macros %}
+{% set page_title %}Create New Occasion{% endset %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('occasion_index') }}">Occasions List</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'}}) }}
+    <div class="row">
+        <div class="col-md-9">
+            {% set defaultTwig= include ("product/admin/occasion/_form.html.twig") %}
+            {{ include ("@PNLocale/new_or_edit_tab_structure.html.twig", {'defaultTwig': defaultTwig, "transTwigPath" : "product/admin/occasion/_form_trans.html.twig"} ) }}
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <div class="row">
+                        {{ macros.checkbox(form.active, 12) }}
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">Creator</div>
+                        <div class="col-xs-6">{% if occasion.creator %}{{ occasion.creator }}{% else %}--{% endif %}</div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-xs-6">Created date</div>
+                        <div class="col-xs-6">{% if occasion.created %}{{ occasion.created|dateFormat }}{% else %}--/--/----{% endif %}</div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-xs-6">Modified by</div>
+                        <div class="col-xs-6">{% if occasion.modifiedBy %}{{ occasion.modifiedBy }}{% else %}--{% endif %}</div>
+                    </div>
+                    <div class="row mt-10">
+                        <div class="col-xs-6">Modified date</div>
+                        <div class="col-xs-6">{% if occasion.modified %}{{ occasion.modified|dateFormat }}{% else %}--/--/----{% endif %}</div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    {% include 'product/admin/occasion/_save_btns.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/pickers/pickadate/picker.date.js') }}"></script>
+    {% include '@PNSeo/Administration/Seo/seo.js.html.twig' with {'entity':occasion} %}
+    <script>
+        $(function () {
+            var yesterday = new Date((new Date()).valueOf() - 1000 * 60 * 60 * 24);
+            $('.datepicker-future').pickadate({
+                selectMonths: true,
+                selectYears: true,
+                format: 'dd/mm/yyyy',
+                formatSubmit: 'dd/mm/yyyy',
+                disable: [
+                    {from: [0, 0, 0], to: yesterday}
+                ]
+            });
+        });
+    </script>
+{% endblock javascripts %}

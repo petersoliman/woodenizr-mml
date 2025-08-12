@@ -1,0 +1,16 @@
+.ui-featured-best-seller-products-section {
+    margin-bottom: 70px;
+    @include media-max($md) {
+        margin-bottom: 40px;
+    }
+    &--spacing-bottom-100 {
+        margin-bottom: 100px;
+    }
+}
+
+.ui-featured-best-seller-products-body {
+    padding: 27px 0;
+    &--color-success {
+        background-color: #F6FFF7;
+    }
+}

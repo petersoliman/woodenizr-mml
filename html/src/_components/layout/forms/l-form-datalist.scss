@@ -1,0 +1,45 @@
+.l-form-datalist {
+    &-dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        display: none;
+        &.show {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+    &-dropdown-menu-items {
+        max-height: 316px;
+        overflow: auto;
+        position: relative;
+        &.loading {
+            overflow: hidden;
+            height: 50px;
+        }
+        &.loading::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            top: 1px;
+        }
+        &.loading::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: calc(100% - 2px);
+            border-radius: 50px;
+            z-index: 2;
+            pointer-events: none;
+            top: 1px;
+        }
+    }
+    &-dropdown-menu-item {
+        width: 100%;
+        display: flex;
+    }
+}

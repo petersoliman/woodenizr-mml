@@ -1,0 +1,25 @@
+.l-form-checkbox {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: -1px;
+}
+
+.l-form-checkbox-label {
+  @include ltr {
+    padding-left: 13px;
+  }
+  @include rtl {
+    padding-right: 13px;
+  }
+}
+
+.l-form-checkbox-label--spacing-6 {
+  @include ltr {
+    padding-left: 6px;
+  }
+  @include rtl {
+    padding-right: 6px;
+  }
+}

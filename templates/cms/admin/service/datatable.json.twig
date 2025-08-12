@@ -1,0 +1,17 @@
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for service in services %}
+        [
+            "{{ service.id }}",
+            "{{ service.title }}",
+            "{% if service.tarteb  %}{{ service.tarteb }}{% else %}N/A{% endif %}",
+            "{% if service.publish %}<span class='label label-success'>Yes</span>{% else %}<span class='label label-danger'>No</span>{% endif %}",
+            "{% if service.created %}{{ service.created|dateTimeFormat }}{% else %}--{% endif %}",
+            "<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'>{% if is_granted('ROLE_ADMIN') %}<li><a href='{{ path('service_edit',{'id':service.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('service_delete',{'id':service.id}) }}'><i class='icon-bin'></i> Remove</a></li>{% elseif is_granted("ROLE_IMAGE_GALLERY") %}<li><a href='{{ path('post_set_images', { 'id': service.post.id }) }}'><i class='icon-images3'></i> Image gallery</a></li>{% endif %}</ul></li></ul>"
+
+        ]{% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

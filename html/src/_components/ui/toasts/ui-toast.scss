@@ -1,0 +1,42 @@
+.ui-toast {
+    background: #E6EFFA;
+    border: 2px solid #B2C7DF;
+    box-shadow: 0 4px 18px rgba(160, 215, 168, 0.2);
+    border-radius: 15px;
+    line-height: 14px;
+    cursor: pointer;
+    transition: 0.2s all ease-in-out;
+    transform: scale(1);
+    opacity: 0;
+    transform-origin: right;
+    -webkit-animation: fadeIn 0.6s;
+    -moz-animation: fadeIn 0.6s;
+    -ms-animation: fadeIn 0.6s;
+    -o-animation: fadeIn 0.6s;
+    animation: fadeIn 0.6s forwards;
+    @include ltr{
+        padding: 10px 24px 10px 12px;
+    }
+    @include rtl{
+        padding: 10px 12px 10px 24px;
+    }
+    &:hover {
+        opacity: 0.9 !important;
+        transform: scale(0.98);
+    }
+    &.error {
+        background: #FCEDE9;
+        border: 2px solid #E9CFC9;
+        box-shadow: 0 4px 18px rgba(160, 215, 168, 0.2);
+    }
+    &.warning {
+        background: #FEF7EA;
+        border: 2px solid #F2DEBB;
+        box-shadow: 0 4px 18px rgba(160, 215, 168, 0.2);
+    }
+    &.success {
+        background: #EAF7EE;
+        border: 2px solid var(--primary-color);
+        box-shadow: 0 4px 18px rgba(160, 215, 168, 0.2);
+    }
+}

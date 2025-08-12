@@ -1,0 +1,55 @@
+@import '../../mixins.scss';
+
+.l-section-title {
+    margin-bottom: 22px;
+}
+
+.l-section-title-title {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    svg{
+        width: 25px;
+        @include ltr() {
+            margin-right: 8px;
+        }
+        @include rtl() {
+            margin-left: 8px;
+        }
+    }
+    .ui-section-title-subtitle {
+        @include ltr() {
+            margin-left: 8px;
+        }
+        @include rtl() {
+            margin-right: 8px;
+        }
+    }
+}
+
+.l-section-title-action {
+    display: inline-flex;
+    align-items: center;
+}
+
+.l-section-title-action-icon {
+    position: relative;
+    top: -1px;
+    @include ltr() {
+        margin-left: 20px;
+    }
+    @include rtl() {
+        margin-right: 20px;
+    }
+    @include media-max($xxl) {
+        @include ltr() {
+            margin-left: 15px;
+        }
+        @include rtl() {
+            margin-right: 15px;
+        }
+    }
+    @include media-max($md) {
+        display: none;
+    }
+}

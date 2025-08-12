@@ -1,0 +1,585 @@
+@import './../../_components/base-styles';
+
+/*/
+ * Layout Components
+/*/
+
+@import './../../_components/layout/grids/l-container';
+@import './../../_components/layout/grids/l-flex-row';
+
+@import './../../_components/layout/grids/l-flex-col-4';
+@import './../../_components/layout/grids/l-flex-col-6';
+@import './../../_components/layout/grids/l-flex-col-8';
+@import './../../_components/layout/grids/l-flex-col-12';
+
+@import './../../_components/layout/grids/l-flex-col-md-4';
+@import './../../_components/layout/grids/l-flex-col-md-6';
+
+@import './../../_components/layout/grids/l-flex-col-lg-2';
+@import './../../_components/layout/grids/l-flex-col-lg-4';
+@import './../../_components/layout/grids/l-flex-col-lg-5';
+@import './../../_components/layout/grids/l-flex-col-lg-6';
+@import './../../_components/layout/grids/l-flex-col-lg-8';
+@import './../../_components/layout/grids/l-flex-col-lg-12';
+
+@import './../../_components/layout/grids/l-flex-col-xl-2';
+@import './../../_components/layout/grids/l-flex-col-xl-3';
+@import './../../_components/layout/grids/l-flex-col-xl-4';
+@import './../../_components/layout/grids/l-flex-col-xl-5';
+@import './../../_components/layout/grids/l-flex-col-xl-6';
+@import './../../_components/layout/grids/l-flex-col-xl-8';
+@import './../../_components/layout/grids/l-flex-col-xl-9';
+
+@import './../../_components/layout/grids/l-flex-col-xxl-2';
+@import './../../_components/layout/grids/l-flex-col-xxl-3';
+@import './../../_components/layout/grids/l-flex-col-xxl-5';
+
+@import './../../_components/layout/grids/l-product-list-grid';
+@import './../../_components/layout/sections/l-404';
+
+@import './../../_components/layout/boxes/l-filters-box';
+
+@import './../../_components/layout/accordions/l-filter-accordion-item';
+
+@import './../../_components/layout/sections/l-featured-section';
+@import './../../_components/layout/sections/l-featured-full-width-banner-section';
+
+@import './../../_components/layout/titles/l-page-title';
+@import './../../_components/layout/titles/l-page-desc';
+@import './../../_components/layout/titles/l-page-title-box';
+
+@import './../../_components/layout/slides/l-product-slide';
+
+@import './../../_components/layout/pagination/l-pagination';
+
+@import './../../_components/layout/breadcrumbs/l-breadcrumbs';
+
+@import './../../_components/layout/dropdowns/l-dropdown';
+
+@import './../../_components/layout/forms/l-form-input-box';
+@import './../../_components/layout/forms/l-form-input-and-icon-box';
+@import './../../_components/layout/forms/l-form-input-icon';
+@import './../../_components/layout/forms/l-form-checkbox';
+@import './../../_components/layout/forms/l-form-radio';
+
+@import './../../_components/layout/backdrops/l-backdrop';
+
+@import './../../_components/layout/modals/l-share-product-modal';
+
+/*/
+ * UI Components
+/*/
+
+@import './../../_components/ui/boxes/ui-filters-box';
+
+@import './../../_components/ui/accordions/ui-filter-accordion-item';
+
+@import './../../_components/ui/sections/ui-featured-section';
+@import './../../_components/ui/sections/ui-featured-full-width-banner-section';
+
+@import './../../_components/ui/titles/ui-page-title';
+@import './../../_components/ui/titles/ui-page-desc';
+
+@import './../../_components/ui/slides/ui-product-slide';
+
+@import './../../_components/ui/pagination/ui-pagination';
+
+@import './../../_components/ui/breadcrumbs/ui-breadcrumbs';
+
+@import './../../_components/ui/boxes/ui-products-list-results-count-box';
+
+@import './../../_components/ui/dropdowns/ui-dropdown';
+
+@import './../../_components/ui/forms/ui-form-checkbox';
+@import './../../_components/ui/forms/ui-form-radio';
+@import './../../_components/ui/forms/ui-form-input-icon';
+
+@import './../../_components/ui/backdrops/ui-backdrop';
+
+@import './../../_components/ui/modals/ui-share-product-modal';
+
+/*/
+ * Full
+/*/
+
+@import './../../_components/full/steps/progress-steps.scss';
+@import './../../_components/full/cart/cart-summary.scss';
+@import './../../_components/full/buttons/btn.scss';
+@import './../../_components/full/form/form.scss';
+@import './../../_components/full/form/stack-input.scss';
+
+.wrapper-featured-section {
+  @include media-max($xl) {
+    display: none;
+  }
+}
+
+.wrapper-profile {
+  margin: 50px 0;
+  @include media-max($xl) {
+    margin-top: 0;
+  }
+}
+
+.wrapper-profile-sidebar {
+  background-color: #fff;
+  padding: 42px 20px;
+  .title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    color: #3F3F3F;
+    margin: 0;
+    @include media-max($xl) {
+      font-size: 18px;
+    }
+  }
+  .subtitle {
+    margin-top: 3px;
+    margin-bottom: 0;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #686868;
+  }
+  .separator {
+    margin: 20px 0 42px;
+    width: 100%;
+    height: 1px;
+    background-color: #E9E9E9;
+  }
+  .tabs {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    li {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+    .tab {
+      border-radius: 5px;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 27px;
+      color: #3F3F3F;
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      text-decoration: none;
+      margin-bottom: 4px;
+      .icon {
+        text-decoration: none;
+        font-style: normal;
+        svg {
+          width: 26px;
+          height: auto;
+        }
+      }
+      .chevron {
+        display: none;
+        @include media-max($xl) {
+          display: inline-block;
+          @include ltr() {
+            margin-left: auto;
+          }
+          @include rtl() {
+            transform: rotate(180deg);
+            margin-right: auto;
+          }
+        }
+      }
+      &.active,
+      &:hover {
+        background: #F7F7FA;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.wrapper-profile-card {
+  background-color: #F7F7FA;
+  padding: 42px 30px 50px;
+  @include media-max($xl) {
+    padding: 10px 0 0;
+  }
+  .card-header {
+    display: flex;
+    .back-btn {
+      background-color: transparent;
+      border: 0;
+      padding-top: 10px;
+      display: inline-flex;
+      min-width: 50px;
+      justify-content: center;
+      height: auto;
+      @include rtl {
+        transform: rotate(180deg);
+      }
+    }
+    .title {
+      margin: 0;
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 33px;
+      color: #3F3F3F;
+      @include media-max($xl) {
+        font-size: 20px;
+      }
+    }
+    .subtitle {
+      margin-top: 8px;
+      margin-bottom: 0;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 27px;
+      color: #686868;
+      margin-bottom: 60px;
+      @include media-max($xl) {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.wrapper-empty-orders-placeholder {
+  text-align: center;
+  margin-top: 65px;
+  margin-bottom: 57px;
+  p {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 36px;
+    color: #686868;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+}
+
+.wrapper-order {
+  .order-card {
+    background: #FFFFFF;
+    border-radius: 5px;
+    margin: 25px;
+    padding: 38px 38px 38px 36px;
+    @include media-max($xl) {
+      padding: 20px;
+      margin-right: 0;
+      margin-left: 0;
+      border-radius: 0;
+    }
+    .times {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 50px;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 21px;
+      color: #686868;
+      strong {
+        font-weight: 400;
+        font-size: 16px;
+      }
+      @include media-max($xl) {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 21px;
+        color: #686868;
+        border-bottom: 1px solid #E9E9E9;
+        padding-bottom: 26px;
+        margin-bottom: 20px;
+      }
+      .delivery {
+        @include ltr() {
+          border-left: 1px solid #E9E9E9;
+          padding-left: 15px;
+        }
+        @include rtl() {
+          border-right: 1px solid #E9E9E9;
+          padding-right: 15px;
+        }
+        @include media-max($xl) {
+          @include ltr() {
+            border-left: 0;
+            padding-left: 5px;
+          }
+          @include rtl() {
+            border-right: 0;
+            padding-right: 5px;
+          }
+        }
+      }
+    }
+    .totals {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 30px;
+      color: #686868;
+      @include media-max($xl) {
+        padding-bottom: 36px;
+        margin-bottom: 36px;
+        border-bottom: 1px solid #E9E9E9;
+      }
+      .total {
+        @include media-max($xl) {
+          padding-bottom: 10px;
+          display: block;
+        }
+      }
+      .value {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 30px;
+        color: #3F3F3F;
+        @include ltr() {
+          padding-left: 12px;
+        }
+        @include rtl() {
+          padding-right: 12px;
+        }
+        &.primary {
+          color: var(--primary-color);
+        }
+      }
+    }
+    .status {
+      background: #F3F3F3;
+      border-radius: 5px;
+      padding: 12px;
+      display: block;
+      text-align: center;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 27px;
+      color: #3F3F3F;
+      @include media-max($xl) {
+        font-size: 14px;
+      }
+      &.status-1 {
+        background-color: #F9F6E5;
+      }
+      &.status-2 {
+        background-color: #DDF3FA;
+      }
+      &.status-3 {
+        background-color: #DDFAE1;
+      }
+      &.status-4 {
+        background-color: #F9E5E5;
+      }
+    }
+    .wrapper-address {
+      background: #FFFFFF;
+      border: 1px solid #E9E9E9;
+      border-radius: 5px;
+      padding: 28px 36px 38px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: #686868;
+      margin: 50px 0 60px;
+      p {
+        margin: 0;
+        &:not(:last-child) {
+          margin: 0 0 12px;
+        }
+        span,
+        strong {
+          color: #3F3F3F;
+          @include media-max($xl) {
+            display: block;
+            padding: 0 !important;
+            margin-bottom: 5px;
+          }
+        }
+        strong {
+          font-weight: 600;
+        }
+        span.space {
+          @include media-max($xl) {
+            display: block;
+            height: 10px;
+          }
+        }
+      }
+      &-name {
+        strong,
+        span {
+          @include ltr() {
+            padding-left: 12px;
+          }
+          @include rtl() {
+            padding-right: 12px;
+          }
+        }
+      }
+      &-details {
+        strong,
+        span {
+          @include ltr() {
+            padding-left: 30px;
+          }
+          @include rtl() {
+            padding-right: 30px;
+          }
+        }
+      }
+      &-address {
+        strong,
+        span {
+          @include ltr() {
+            padding-left: 16px;
+          }
+          @include rtl() {
+            padding-right: 16px;
+          }
+        }
+      }
+      &-payment {
+        strong,
+        span {
+          @include ltr() {
+            padding-left: 14px;
+          }
+          @include rtl() {
+            padding-right: 14px;
+          }
+        }
+      }
+    }
+    .wrapper-cart-items-title {
+      margin: 0 0 35px;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      color: #3F3F3F;
+      small {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 24px;
+        color: #686868;
+        @include ltr() {
+          padding-left: 20px;
+        }
+        @include rtl() {
+          padding-right: 20px;
+        }
+      }
+    }
+    .wrapper-cart-items-list {
+      .wrapper-cart-item {
+        display: flex;
+        &-img {
+          width: 112px;
+          height: 117px;
+          line-height: 117px;
+          text-align: center;
+          img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
+        &-body {
+          display: inline-flex;
+          flex-grow: 1;
+          @include ltr() {
+            padding-left: 38px;
+          }
+          @include rtl() {
+            padding-right: 38px;
+          }
+          @include media-max($xl) {
+            flex-direction: column;
+          }
+          .wrapper-cart-item-details {
+          }
+          .wrapper-cart-item-name {
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 27px;
+            color: #3F3F3F;
+            margin: 0 0 40px;
+            small {
+              font-weight: 400;
+              font-size: 16px;
+              line-height: 24px;
+              color: #686868;
+              display: block;
+              margin-bottom: 8px;
+            }
+          }
+          .wrapper-cart-item-variants {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 17px;
+            color: #686868;
+            p {
+              margin: 0 0 12px;
+            }
+          }
+          .wrapper-cart-item-meta {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            color: #686868;
+            p {
+              margin: 0 0 10px;
+              &.primary {
+                color: var(--primary-color);
+              }
+              s {
+                color: #686868;
+                font-weight: 400;
+                font-size: 11px;
+                line-height: 24px;
+                color: #686868;
+                @include ltr() {
+                  padding-right: 12px;
+                }
+                @include rtl() {
+                  padding-left: 12px;
+                }
+              }
+            }
+            strong {
+              font-weight: 600;
+              font-size: 18px;
+            }
+            @include ltr() {
+              margin-left: auto;
+              padding-left: 38px;
+              text-align: right;
+            }
+            @include rtl() {
+              margin-right: auto;
+              padding-right: 38px;
+              text-align: left;
+            }
+            @include media-max($xl) {
+              margin: 0 !important;
+              padding: 0 !important;
+              text-align: inherit !important;
+              display: flex;
+              gap: 35px;
+              padding-top: 41px !important;
+            }
+          }
+        }
+        &:not(:last-child) {
+          margin-bottom: 55px;
+          padding-bottom: 50px;
+          border-bottom: 1px solid #E9E9E9;
+        }
+      }
+    }
+    
+  }
+}
+
+/*/
+ * Utilities
+/*/
+
+@import './../../_components/utilities/u-bg.scss';

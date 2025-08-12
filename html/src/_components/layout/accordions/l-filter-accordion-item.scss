@@ -1,0 +1,35 @@
+.l-filter-accordion-item {
+    margin-bottom: 8px;
+    &-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+    }
+    &-content {
+        display: none;
+    }
+    &-content-box {
+        max-height: 150px;
+        overflow: auto;
+    }
+    &.expanded {
+        margin-bottom: 28px;
+        .l-filter-accordion-item-content {
+            display: block;
+        }
+    }
+    &-checkbox {
+        display: flex;
+        align-items: center;
+        .l-form-checkbox-label {
+            flex: 1;
+        }
+    }
+    &-checkbox:not(:last-child) {
+        padding-bottom: 11px;
+    }
+    &-checkbox--spacing-20:not(:last-child) {
+        padding-bottom: 17px;
+    }
+}

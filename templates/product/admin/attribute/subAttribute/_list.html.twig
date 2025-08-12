@@ -1,0 +1,20 @@
+{% if new_sub_attribute_form is defined %}
+
+    <div class="panel panel-flat" id="sub-attributes-box">
+        <div class="panel-heading">
+            <h6 class="panel-title">Attributes</h6>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    {% include "product/admin/attribute/subAttribute/_form.html.twig" %}
+                </div>
+
+                <div id="edit-sub-attributes-container">
+                    {% include "product/admin/attribute/subAttribute/_edit_sub_attributes_form.html.twig" %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endif %}

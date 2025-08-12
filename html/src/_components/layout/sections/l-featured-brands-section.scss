@@ -1,0 +1,33 @@
+@import '../../mixins.scss';
+
+.l-featured-brands-section {
+    &-brand {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        max-height: 150px;
+    }
+    &-brand-img {
+        width: auto;
+        max-width: 100%;
+        max-height: 150px;
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+        height: 100%;
+        top: 0;
+        margin-top: 0;
+        width: 150px;
+        &::after {
+            position: relative;
+            right: 45px;
+            background-size: 10px 18px;
+        }
+        @include media-max($md) {
+            display: none;
+        }
+    }
+}

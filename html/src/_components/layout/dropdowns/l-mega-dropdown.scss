@@ -1,0 +1,63 @@
+@import '../../mixins.scss';
+
+.l-mega-dropdown {
+  display: none;
+  position: absolute;
+  z-index: 70;
+  max-width: 100%;
+  min-width: 361px;
+  top: calc(100% + 10px);
+  @include ltr {
+    left: 0;
+  }
+  @include rtl {
+    right: 0;
+  }
+
+  &-end {
+    @include ltr {
+      right: 0;
+      left: unset;
+    }
+    @include rtl {
+      left: 0;
+      right: unset;
+    }
+  }
+
+  &.lg {
+    min-width: 1045px;
+  }
+
+  &-container {
+    position: relative;
+  }
+
+  &.show-mega-dropdown {
+    display: block;
+  }
+
+  &-button {
+    &::before {
+      content: '';
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      top: calc(100% + 18px);
+      z-index: 80;
+      transform: translate(-50%, -40%) scaleX(1.1);
+      @include ltr {
+        left: calc(50% - 10px);
+      }
+      @include rtl {
+        right: calc(50% - 40px);
+      }
+    }
+  }
+
+  &-button.active-mega-dropdown {
+    &::before {
+      transform: translate(-50%, -50%) scaleX(1.1);
+    }
+  }
+}

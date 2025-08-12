@@ -1,0 +1,33 @@
+<section class="ui-featured-brands-section l-featured-brands-section">
+    <div class="l-container l-container--phone-spacing">
+        <div class="l-title-line l-title-line--spacing-bottom-12">
+            <div class="ui-title-line-h-empty"></div>
+            <div class="l-title-line-title ui-title-line-title ui-title-line-title--size-25">Looking for a specific brand?</div>
+            <div class="ui-title-line-h-empty"></div>
+        </div>
+        <div class="ui-title-line-subtitle l-title-line-subtitle l-title-line-subtitle--spacing-bottom-50">Check out the brand you are searching for</div>
+    </div>
+    <div class="l-container l-container--phone-spacing l-container--position-relative ui-featured-brands-section-container">
+        <div class="swiper l-slider-row" data-l-slider="featured-brands">
+            <div class="l-flex-row l-flex-row--nowrap l-flex-row--spacing-0 swiper-wrapper">
+                <% for(var i = 1; i < 10; i++) { %>
+                <div class="l-flex-col-lg swiper-slide">
+                    <a class="l-featured-brands-section-brand ui-featured-brands-section-brand" href="#">
+                        <img
+                            class="l-featured-brands-section-brand-img swiper-lazy"
+                            width="228"
+                            height="100"
+                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                            data-src="/assets/img/demo/featured-brand-<%= i %>.svg"
+                            alt="Brand <%= i %>"
+                        />
+                        <div class="swiper-lazy-preloader"></div>
+                    </a>
+                </div>
+                <% } %>
+            </div>
+        </div>
+        <div class="swiper-button-prev" data-l-slider-navigation-prev="featured-brands"></div>
+        <div class="swiper-button-next" data-l-slider-navigation-next="featured-brands"></div>
+    </div>
+</section>

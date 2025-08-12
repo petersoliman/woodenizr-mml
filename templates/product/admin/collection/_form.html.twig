@@ -1,0 +1,43 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(form.title) }}
+            {{ macros.input(form.tarteb) }}
+        </div>
+{#        <div class="row">#}
+{#            <div class="col-md-6">#}
+{#                <div class="form-group">#}
+{#                    <label>Image:</label>#}
+{#                    <div class="media no-margin-top">#}
+{#                        {% set mainImage = (collection.post.mainImage is defined) ? collection.post.mainImage : null %}#}
+{#                        {% if mainImage %}#}
+{#                            <div class="media-left">#}
+{#                                <div class="thumb" style="width: 58px; height: 58px;object-fit: cover;">#}
+{#                                    <a href="{{ asset(mainImage.assetPath) }}" data-popup="lightbox">#}
+{#                                        <img src="{{ asset(mainImage.assetPath) }}" style="width: 58px; height: 58px;object-fit: cover; border-radius: 2px;" alt="">#}
+{#                                        <span class="zoom-image"><i class="icon-plus2"></i></span>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        {% endif %}#}
+{#                        <div class="media-body">#}
+{#                            {{ form_widget(form.image.file,{'attr':{'class':'file-styled'}}) }}#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <span class="help-block">Accepted formats: gif, png, jpg. Max file size 2MB</span>#}
+{#                    <span class="help-block">Images more than 2MB is not recommended as it will slow down the page speed, performance and so the search engine results ex: Google search</span>#}
+{#                    <span class="help-block">Dimensions: 960 px * 680 px</span>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+        <div class="row">
+{#            {{ macros.input(form.post.description,12,null,null,'form-control ckeditor') }}#}
+            {{ macros.input(form.post.brief) }}
+        </div>
+    </div>
+    <div class="panel-footer">
+        {% include 'product/admin/collection/_save_btns.html.twig' %}
+    </div>
+</div>
+{% include '@PNSeo/Administration/Seo/seo.html.twig' with { 'seoForm':form.seo, 'entity':collection } %}

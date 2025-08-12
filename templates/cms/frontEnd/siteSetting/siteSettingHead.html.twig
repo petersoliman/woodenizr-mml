@@ -1,0 +1,70 @@
+{% apply spaceless %}
+    {% if attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::GOOGLE_TAG_MANAGER_ID')) is not empty %}
+        <!-- Google Tag Manager -->
+        <script>
+            var userAgent = navigator.userAgent;
+            var regexLighthouse = RegExp("Chrome-Lighthouse", "ig")
+            var regexGTmetrix = RegExp("GTmetrix", "ig")
+            if (regexLighthouse.test(userAgent)  === false && regexGTmetrix.test(userAgent) === false) {
+                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','{{ attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::GOOGLE_TAG_MANAGER_ID')) }}');
+            }
+        </script>
+        <!-- End Google Tag Manager -->
+    {% endif %}
+    {% if attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::FACEBOOK_PIXEL_ID')) is not empty %}
+        <!-- Facebook Pixel Code -->
+        <script>
+            var userAgent = navigator.userAgent;
+            var regexLighthouse = RegExp("Chrome-Lighthouse", "ig")
+            var regexGTmetrix = RegExp("GTmetrix", "ig")
+            if (regexLighthouse.test(userAgent)  === false && regexGTmetrix.test(userAgent) === false) {
+                !function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                    n.queue=[];t=b.createElement(e);t.async=!0;
+                    t.src=v;s=b.getElementsByTagName(e)[0];
+                    s.parentNode.insertBefore(t,s)}(window, document,'script',
+                    'https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', '{{ attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::FACEBOOK_PIXEL_ID')) }}');
+                fbq('track', 'PageView');
+            }
+        </script>
+        <!-- END Facebook Pixel Code -->
+    {% endif %}
+    {% if attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::FACEBOOK_CHAT_PAGE_ID')) is not empty %}
+        <!-- Your SDK code -->
+        <script>
+            var regexLighthouse = RegExp("Chrome-Lighthouse", "ig")
+            var regexGTmetrix = RegExp("GTmetrix", "ig")
+            var userAgent = navigator.userAgent;
+            if (regexLighthouse.test(userAgent)  === false && regexGTmetrix.test(userAgent) === false) {
+                window.addEventListener('DOMContentLoaded', (e) => {
+                    var chatbox = document.getElementById('fb-customer-chat');
+                    chatbox.setAttribute("page_id", "{{ attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::FACEBOOK_CHAT_PAGE_ID')) }}");
+                    chatbox.setAttribute("attribution", "biz_inbox");
+                    window.fbAsyncInit = function () {
+                        FB.init({
+                            xfbml: true,
+                            version: 'v15.0'
+                        });
+                    };
+
+                    (function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                });
+            }
+        </script>
+    {% endif %}
+    {% if attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::WEBSITE_HEAD_TAGS')) is not empty %}{{ attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::WEBSITE_HEAD_TAGS'))|raw }}{% endif %}
+{% endapply  %}

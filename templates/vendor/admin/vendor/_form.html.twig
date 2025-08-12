@@ -1,0 +1,62 @@
+{% import 'adminTemplate/macros.html.twig' as macros %}
+<div class="panel panel-flat">
+    <div class="panel-body">
+        <div class="row">
+            {{ macros.input(form.title, 4) }}
+            {{ macros.input(form.email, 4) }}
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ form_label(form.commissionPercentage) }}
+                    <div class="input-group">
+                        {{ form_widget(form.commissionPercentage) }}
+                        <span class="input-group-addon">%</span>
+                    </div>
+                    {{ form_errors(form.commissionPercentage) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Logo:</label>
+                    <div class="media no-margin-top">
+                        {% set logo = (vendor.image != null) ? vendor.image : null %}
+                        {% if logo %}
+                            <div class="media-left">
+                                <div class="thumb" style="width: 58px; height: 58px;">
+                                    <a href="{{ asset(logo.assetPath) }}" data-popup="lightbox">
+                                        <img src="{{ asset(logo.assetPath) }}"
+                                             style="width: 58px; height: 58px; border-radius: 2px;" alt="">
+                                        <span class="zoom-image"><i class="icon-plus2"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="media-body">
+                            {{ form_widget(form.image.file,{'attr':{'class':'file-styled'}}) }}
+                        </div>
+                    </div>
+                    <span class="help-block" id="image-dimensions">Dimensions: 350px * 350px</span>
+                    <span class="help-block">Accepted formats: gif, png, jpg. Max file size 2MB</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {{ macros.input(form.post.description,12,null,null,'form-control') }}
+        </div>
+        <div class="row">
+            {{ macros.input(form.bankName, 4) }}
+            {{ macros.input(form.bankBranch, 4) }}
+            {{ macros.input(form.bankAccountHolderName, 4) }}
+        </div>
+        <div class="row">
+            {{ macros.input(form.bankAccountNo, 4) }}
+            {{ macros.input(form.bankAccountIBAN, 4) }}
+            {{ macros.input(form.bankAccountSwiftCode, 4) }}
+        </div>
+    </div>
+    <div class="panel-footer">
+        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+    </div>
+</div>
+{% include '@PNSeo/Administration/Seo/seo.html.twig' with { 'seoForm':form.seo, 'entity':vendor } %}

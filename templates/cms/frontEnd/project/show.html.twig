@@ -1,0 +1,88 @@
+{% extends 'fe/base.html.twig' %}
+{% set seo = project.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+{% import 'fe/macros.html.twig' as macros %}
+
+
+{% block criticalCSS %}
+    {% include "cms/frontEnd/project/_show_critical_css.css.twig" %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/projects-single/projects-single.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+    {% include "fe/_pages_header.html.twig" with {"pageTitle": project.title, "marginBottomZero": true } %}
+
+    {% set images = project.post.images([constant("\\App\\MediaBundle\\Entity\\Image::TYPE_GALLERY")]) %}
+    <div class="l-container wrapper-content">
+        <div class="l-flex-row l-flex-row--spacing-28">
+            <div class="l-flex-col-lg-6" data-l-gallery="imgs">
+                <div class="wrapper-slider" data-l-slider-wrapper="true">
+                    <div class="swiper slider" data-l-slider="true" data-l-gallery-slider="imgs">
+                        <div class="swiper-wrapper slider-wrapper">
+                            {% for image in images %}
+                                <div class="swiper-slide slider-slide">
+                                    <img class="slide lazyload"
+                                         src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                         data-thumb="{{ asset(image.assetPath)|webp(null, 40) }}"
+                                         data-src="{{ asset(image.assetPath)|webp }}" data-fancybox="gallery"
+                                         data-l-gallery-lightbox="imgs"/>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="swiper thumbs" data-l-slider-thumbs="true">
+                        <div class="swiper-wrapper thumbs-wrapper">
+                            {% for image in images %}
+                                <div class="swiper-slide thumb-slide" data-l-gallery-thumb="imgs"
+                                     data-l-gallery-thumb-id="{{ loop.index - 1 }}">
+                                    <img class="thumb lazyload"
+                                         src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                         data-src="{{ asset(image.assetPath)|webp(null, 40) }}"/>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="l-flex-col-lg-6">
+                <div class="wrapper-details">
+                    <h2>{{ project.title }}</h2>
+                    {% if project.data|length > 0 %}
+                        <div class="wrapper-meta">
+                            {% for row in project.data %}
+                                <p><strong>{{ row.title }}:</strong> {{ row.value }}</p>
+                            {% endfor %}
+                        </div>
+                        <hr>
+                    {% endif %}
+                    <div class="ui-editor-content-box">
+                        {{ project.post.content.description|raw }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="wrapper-separator" data-project-single-separator="true" style="display: none"></div>
+
+    <div class="wrapper-used-products">
+        <div class="l-container">
+            <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-categories-products"
+                 data-l-lazy-section-type="products"
+                 data-l-lazy-section-url="{{ path('fe_project_related_products_ajax', {"slug": project.seo.slug}) }}"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/projects-single/projects-single.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/projects-single/projects-single.js')) }}
+    {{ macros.assetJS(asset('pages-assets/projects-single/projects-single.lazy.js'), true) }}
+{% endblock %}

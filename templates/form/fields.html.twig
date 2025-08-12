@@ -1,0 +1,12 @@
+{% extends 'bootstrap_3_layout.html.twig' %}
+
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+    {# important to add "form-error" class #}
+    <ul class="list-unstyled text-danger form-error">
+        {%- for error in errors -%}
+            <li>{{ error.message }}</li>
+        {%- endfor -%}
+    </ul>
+    {%- endif %}
+{%- endblock form_errors %}

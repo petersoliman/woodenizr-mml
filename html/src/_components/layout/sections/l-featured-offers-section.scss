@@ -1,0 +1,49 @@
+@import '../../mixins.scss';
+
+.l-featured-offers-section {
+    &-banner {
+        display: block;
+        position: relative;
+    }
+    &-banner-img {
+        width: 100%;
+        height: auto;
+        //@include media-max($lg) {
+        //    margin-bottom: 35px;
+        //}
+    }
+    &-banner-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        &-title {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        p {
+            margin: 0;
+        }
+        .l-featured-offers-section-banner-caption-hidden {
+            max-height: 0;
+            overflow: hidden;
+        }
+    }
+    &-banner:hover {
+        .l-featured-offers-section-banner-caption {
+            .l-featured-offers-section-banner-caption-hidden {
+                max-height: 300px;
+            }
+        }
+    }
+    .l-flex-col-lg-6:not(:last-child) {
+        @include media-max($md) {
+            margin-bottom: 35px;
+        }
+    }
+    .l-flex-col-md-12:not(:last-child) {
+        @include media-max($lg) {
+            margin-bottom: 35px;
+        }
+    }
+}

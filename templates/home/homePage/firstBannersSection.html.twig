@@ -1,0 +1,45 @@
+{% if banners is not empty %}
+    <div class="ui-featured-offers-section l-featured-offers-section">
+        <div class="l-container l-container--phone-spacing">
+            <div class="l-flex-row">
+                {% for banner in banners %}
+                {% set image = asset(banner.image.assetPath) %}
+
+                {% set hasLink = false %}
+
+                {% if banner.url != '#' and banner.url is not empty %}
+                    {% set hasLink = true %}
+                {% endif %}
+
+                <div class="l-flex-col-lg-6 l-flex-col-md-12">
+                    <{{ hasLink ? "a":"div" }} class="l-featured-offers-section-banner
+                    ui-featured-offers-section-banner" {% if hasLink is same as (true) %}href="{{ path('banner_redirect', {'id':banner.id}) }}"{% endif %} {{ banner.openInNewTab ? 'target="_blank" rel="noreferrer"' : 'rel="dofollow"' }}
+                    >
+                    <picture>
+                        <source media="--small" data-srcset="{{ image|webp(524) }}">
+                        <source media="--medium" data-srcset="{{ image|webp(720) }}">
+                        <source media="--large" data-srcset="{{ image|webp(720) }}">
+                        <source media="--x-large" data-srcset="{{ image|webp(585) }}">
+                        <img
+                                class="l-featured-offers-section-banner-img l-responsive-img lazyload"
+                                width="797"
+                                height="388"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                data-expand="-20"
+                                data-src="{{ image|webp(800) }}"
+                                alt="{{ banner.title is not null ? banner.title : "Ad" }}"
+                        >
+                    </picture>
+                    <div class="l-featured-offers-section-banner-caption ui-featured-offers-section-banner-caption">
+                        <h4 class="l-featured-offers-section-banner-caption-title ui-featured-offers-section-banner-caption-title">{{ banner.title }}</h4>
+                        <div class="l-featured-offers-section-banner-caption-hidden ui-featured-offers-section-banner-caption-hidden">
+                            <p>{{ banner.text }}</p>
+                        </div>
+                    </div>
+                </{{ hasLink ? "a":"div" }}>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+{% endif %}

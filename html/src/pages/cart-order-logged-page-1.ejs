@@ -1,0 +1,334 @@
+<%- include ../_components/main/header/header.ejs %>
+<%- include ../_components/main/body/body-header.ejs %>
+<link rel="stylesheet" href="/pages-assets/cart-order-logged-page-1/cart-order-logged-page-1.styles.css">
+<div class="l-featured-section ui-featured-section--spacing-bottom-0 ui-featured-section lazyload" data-bg="/assets/img/featured-section-bg.webp" data-delay="5000">
+    <div class="l-featured-section-content">
+        <div class="l-container">
+            <div class="l-flex-row">
+                <div class="l-flex-col-lg-2"></div>
+                <div class="l-flex-col-lg-8">
+                    <div class="l-featured-section-content-box">
+                        <div class="l-page-title-box">
+                            <h1 class="l-page-title ui-page-title">Cart</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-flex-col-lg-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="u-bg-light">
+
+    <div class="l-container">
+
+        <div class="wrapper-progress-steps">
+            <nav class="progress-steps">
+                <div class="step first completed">
+                    <div class="step-content">
+                        <span class="step-icon">1</span>
+                        <span class="step-text">Shopping Cart</span>
+                    </div>
+                </div>
+                <div class="step active">
+                    <div class="step-content">
+                        <span class="step-icon">2</span>
+                        <span class="step-line"></span>
+                        <span class="step-text">Contact Information</span>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-content">
+                        <span class="step-icon">3</span>
+                        <span class="step-line"></span>
+                        <span class="step-text">Payment Method</span>
+                    </div>
+                </div>
+                <div class="step last">
+                    <div class="step-content">
+                        <span class="step-icon">4</span>
+                        <span class="step-line"></span>
+                        <span class="step-text">Order Summary</span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    
+        <form action="" data-form-validate="true">
+            <div class="l-flex-row">
+                <div class="l-flex-col-xl-8">
+                    <div class="wrapper-card">
+                        <div class="wrapper-card-header">
+                            <h6 class="wrapper-card-header-title">Contact information</h6>
+                        </div>
+                        <div class="wrapper-empty-addresses-placeholder" style="display: none;" data-no-addresses-wrapper="true">
+                            <svg width="92" height="120" viewBox="0 0 92 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M88.626 105.613C88.626 109.903 83.9971 113.58 75.2422 116.243C67.2783 118.665 56.729 120 45.5303 120C34.3315 120 23.7822 118.665 15.8184 116.243C7.06348 113.58 2.43457 109.903 2.43457 105.613C2.43457 101.324 7.06348 97.6494 15.8184 94.9858C18.2769 94.2388 20.9844 93.5942 23.8799 93.0596C30.3594 91.8657 37.791 91.2285 45.5303 91.2285C53.2695 91.2285 60.6987 91.8657 67.1782 93.0596C70.0737 93.5918 72.7813 94.2388 75.2422 94.9858C83.9971 97.6494 88.626 101.324 88.626 105.613Z" fill="#79BBC3"/>
+                                <path d="M67.1782 93.0596L51.1382 109.085C49.6416 110.582 47.6494 111.407 45.5303 111.407C43.4111 111.407 41.4189 110.582 39.9199 109.085L23.8799 93.0596C30.3594 91.8657 37.791 91.2285 45.5303 91.2285C53.2695 91.2285 60.6987 91.8657 67.1782 93.0596Z" fill="#304726"/>
+                                <path d="M92 44.0551C92 -12.7864 3.95774 -15.519 0.0929396 41.0767C-1.65112 66.6149 21.4884 92.1464 41.1227 109.203C42.4568 110.36 44.1874 111 45.9816 111C47.7758 111 49.5067 110.361 50.8413 109.205C69.5451 92.9563 92 68.3265 92 44.0551Z" fill="#EEC337"/>
+                                <path d="M80 43.4871C80 62.4756 64.5378 77.9254 45.5308 77.9254C44.4894 77.9254 43.4562 77.878 42.4375 77.7893C24.874 76.22 11.0615 61.4342 11.0615 43.4871C11.0615 25.538 24.874 10.7542 42.4375 9.18493C43.4562 9.09626 44.4894 9.04883 45.5308 9.04883C64.5378 9.04883 80 24.4966 80 43.4871Z" fill="#EEF0F5"/>
+                                <path d="M80 43.4871C80 62.4756 64.5378 77.9254 45.5308 77.9254C44.4894 77.9254 43.4562 77.878 42.4375 77.7893C60.001 76.22 73.8135 61.4342 73.8135 43.4871C73.8135 25.538 60.001 10.7542 42.4375 9.18493C43.4562 9.09626 44.4894 9.04883 45.5308 9.04883C64.5378 9.04883 80 24.4966 80 43.4871Z" fill="#DAE1EA"/>
+                                <path d="M62.2999 37.5881L46.4832 25.2151C45.9233 24.7773 45.1372 24.7773 44.5774 25.2151L28.7607 37.5881C28.386 37.8814 28.167 38.3307 28.167 38.8062V58.2728C28.167 59.1271 28.8595 59.8194 29.7136 59.8194H61.347C62.2011 59.8194 62.8936 59.1271 62.8936 58.2728V38.8062C62.8936 38.3307 62.6746 37.8814 62.2999 37.5881Z" fill="#EEC337"/>
+                                <path d="M66.5271 39.0391L46.4835 23.3596C45.9237 22.9218 45.1376 22.9218 44.5777 23.3596L24.5342 39.0391C23.8613 39.5654 23.7427 40.5375 24.269 41.2102C24.795 41.8827 25.7672 42.0021 26.44 41.4754L45.5306 26.5413L64.6212 41.4754C64.9041 41.6967 65.2398 41.8039 65.5731 41.8039C66.0325 41.8039 66.4875 41.6001 66.7925 41.2102C67.3185 40.5373 67.1999 39.5652 66.5271 39.0391Z" fill="#79BBC3"/>
+                                <path d="M38.3113 43.1035C37.4571 43.1035 36.7646 43.7958 36.7646 44.6501V50.9099C36.7646 51.7642 37.4571 52.4565 38.3113 52.4565C39.1654 52.4565 39.8579 51.7642 39.8579 50.9099V44.6504C39.8579 43.796 39.1654 43.1035 38.3113 43.1035Z" fill="white"/>
+                                <path d="M45.5291 43.1035C44.6749 43.1035 43.9824 43.7958 43.9824 44.6501V50.9099C43.9824 51.7642 44.6749 52.4565 45.5291 52.4565C46.3832 52.4565 47.0757 51.7642 47.0757 50.9099V44.6504C47.0757 43.796 46.3832 43.1035 45.5291 43.1035Z" fill="white"/>
+                                <path d="M52.7468 43.1035C51.8927 43.1035 51.2002 43.7958 51.2002 44.6501V50.9099C51.2002 51.7642 51.8927 52.4565 52.7468 52.4565C53.601 52.4565 54.2935 51.7642 54.2935 50.9099V44.6504C54.2935 43.796 53.601 43.1035 52.7468 43.1035Z" fill="white"/>
+                                <path d="M45.5291 33.7773C44.6749 33.7773 43.9824 34.4696 43.9824 35.324V37.5967C43.9824 38.4511 44.6749 39.1433 45.5291 39.1433C46.3832 39.1433 47.0757 38.4511 47.0757 37.5967V35.324C47.0757 34.4696 46.3832 33.7773 45.5291 33.7773Z" fill="white"/>
+                            </svg>
+                            <p>You did not add any address yet</p>
+                            <button type="button" class="btn btn-primary btn-md btn-rounded" data-l-modal-btn="address-add">
+                                <span class="text">Add New Address</span>
+                            </button>
+                        </div>
+                        <input type="hidden" name="id" data-default-address-input="true" />
+                        <div class="wrapper-card-section" style="display: none;" data-default-address-wrapper="true">
+                            <div class="wrapper-card-section-header">
+                                <h6 class="wrapper-card-section-header-title">Selected Address</h6>
+                                <div class="wrapper-card-section-header-action">
+                                    <button data-l-modal-btn="address-list" type="button">
+                                        Choose another address
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" >
+                                            <path d="M13.5592 6.34616L7.48184 0.268705C7.30836 0.0952232 7.07715 0 6.83061 0C6.58379 0 6.35271 0.09536 6.17923 0.268705L5.62745 0.820616C5.45411 0.993824 5.35861 1.22518 5.35861 1.47186C5.35861 1.7184 5.45411 1.95755 5.62745 2.13076L9.17288 5.68398H0.998979C0.491122 5.68398 0.0898438 6.08156 0.0898438 6.58956V7.36981C0.0898438 7.8778 0.491122 8.31548 0.998979 8.31548H9.21311L5.62759 11.8885C5.45425 12.062 5.35875 12.2871 5.35875 12.5338C5.35875 12.7802 5.45425 13.0085 5.62759 13.1818L6.17937 13.732C6.35285 13.9055 6.58393 14 6.83074 14C7.07728 14 7.3085 13.9042 7.48198 13.7307L13.5593 7.65343C13.7332 7.4794 13.8288 7.24709 13.8281 7.00014C13.8287 6.75237 13.7332 6.51992 13.5592 6.34616Z" fill="#FFC500"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="wrapper-address-list" data-default-address="true">
+                            </div>
+                            <template data-address-template="true">
+                                <div class="address-card" data-address-card="true">
+                                    <p class="name">__name__</p>
+                                    <table class="details-table">
+                                        <tbody>
+                                            <tr>
+                                                <th>Address</th>
+                                                <td>__address__</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Mobile</th>
+                                                <td>__mobile__</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="wrapper-card-section-2">
+                            <a href="#" class="btn btn-icon-2 btn-plain">
+                                <span class="icon">
+                                    <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.47074 15.1133L9.22656 13.3508L3.52325 7.61328L9.22656 1.87578L7.47074 0.113281L-0.000850975 7.61328L7.47074 15.1133Z" fill="#686868"/>
+                                    </svg>
+                                </span>
+                                <span class="text">Return to cart</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-flex-col-xl-4">
+                    <div class="wrapper-cart-summary">
+                        <div class="cart-summary">
+                            <h6 class="title">Shopping Cart Total</h6>
+                            <table class="summary-table">
+                                <tbody>
+                                    <tr data-cart-summary-subtotal="true">
+                                        <th>Subtotal (<span data-cart-items-count="true">0</span> items)</th>
+                                        <td>
+                                            <div class="price">
+                                                <span data-cart-summary-subtotal-value="true">0</span>
+                                                <span class="currency" data-cart-summary-subtotal-currency="true"></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr data-cart-summary-discount="true">
+                                        <th>Discount</th>
+                                        <td class="active">
+                                            <span class="price">
+                                                <span data-cart-summary-discount-value="true">0</span>
+                                                <span class="currency" data-cart-summary-discount-currency="true"></span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr data-cart-summary-shipping-fee="true">
+                                        <th>Shipping Fee</th>
+                                        <td class="active">
+                                            <span class="price">
+                                                <span data-cart-summary-shipping-fee-value="true">0</span>
+                                                <span class="currency" data-cart-summary-shipping-fee-currency="true"></span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr data-cart-summary-grand-total="true">
+                                        <th>Grand Total</th>
+                                        <td class="active">
+                                            <span class="price">
+                                                <span data-cart-summary-grand-total-value="true">0</span>
+                                                <span class="currency" data-cart-summary-grand-total-currency="true"></span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="wrapper-cart-cta">
+                        <div class="wrapper-cart-cta-xs-only">
+                            Total ( <span data-cart-items-count="true">0</span> items ) : <strong><span data-cart-summary-grand-total-value="true">0</span> <span data-cart-summary-grand-total-currency="true"></span></strong>
+                        </div>
+                        <div class="wrapper-cart-error" data-cart-out-of-stock-error="true" hidden>
+                            Remove the out of stock item or save for later
+                        </div>
+                        <div class="wrapper-cart-error" data-cart-max-stock-error="true" hidden>
+                            Remove the out of stock item or change quantity
+                        </div>
+                        <button type="submit" class="btn btn-icon btn-primary btn-block btn-xxl wrapper-cart-submit-btn" disabled data-cart-submit-btn="true">
+                            <span class="text">Continue to Contact Info</span>
+                            <span class="icon">
+                                <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M25.1253 9.7522L16.2226 0.579388C15.9684 0.31755 15.6297 0.173828 15.2685 0.173828C14.907 0.173828 14.5685 0.317757 14.3143 0.579388L13.506 1.4124C13.2521 1.67382 13.1122 2.02301 13.1122 2.39532C13.1122 2.76743 13.2521 3.12839 13.506 3.38981L18.6998 8.75275H2.199C1.45503 8.75275 0.867188 9.35283 0.867188 10.1196V11.2972C0.867188 12.0639 1.45503 12.7245 2.199 12.7245H18.7587L13.5062 18.1174C13.2523 18.3792 13.1124 18.7189 13.1124 19.0912C13.1124 19.4631 13.2523 19.8078 13.5062 20.0694L14.3145 20.8997C14.5687 21.1616 14.9072 21.3043 15.2687 21.3043C15.6299 21.3043 15.9686 21.1597 16.2228 20.8979L25.1255 11.7253C25.3803 11.4626 25.5204 11.112 25.5194 10.7393C25.5202 10.3653 25.3803 10.0144 25.1253 9.7522Z" fill="white"/>
+                                </svg>
+                            </span>
+                        </button>
+                        <div class="wrapper-cart-cta-xs-only">
+                            <a href="#" class="btn btn-icon-2 btn-block btn-xxl btn-plain">
+                                <span class="icon">
+                                    <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.47074 15.1133L9.22656 13.3508L3.52325 7.61328L9.22656 1.87578L7.47074 0.113281L-0.000850975 7.61328L7.47074 15.1133Z" fill="#686868"/>
+                                    </svg>
+                                </span>
+                                <span class="text">Return to cart</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<%- include ../_components/main/body/body-footer.ejs %>
+
+<!-- Address List Modal -->
+<div class="l-modal-dialog ui-modal-dialog" data-l-modal="address-list" data-address-list-modal="true">
+    <div class="ui-modal l-modal wrapper-address-modal">
+        <div class="wrapper-address-modal-header">
+            <button class="btn" type="button" data-l-modal-btn="address-list">
+                <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.10977 21.9881C1.56411 22.0198 1.02748 21.8384 0.61303 21.4821C-0.204343 20.6599 -0.204343 19.3319 0.61303 18.5097L18.5108 0.611823C19.361 -0.183682 20.695 -0.13946 21.4905 0.71068C22.2098 1.47946 22.2518 2.66109 21.5886 3.47888L3.5854 21.4821C3.17629 21.8333 2.64827 22.0143 2.10977 21.9881Z" fill="#646464"/>
+                    <path d="M19.9869 21.9886C19.4339 21.9863 18.9039 21.7667 18.5112 21.3773L0.61335 3.47936C-0.143904 2.59506 -0.0409514 1.26424 0.843344 0.506919C1.6326 -0.168973 2.7966 -0.168973 3.58579 0.506919L21.589 18.4048C22.439 19.2005 22.4829 20.5346 21.6872 21.3845C21.6555 21.4183 21.6228 21.451 21.589 21.4827C21.1482 21.866 20.568 22.0492 19.9869 21.9886Z" fill="#646464"/>
+                </svg>
+            </button>
+        </div>
+        <div class="wrapper-address-modal-body">
+            <div class="wrapper-address-modal-body-header">
+                <h6 class="wrapper-address-modal-body-title">Choose Address</h6>
+                <div class="wrapper-address-modal-body-action">
+                    <button class="btn" data-l-modal-btn="address-add" type="button" data-address-add-btn="true">Add New Address</button>
+                </div>
+            </div>
+            <div class="wrapper-address-list" data-address-list="true">
+            </div>
+            <div class="l-flex-row">
+                <div class="l-flex-col-xl-9"></div>
+                <div class="l-flex-col-xl-3">
+                    <button class="btn btn-primary btn-md btn-block btn-rounded" type="button" data-address-list-save-btn="true" data-l-modal-btn="address-list">
+                        Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Address Add Modal -->
+<div class="l-modal-dialog ui-modal-dialog" data-l-modal="address-add" data-address-add-modal="true">
+    <div class="ui-modal l-modal wrapper-address-modal">
+        <div class="wrapper-address-modal-header">
+            <button class="btn" type="button" data-l-modal-btn="address-add">
+                <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.10977 21.9881C1.56411 22.0198 1.02748 21.8384 0.61303 21.4821C-0.204343 20.6599 -0.204343 19.3319 0.61303 18.5097L18.5108 0.611823C19.361 -0.183682 20.695 -0.13946 21.4905 0.71068C22.2098 1.47946 22.2518 2.66109 21.5886 3.47888L3.5854 21.4821C3.17629 21.8333 2.64827 22.0143 2.10977 21.9881Z" fill="#646464"/>
+                    <path d="M19.9869 21.9886C19.4339 21.9863 18.9039 21.7667 18.5112 21.3773L0.61335 3.47936C-0.143904 2.59506 -0.0409514 1.26424 0.843344 0.506919C1.6326 -0.168973 2.7966 -0.168973 3.58579 0.506919L21.589 18.4048C22.439 19.2005 22.4829 20.5346 21.6872 21.3845C21.6555 21.4183 21.6228 21.451 21.589 21.4827C21.1482 21.866 20.568 22.0492 19.9869 21.9886Z" fill="#646464"/>
+                </svg>
+            </button>
+        </div>
+        <div class="wrapper-address-modal-body">
+            <div class="wrapper-address-modal-body-header">
+                <h6 class="wrapper-address-modal-body-title">Add New Address</h6>
+            </div>
+            <div>
+                <form action="" data-form-validate="true" data-address-add-form="true">
+                    <div class="l-flex-row">
+                        <div class="l-flex-col-xl-6">
+                            <div class="form-input-box" data-form-validate-input-box="true">
+                                <label class="stack-input stack-input-block" data-stack-input="true">
+                                    <span class="label" data-stack-input-label="true">Title</span>
+                                    <input type="text" class="input" data-stack-input-input="true" name="title" autocomplete="off" data-validate-input="title" data-form-validate-input-rules="required" placeholder="Title" />
+                                </label>
+                                <ul class="form-input-errors" data-validate-input-errors="title">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="l-flex-col-xl-6">
+                            <div class="form-input-box" data-form-validate-input-box="true">
+                                <label class="stack-input stack-input-block" data-stack-input="true">
+                                    <span class="label" data-stack-input-label="true">Mobile</span>
+                                    <input type="text" class="input" data-stack-input-input="true" name="mobile" autocomplete="tel" data-validate-input="mobile" data-form-validate-input-rules="required|phone" placeholder="Mobile" />
+                                </label>
+                                <ul class="form-input-errors" data-validate-input-errors="mobile">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="l-flex-col-xl-8">
+                            <div class="form-input-box" data-form-validate-input-box="true">
+                                <label class="stack-input stack-input-block" data-stack-input="true">
+                                    <span class="label" data-stack-input-label="true">Address</span>
+                                    <input type="text" class="input" data-stack-input-input="true" name="address" autocomplete="street-address" data-validate-input="address" data-form-validate-input-rules="required" placeholder="Address" />
+                                </label>
+                                <ul class="form-input-errors" data-validate-input-errors="address">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="l-flex-col-xl-4">
+                            <div class="form-input-box" data-form-validate-input-box="true">
+                                <label class="stack-input stack-input-select stack-input-block" data-stack-input="true">
+                                    <span class="label" data-stack-input-label="true">Governorate</span>
+                                    <select class="input" data-stack-input-input="true" name="governorate" autocomplete="address-level2" data-validate-input="governorate" data-form-validate-input-rules="required" placeholder="Governorate">
+                                        <option value="" selected>Governorate</option>
+                                        <option value="Cairo">Cairo</option>
+                                        <option value="Giza">Giza</option>
+                                    </select>
+                                </label>
+                                <ul class="form-input-errors" data-validate-input-errors="governorate">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="l-flex-row">
+                        <div class="l-flex-col-xl-9"></div>
+                        <div class="l-flex-col-xl-3">
+                            <button class="btn btn-primary btn-md btn-block btn-rounded" type="submit">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="/pages-assets/cart-order-logged-page-1/cart-order-logged-page-1.lazy.styles.css" fetchpriority="low">
+<script src="/pages-assets/cart-order-logged-page-1/cart-order-logged-page-1.js"></script>
+<script src="/pages-assets/cart-order-logged-page-1/cart-order-logged-page-1.lazy.js" fetchpriority="low"></script>
+<%- include ../_components/main/footer/footer.ejs %>

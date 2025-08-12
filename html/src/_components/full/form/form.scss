@@ -1,0 +1,137 @@
+.form-input-box {
+    margin-bottom: 20px;
+    &.form-input-box-spacing-40 {
+        margin-bottom: 40px;
+    }
+}
+
+.form-input-label {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #686868;
+    margin-bottom: 17px;
+    display: flex;
+}
+
+.form-input {
+    display: inline-flex;
+    position: relative;
+    transition: 0.3s all ease-in-out;
+    min-height: 52px;
+    border: 1px solid #E9E9E9;
+    border-radius: 5px;
+    padding: 0 22px;
+    .input {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        color: #686868;
+        width: 100%;
+        border: 0;
+        flex: 1;
+        background-color: transparent;
+        transition: 0.1s all ease-in-out;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        &::placeholder {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 35px;
+            color: #686868;
+        }
+        &::-ms-expand {
+            display: none;
+        }
+        &:focus {
+            outline: none;
+        }
+    }
+    .action {
+        border: 0;
+        background: none;
+        cursor: pointer;
+        padding: 0;
+        &:hover {
+            svg {
+                path {
+                    fill: #c2c2c2;
+                }                
+            }
+        }
+        &:focus {
+            outline: none;
+        }
+    }
+    &:hover {
+        border-color: #c2c2c2;
+    }
+    &:focus-within {
+        border-color: var(--primary-color);
+    }
+}
+
+.form-input-block {
+    display: flex;
+}
+
+.form-input-select {
+    &::after {
+        content: '';
+        position: absolute;
+        background-image: url("data:image/svg+xml,%3Csvg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.5004 8.48034C7.2495 8.48034 6.99862 8.38454 6.80733 8.19334L0.787684 2.17363C0.404756 1.7907 0.404756 1.16985 0.787684 0.78708C1.17046 0.404307 1.79119 0.404307 2.17414 0.78708L7.5004 6.11365L12.8267 0.787267C13.2096 0.404494 13.8303 0.404494 14.213 0.787267C14.5961 1.17004 14.5961 1.79089 14.213 2.17382L8.19348 8.19353C8.00209 8.38476 7.75122 8.48034 7.5004 8.48034Z' fill='%23B6B4BA'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M1.82054 1.14062C1.63277 0.953046 1.32863 0.953202 1.1412 1.14063C0.953671 1.32809 0.953496 1.63237 1.1412 1.82008L7.16076 7.8397C7.16073 7.83967 7.16079 7.83973 7.16076 7.8397C7.25458 7.93343 7.37674 7.98034 7.50037 7.98034C7.62411 7.98034 7.74612 7.93359 7.83988 7.83998M7.83988 7.83998L13.8594 1.82027C14.0472 1.63259 14.0472 1.32841 13.8596 1.14098C13.6722 0.953558 13.3679 0.953239 13.1802 1.14082C13.1802 1.14084 13.1802 1.14079 13.1802 1.14082L7.50036 6.82077L1.82054 1.14062C1.82051 1.14059 1.82058 1.14065 1.82054 1.14062M0.434167 0.433455C1.01225 -0.144556 1.94945 -0.144409 2.52758 0.433441L7.50037 5.40653L12.4731 0.433717C13.0512 -0.144119 13.9883 -0.144374 14.5664 0.433556M0.434167 0.433455C-0.144086 1.01155 -0.144032 1.94906 0.434093 2.52718C0.434092 2.52718 0.434094 2.52719 0.434093 2.52718L6.45374 8.54689C6.74249 8.8355 7.12222 8.98034 7.50037 8.98034C7.87819 8.98034 8.25787 8.83597 8.54685 8.54722L14.5665 2.52746C14.5664 2.52749 14.5665 2.52743 14.5665 2.52746C15.1448 1.94934 15.1448 1.01165 14.5664 0.433556M0.434167 0.433455C0.434143 0.433479 0.43419 0.433431 0.434167 0.433455V0.433455Z' fill='%23B6B4BA'/%3E%3C/svg%3E%0A");
+        background-position: center;
+        width: 20px;
+        height: 100%;
+        top: 0;
+        bottom: 0;
+        @include ltr() {
+            right: 20px;
+        }
+        @include rtl() {
+            left: 20px;
+        }
+    }
+}
+
+.has-error {
+    .form-input {
+        border-color: #EB5656;
+    }
+}
+
+.has-success {
+    .form-input {
+        border-color: var(--primary-color);
+    }
+}
+
+
+
+
+
+
+
+.form-input-errors,
+.form-input-success {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 35px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+        list-style: none;
+    }
+    :first-child {
+        margin-top: 2px;
+    }
+}
+
+.form-input-errors {
+    color: #EB5656;
+}
+
+.form-input-success {
+    color: var(--primary-color);
+}

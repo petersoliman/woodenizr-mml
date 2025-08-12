@@ -1,0 +1,37 @@
+.l-pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.l-pagination-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  min-width: 32px;
+  min-height: 32px;
+
+  svg {
+    @include rtl {
+      transform: rotate(180deg);
+    }
+  }
+
+  &:not(:last-child) {
+    @include ltr {
+      margin-right: 21px;
+    }
+    @include rtl {
+      margin-left: 21px;
+    }
+    @include media-max($sm){
+      @include ltr {
+        margin-right: 9px;
+      }
+      @include rtl {
+        margin-left: 9px;
+      }
+    }
+  }
+}

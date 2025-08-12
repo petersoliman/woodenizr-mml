@@ -1,0 +1,72 @@
+{
+  "error": false,
+  "cart": {
+    "id": 45395,
+    "noOfItems": 1,
+    "paymentMethod": null,
+    "coupon": null,
+    "shippingAddress": null,
+    "lastUpdateDate": "2022-11-11 16:26:36",
+    "lastUpdateHash": "8c5a4891b440b1ce07fcbd4cb05ca759",
+    "products": [
+      {
+        "product": {
+          "id": 3201,
+          "title": "Rotary Hammer  830W Bosch",
+          "featured": true,
+          "description": "<h1 data-test=\"PDP-item-name\" id=\"pdpItemName\" itemprop=\"name\">Professional Set: Rotary Hammer GBH 2-26 F + 5 pcs SDS plus-5 hammer bit set in L-Case</h1>\r\n\r\n<div class=\"detail-headlines\">\r\n<ul>\r\n\t<li>SKU 0611.2A4.001-UUU</li>\r\n\t<li>Improved performance for a fast drilling rate and high chiselling removal rate</li>\r\n\t<li>Reliable and robust with long lifetime due to high-quality components</li>\r\n\t<li>Wide range of applications for drilling, hammer drilling and chiselling</li>\r\n</ul>\r\n\r\n<p><a data-html=\"true\" data-original-title=\"\" data-placement=\"top\" data-toggle=\"popover\" data-trigger=\"hover\" href=\"javascript:void(0)\" title=\"\"><img alt=\"\" src=\"https://rbptdcl.azurefd.net/media/en-GB/06112A4000-GBH-2-26-F-en-GB-o236066v16-Bosch-BI-Icon-ChiselingFunction.jpg\" style=\"width: 100px; height: 100px;\" title=\"\" /><img alt=\"\" src=\"https://rbptdcl.azurefd.net/media/en-GB/06112A4000-GBH-2-26-F-en-GB-o238468v186-Bosch-BI-Icon-VarioLock.jpg\" style=\"width: 100px; height: 100px;\" title=\"\" /><img alt=\"\" src=\"https://rbptdcl.azurefd.net/media/en-GB/06112A4000-GBH-2-26-F-en-GB-o131776v186-Cable-length.jpg\" style=\"width: 100px; height: 100px;\" title=\"\" /><img alt=\"\" src=\"https://rbptdcl.azurefd.net/media/en-GB/06112A4000-GBH-2-26-F-en-GB-o5788v186-SDS-plus-Picto.jpg\" style=\"width: 100px; height: 100px;\" title=\"\" /><img alt=\"\" src=\"https://rbptdcl.azurefd.net/media/en-GB/06112A4000-GBH-2-26-F-en-GB-o37224v186-Softgrip.jpg\" style=\"width: 100px; height: 100px;\" title=\"\" /><img alt=\"\" src=\"https://rbptdcl.azurefd.net/media/en-GB/06112A4000-GBH-2-26-F-en-GB-o131968v186-Forward-reverse-rotation.jpg\" style=\"width: 100px; height: 100px;\" title=\"\" /><img alt=\"\" src=\"https://rbptdcl.azurefd.net/media/en-GB/06112A4000-GBH-2-26-F-en-GB-o132712v16-Bosch-BI-Icon-Autolock.jpg\" style=\"width: 100px; height: 100px;\" title=\"\" /><img alt=\"\" src=\"https://rbptdcl.azurefd.net/media/en-GB/06112A4000-GBH-2-26-F-en-GB-o18115v186-Ueberlastkupplung-Picto.jpg\" style=\"width: 100px; height: 100px;\" title=\"\" /><img alt=\"\" src=\"https://rbptdcl.azurefd.net/media/en-GB/06112A4000-GBH-2-26-F-en-GB-o132423v186-Speed-Trigger.jpg\" style=\"width: 100px; height: 100px;\" title=\"\" /></a></p>\r\n\r\n<h3>&nbsp;</h3>\r\n\r\n<p><strong>Technical Data</strong></p>\r\n<strong><button data-test=\"accordion-item-toggle\"></button></strong>\r\n\r\n<table data-test=\"PDP-technical-data-table\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Weight</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">2.900 kg&nbsp;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Max. drilling diameter in wood</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">30 mm&nbsp;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Rated input power</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">830 W&nbsp;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Rated speed</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">0 &ndash; 900 rpm&nbsp;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Rated speed, up to</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">900 rpm&nbsp;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Rated speed, from</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">0 rpm&nbsp;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Impact energy</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">2.7 J&nbsp;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Impact energy, from</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">2.700 J&nbsp;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Impact rate at rated speed</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">0 &ndash; 4,000 bpm&nbsp;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Impact rate at rated speed, up to</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">4,000 bpm&nbsp;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Impact rate at rated speed, from</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">0 bpm&nbsp;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Bit holder</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">SDS plus&nbsp;</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature\">Gross Weight</td>\r\n\t\t\t<td data-test=\"PDP-technical-data-feature-value\">5.550 kg&nbsp;</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><strong>Product Benefits</strong></p>\r\n\r\n<p>Delivers 2.7 J of impact energy for fast drilling and high chisel removal performance</p>\r\n\r\n<p>Wide range of applications for drilling, hammer drilling and chiselling</p>\r\n\r\n<p>Reliable and robust with long lifetime due to high-quality components</p>\r\n\r\n<p>Improved performance for a fast drilling rate and high chiselling removal rate</p>\r\n\r\n<p>Optional chisel mode and quick-change chuck enable use in wide range of applications</p>\r\n\r\n<p>High-quality components ensure robustness, reliability, and long lifetime</p>\r\n\r\n<p><input data-test=\"PDP-product-media-single-container\" id=\"mediaCheckbox0\" type=\"checkbox\" /><label for=\"mediaCheckbox0\"><img src=\"https://rbptdcl.azurefd.net/media/ar-EG/06112A4000-GBH-2-26-F-ar-EG-o230420v239-P-K-GBH-2-26-F-dyn.png\" /></label></p>\r\n\r\n<p><input data-test=\"PDP-product-media-single-container\" id=\"mediaCheckbox1\" type=\"checkbox\" /><label for=\"mediaCheckbox1\"><img src=\"https://rbptdcl.azurefd.net/media/ar-EG/06112A4000-GBH-2-26-F-ar-EG-o17058v186-f9gm4208-GBH-2-26-DFR.jpg\" /></label></p>\r\n\r\n<p><input data-test=\"PDP-product-media-single-container\" id=\"mediaCheckbox2\" type=\"checkbox\" /><label for=\"mediaCheckbox2\"><img src=\"https://rbptdcl.azurefd.net/media/ar-EG/06112A4000-GBH-2-26-F-ar-EG-o235859v16-GBH2-26F-Ziegel-248.jpg\" /></label></p>\r\n\r\n<p><input data-test=\"PDP-product-media-single-container\" id=\"mediaCheckbox3\" type=\"checkbox\" /><label for=\"mediaCheckbox3\"><img src=\"https://rbptdcl.azurefd.net/media/ar-EG/06112A4000-GBH-2-26-F-ar-EG-o238279v16-A-K-GBH-2-26-F-Decke-306.jpg\" /></label></p>\r\n\r\n<p><input data-test=\"PDP-product-media-single-container\" id=\"mediaCheckbox4\" type=\"checkbox\" /><label for=\"mediaCheckbox4\"><img src=\"https://rbptdcl.azurefd.net/media/ar-EG/06112A4000-GBH-2-26-F-ar-EG-o235769v186-GBH2-26F-Beton-155.jpg\" /></label></p>\r\n\r\n<p><input data-test=\"PDP-product-media-single-container\" id=\"mediaCheckbox0\" type=\"checkbox\" /><label for=\"mediaCheckbox0\"><img src=\"https://rbptdcl.azurefd.net/media/ar-EG/06112A4001-Professional-Set-Rotary-Hammer-GBH-2-26-F--5-pcs-SDS-plus-5-hammer-bit-set-in-L-Case-ar-EG-o264458v16-GBH2-26F-06112A4001-dyn.jpg\" /></label></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><strong>Scope of Delivery​</strong></p>\r\n\r\n<p>Rotary hammer GBH 2-26 F Professional (0 611 2A4 000)</p>\r\n\r\n<p>Depth stop 210 mm (1 613 001 010)</p>\r\n\r\n<p>SDS plus quick-change chuck (2 608 572 213)</p>\r\n\r\n<p>Auxiliary handle (2 602 025 141)</p>\r\n\r\n<p>5-piece masonry drill bit set SDS plus-5 (5/6/6/8/10 mm) (2 608 588 721)</p>\r\n\r\n<p>Carrying case</p>\r\n\r\n<p>Machine cloth</p>\r\n\r\n<p>Quick change chuck 13 mm (2 608 572 212)</p>\r\n</div>\r\n\r\n<div><span style=\"text-decoration: underline;\"><strong><span id=\"result_box\" lang=\"en\">One Year warranty from the agent Bosch Egypt</span></strong></span></div>",
+          "variants": [
+            "Color: Red",
+            "Material: Wood",
+            "Siz: 160cm"
+          ],
+          "mainImage": "https://127.0.0.1:8000/uploads/2020/10/18/product/image/thumb/rotary-hammer-sds-plus-26-mm-830-watt-4811.png",
+          "absoluteUrl": "https://127.0.0.1:8000/en/product/bosch-rotary-hammer-830-w",
+          "price": {
+            "id": 8421,
+            "stock": 4,
+            "salePrice": 4785,
+            "originalPrice": 5280,
+            "discountPercentage": 9
+          }
+        },
+        "qty": 1
+      },
+      {
+        "product": {
+          "id": 26253,
+          "title": "Rotary Hammer with SDS plus 600w 20mm bosch",
+          "featured": true,
+          "description": "<p><strong>&nbsp;Bosch Rotary Hammer SDS Plus- 20 MM- 600 Watt</strong></p>\r\n\r\n<ul class=\"nomargin checkList\">\r\n\t<li>Powerful 600 W motor for enhanced performance</li>\r\n\t<li>Forward/reverse operation</li>\r\n\t<li>Lock-on button for continuous drilling</li>\r\n\t<li>Soft grip for comfortable and fatigue free use</li>\r\n\t<li>Infinitely variable speed control with easy speed adjustment</li>\r\n\t<li>Overload clutch for better protection of users and tool in case of jamming drill bit</li>\r\n\t<li>Auxiliary handle with depth gauge and soft grip for comfortable handling</li>\r\n</ul>\r\n\r\n<p><strong>Specification overview&nbsp;</strong></p>\r\n\r\n<p>Rated input power :600w<br />\r\nImpact energy :0 - 1,7 J<br />\r\nImpact rate at rated speed:0 - 4400 bpm<br />\r\nRated speed :0 - 1400 rpm<br />\r\nTool holder :SDS-plus<br />\r\nDrilling dia. concrete, hammer drill bits :4 - 20 mm<br />\r\nMax. drilling diameter masonry, core cutters :68 mm<br />\r\nMax. drilling diameter in metal :13 mm</p>\r\n\r\n<div><span style=\"text-decoration: underline;\"><strong><span id=\"result_box\" lang=\"en\">One Year warranty from the agent Bosch Egypt</span></strong></span></div>",
+          "variants": [
+            "Color: Green",
+            "Material: Stainless steel",
+            "Siz: 160cm"
+          ],
+          "mainImage": "https://127.0.0.1:8000/uploads/2020/10/18/product/image/thumb/bosch-rotary-hammer-sds-plus-20-mm-600-watt-29050.png",
+          "absoluteUrl": "https://127.0.0.1:8000/en/product/rotary-hammer-with-sds-plus-600w-20mm-bosch",
+          "price": {
+            "id": 31475,
+            "stock": 3,
+            "salePrice": 2145,
+            "originalPrice": 0,
+            "discountPercentage": 0
+          }
+        },
+        "qty": 1
+      }
+    ],
+    "subTotal": 561,
+    "discount": 0,
+    "shippingFee": 0,
+    "extraFees": 10,
+    "grandTotal": 571
+  },
+  "gtmProductsObjects": {
+    "name": "Bosch Gop Accessories Universal Set13 Pcs For Multi-tool",
+    "id": 42727,
+    "price": 535.5,
+    "category": "Multi Tool Accessories",
+    "quantity": 1
+  }
+}

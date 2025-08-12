@@ -1,0 +1,102 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Exchange Rate{% endset %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+        <ul class="breadcrumb-elements">
+            <li>
+                <a href="{{ path('exchange_rate_update_api') }}" onclick="javascript: _this=this;setTimeout(function() {_this.href='#';console.log(this)},100);"><i class="fa fa-refresh position-left"></i> Update Now</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+
+    <!-- Ajax sourced data -->
+    <form method="post" data-toggle="validator" novalidate="novalidate">
+        <div class="panel panel-flat">
+            <div class="panel-body">
+
+                <div class="tabbable nav-tabs-vertical nav-tabs-left">
+                    <ul class="nav nav-tabs nav-tabs-highlight">
+                        {% for sourceCurrency in currencies %}
+                            <li {{ loop.first ? 'class="active"' }}>
+                                <a href="#exchange-rate-{{ sourceCurrency.id }}" data-toggle="tab">
+                                    {{ sourceCurrency.title }} ({{ sourceCurrency.code }})
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="tab-content">
+                        {% for sourceCurrency in currencies %}
+                            <div class="tab-pane {{ loop.first ? "active" }}" id="exchange-rate-{{ sourceCurrency.id }}">
+                                <div class="table-responsive">
+                                    <table class="table table-xs table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Source Currency</th>
+                                            <th>Target Currency</th>
+                                            <th>Ratio</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for targetCurrency in currencies %}
+                                            {#                                            {% if sourceCurrency.id != targetCurrency.id %} #}
+                                            {% set exchangeRate = null %}
+                                            {% if exchangeRates[sourceCurrency.id][targetCurrency.id] is defined %}
+                                                {% set exchangeRate = exchangeRates[sourceCurrency.id][targetCurrency.id] %}
+                                            {% endif %}
+                                            <tr>
+                                                <td>{{ sourceCurrency.code }}</td>
+                                                <td>{{ targetCurrency.code }}</td>
+                                                <td class="valign-top">
+                                                    <div class="input-group">
+                                                        <input type="number" min="0"class="form-control" placeholder="Ratio" required name="ratio[{{ sourceCurrency.id }}][{{ targetCurrency.id }}]" {% if exchangeRate is not null %}value="{{ exchangeRate.ratio }}"{% endif %}>
+                                                        <span class="input-group-addon">{{ targetCurrency.code }}</span>
+                                                    </div>
+                                                    {% if exchangeRate is not null %}
+                                                        <span class="help-block">
+                                                                Last update on {{ exchangeRate.modified|dateFormat }} By {{ exchangeRate.modifiedBy }}
+                                                            </span>
+                                                    {% endif %}
+                                                </td>
+
+
+                                            </tr>
+
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="text-right">
+                    <button type="reset" class="btn btn-default mr-5">
+                        Reset <i class="icon-reload-alt position-right"></i>
+                    </button>
+                    <button type="submit" class="btn btn-primary mr-20">
+                        Save <i class="icon-arrow-right14 position-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- /ajax sourced data -->
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
+{% endblock javascripts %}

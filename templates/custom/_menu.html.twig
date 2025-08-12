@@ -1,0 +1,10 @@
+{% if is_granted('ROLE_ADMIN') %}
+{#    <li {% if cr in ['material_category_index','material_category_new', 'material_category_edit', 'material_index','material_new', 'material_edit'] %} class="active" {% endif %}>#}
+{#        <a href="{{ path('material_category_index') }}"><i class="icon-paragraph-center2"></i>#}
+{#            <span>Materials List</span>#}
+{#        </a>#}
+{#    </li>#}
+{#    <li {% if cr in ['original_design_index', 'original_design_new', 'original_design_edit'] %} class="active" {% endif %}>#}
+{#        <a href="{{ path('original_design_index') }}"><i class="icon-stamp"></i><span>Original Designs List</span></a>#}
+{#    </li>#}
+{% endif %}

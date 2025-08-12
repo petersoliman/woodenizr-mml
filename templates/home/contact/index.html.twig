@@ -1,0 +1,209 @@
+{% extends 'fe/base.html.twig' %}
+{% import 'fe/macros.html.twig' as macros %}
+{% set seo = seoPage.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+
+{% block criticalCSS %}
+    {% include "home/contact/_critical_css.css.twig" %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/contact-us/contact-us.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+    {% include "home/contact/_header.html.twig" with {"pageTitle": seoPage.seo.title} %}
+
+
+    {{ form_start(form, {'attr':{"class":"l-container sign-form centered wrapper-contact-us", "data-form-validate": "true", "data-sign-form": "true" } }) }}
+    <div class="l-flex-row">
+        <div class="l-flex-col-xl-5">
+            <h5>{{ "let_get_in_touch"|trans }}</h5>
+            {% if getDCA(1, false) is not empty %}
+                <p><a href="{{ getDCA(1, false)|encodeEmail }}">{{ getDCA(1, false)|encodeEmail }}</a></p>
+            {% endif %}
+            {{ editDCA(1) }}
+        </div>
+        <div class="l-flex-col-xl-7"></div>
+    </div>
+    <div class="l-flex-row">
+        <div class="l-flex-col-xl-6">
+            <div class="form-input-box" data-form-validate-input-box="true">
+                <label class="stack-input stack-input-icon stack-input-block" data-stack-input="true">
+                    <div class="stack-input stack-input-inner stack-input-block">
+                            <span class="label" data-stack-input-label="true">
+                                {{ form.name.vars.label|trans }}
+                            </span>
+                        {{ form_widget(form.name) }}
+                        {# <input
+                                type="text"
+                                class="input"
+                                data-stack-input-input="true"
+                                name="name"
+                                autocomplete="name"
+                                data-validate-input="name"
+                                data-form-validate-input-rules="required"
+                                placeholder="Name"
+                        /> #}
+                    </div>
+                    <div class="stack-input-prefix">
+                        <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.7063 11.7525C16.6235 11.6679 16.5248 11.6006 16.4158 11.5546C16.3068 11.5086 16.1897 11.4847 16.0714 11.4844C15.9531 11.4841 15.8359 11.5073 15.7266 11.5527C15.6174 11.5982 15.5182 11.6649 15.435 11.749C15.3518 11.8331 15.2862 11.933 15.242 12.0427C15.1977 12.1525 15.1758 12.2699 15.1774 12.3882C15.1791 12.5066 15.2042 12.6234 15.2515 12.7319C15.2987 12.8403 15.367 12.9383 15.4525 13.0202C16.209 13.7645 16.8091 14.6524 17.2177 15.6319C17.6264 16.6113 17.8352 17.6625 17.8321 18.7237C17.8321 19.8143 14.7062 21.3986 9.80768 21.3986C4.90912 21.3986 1.78325 19.8135 1.78325 18.722C1.78025 17.668 1.98633 16.6239 2.38957 15.6501C2.79282 14.6764 3.3852 13.7922 4.13245 13.049C4.21696 12.9665 4.28428 12.8682 4.33048 12.7596C4.37669 12.6509 4.40087 12.5342 4.40161 12.4162C4.40236 12.2982 4.37967 12.1812 4.33484 12.072C4.29001 11.9628 4.22395 11.8636 4.14049 11.7801C4.05702 11.6966 3.95781 11.6306 3.84862 11.5857C3.73942 11.5409 3.62241 11.5182 3.50438 11.519C3.38634 11.5197 3.26963 11.5439 3.16101 11.5901C3.05239 11.6363 2.95403 11.7036 2.87163 11.7881C1.95811 12.6968 1.23393 13.7778 0.741021 14.9683C0.248108 16.1588 -0.00374551 17.4352 4.20941e-05 18.7237C4.20941e-05 21.6193 5.05276 23.1818 9.80768 23.1818C14.5626 23.1818 19.6153 21.6193 19.6153 18.7237C19.6193 17.4265 19.364 16.1416 18.8644 14.9445C18.3649 13.7473 17.6311 12.6621 16.7063 11.7525Z"
+                                  fill="#929292"/>
+                            <path d="M9.80763 12.4825C11.042 12.4825 12.2487 12.1164 13.2751 11.4306C14.3014 10.7448 15.1014 9.77008 15.5738 8.62964C16.0462 7.48921 16.1698 6.23431 15.9289 5.02363C15.6881 3.81295 15.0937 2.70087 14.2208 1.82802C13.348 0.955164 12.2359 0.360745 11.0252 0.119926C9.81456 -0.120893 8.55965 0.00270422 7.41922 0.475088C6.27878 0.947472 5.30404 1.74743 4.61824 2.77379C3.93245 3.80015 3.56641 5.00683 3.56641 6.24123C3.56832 7.89592 4.22649 9.48229 5.39653 10.6523C6.56657 11.8224 8.15294 12.4805 9.80763 12.4825ZM9.80763 1.78321C10.6893 1.78321 11.5513 2.04467 12.2844 2.53452C13.0175 3.02438 13.5889 3.72062 13.9263 4.53522C14.2637 5.34982 14.352 6.24617 14.18 7.11095C14.008 7.97572 13.5834 8.77006 12.9599 9.39353C12.3365 10.017 11.5421 10.4416 10.6773 10.6136C9.81258 10.7856 8.91622 10.6973 8.10162 10.3599C7.28703 10.0225 6.59078 9.45109 6.10093 8.71797C5.61107 7.98485 5.34961 7.12294 5.34961 6.24123C5.35101 5.05932 5.82114 3.92621 6.65687 3.09047C7.49261 2.25473 8.62572 1.7846 9.80763 1.78321Z"
+                                  fill="#929292"/>
+                        </svg>
+                    </div>
+                </label>
+                <ul class="form-input-errors" data-validate-input-errors="name">
+                    {{ form_errors(form.name) }}
+                </ul>
+            </div>
+        </div>
+        <div class="l-flex-col-xl-6">
+            <div class="form-input-box" data-form-validate-input-box="true">
+                <label class="stack-input stack-input-icon stack-input-block" data-stack-input="true">
+                    <div class="stack-input stack-input-inner stack-input-block">
+                            <span class="label" data-stack-input-label="true">
+                                {{ form.email.vars.label|trans }}
+                            </span>
+                        {{ form_widget(form.email) }}
+                        {# <input
+                                type="email"
+                                class="input"
+                                data-stack-input-input="true"
+                                name="email"
+                                autocomplete="email"
+                                data-validate-input="email"
+                                data-form-validate-input-rules="required|email"
+                                placeholder="Email"
+                        /> #}
+                    </div>
+                    <div class="stack-input-prefix">
+                        <svg width="25" height="18" viewBox="0 0 25 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22.8027 0H2.19727C0.988184 0 0 0.983838 0 2.19727V15.3809C0 16.5947 0.988818 17.5781 2.19727 17.5781H22.8027C24.0118 17.5781 25 16.5943 25 15.3809V2.19727C25 0.983545 24.0113 0 22.8027 0ZM22.4653 1.46484C21.7549 2.17759 13.4104 10.5493 13.0676 10.8933C12.7812 11.1805 12.2189 11.1807 11.9324 10.8933L2.53467 1.46484H22.4653ZM1.46484 15.1116V2.46655L7.76685 8.78906L1.46484 15.1116ZM2.53467 16.1133L8.80098 9.82656L10.895 11.9274C11.7531 12.7883 13.2473 12.7879 14.1051 11.9274L16.1991 9.82661L22.4653 16.1133H2.53467ZM23.5352 15.1116L17.2332 8.78906L23.5352 2.46655V15.1116Z"
+                                  fill="#929292"/>
+                        </svg>
+                    </div>
+                </label>
+                <ul class="form-input-errors" data-validate-input-errors="email">
+                    {{ form_errors(form.email) }}
+                </ul>
+            </div>
+        </div>
+        <div class="l-flex-col-xl-6">
+            <div class="form-input-box" data-form-validate-input-box="true">
+                <label class="stack-input stack-input-icon stack-input-block" data-stack-input="true">
+                    <div class="stack-input stack-input-inner stack-input-block">
+                            <span class="label" data-stack-input-label="true">
+                                {{ form.phone.vars.label|trans }}
+                            </span>
+                        {{ form_widget(form.phone) }}
+                        {# <input
+                                type="tel"
+                                class="input"
+                                data-stack-input-input="true"
+                                name="phone"
+                                autocomplete="tel"
+                                data-validate-input="phone"
+                                data-form-validate-input-rules="required|phone"
+                                placeholder="Phone Number"
+                        /> #}
+                    </div>
+                    <div class="stack-input-prefix">
+                        <svg width="16" height="27" viewBox="0 0 16 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.4814 2.83378C15.4814 1.2686 14.2129 0 12.6477 0H2.83399C1.26881 0 0 1.2686 0 2.83378V24.0905C0 25.6557 1.26881 26.9243 2.83399 26.9243H12.6477C14.2129 26.9243 15.4814 25.6557 15.4814 24.0905V2.83378ZM1.34621 4.91368H14.1352V20.5971H1.34621V4.91368ZM2.82032 1.34621H12.6613C13.4815 1.34621 14.1352 2.02984 14.1352 2.85018V3.56746H1.34621V2.85018C1.34621 2.02984 2.00018 1.34621 2.82032 1.34621ZM12.6613 25.578H2.82032C2.01175 25.5839 1.35189 24.9327 1.34621 24.1241V21.9433H14.1352V24.1069C14.1392 24.9155 13.4872 25.574 12.6786 25.578H12.6613Z"
+                                  fill="#929292"/>
+                            <path d="M9.05769 23.0879H6.42311C6.05122 23.0879 5.75 23.3891 5.75 23.761C5.75 24.1329 6.05122 24.4341 6.42311 24.4341H9.05769C9.42937 24.4341 9.73079 24.1329 9.73079 23.761C9.73079 23.3891 9.42937 23.0879 9.05769 23.0879Z"
+                                  fill="#929292"/>
+                        </svg>
+                    </div>
+                </label>
+                <ul class="form-input-errors" data-validate-input-errors="phone">
+                    {{ form_errors(form.phone) }}
+                </ul>
+            </div>
+        </div>
+        <div class="l-flex-col-xl-6">
+            <div class="form-input-box" data-form-validate-input-box="true">
+                <label class="stack-input stack-input-icon stack-input-block" data-stack-input="true">
+                    <div class="stack-input stack-input-inner stack-input-block">
+                            <span class="label" data-stack-input-label="true">
+                                {{ form.subject.vars.label|trans }}
+                            </span>
+                        {{ form_widget(form.subject) }}
+                        {# <input
+                                type="text"
+                                class="input"
+                                data-stack-input-input="true"
+                                name="subject"
+                                autocomplete="subject"
+                                data-validate-input="subject"
+                                data-form-validate-input-rules="required"
+                                placeholder="Subject
+                             "/> #}
+                    </div>
+                    <div class="stack-input-prefix">
+                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23.5165 8.41994C23.1028 8.54245 22.8666 8.97707 22.9891 9.39084C23.2866 10.3957 23.4375 11.4418 23.4375 12.5C23.4375 18.531 18.5309 23.4375 12.5 23.4375C6.46904 23.4375 1.5625 18.531 1.5625 12.5C1.5625 6.46906 6.46904 1.56253 12.5 1.56253C13.5583 1.56253 14.6043 1.71336 15.609 2.01082C16.0228 2.13337 16.4574 1.89714 16.5799 1.48347C16.6018 1.4095 16.6122 1.33494 16.6122 1.26155C16.6123 0.924392 16.3924 0.61321 16.0526 0.512576C14.9037 0.172439 13.7085 2.73684e-05 12.5 2.73684e-05C9.16112 2.73684e-05 6.02206 1.30027 3.66113 3.66116C1.30024 6.02214 0 9.16115 0 12.5C0 15.8389 1.30024 18.9779 3.66113 21.3389C6.02202 23.6998 9.16112 25 12.5 25C15.8389 25 18.9779 23.6998 21.3388 21.3389C23.6997 18.9779 25 15.8389 25 12.5C25 11.2916 24.8275 10.0963 24.4874 8.94728C24.3649 8.53356 23.9302 8.29763 23.5165 8.41994ZM12.5 9.37502C12.6149 9.37502 12.7309 9.38137 12.8449 9.39387C13.274 9.44108 13.6597 9.13137 13.7066 8.70251C13.7537 8.2736 13.4442 7.88776 13.0153 7.84074C12.8449 7.82199 12.6716 7.81252 12.5 7.81252C9.91527 7.81252 7.81249 9.9153 7.81249 12.5C7.81249 15.0847 9.91527 17.1875 12.5 17.1875C15.0847 17.1875 17.1875 15.0847 17.1875 12.5C17.1875 12.0685 16.8377 11.7188 16.4062 11.7188C15.9747 11.7188 15.625 12.0685 15.625 12.5C15.625 14.2232 14.2231 15.625 12.5 15.625C10.7768 15.625 9.37499 14.2232 9.37499 12.5C9.37499 10.7769 10.7768 9.37502 12.5 9.37502ZM16.4889 7.40632L16.8781 3.50266C16.896 3.32307 16.9755 3.1553 17.1031 3.02771L19.902 0.228836C20.1177 0.0132598 20.4388 -0.0571991 20.7249 0.0483183C21.0109 0.153836 21.2095 0.41614 21.2333 0.720095L21.4552 3.5448L24.2799 3.76667C24.5839 3.79055 24.8462 3.98909 24.9517 4.27507C25.0572 4.56111 24.9867 4.88239 24.7712 5.09797L21.9722 7.89685C21.8447 8.02443 21.6769 8.10393 21.4973 8.1218L17.5938 8.51115L13.0524 13.0525C12.8998 13.205 12.6999 13.2813 12.5 13.2813C12.3 13.2813 12.1001 13.205 11.9476 13.0524C11.6425 12.7473 11.6425 12.2527 11.9476 11.9476L16.4889 7.40632ZM18.1107 6.88938L21.0646 6.59475L22.4677 5.19167L20.6675 5.05027C20.2843 5.02014 19.98 4.71574 19.9498 4.33259L19.8084 2.53225L18.4053 3.93537L18.1107 6.88938Z"
+                                  fill="#929292"/>
+                        </svg>
+                    </div>
+                </label>
+                <ul class="form-input-errors" data-validate-input-errors="subject">
+                    {{ form_errors(form.subject) }}
+                </ul>
+            </div>
+        </div>
+        <div class="l-flex-col-xl-12">
+            <div class="form-input-box" data-form-validate-input-box="true">
+                <label class="stack-input stack-input-textarea stack-input-icon stack-input-block"
+                       data-stack-input="true">
+                    <div class="stack-input stack-input-inner stack-input-block">
+                            <span class="label" data-stack-input-label="true">
+                                {{ form.message.vars.label|trans }}
+                            </span>
+                        {{ form_widget(form.message) }}
+                        {# <textarea
+                                rows="8"
+                                type="text"
+                                class="input"
+                                data-stack-input-input="true"
+                                name="message"
+                                autocomplete="message"
+                                data-validate-input="message"
+                                data-form-validate-input-rules="required"
+                                placeholder="Message"
+                        ></textarea> #}
+                    </div>
+                </label>
+                <ul class="form-input-errors" data-validate-input-errors="message">
+                    {{ form_errors(form.message) }}
+                </ul>
+            </div>
+        </div>
+        <div class="l-flex-col-xl-12">
+            <br>
+            <div class="buttons">
+                <button class="btn btn-primary btn-lg btn-block" disabled
+                        type="submit">{{ "send_message_txt"|trans }}</button>
+            </div>
+            <br>
+            <br>
+            <br>
+
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/contact-us/contact-us.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/contact-us/contact-us.js')) }}
+    {{ macros.assetJS(asset('pages-assets/contact-us/contact-us.lazy.js'), true) }}
+{% endblock %}

@@ -1,0 +1,180 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ "order_summary_txt"|trans }}{% endblock %}
+{% import 'fe/macros.html.twig' as macros %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ macros.assetCSS(asset('pages-assets/cart-order-page-3/cart-order-page-3.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+    {% include "fe/_pages_header.html.twig" with {"pageTitle": "order_summary_txt"|trans, "marginBottomZero": true } %}
+    <div class="u-bg-light">
+
+        <div class="l-container">
+
+            {% include "eCommerce/frontEnd/cart/_progress_bar.html.twig" with {step: 4} %}
+
+            <form method="post" action="{{ path('fe_order_create') }}" data-form-validate="true">
+                <div class="l-flex-row">
+                    <div class="l-flex-col-xl-12">
+                        <div class="wrapper-title">
+                            <span class="u-bg-light">{{ "order_summary_txt"|trans }}</span>
+                        </div>
+                    </div>
+                    <div class="l-flex-col-xl-8">
+                        <div class="wrapper-address-payment-card">
+                            <div class="wrapper-address">
+                                {% if cart.shippingAddress %}
+                                    <p class="wrapper-address-name">
+                                        {{ "deliver_to_txt"|trans }} :<strong>{{ cart.shippingAddress.title }}</strong>
+                                    </p>
+                                {% endif %}
+                                <p class="wrapper-address-details">
+                                    {{ "name_txt"|trans }}<span>
+                                    <span>{{ cart.buyerName }}</span>
+                                    </span>
+                                    <span class="space"></span>
+                                    {{ "mobile_txt"|trans }}
+
+                                    <span>{{ cart.buyerMobileNumber }}</span>
+                                </p>
+                                <p class="wrapper-address-address">{{ "address_txt"|trans }}
+                                    <span>{{ cart.buyerAddress }}</span>
+                                </p>
+                            </div>
+                            <div class="wrapper-payment-method">
+                                {% set paymentMethod = cart.paymentMethod %}
+                                <span class="wrapper-payment-method-name">
+                                    {{ "payment_method_txt"|trans }} :
+                                    <span>{{ paymentMethod.title }}</span>
+                                </span>
+                                {% if paymentMethod.image is not empty %}
+                                    <span class="wrapper-payment-method-icons">
+                                         <img
+                                                 class="lazyload"
+                                                 data-expand="-20"
+                                                 src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                                 data-src="{{ asset(paymentMethod.image.assetPath)|webp }}"
+                                         />
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="wrapper-cart-items-card">
+                            <div class="wrapper-cart-items-list" data-cart-items-list="true">
+                            </div>
+                            <template data-cart-items-template="true">
+                                <div class="wrapper-cart-item">
+                                    <div class="wrapper-cart-item-img">
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                             data-cart-item-img="true"/>
+                                    </div>
+                                    <div class="wrapper-cart-item-body">
+                                        <div class="wrapper-cart-item-details">
+                                            <h5 class="wrapper-cart-item-name" data-cart-item-name="true">
+                                            </h5>
+                                            <div class="wrapper-cart-item-variants" data-cart-item-variants="true">
+                                            </div>
+                                        </div>
+                                        <div class="wrapper-cart-item-meta">
+                                            <p><span data-cart-item-currency="true"></span> <strong
+                                                        data-cart-item-price="true"></strong></p>
+                                            <p>
+                                                {{ "qty_txt"|trans|upper }} : <strong
+                                                        data-cart-item-qty-text="true"></strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="wrapper-back-btn">
+                            <a href="{{ path('fe_cart_payment_method') }}" class="btn btn-icon-2 btn-plain">
+                            <span class="icon">
+                                <svg width="10" height="16" viewBox="0 0 10 16" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.47074 15.1133L9.22656 13.3508L3.52325 7.61328L9.22656 1.87578L7.47074 0.113281L-0.000850975 7.61328L7.47074 15.1133Z"
+                                          fill="#686868"/>
+                                </svg>
+                            </span>
+                                <span class="text">{{ "return_payment_method_txt"|trans }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="l-flex-col-xl-4">
+                        <div class="wrapper-cart-summary">
+                            <div class="cart-summary">
+                                <h6 class="title">{{ "order_summary_txt"|trans }}</h6>
+                                {% include "eCommerce/frontEnd/cart/_side_menu_summery.html.twig" %}
+                            </div>
+                        </div>
+                        <div class="wrapper-cart-cta">
+                            <div class="wrapper-cart-term-condition">
+                                <input class="l-form-checkbox ui-form-checkbox ui-form-checkbox--color-light"
+                                       type="checkbox" id="terms-condition" data-agree-terms-condition="true"
+                                       value="1"/>
+                                <label class="l-form-checkbox-label l-form-checkbox-label--spacing-28 ui-form-checkbox-label ui-form-checkbox-label--lg"
+                                       for="terms-condition">
+                                    {{ "agree_on_txt"|trans }}
+                                    <a href="{{ path('fe_terms_condition') }}"
+                                       target="_blank">{{ "terms_and_conditions_txt"|trans }}</a>
+                                </label>
+                            </div>
+                            <div class="wrapper-cart-error" data-cart-out-of-stock-error="true" hidden>
+                                {{ "remove_out_of_stock_or_add_wishlist_txt"|trans }}
+                            </div>
+                            <div class="wrapper-cart-error" data-cart-max-stock-error="true" hidden>
+                                {{ "remove_out_of_stock_or_change_qty_txt"|trans }}
+                            </div>
+                            <button type="submit"
+                                    class="btn btn-icon btn-primary btn-block btn-xxl wrapper-cart-submit-btn" disabled
+                                    data-cart-submit-btn="true">
+                                <span class="text">{{ "place_order_txt"|trans }}</span>
+                                <span class="icon">
+                                <svg width="26" height="22" viewBox="0 0 26 22" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M25.1253 9.7522L16.2226 0.579388C15.9684 0.31755 15.6297 0.173828 15.2685 0.173828C14.907 0.173828 14.5685 0.317757 14.3143 0.579388L13.506 1.4124C13.2521 1.67382 13.1122 2.02301 13.1122 2.39532C13.1122 2.76743 13.2521 3.12839 13.506 3.38981L18.6998 8.75275H2.199C1.45503 8.75275 0.867188 9.35283 0.867188 10.1196V11.2972C0.867188 12.0639 1.45503 12.7245 2.199 12.7245H18.7587L13.5062 18.1174C13.2523 18.3792 13.1124 18.7189 13.1124 19.0912C13.1124 19.4631 13.2523 19.8078 13.5062 20.0694L14.3145 20.8997C14.5687 21.1616 14.9072 21.3043 15.2687 21.3043C15.6299 21.3043 15.9686 21.1597 16.2228 20.8979L25.1255 11.7253C25.3803 11.4626 25.5204 11.112 25.5194 10.7393C25.5202 10.3653 25.3803 10.0144 25.1253 9.7522Z"
+                                          fill="white"/>
+                                </svg>
+                            </span>
+                            </button>
+                            <div class="wrapper-cart-cta-xs-only">
+                                <a href="{{ path('fe_cart_payment_method') }}"
+                                   class="btn btn-icon-2 btn-block btn-xxl btn-plain">
+                                <span class="icon">
+                                    <svg width="10" height="16" viewBox="0 0 10 16" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.47074 15.1133L9.22656 13.3508L3.52325 7.61328L9.22656 1.87578L7.47074 0.113281L-0.000850975 7.61328L7.47074 15.1133Z"
+                                              fill="#686868"/>
+                                    </svg>
+                                </span>
+                                    <span class="text">{{ "return_payment_method_txt"|trans }}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/ecommerce/gtm.enhancedEcommerce.checkout.js') }}"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function (event) {
+            enhancedEcommerceTrackCheckoutOption(4, "Cart Summary");
+        })
+    </script>
+
+    {{ macros.assetCSS(asset('pages-assets/cart-order-page-3/cart-order-page-3.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/cart-order-page-3/cart-order-page-3.js')) }}
+    {{ macros.assetJS(asset('pages-assets/cart-order-page-3/cart-order-page-3.lazy.js'), true) }}
+{% endblock %}

@@ -1,0 +1,3 @@
+pn_content:
+  post_class: App\ContentBundle\Entity\Post
+  post_translation_class: App\ContentBundle\Entity\Translation\PostTranslation

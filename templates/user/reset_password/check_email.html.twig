@@ -1,0 +1,61 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ "forgot_password_question_txt"|trans }}{% endblock %}
+{% import 'fe/macros.html.twig' as macros %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/reset-password-success/reset-password-success.styles.css')) }}
+{% endblock %}
+{% block content -%}
+    <div class="u-bg-light">
+
+        <div class="l-container">
+
+            <br>
+            <br>
+            <br>
+            <div class="wrapper-order-status">
+                <div class="wrapper-order-status-icon">
+                    <svg width="94" height="73" viewBox="0 0 94 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M32.0402 72.0249L0.934575 35.8021L14.1546 24.452L33.2559 46.6953L81.5843 0.26568L93.6588 12.8295L32.0402 72.0249Z"
+                              fill="#79BBC3"/>
+                    </svg>
+                </div>
+                <h2 class="wrapper-order-status-title">{{ "email_sent_successfully_msg"|trans }}</h2>
+                <p class="wrapper-order-status-subtitle">
+                    {{ "forgot_password_success_with_hours_msg"|trans({"%hours%": resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle')}) }}
+                </p>
+                <p class="wrapper-order-status-subtitle">
+                    {{ "forgot_password_check_spam_folder_msg"|trans }}
+                    <a href="{{ path('app_user_forgot_password_request') }}">{{ "try_again_txt"|trans|lower }}</a>.
+                </p>
+                <!-- <a href="#" class="btn btn-rounded btn-md btn-block wrapper-order-status-btn">
+                    Continue Shopping
+                </a> -->
+                <br><br>
+                <div class="l-flex-row">
+                    <div class="l-flex-col-xl-4"></div>
+                    <div class="l-flex-col-xl-4">
+                        <a href="{{ path('app_user_login') }}" class="btn btn-rounded btn-block btn-primary btn-md">
+                            {{ "login_txt"|trans }}
+                        </a>
+                    </div>
+                    <div class="l-flex-col-xl-4"></div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <br>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/reset-password-success/reset-password-success.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/reset-password-success/reset-password-success.js')) }}
+    {{ macros.assetJS(asset('pages-assets/reset-password-success/reset-password-success.lazy.js'), true) }}
+{% endblock %}

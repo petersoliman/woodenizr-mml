@@ -1,0 +1,34 @@
+.l-form-radio {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: -1px;
+}
+
+.l-form-radio-label {
+  @include ltr {
+    padding-left: 13px;
+  }
+  @include rtl {
+    padding-right: 13px;
+  }
+}
+
+.l-form-radio-label--spacing-6 {
+  @include ltr {
+    padding-left: 6px;
+  }
+  @include rtl {
+    padding-right: 6px;
+  }
+}
+
+.l-form-radio-label--spacing-28 {
+  @include ltr {
+    padding-left: 28px;
+  }
+  @include rtl {
+    padding-right: 28px;
+  }
+}

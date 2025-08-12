@@ -1,0 +1,92 @@
+.ui-product-cart {
+    &-add-to-cart-box {
+        @include media-max($xl) {
+            background: #fff;
+            padding: 27px 14px;
+            border-top: 2px solid #E9E9E9;
+        }
+    }
+    &-qty-box {
+        .ui-dropdown-button {
+            border: 1px solid #E9E9E9;
+            background-color: #fff;
+            border-radius: 6.75378px;
+            @include ltr() {
+                padding: 15px 68px 15px 14px;
+            }
+            @include rtl() {
+                padding: 15px 14px 15px 68px;
+            }
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 23px;
+            &:hover {
+                border-color: #686868;
+            }
+            @include media-max($xl) {
+                color: #686868;
+            }
+        }
+    }
+    &-qty {
+        font-size: 16px;
+        @include media-min($xl) {
+            @include ltr() {
+                padding-left: 26px;
+                border-left: 1px solid #E9E9E9;
+            }
+            @include rtl() {
+                padding-right: 26px;
+                border-right: 1px solid #E9E9E9;
+            }
+        }
+        @include media-max($xl) {
+            font-weight: 600;
+        }
+    }
+    &-btn {
+        padding: 13px;
+        background: var(--primary-color);
+        border-radius: 6.75378px;
+        font-weight: 600;
+        font-size: 16px;
+        text-align: center;
+        line-height: 29px;
+        border: 0;
+        cursor: pointer;
+        color: #FFFFFF;
+        &.out-of-stock {
+            background: #F3F3F3;
+            border-radius: 6.75378px;
+            color: #B8B8B8;
+            cursor: not-allowed;
+            &:hover {
+                background: #F3F3F3;
+                border-radius: 6.75378px;
+                color: #B8B8B8;
+            }
+        }
+        &:hover {
+            background-color: rgba(var(--primary-color-rgb), 0.8);
+        }
+        @include media-max($xl) {
+            padding: 9px;
+        }
+    }
+    &-bottom-action {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 21px;
+        color: #5D5BBD;
+        padding: 12px;
+        border: 1px solid #A5B3FF;
+        border-radius: 6.75378px;
+        text-decoration: none;
+        text-align: center;
+        &:hover {
+            border-color: #5D5BBD;
+            background: #5D5BBD;
+            color: #fff;
+        }
+    }
+}

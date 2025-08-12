@@ -1,0 +1,28 @@
+{
+  "error": false,
+  "message": "Test",
+  "addresses": [
+    {
+      "id": 1,
+      "title": "Work After Delete",
+      "mobileNumber": "01225465465",
+      "address": "Alexandria, Egypt",
+      "zone": {
+        "id": 100,
+        "title": "Alexandria"
+      },
+      "default": false
+    },
+    {
+      "id": 2,
+      "title": "Home After Delete",
+      "mobileNumber": "01200000",
+      "address": "Cairo, Cairo",
+      "zone": {
+        "id": 102,
+        "title": "Cairo"
+      },
+      "default": true
+    }
+  ]
+}

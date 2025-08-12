@@ -1,0 +1,125 @@
+<div class="l-product-view-overview-section-col ui-product-view-overview-section-col l-product-view-overview-section-col-meta-actions" hidden data-meta-actions-col="true">
+
+    <div class="l-flex-row">
+        <div class="l-flex-col-lg-12">
+            <div class="product-variants" data-product-variants-container="true" data-product-variants-id="{{ product.id }}"></div>
+            <template data-product-variants-template="true">
+                <div class="product-variant" data-product-variant="true">
+                    <div class="header" data-product-variant-header="true">
+                        <div class="details">
+                            <strong data-product-variant-header-title="true"></strong>
+                            <span data-product-variant-header-value="true"></span>
+                        </div>
+                        <div class="icon">
+                            <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.03314 7.45847L12.8404 1.65115C12.9748 1.51684 13.0488 1.33754 13.0488 1.14636C13.0488 0.955172 12.9748 0.775872 12.8404 0.641556L12.4128 0.213887C12.1342 -0.0643996 11.6814 -0.0643996 11.4032 0.213887L6.52664 5.09043L1.64469 0.208476C1.51026 0.0741598 1.33107 -5.12199e-07 1.13999 -5.20552e-07C0.948704 -5.28913e-07 0.769509 0.0741598 0.634981 0.208476L0.207525 0.636144C0.0731029 0.770567 -0.000950855 0.949761 -0.000950863 1.14094C-0.000950872 1.33213 0.0731029 1.51143 0.207525 1.64574L6.02004 7.45847C6.15489 7.59311 6.33493 7.66705 6.52633 7.66663C6.71846 7.66705 6.8984 7.59311 7.03314 7.45847Z" fill="#686868"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="content" data-product-variant-content="true">
+                    </div>
+                </div>
+            </template>
+        </div>
+        <div class="l-flex-col-lg-12">
+            <div class="l-product-cart-add-to-cart-box ui-product-cart-add-to-cart-box">
+                <div class="l-flex-col-12">
+                    <div class="l-flex-row" data-l-product-add-to-cart-multi-prices="true" hidden>
+                        <div class="l-flex-col-6">
+                            <div class="l-product-cart-qty-box ui-product-cart-qty-box">
+                                <div class="l-dropdown" data-qty-dropdown="true" data-l-dropdown="true">
+                                    <button class="l-dropdown-button ui-dropdown-button" data-qty-dropdown-button="true" data-l-dropdown-button="true" data-qty-dropdown-btn="true">
+                                        <span class="l-product-cart-qty-text-desktop">{{ "quantity_txt"|trans }}</span>
+                                        <span class="l-product-cart-qty-text-mobile">{{ "qty_txt"|trans|upper }}:&nbsp;</span>
+                                        <span class="ui-product-cart-qty" data-qty-dropdown-text="true" data-qty="true">1</span>
+                                    </button>
+                                    <div class="l-dropdown-menu ui-dropdown-menu" data-l-dropdown-menu="true" data-qty-menu="true">
+                                        <button class="l-dropdown-menu-item ui-dropdown-menu-item active" data-qty-dropdown-item-value="1" data-qty-dropdown-item="true">1</button>
+                                        <button class="l-dropdown-menu-item ui-dropdown-menu-item" data-qty-dropdown-item-value="2" data-qty-dropdown-item="true">2</button>
+                                        <button class="l-dropdown-menu-item ui-dropdown-menu-item" data-qty-dropdown-item-value="3" data-qty-dropdown-item="true">3</button>
+                                        <button class="l-dropdown-menu-item ui-dropdown-menu-item" data-qty-dropdown-item-value="4" data-qty-dropdown-item="true">4</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="l-flex-col-6">
+                            <div class="l-product-cart-qty-box ui-product-cart-qty-box">
+                                <div class="l-product-cart-btn-box ui-product-cart-btn-box">
+                                    <!-- IF -->
+                                    <button class="l-product-cart-btn ui-product-cart-btn" data-cart-btn="true" data-cart-btn-labels="{{ "add_to_cart_txt"|trans }},{{ "out_of_stock_txt"|trans }}" data-header-cart-sidebar-btn="true" data-header-cart-sidebar-add-product-btn="" data-header-cart-sidebar-add-product-btn-qty="1" data-qty-dropdown-cart-btn="true">
+                                        {{ "add_to_cart_txt"|trans }}
+                                    </button>
+                                    <!-- ELSE -->
+                                    <!-- <button class="l-product-cart-btn ui-product-cart-btn out-of-stock" data-cart-btn="true" data-cart-btn-labels="Add To Cart,Out of Stock" disabled>
+                                        {{ "out_of_stock_txt"|trans }}
+                                    </button> -->
+                                    <!-- ENDIF -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#<div class="l-product-cart-add-to-cart-box ui-product-cart-add-to-cart-box">
+        {% if inStock %}
+            {% set minAddToCartQty = productPrice.minimumPurchaseQty is defined and productPrice.minimumPurchaseQty > 1 ? productPrice.minimumPurchaseQty : 1 %}
+            {% set maxAddToCartQty = productPrice.stock < 10 ? productPrice.stock : 10 %}
+
+
+            <div class="l-product-cart-qty-box ui-product-cart-qty-box">
+                <div class="l-dropdown" data-qty-dropdown="true" data-l-dropdown="true">
+                    <button class="l-dropdown-button ui-dropdown-button" data-qty-dropdown-button="true" data-l-dropdown-button="true">
+                        <span class="l-product-cart-qty-text-desktop">{{ "quantity_txt"|trans }}</span>
+                        <span class="l-product-cart-qty-text-mobile">{{ "qty_txt"|trans|upper }}:&nbsp;</span>
+                        <span class="ui-product-cart-qty" data-qty-dropdown-text="true">{{ minAddToCartQty }}</span>
+                    </button>
+                    <div class="l-dropdown-menu ui-dropdown-menu" data-l-dropdown-menu="true">
+                        {% for i in minAddToCartQty..maxAddToCartQty %}
+                            <button class="l-dropdown-menu-item ui-dropdown-menu-item {{ i == minAddToCartQty ? "active" }}" data-qty-dropdown-item-value="{{ i }}" data-qty-dropdown-item="true">{{ i }}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="l-product-cart-btn-box ui-product-cart-btn-box">
+            {% if inStock %}
+                <button class="l-product-cart-btn ui-product-cart-btn"
+                        data-header-cart-sidebar-btn="true"
+                        data-header-cart-sidebar-add-product-btn="{{ productPrice.id }}"
+                        data-header-cart-sidebar-add-product-btn-qty="{{ minAddToCartQty }}"
+                        data-qty-dropdown-cart-btn="true"
+                >
+                    {{ "add_to_cart_txt"|trans }}
+                </button>
+                #}{# {% else %}
+           <button class="l-product-cart-btn ui-product-cart-btn out-of-stock" disabled>
+                {{ "out_of_stock_txt"|trans }}
+            </button> #}{#
+            {% endif %}
+        </div>
+    </div>#}
+    <div class="l-product-cart-bottom-actions">
+        {# {% if inStock == false %}
+                <br>
+                <div class="l-product-cart-bottom-checkbox-action">
+                    <input class="l-form-checkbox ui-form-checkbox" type="checkbox" name="notify" id="notify" data-out-of-stock-notify-checkbox="true" data-out-of-stock-notify-checkbox-id="{{ product.seo.slug }}" data-out-of-stock-notify-checkbox-url="http://localhost:3000/api/product-view/get-shipping-fee" />
+                    <label class="l-form-checkbox-label ui-form-checkbox-label ui-form-checkbox-label--lg ui-form-checkbox-label--color-black" for="notify">Notify me when this item is back in stock</label>
+                </div>
+            {% endif %} #}
+        {% if product.details.augmentedRealityUrl is not empty %}
+            <br>
+            <a class="l-product-cart-bottom-action ui-product-cart-bottom-action"
+               href="{{ product.details.augmentedRealityUrl }}"
+               rel="noreferrer"
+               target="_blank"
+            >
+                Augmented Reality Preview
+            </a>
+        {% endif %}
+    </div>
+</div>
+{#{% include "product/frontEnd/productShow/_similar_products.html.twig" %}#}

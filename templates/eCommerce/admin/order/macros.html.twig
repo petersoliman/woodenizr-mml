@@ -1,0 +1,68 @@
+{% macro orderStateList(order) %}
+    {% apply spaceless %}
+        <div class='btn-group dropup order-state-dropdown' data-order-id='{{ order.id }}' data-current-label-color='{{ order.stateBEColor }}'>
+            {{ _self.orderStateListContent(order) }}
+        </div>
+    {% endapply %}
+{% endmacro %}
+
+{% macro orderStateListContent(order) %}
+    <a href='#' class='label dropdown-toggle' style='background-color: {{ order.stateBEColor }}' data-toggle='dropdown' aria-expanded='false'><span class='text'>{{ order.stateName }}</span>
+        <span class='caret'></span>
+    </a>
+    <ul class='dropdown-menu dropdown-menu-left'>
+        {% for state in enum("App\\ECommerceBundle\\Enum\\OrderStatusEnum").cases() %}
+            {% if state.value != order.state %}
+                <li>
+                    <a href='#' data-value='{{ state.value }}' data-label-color='{{ state.color() }}'>{{ state.name() }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro paymentStateListContent(order) %}
+    <a href='#' class='label dropdown-toggle' style='background-color: {{ order.paymentStateBEColor }}' data-toggle='dropdown' aria-expanded='false'><span class='text'>{{ order.paymentStateName }}</span>
+        <span class='caret'></span>
+    </a>
+    <ul class='dropdown-menu dropdown-menu-left'>
+        {% for paymentState in enum("App\\OnlinePaymentBundle\\Enum\\PaymentStatusEnum").cases() %}
+            {% if paymentState.value != order.paymentState %}
+                <li>
+                    <a href='#' data-value='{{ paymentState.value }}' data-label-color='{{ paymentState.color() }}'>{{ paymentState.name() }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro paymentStateList(order) %}
+    {% apply spaceless %}
+        <div class='btn-group dropup payment-state-dropdown' data-order-id='{{ order.id }}' data-current-label-color='{{ order.paymentStateBEColor }}'>
+            {{ _self.paymentStateListContent(order) }}
+        </div>
+    {% endapply %}
+{% endmacro %}
+
+
+{% macro shippingStateList(order) %}
+    {% apply spaceless %}
+        <div class='btn-group dropup shipping-state-dropdown' data-order-id='{{ order.id }}' data-current-label-color='{{ order.shippingStateBEColor }}'>
+            {{ _self.shippingStateListContent(order) }}
+        </div>
+    {% endapply %}
+{% endmacro %}
+{% macro shippingStateListContent(order) %}
+    <a href='#' class='label dropdown-toggle' style='background-color: {{ order.shippingStateBEColor }}' data-toggle='dropdown' aria-expanded='false'><span class='text'>{{ order.shippingStateName }}</span>
+        <span class='caret'></span>
+    </a>
+    <ul class='dropdown-menu dropdown-menu-left'>
+        {% for shippingState in enum("App\\ECommerceBundle\\Enum\\ShippingStatusEnum").cases() %}
+            {% if shippingState.value != order.shippingState %}
+                <li>
+                    <a href='#' data-value='{{ shippingState.value }}' data-label-color='{{ shippingState.color() }}'>{{ shippingState.name() }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endmacro %}

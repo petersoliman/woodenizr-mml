@@ -1,0 +1,37 @@
+.l-page-title-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .ui-page-title {
+    flex-shrink: 0;
+    @include ltr {
+      margin-right: 80px;
+    }
+    @include rtl {
+      margin-left: 80px;
+    }
+    @include media-max($md) {
+      @include ltr {
+        margin-right: 0;
+      }
+      @include rtl {
+        margin-left: 0;
+      }
+      margin-bottom: 15px;
+    }
+  }
+  &--no-description{
+    .ui-page-title {
+      @include ltr {
+        margin-right: 0;
+      }
+      @include rtl {
+        margin-left: 0;
+      }
+    }
+  }
+  @include media-max($md) {
+    flex-direction: column;
+  }
+}

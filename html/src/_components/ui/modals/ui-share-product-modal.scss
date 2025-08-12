@@ -1,0 +1,68 @@
+.ui-share-product-modal {
+    padding: 34px;
+    &-close-btn {
+        padding-bottom: 10px;
+        border: 0;
+        cursor: pointer;
+        background: transparent;
+        &:hover {
+            path {
+                fill: var(--primary-color);
+            }
+        }
+    }
+    &-body {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    &-title {
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 23px;
+        color: #3F3F3F;
+        padding: 0 0 25px;
+        border-bottom: 1px solid #EDEDED;
+    }
+    &-action {
+        text-align: center;
+        text-decoration: none;
+    }
+    &-action-icon {
+        background: rgba(157, 157, 157, 0.04);
+        border-radius: 50px;
+    }
+    &-action-title {
+        font-weight: 400;
+        font-size: 14.0056px;
+        line-height: 18px;
+        color: #6A6A6A;
+    }
+    &-action {
+        &:hover {
+            .ui-share-product-modal-action-icon {
+                background: rgba(var(--primary-color-rgb), 0.08);
+                svg {
+                    path {
+                        fill: var(--primary-color);
+                    }
+                }
+            }
+            .ui-share-product-modal-action-title {
+                color: var(--primary-color);
+            }
+        }
+    }
+    &-input-title {
+        font-weight: 400;
+        font-size: 14.0056px;
+        line-height: 18px;
+        text-align: center;
+    }
+    &-input {
+        background: rgba(157, 157, 157, 0.04);
+        &:hover,
+        &:focus {
+            background: rgba(157, 157, 157, 0.15);
+        }
+    }
+}

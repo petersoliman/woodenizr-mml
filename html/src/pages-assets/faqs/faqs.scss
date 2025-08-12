@@ -1,0 +1,214 @@
+@import './../../_components/base-styles';
+
+/*/
+ * Layout Components
+/*/
+
+@import './../../_components/layout/grids/l-container';
+@import './../../_components/layout/grids/l-flex-row';
+
+@import './../../_components/layout/grids/l-flex-col-6';
+
+@import './../../_components/layout/grids/l-flex-col-md-4';
+@import './../../_components/layout/grids/l-flex-col-md-6';
+
+@import './../../_components/layout/grids/l-flex-col-lg-2';
+@import './../../_components/layout/grids/l-flex-col-lg-4';
+@import './../../_components/layout/grids/l-flex-col-lg-5';
+@import './../../_components/layout/grids/l-flex-col-lg-6';
+@import './../../_components/layout/grids/l-flex-col-lg-8';
+@import './../../_components/layout/grids/l-flex-col-lg-12';
+
+@import './../../_components/layout/grids/l-flex-col-xl-1';
+@import './../../_components/layout/grids/l-flex-col-xl-2';
+@import './../../_components/layout/grids/l-flex-col-xl-3';
+@import './../../_components/layout/grids/l-flex-col-xl-4';
+@import './../../_components/layout/grids/l-flex-col-xl-5';
+@import './../../_components/layout/grids/l-flex-col-xl-6';
+@import './../../_components/layout/grids/l-flex-col-xl-8';
+@import './../../_components/layout/grids/l-flex-col-xl-9';
+
+@import './../../_components/layout/grids/l-flex-col-xxl-2';
+@import './../../_components/layout/grids/l-flex-col-xxl-3';
+@import './../../_components/layout/grids/l-flex-col-xxl-5';
+
+@import './../../_components/layout/grids/l-product-list-grid';
+@import './../../_components/layout/sections/l-404';
+
+@import './../../_components/layout/boxes/l-filters-box';
+
+@import './../../_components/layout/accordions/l-filter-accordion-item';
+
+@import './../../_components/layout/sections/l-featured-section';
+@import './../../_components/layout/sections/l-featured-full-width-banner-section';
+
+@import './../../_components/layout/titles/l-page-title';
+@import './../../_components/layout/titles/l-page-desc';
+@import './../../_components/layout/titles/l-page-title-box';
+
+@import './../../_components/layout/slides/l-product-slide';
+
+@import './../../_components/layout/pagination/l-pagination';
+
+@import './../../_components/layout/breadcrumbs/l-breadcrumbs';
+
+@import './../../_components/layout/dropdowns/l-dropdown';
+
+@import './../../_components/layout/forms/l-form-input-box';
+@import './../../_components/layout/forms/l-form-input-and-icon-box';
+@import './../../_components/layout/forms/l-form-input-icon';
+@import './../../_components/layout/forms/l-form-checkbox';
+@import './../../_components/layout/forms/l-form-radio';
+
+@import './../../_components/layout/backdrops/l-backdrop';
+
+@import './../../_components/layout/modals/l-share-product-modal';
+
+/*/
+ * UI Components
+/*/
+
+@import './../../_components/ui/boxes/ui-filters-box';
+
+@import './../../_components/ui/accordions/ui-filter-accordion-item';
+
+@import './../../_components/ui/sections/ui-featured-section';
+@import './../../_components/ui/sections/ui-featured-full-width-banner-section';
+
+@import './../../_components/ui/titles/ui-page-title';
+@import './../../_components/ui/titles/ui-page-desc';
+
+@import './../../_components/ui/slides/ui-product-slide';
+
+@import './../../_components/ui/pagination/ui-pagination';
+
+@import './../../_components/ui/breadcrumbs/ui-breadcrumbs';
+
+@import './../../_components/ui/boxes/ui-products-list-results-count-box';
+
+@import './../../_components/ui/dropdowns/ui-dropdown';
+
+@import './../../_components/ui/forms/ui-form-checkbox';
+@import './../../_components/ui/forms/ui-form-radio';
+@import './../../_components/ui/forms/ui-form-input-icon';
+
+@import './../../_components/ui/backdrops/ui-backdrop';
+
+@import './../../_components/ui/modals/ui-share-product-modal';
+
+@import './../../_components/full/form/form.scss';
+@import './../../_components/full/form/stack-input.scss';
+@import './../../_components/full/form/sign-form.scss';
+@import './../../_components/full/buttons/btn.scss';
+@import './../../_components/full/alerts/alert.scss';
+
+
+/*/
+ * Utilities
+/*/
+
+@import './../../_components/utilities/u-bg.scss';
+
+.wrapper-page-title {
+    text-align: center;
+    * {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+    .wrapper-page-subtitle {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 21px;
+        color: #FFFFFF;
+        margin-bottom: 20px;
+    }
+    .wrapper-page-address {
+        margin-top: 25px;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        color: #FFFFFF;
+        p {
+            margin-bottom: 8px;
+        }
+    }
+}
+
+.wrapper-faqs {
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
+.wrapper-faqs-row-separator {
+    width: 100%;
+    height: 2px;
+    background-color: rgba(var(--primary-color-rgb), 0.2);
+    @include media-max($xl) {
+        display: none;
+    }
+}
+
+.wrapper-faq {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    .circle {
+        display: inline-block;
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+        background: rgba(var(--primary-color-rgb), 0.5);
+    }
+    .title {
+        margin-top: 26px;
+        margin-bottom: 16px;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 30px;
+        color: #686868;
+    }
+    .body {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 198.5%;
+        color: #3F3F3F;
+        p {
+            margin: 0;
+        }
+        a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+    }
+}
+
+.wrapper-faqs-cta {
+    margin-top: 50px;
+    padding: 42px;
+    border-radius: 10px;
+    background-color: rgba(var(--primary-color-rgb), 0.2);
+    &-row {
+        align-items: center;
+    }
+    h4 {
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 36px;
+        color: #686868;
+        margin: 0 0 6px;
+    }
+    p {
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 198.5%;
+        color: #3F3F3F;
+        margin: 0;
+    }
+    .cta-wrapper {
+        @include ltr() {
+            text-align: right;
+        }
+        @include rtl() {
+            text-align: left;
+        }
+    }
+}

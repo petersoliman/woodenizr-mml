@@ -1,0 +1,33 @@
+{% macro input(formTypeInput,column=6,hint=null,icon=null,class=null) %}
+    <div class="col-md-{{ column }}">
+        <div class="form-group">
+            {{ form_label(formTypeInput) }}
+            {% if class == null %}
+                {{ form_widget(formTypeInput) }}
+            {% else %}
+                {{ form_widget(formTypeInput,{'attr':{'class':class} }) }}
+            {% endif %}
+            <label id="with_icon-error" class="validation-error-label" for="with_icon">{{ form_errors(formTypeInput) }}</label>
+            {% if hint is not null %}
+                <span class="help-block">{{ hint }}</span>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+{% macro checkbox(formTypeInput,column=6,hint=null,icon=null,class="switchery") %}
+    <div class="col-md-{{ column }}">
+        <div class="form-group">
+            <div class="checkbox checkbox-right checkbox-switchery">
+                {% if class == null %}
+                    {{ form_widget(formTypeInput) }}
+                {% else %}
+                    {{ form_widget(formTypeInput,{'attr':{'class':class}, "label_attr":{"class":"display-block"} }) }}
+                {% endif %}
+                <label id="switch_group-error" class="validation-error-label" for="switch_group">{{ form_errors(formTypeInput) }}</label>
+                {% if hint is not null %}
+                    <span class="help-block">{{ hint }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endmacro %}

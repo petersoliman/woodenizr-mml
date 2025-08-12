@@ -1,0 +1,97 @@
+<%- include ../_components/main/header/header.ejs %>
+<%- include ../_components/main/body/body-header.ejs %>
+<link rel="stylesheet" href="/pages-assets/cart-order-page-4/cart-order-page-4.styles.css">
+<div class="l-featured-section ui-featured-section--spacing-bottom-0 ui-featured-section lazyload" data-bg="/assets/img/featured-section-bg.webp" data-delay="5000">
+    <div class="l-featured-section-content">
+        <div class="l-container">
+            <div class="l-flex-row">
+                <div class="l-flex-col-lg-2"></div>
+                <div class="l-flex-col-lg-8">
+                    <div class="l-featured-section-content-box">
+                        <div class="l-page-title-box">
+                            <h1 class="l-page-title ui-page-title">Cart</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-flex-col-lg-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="u-bg-light">
+
+    <div class="l-container">
+
+        <div class="wrapper-progress-steps">
+            <nav class="progress-steps">
+                <div class="step first completed">
+                    <div class="step-content">
+                        <span class="step-icon">1</span>
+                        <span class="step-text">Shopping Cart</span>
+                    </div>
+                </div>
+                <div class="step completed">
+                    <div class="step-content">
+                        <span class="step-icon">2</span>
+                        <span class="step-line"></span>
+                        <span class="step-text">Contact Information</span>
+                    </div>
+                </div>
+                <div class="step completed">
+                    <div class="step-content">
+                        <span class="step-icon">3</span>
+                        <span class="step-line"></span>
+                        <span class="step-text">Payment Method</span>
+                    </div>
+                </div>
+                <div class="step last completed">
+                    <div class="step-content">
+                        <span class="step-icon">4</span>
+                        <span class="step-line"></span>
+                        <span class="step-text">Order Summary</span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    
+        <div class="wrapper-order-status">
+            <div class="wrapper-order-status-icon">
+                <!-- <svg width="94" height="73" viewBox="0 0 94 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M32.0402 72.0249L0.934575 35.8021L14.1546 24.452L33.2559 46.6953L81.5843 0.26568L93.6588 12.8295L32.0402 72.0249Z" fill="#BA5153"/>
+                </svg> -->
+                <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_257_27888)">
+                    <path d="M0 70.2654L27.0956 43.1698L0 16.0746L16.0746 0L43.1702 27.0956L70.2654 0L86.34 16.0746L59.2444 43.1702L86.34 70.2654L70.2654 86.34L43.1698 59.2444L16.0742 86.34L0 70.2654Z" fill="#BA5153"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_257_27888">
+                    <rect width="86.34" height="86.34" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+            </div>
+            <!-- <h2 class="wrapper-order-status-title">Thank You For Your Order, Mark </h2> -->
+            <h2 class="wrapper-order-status-title">Oops.. Your order failed! </h2>
+            <p class="wrapper-order-status-subtitle">Your bank account has "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+            <!-- <a href="#" class="btn btn-rounded btn-md btn-block wrapper-order-status-btn">
+                Continue Shopping
+            </a> -->
+            <a href="#" class="btn btn-rounded btn-block btn-md wrapper-order-status-btn">
+                Back to Shopping
+            </a>
+        </div>
+
+        <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="recommended-for-you" data-l-lazy-section-type="products" data-l-lazy-section-url="/api/best-seller-section.json"></div>
+
+
+    </div>
+
+</div>
+
+
+<%- include ../_components/main/body/body-footer.ejs %>
+<link rel="stylesheet" href="/pages-assets/cart-order-page-4/cart-order-page-4.lazy.styles.css" fetchpriority="low">
+<script src="/pages-assets/cart-order-page-4/cart-order-page-4.js"></script>
+<script src="/pages-assets/cart-order-page-4/cart-order-page-4.lazy.js" fetchpriority="low"></script>
+<%- include ../_components/main/footer/footer.ejs %>

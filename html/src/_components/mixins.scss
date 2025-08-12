@@ -1,0 +1,35 @@
+@import './variables.scss';
+$imported-modules: () !default;
+
+@mixin exports($name, $warn: true) {
+  @if (index($imported-modules, $name) == null) {
+    $imported-modules: append($imported-modules, $name) !global;
+    @content;
+  } @else if $warn == true {
+    // @warn "Module `#{$name}` has already been imported.";
+  }
+}
+
+@mixin media-min($media) {
+  @media (min-width: $media) {
+      @content;
+  }
+}
+
+@mixin media-max($media) {
+  @media (max-width: $media) {
+      @content;
+  }
+}
+
+@mixin rtl($rootClassOrId: '') {
+  [dir="rtl"]#{$rootClassOrId} &{
+      @content;
+  }
+}
+
+@mixin ltr($rootClassOrId: '') {
+  [dir="ltr"]#{$rootClassOrId} & {
+      @content;
+  }
+}

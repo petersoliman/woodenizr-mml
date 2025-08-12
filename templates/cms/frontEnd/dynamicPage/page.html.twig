@@ -1,0 +1,29 @@
+{% extends 'fe/base.html.twig' %}
+{% set seo = page.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+{% import 'fe/macros.html.twig' as macros %}
+
+{% block criticalCSS %}
+    {% include "cms/frontEnd/dynamicPage/_critical_css.css.twig" %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/terms-and-conditions/terms-and-conditions.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+    {% include "fe/_pages_header.html.twig" with {"pageTitle": page.title } %}
+
+    <div class="l-container wrapper-terms ui-editor-content-box">
+        {{ page.post.content.description|raw }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/terms-and-conditions/terms-and-conditions.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/terms-and-conditions/terms-and-conditions.js')) }}
+    {{ macros.assetJS(asset('pages-assets/terms-and-conditions/terms-and-conditions.lazy.js'), true) }}
+{% endblock %}

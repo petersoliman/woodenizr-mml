@@ -1,0 +1,52 @@
+{% set queryParams = app.request.query.all %}
+<div class="row">
+    <div class="col-md-6">
+        Showing {{ paginator.show.start|number_format }} to {{ paginator.show.end|number_format }} of <strong>{{ paginator.totalItems|number_format }} entries</strong> ({{ paginator.ItemsPerPage }} records per page)
+    </div>
+    <div class="col-md-6 text-right">
+        <ul class="pagination">
+            {% if paginator.first is defined %}
+                <li>
+                    <a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge(queryParams)|merge({'page':paginator.fisrt})) }}" class="pagination-prev">
+                        «
+                    </a>
+                </li>
+            {% endif %}
+            {% if paginator.prev is defined %}
+                <li>
+                    <a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge(queryParams)|merge({'page':paginator.prev})) }}" class="pagination-prev">
+                        ‹
+                    </a>
+                </li>
+            {% endif %}
+            {% if paginator.items is defined %}
+                {% if paginator.items|length > 1 %}
+                    {% for item in paginator.items %}
+                        {% if paginator.currentPage == item %}
+                            <li class="active"><a>{{ item }}</a></li>
+                                {% else %}
+                            <li>
+                                <a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge(queryParams)|merge({'page':item})) }}">{{ item }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+            {% if paginator.next is defined %}
+                <li>
+                    <a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge(queryParams)|merge({'page':paginator.next})) }}" class="pagination-next">
+                        ›
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if paginator.last is defined %}
+                <li>
+                    <a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge(queryParams)|merge({'page':paginator.last}) ) }}" class="pagination-next">
+                        »
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

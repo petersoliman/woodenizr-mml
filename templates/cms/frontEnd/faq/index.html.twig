@@ -1,0 +1,97 @@
+{% extends 'fe/base.html.twig' %}
+{% set seo = seoPage.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+{% import 'fe/macros.html.twig' as macros %}
+
+{% block criticalCSS %}
+    {% include "cms/frontEnd/faq/_critical_css.css.twig" %}
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/faqs/faqs.styles.css')) }}
+{% endblock %}
+{% block content %}
+    {% set image = getDCA(8, false) %}
+    {% if image is empty %}
+        {% set image = asset('assets/img/placeholder-landscape.webp') %}
+    {% endif %}
+    <div class="wrapper-featured-section">
+        <div class="l-featured-section ui-featured-section--spacing-bottom-0 ui-featured-section lazyload"
+             data-bg="{{ image }}" data-delay="5000">
+            <div class="l-featured-section-content">
+                <div class="l-container">
+                    <div class="l-flex-row">
+                        <div class="l-flex-col-lg-12">
+                            <div class="l-featured-section-content-box">
+                                <div class="l-page-title-box">
+                                    <div class="wrapper-page-title">
+                                        <h1 class="wrapper-page-subtitle">
+                                            {{ "faqs_txt"|trans }}
+                                        </h1>
+                                        <h2 class="l-page-title ui-page-title ui-page-title--no-description">
+                                            {{ "ask_us_anything_txt"|trans }}
+                                        </h2>
+                                        <div class="wrapper-page-address">
+                                            <p>{{ "have_any_questions_txt"|trans }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="l-container wrapper-faqs">
+        <div class="l-flex-row wrapper-faqs-row">
+            {% for faq in faqs %}
+                <div class="l-flex-col-xl-4">
+                    <div class="wrapper-faq">
+                        <span class="circle"></span>
+                        <h4 class="title">
+                            {{ faq.question }}
+                        </h4>
+                        <div class="body">
+                            <p>{{ faq.answer|nl2br }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% if loop.index is divisible by(3) %}
+                    <div class="l-flex-col-xl-12">
+                        <div class="wrapper-faqs-row-separator">
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                {% include "fe/_not_found_content.html.twig" %}
+            {% endfor %}
+
+            <div class="l-flex-col-xl-12">
+                <div class="wrapper-faqs-cta">
+                    <div class="l-flex-row wrapper-faqs-cta-row">
+                        <div class="l-flex-col-xl-8">
+                            <h4>{{ "still_have_questions_text"|trans }}</h4>
+                            <p>{{ "cannot_find_answer_txt"|trans }}</p>
+                        </div>
+                        <div class="l-flex-col-xl-4 cta-wrapper">
+                            <a href="{{ path('fe_contact_index') }}" class="btn btn-primary btn-md btn-rounded">{{ "get_in_touch_txt"|trans }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/faqs/faqs.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/faqs/faqs.js')) }}
+    {{ macros.assetJS(asset('pages-assets/faqs/faqs.lazy.js'), true) }}
+{% endblock %}

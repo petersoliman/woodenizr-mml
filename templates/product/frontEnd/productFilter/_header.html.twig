@@ -1,0 +1,63 @@
+{# {% set image = getDCA(8, false) %} #}
+    {% set image = asset('/assets/img/placeholder-landscape.webp') %}
+{% if headerData.bannerImageUrl is not empty %}
+    {% set image = headerData.bannerImageUrl|webp(1600) %}
+{% endif %}
+
+<div class="l-featured-section ui-featured-section lazyload {{ desktopOnly is defined and desktopOnly == true ? "l-featured-section--desktop-only" }}"
+     data-bg="{{ image }}"
+     data-delay="5000"
+>
+    <div class="l-featured-section-content">
+        <div class="l-container">
+            {# {{ editDCA(8) }} #}
+            <div class="l-flex-row">
+                <div class="l-flex-col-lg-12">
+                    <div class="l-featured-section-content-box">
+                        <div class="l-page-title-box">
+                            {% if headerData.pageTitle is defined %}
+                                <h1 class="l-page-title ui-page-title {{ headerData.description is not defined or headerData.description is empty ? "ui-page-title--no-description" }}">{{ headerData.pageTitle }}</h1>
+                            {% endif %}
+                            {% if headerData.description is defined and headerData.description is not empty %}
+                                <div class="l-page-desc ui-page-desc">
+                                    {% if "<" in headerData.description|raw and ">" in headerData.description|raw %}
+                                        {{ headerData.description|raw }}
+                                    {% else %}
+                                        {{ headerData.description|nl2br }}
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{#
+{% if headerData.bannerImageUrl is not empty %}
+    <div class="l-featured-full-width-banner-section">
+        <div class="l-container">
+            <picture>
+                <!--[if IE 9]>
+                <video style="display: none;><![endif]-->
+                <source data-srcset="{{ headerData.bannerImageUrl|webp(555) }}" media="--small"/>
+                <source data-srcset="{{ headerData.bannerImageUrl|webp(520) }}" media="--medium"/>
+                <source data-srcset="{{ headerData.bannerImageUrl|webp(700) }}" media="--large"/>
+                <source data-srcset="{{ headerData.bannerImageUrl|webp(1170) }}" media="--x-large"/>
+                <!--[if IE 9]></video><![endif]-->
+                <img
+                        class="l-responsive-img l-featured-full-width-banner-section-banner-img l-featured-full-width-banner-section-banner-img--extra-width ui-featured-full-width-banner-section-banner-img lazyload"
+                        width="1612"
+                        height="243"
+                        data-delay="5000"
+                        data-expand="-20"
+                        src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                        data-src="{{ headerData.bannerImageUrl|webp(1600) }}"
+                        alt="{{ headerData.pageTitle }}"
+                />
+            </picture>
+        </div>
+    </div>
+{% endif %} #}

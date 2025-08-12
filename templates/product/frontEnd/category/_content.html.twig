@@ -1,0 +1,89 @@
+<div class="u-bg-light">
+
+    {% set pageDescription = null %}
+    {% if parentCategory is not empty %}
+        {% set pageTitle = parentCategory.title %}
+        {% set pageDescription = parentCategory.post.content.brief %}
+    {% endif %}
+    <div class="l-container">
+        {#{% if pageDescription is not empty %}
+            <div class="l-flex-row">
+                <div class="l-flex-col-xxl-2"></div>
+                <div class="l-flex-col-xxl-8 wrapper-desc-col">
+                    <p>
+                        {{ pageDescription|nl2br }}
+                    </p>
+                </div>
+                <div class="l-flex-col-xxl-2"></div>
+            </div>
+        {% else %}
+            <br>
+            <br>
+            <br>
+        {% endif %}#}
+        <br>
+        <br>
+        <br>
+        <div class="l-flex-row">
+            {% for category in categories %}
+                <div class="l-flex-col-lg-4 l-flex-col-md-6">
+
+                    <a href="{{ path('fe_category_index', {"slug": category.seo.slug}) }}" class="category-card">
+                        {% if category.image %}
+                            {% set image = asset(category.image.assetPath) %}
+                        {% else %}
+                            {% set image = asset('assets/img/product-img-placeholder.webp') %}
+                        {% endif %}
+                        <div class="img">
+                            <picture>
+                                <!--[if IE 9]>
+                                <video style="display: none;><![endif]-->
+                                <source data-srcset="{{ image|webp(null, 408) }}" media="--small"/>
+                                <source data-srcset="{{ image|webp(null, 394) }}" media="--medium"/>
+                                <source data-srcset="{{ image|webp(null, 255) }}" media="--large"/>
+                                <source data-srcset="{{ image|webp(null, 328) }}" media="--x-large"/>
+                                <source data-srcset="{{ image|webp(null, 230) }}" media="--xx-large"/>
+                                <!--[if IE 9]></video><![endif]-->
+                                <img
+                                        class="l-responsive-img l-reading-post-slide-img ui-reading-post-slide-img lazyload"
+                                        width="388"
+                                        height="283"
+                                        data-expand="-20"
+                                        src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                        data-src="{{ image|webp(null, 283) }}"
+                                        alt="{{ category.title }}"
+                                />
+                            </picture>
+                        </div>
+                        <h2 class="title">{{ category.title }}</h2>
+                        <span class="l-container">
+                        <span class="l-flex-row">
+                            <span class="l-flex-col-6">
+                                <p class="count">( {{ category.noOfPublishProducts|number_format }} {{ "products_txt"|trans }} )</p>
+                            </span>
+                            <span class="l-flex-col-6 actions">
+                                <span class="action">
+                                    {{ "view_more_txt"|trans }}
+                                    <svg width="7" height="11" viewBox="0 0 7 11" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6.70678 6.14819L1.70714 10.7314C1.51216 10.9102 1.25619 11 1.00018 11C0.744213 11 0.488202 10.9102 0.293216 10.7314C-0.0977389 10.373 -0.0977389 9.79368 0.293216 9.43528L4.58594 5.5001L0.293263 1.56492C-0.097692 1.20653 -0.0976919 0.627192 0.293263 0.268797C0.684218 -0.0895989 1.31619 -0.0895989 1.70714 0.268797L6.70678 4.85206C7.09774 5.21045 7.09774 5.78975 6.70678 6.14819Z"
+                                              fill="#79BBC3"/>
+                                    </svg>
+                                </span>
+                            </span>
+                        </span>
+                    </span>
+                    </a>
+                </div>
+            {% else %}
+                {% include "fe/_not_found_content.html.twig" %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <br>
+    <br>
+    {% include "fe/_pagination.html.twig" %}
+    <br>
+
+</div>

@@ -1,0 +1,3 @@
+pn_seo:
+  seo_class: App\SeoBundle\Entity\Seo
+  seo_translation_class: App\SeoBundle\Entity\Translation\SeoTranslation

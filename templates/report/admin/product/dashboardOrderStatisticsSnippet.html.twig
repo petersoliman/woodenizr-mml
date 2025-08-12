@@ -1,0 +1,66 @@
+<div class="chart-container">
+    <div class="chart" id="lineChart" style="width: 100%; min-height: 335px"></div>
+</div>
+<script>
+    echarts.init(document.getElementById('lineChart')).setOption({
+        // Define colors
+        color: ['#EF5350', '#03A9F4'],
+        // Global text styles
+        textStyle: {
+            fontFamily: 'Roboto, Arial, Verdana, sans-serif',
+            fontSize: 13
+        },
+        // Chart animation duration
+        animationDuration: 750,
+        // Setup grid
+        grid: {
+            left: 0,
+            right: 20,
+            top: 35,
+            bottom: 15,
+            containLabel: true
+        },
+        legend: {
+            data: ['Total Sales (EGP)', 'Total Qty'],
+            itemHeight: 8,
+            itemGap: 20
+        },
+        // Add tooltip
+        tooltip: {
+            trigger: 'axis',
+            backgroundColor: 'rgba(0,0,0,0.75)',
+            padding: [10, 15],
+            textStyle: {
+                fontSize: 13,
+                fontFamily: 'Roboto, sans-serif'
+            }
+        },
+        // Horizontal axis
+        xAxis: [{
+                type: 'category',
+                boundaryGap: false,
+                data: [{% for data in chartData %}'{{ data.monthName }}'{{ loop.last == false? "," }}{% endfor %}],
+            }],
+        // Vertical axis
+        yAxis: [{
+                type: 'value',
+            }],
+        // Add series
+        series: [
+            {
+                name: 'Total Qty',
+                type: 'line',
+                data: [{% for data in chartData %}{{ data.value.totalQty|round }}{{ loop.last == false? "," }}{% endfor %}],
+                smooth: true,
+                symbolSize: 7,
+            },
+            {
+                name: 'Total Sales (EGP)',
+                type: 'line',
+                data: [{% for data in chartData %}{{ data.value.totalSales|round }}{{ loop.last == false? "," }}{% endfor %}],
+                smooth: true,
+                symbolSize: 7,
+            }
+        ]
+    });
+</script>

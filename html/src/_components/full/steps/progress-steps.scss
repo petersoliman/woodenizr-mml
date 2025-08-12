@@ -1,0 +1,186 @@
+.progress-steps {
+    display: block;
+    width: 100%;
+    position: relative;
+
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    // Children
+
+    .step {
+        padding: 0;
+        position: relative;
+        display: block;
+        width: 25%;
+        text-align: center;
+        @include ltr() {
+            float: left;
+        }
+        @include rtl() {
+            float: right;
+        }
+        a[href*='#']{
+            pointer-events: none;
+            cursor: default;
+        }
+    }
+
+    .step-content {
+        display: inline-block;
+    }
+
+    .step-icon {
+        background: #E9E9E9;
+        color: #fff;
+        display: block;
+        border-radius: 100%;
+        text-align: center;
+        width: 34px;
+        height: 34px;
+        line-height: 29px;
+        margin: 0 auto 20px auto;
+        position: relative;
+        font-size: 18px;
+        font-weight: 700;
+        border: 3px solid #E9E9E9;
+        @include media-max($xl) {
+            width: 26px;
+            height: 26px;
+            line-height: 21px;
+            font-size: 13px;
+        }
+    }
+
+    .step-text {
+        font-size: 18px;
+        color: #686868;
+        font-weight: 400;
+        @include media-max($xl) {
+            font-size: 13px;
+            word-spacing: 200px;
+        }
+    }
+
+    .step-line {
+        display: inline-block;
+        height: 3px;
+        width: calc(100% - 48px);
+        background: #E9E9E9;
+        position: absolute;
+        top: 15px;
+        @include ltr {
+            left: calc(-50% + 24px);
+        }
+        @include rtl {
+            right: calc(-50% + 24px);
+        }
+        @include media-max($xl) {
+            height: 2px;
+        }
+    }
+
+
+    // Types
+
+
+    @include media-min($xl) {
+        .first {
+            @include ltr() {
+                text-align: left;
+            }
+            @include rtl() {
+                text-align: right;
+            }
+        }
+    }
+
+    .first + .step {
+        .step-line {
+            &::after {
+                content: '';
+                display: inline-block;
+                height: 3px;
+                width: calc(100% - 48px);
+                background: inherit;
+                position: absolute;
+                top: 0;
+                @include media-max($xl) {
+                    height: 2px;
+                }
+                @include ltr {
+                    left: calc(-50% + 48px);
+                }
+                @include rtl {
+                    right: calc(-50% + 48px);
+                }
+            }
+        }
+    }
+
+
+    @include media-min($xl) {
+        .last {
+            @include ltr() {
+                text-align: right;
+            }
+            @include rtl() {
+                text-align: left;
+            }
+        }
+    }
+
+    .last {
+        .step-line {
+            &::after {
+                content: '';
+                display: inline-block;
+                height: 3px;
+                width: calc(100% - 48px);
+                background: inherit;
+                position: absolute;
+                top: 0;
+                @include ltr {
+                    right: calc(-50% + 48px);
+                }
+                @include rtl {
+                    left: calc(-50% + 48px);
+                }
+            }
+        }
+    }
+
+    // States
+
+    .active {
+        .step-icon {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: #fff;
+        }
+
+        .step-line {
+            background: var(--primary-color);
+        }
+    }
+
+    .completed {
+        .step-text {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .step-icon {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .step-line {
+            background: var(--primary-color);
+        }
+    }
+}

@@ -1,0 +1,40 @@
+.quick-view-modal {
+    &-header {
+        display: flex;
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+    &-img-container {
+        width: 120px;
+        height: 120px;
+        min-width: 120px;
+        max-width: 120px;
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    }
+    &-title {
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 44px;
+        font-weight: 400;
+        color: #3F3F3F;
+        margin-bottom: 10px;
+        margin-top: 0;
+    }
+    &-price {
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 22px;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+        margin-top: 0;
+    }
+    &-action {
+        margin-top: 55px;
+        display: flex;
+        gap: 0 10px;
+        color: #3F3F3F;
+    }
+}

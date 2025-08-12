@@ -1,0 +1,101 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ "order_summary_txt"|trans }}{% endblock %}
+{% import 'fe/macros.html.twig' as macros %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ macros.assetCSS(asset('pages-assets/cart-order-page-4/cart-order-page-4.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="u-bg-light">
+
+        <div class="l-container">
+
+            {% include "eCommerce/frontEnd/cart/_progress_bar.html.twig" with {step: 5} %}
+
+            <div class="wrapper-order-status">
+                <div class="wrapper-order-status-icon">
+                    {% if success %}
+                        <svg width="94" height="73" viewBox="0 0 94 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32.0402 72.0249L0.934575 35.8021L14.1546 24.452L33.2559 46.6953L81.5843 0.26568L93.6588 12.8295L32.0402 72.0249Z"
+                                  fill="#07b107"/>
+                        </svg>
+                    {% else %}
+                        <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_257_27888)">
+                                <path d="M0 70.2654L27.0956 43.1698L0 16.0746L16.0746 0L43.1702 27.0956L70.2654 0L86.34 16.0746L59.2444 43.1702L86.34 70.2654L70.2654 86.34L43.1698 59.2444L16.0742 86.34L0 70.2654Z"
+                                      fill="#BA5153"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_257_27888">
+                                    <rect width="86.34" height="86.34" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    {% endif %}
+                </div>
+
+                {% if success %}
+                    <h2 class="wrapper-order-status-title">Thank You For Your Order</h2>
+                    <p class="wrapper-order-status-subtitle">
+                        Your order was successfully placed
+                    </p>
+                {% else %}
+                    <h2 class="wrapper-order-status-title">Oops.. Your order failed! </h2>
+
+                    {% if payment is not empty %}
+                        <p class="wrapper-order-status-subtitle">
+                            {{ payment.txnMessage }}
+                        </p>
+                    {% endif %}
+                {% endif %}
+                {% if success %}
+                    <a href="{{ path('fe_home') }}"
+                       class="btn btn-rounded btn-md btn-block wrapper-order-status-btn">
+                        {{ "continue_shopping_txt"|trans }}
+                    </a>
+                {% else %}
+                    <a href="{{ path('fe_cart_show') }}"
+                       class="btn btn-rounded btn-block btn-md wrapper-order-status-btn">
+                        {{ "return_to_cart_txt"|trans }}
+                    </a>
+                {% endif %}
+            </div>
+            {% if success %}
+                <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="recommended-for-you"
+                     data-l-lazy-section-type="products"
+                     data-l-lazy-section-url="{{ path('fe_product_recommended_for_you_products_ajax') }}"></div>
+
+            {% endif %}
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/cart-order-page-4/cart-order-page-4.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/cart-order-page-4/cart-order-page-4.js')) }}
+    {{ macros.assetJS(asset('pages-assets/cart-order-page-4/cart-order-page-4.lazy.js'), true) }}
+
+    {% if success %}
+        <script src="{{ asset('bundles/ecommerce/gtm.enhancedEcommerce.checkout.js') }}?v=1.0.0"></script>
+        <script type="text/javascript">
+            window.addEventListener('DOMContentLoaded', function (event) {
+                enhancedEcommerceTrackPurchaseOption({{ gtm_enhanced_ecommerce_purchase(order)|json_encode|raw }});
+                if (typeof (fbq) !== "undefined") {
+                    fbq('track', 'Purchase', {
+                        value: {{ order.totalPrice }},
+                        currency: 'EGP'
+                    });
+                }
+            });
+        </script>
+    {% endif %}
+{% endblock %}

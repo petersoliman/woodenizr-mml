@@ -1,0 +1,16 @@
+pn_media:
+  image:
+    image_class: App\MediaBundle\Entity\Image
+    mime_types: ['image/gif', 'image/jpeg', 'image/jpg', 'image/png']
+    upload_paths:
+      - { id: 99, path: 'site-setting' }
+      - { id: 100, path: 'banner' }
+      - { id: 101, path: 'category', width: 1000, height: 1000, validateWidthAndHeight: false }
+      - { id: 102, path: 'product-variant', width: 1000, height: 1000, validateWidthAndHeight: false }
+      - { id: 103, path: 'payment-method', width: 230 , height: 70, validateWidthAndHeight: false }
+      - { id: 104, path: 'vendor', width: 1000 , height: 1000, validateWidthAndHeight: false }
+
+  document:
+    document_class: App\MediaBundle\Entity\Document
+    mime_types: ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/mspowerpoint', 'application/powerpoint', 'application/vnd.ms-powerpoint', 'application/x-mspowerpoint', 'application/pdf', 'application/excel', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+    upload_paths:

@@ -1,0 +1,23 @@
+{% extends 'fe/base.html.twig' %}
+{% set seo = seoPage.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+{% import 'fe/macros.html.twig' as macros %}
+
+{% block content %}
+
+    {% if services is not empty %}
+        <section class="pt-20 pb-10">
+            <div class="container">
+                <h2 class="fs-sm-40 mb-11 text-center">{% trans %}What We Do{% endtrans %}</h2>
+                <div class="row">
+                    {% for service in services %}
+                        <div class="col-sm-6 col-lg-4 mb-6" data-animate="fadeInUp">
+                            {{ macros.service(service) }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% include 'fe/pagination.html.twig' %}
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

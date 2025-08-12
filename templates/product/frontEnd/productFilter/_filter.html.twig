@@ -1,0 +1,146 @@
+{% if loadByAjax is not defined %}
+<div class="ui-filters-box l-filters-box {{ loadContentAjax ? "loading" }}" data-l-product-list-grid-filters="true"
+        {% if loadContentAjax %}
+            data-l-product-list-grid-filters-auto-load-from-url="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}"
+        {% endif %}
+    >
+    {% endif %}
+    <span class="l-filters-box-title ui-filters-box-title">{{ "filters_txt"|trans }}</span>
+    {% for filter in filters %}
+        {% if filter.type == "search" %}
+            {{ _self.macroSearch(filter) }}
+        {% elseif filter.type == "checkbox" %}
+            {{ _self.macroCheckbox(filter) }}
+        {% elseif filter.type == "checkbox-list" %}
+            {{ _self.macroCheckboxList(filter) }}
+        {% elseif filter.type == "price-range" %}
+            {{ _self.macroPriceRange(filter) }}
+        {% endif %}
+    {% endfor %}
+    {% if loadByAjax is not defined %}
+</div>
+{% endif %}
+
+
+{% macro macroSearch(filter) %}
+    <div class="l-form-input-box l-form-input-and-icon-box">
+        <input type="text" class="l-form-input ui-form-input ui-form-input--rounded-pill"
+               name="{{ filter.inputName }}"
+               placeholder="{{ filter.title }}"
+               {% if filter.value is not empty %}value="{{ filter.value }}"{% endif %}
+               data-l-product-list-grid-filters-input="{{ filter.inputName }}"
+        />
+        <svg class="l-form-input-icon ui-form-input-icon" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.46547 0.65918C3.80015 0.65918 0 4.45933 0 9.12466C0 13.79 3.80015 17.5901 8.46547 17.5901C10.4942 17.5901 12.3574 16.8697 13.8176 15.6738L18.8721 20.7283C18.9501 20.8096 19.0435 20.8744 19.1469 20.9191C19.2503 20.9638 19.3615 20.9874 19.4742 20.9885C19.5868 20.9897 19.6985 20.9684 19.8028 20.9258C19.9071 20.8832 20.0018 20.8203 20.0814 20.7406C20.1611 20.661 20.224 20.5662 20.2666 20.462C20.3092 20.3577 20.3305 20.246 20.3294 20.1333C20.3282 20.0207 20.3046 19.9095 20.2599 19.8061C20.2152 19.7027 20.1504 19.6092 20.0691 19.5312L15.0146 14.4768C16.2105 13.0166 16.9309 11.1534 16.9309 9.12466C16.9309 4.45933 13.1308 0.65918 8.46547 0.65918ZM8.46547 2.35227C12.2158 2.35227 15.2379 5.37435 15.2379 9.12466C15.2379 12.875 12.2158 15.897 8.46547 15.897C4.71517 15.897 1.69309 12.875 1.69309 9.12466C1.69309 5.37435 4.71517 2.35227 8.46547 2.35227Z" fill="#686868" />
+        </svg>
+    </div>
+{% endmacro %}
+
+{% macro macroCheckbox(filter) %}
+    <div class="l-filters-box-item ui-filters-box-item">
+        <div class="l-filter-accordion-item-checkbox ui-filter-accordion-item-checkbox l-filter-accordion-item-checkbox--spacing-20">
+            <input class="l-form-checkbox ui-form-checkbox" type="checkbox"
+                   name="{{ filter.inputName }}"
+                   id="{{ filter.inputName }}"
+                   value="{{ filter.value }}"
+                   {% if filter.checked is not empty %}checked{% endif %}
+                   data-l-product-list-grid-filters-input="{{ filter.inputName }}"
+            />
+            <label class="l-form-checkbox-label ui-form-checkbox-label ui-form-checkbox-label--lg ui-form-checkbox-label--color-black"
+                   for="{{ filter.inputName }}"
+            >
+                {{ filter.title }}
+            </label>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro macroCheckboxList(filter) %}
+    <div class="l-filter-accordion-item ui-filter-accordion-item {{ _self.isAccordionExpanded(filter.inputName) }}" data-l-filter-accordion="{{ filter.inputName }}">
+        <div class="l-filter-accordion-item-title ui-filter-accordion-item-title ui-filter-accordion-item-title--clickable" data-l-filter-accordion-title="true--clickable">
+            <span>{{ filter.title }}</span>
+            <span class="ui-filter-accordion-item-title-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12,15a1,1,0,0,1-.71-.29l-4-4A1,1,0,0,1,8.71,9.29L12,12.59l3.29-3.29a1,1,0,0,1,1.41,1.41l-4,4A1,1,0,0,1,12,15Z" /></svg>
+            </span>
+        </div>
+        <div class="l-filter-accordion-item-content ui-filter-accordion-item-content" data-l-filter-accordion-content="true">
+            <div class="l-filter-accordion-item-content-box ui-filter-accordion-item-content-box">
+                {% for option in filter.options %}
+                    <label class="l-filter-accordion-item-checkbox ui-filter-accordion-item-checkbox">
+                        <input class="l-form-checkbox ui-form-checkbox"
+                               type="checkbox"
+                               name="{{ filter.inputName }}"
+                               id="{{ filter.inputName ~ "_" ~ option.value }}"
+                               value="{{ option.value }}"
+                               {% if option.checked is not empty %}checked{% endif %}
+                               data-l-product-list-grid-filters-input="{{ filter.inputName }}"
+                        />
+                        <span class="l-form-checkbox-label ui-form-checkbox-label" for="{{ filter.inputName ~ "_" ~ option.value }}">{{ option.name }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+{% macro macroPriceRange(filter) %}
+    <div class="l-filter-accordion-item-title ui-filter-accordion-item-title">
+        <span>{{ filter.title }}</span>
+    </div>
+    <div class="ui-form-range">
+        <div data-ui-form-range="price" data-ui-form-range-options='{"min": "1", "max": "{{ filter.filterMaxPrice }}"}'></div>
+    </div>
+    <div class="ui-filters-box-range-item">
+        <div class="l-flex-row l-flex-row--align-center">
+            <div class="l-flex-col-xxl-5 l-flex-col-xl-5 l-flex-col-lg-5">
+                <div class="l-form-input-group ui-form-input-group ui-form-input-group--border-dark-gray">
+                    <input class="l-form-input ui-form-input ui-form-input-group-item ui-form-input-group-input ui-form-input--sm"
+                           type="number"
+                           name="{{ filter.minimum.inputName }}"
+                           value="{{ filter.minimum.value }}"
+                           min="1"
+                           max="{{ filter.filterMaxPrice }}"
+                           data-ui-form-range-min="price"
+                           data-l-product-list-grid-filters-input="{{ filter.minimum.inputName }}"
+                           data-l-product-list-grid-filters-input-default="1"
+                    />
+                    <span class="ui-form-input-group-item l-form-input-group-text ui-form-input-group-text">
+                        {{ userCurrencySymbol() }}
+                    </span>
+                </div>
+            </div>
+            <div class="l-flex-col-xxl-2 l-flex-col-xl-2 l-flex-col-lg-2">
+                -
+            </div>
+            <div class="l-flex-col-xxl-5 l-flex-col-xl-5 l-flex-col-lg-5">
+                <div class="l-form-input-group ui-form-input-group ui-form-input-group--border-dark-gray">
+                    <input class="l-form-input ui-form-input ui-form-input-group-item ui-form-input-group-input ui-form-input--sm"
+                           type="number"
+                           name="{{ filter.maximum.inputName }}"
+                           value="{{ filter.maximum.value }}"
+                           max="{{ filter.filterMaxPrice }}"
+                           data-ui-form-range-max="price"
+                           data-l-product-list-grid-filters-input="{{ filter.maximum.inputName }}"
+                           data-l-product-list-grid-filters-input-default="{{ filter.filterMaxPrice }}"
+                    />
+                    <span class="ui-form-input-group-item l-form-input-group-text ui-form-input-group-text">
+                        {{ userCurrencySymbol() }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+{% macro isAccordionExpanded(name) %}
+    {% apply spaceless %}
+        {% set filterAccordionCookie = app.request.cookies.get("product-list-accordion-filter") %}
+        {% set expanded = true %}
+        {% if filterAccordionCookie!=null %}
+            {% set filterAccordionCookie = filterAccordionCookie|pn_json_decode %}
+
+            {% if attribute(filterAccordionCookie, name) is defined and attribute(filterAccordionCookie, name) == "collapsed" %}
+                {% set expanded = false %}
+            {% endif %}
+        {% endif %}
+        {{ expanded ? "expanded" }}
+    {% endapply %}
+{% endmacro %}

@@ -1,0 +1,16 @@
+{
+    "recordsTotal": {{ recordsTotal }},
+    "recordsFiltered": {{ recordsFiltered }},
+    "data": [
+        {% for blogTag in blogTags %}
+        [
+            "{{ blogTag.id }}",
+            "{% if blogTag.tarteb %}{{ blogTag.tarteb }}{% else %}--{% endif %}",
+            "{{ blogTag.title }}",
+            "{% if blogTag.created %}{{ blogTag.created|dateTimeFormat }}{% else %}--{% endif %}",
+            "<ul class='icons-list'><li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='icon-menu9'></i></a><ul class='dropdown-menu dropdown-menu-right'>{% if is_granted('ROLE_ADMIN') %}<li><a href='{{ path('blog_tag_edit',{'id':blogTag.id}) }}'><i class='icon-pencil7'></i> Edit</a></li><li><a href='#' class='delete-btn' data-toggle='modal' data-target='#modal_delete' data-delete='{{ path('blog_tag_delete',{'id':blogTag.id}) }}'><i class='icon-bin'></i> Remove</a></li>{% endif %}</ul></li></ul>"
+
+        ]{% if loop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

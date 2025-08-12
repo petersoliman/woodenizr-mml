@@ -1,0 +1,80 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ "wishlist_txt"|trans }}{% endblock %}
+{% import 'fe/macros.html.twig' as macros %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ macros.assetCSS(asset('pages-assets/wish-list/wish-list.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+    {% include "fe/_pages_header.html.twig" with {"pageTitle": "wishlist_txt"|trans, "marginBottomZero": true } %}
+
+    <div class="l-container">
+        <div class="l-product-list-grid" data-l-product-list-grid="true" data-l-product-list-grid-url="{{ path('fe_profile_wishlist_api',app.request.attributes.get('_route_params')) }}">
+            <div class="wrapper-profile">
+                <div class="l-container">
+                    <div class="l-flex-row">
+                        <div class="l-flex-col-xl-3 wrapper-profile-sidebar" data-profile-sidebar="true">
+                            {% include "user/frontEnd/profile/_sidemenu.html.twig" %}
+                        </div>
+                        <div class="l-flex-col-xl-9 wrapper-profile-card" data-profile-card="true">
+
+                            <div class="loading" data-l-product-list-grid-products-container="true">
+                                <div class="l-product-list-grid-col-products-header">
+                                    <div class="l-flex-row">
+                                        <div class="l-flex-col-lg-6 l-product-list-grid-col-products-header-results-count">
+                                            <span class="ui-products-list-results-count-box"><strong data-l-product-list-grid-total="true">--</strong> {{ "results_txt"|trans }}</span>
+                                        </div>
+                                        {% include "user/frontEnd/profile/_wishlist_sort_by.html.twig" %}
+                                    </div>
+                                </div>
+                                <div class="l-404-row" data-l-product-list-grid-items-empty="true" style="display: none;">
+                                    <div class="l-404-row-picture">
+                                        <svg width="271" height="172" viewBox="0 0 271 172" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M168.821 1.91406H270.936V170.239H168.821V1.91406ZM0.496094 1.91406H168.821V170.239H0.496094V1.91406Z"
+                                                  fill="#F8B372"/>
+                                            <path d="M67.6406 86.0771H101.679V170.239H67.6406V86.0771Z" fill="#FACFB0"/>
+                                            <path d="M182.173 157.894C177.805 157.426 173.343 156.965 168.82 156.479V170.239H270.935V160.054C241.381 161.968 211.737 161.057 182.173 157.894ZM73.6549 130.175C43.3386 109.937 25.0382 75.1879 16.2407 40.5987C12.985 27.7971 11.2544 14.8849 10.489 1.91504H0.496094V170.24H168.82V156.48C136.309 152.985 100.633 148.183 73.6549 130.175Z"
+                                                  fill="#DB8E53"/>
+                                            <path d="M90.2884 110.16C93.9257 112.323 97.7379 114.246 101.679 115.976V86.0781H67.6406V90.2098C74.0335 98.1008 81.5339 104.953 90.2884 110.16Z"
+                                                  fill="#FACFB0"/>
+                                            <path d="M73.6565 130.175C71.6023 128.796 69.5958 127.347 67.6406 125.831V170.239H101.679V143.699C91.7187 140.259 82.2383 135.903 73.6565 130.175Z"
+                                                  fill="#F2B78F"/>
+                                            <path d="M167.852 1.91421V170.24C167.852 171.485 169.786 171.487 169.786 170.24V1.91421C169.788 0.669048 167.852 0.66679 167.852 1.91421Z"
+                                                  fill="#010735" style="fill:var(--primary-color);"/>
+                                        </svg>
+                                    </div>
+                                    <div class="l-404-row-content">
+                                        <div class="l-404-row-content-body">
+                                            <p class="l-404-row-content-body-title">No Result!</p>
+                                            <p class="l-404-row-content-body-subtitle">We couldn’t find what you are looking for</p>
+                                            <a href="#" class="l-404-row-content-body-anchor">Continue Shopping</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="l-flex-row l-product-slide-row" data-l-product-list-grid-items="true">
+
+                                </div>
+                                <div class="l-product-list-grid-pagination" data-l-product-list-grid-pagination="true">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/wish-list/wish-list.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/wish-list/wish-list.js')) }}
+    {{ macros.assetJS(asset('pages-assets/wish-list/wish-list.lazy.js'), true) }}
+{% endblock %}

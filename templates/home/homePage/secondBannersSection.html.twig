@@ -1,0 +1,86 @@
+{% if threeBanners is not empty or twoBanners is not empty %}
+    <div class="ui-featured-offers-2-section">
+        <div class="l-container l-container--phone-spacing">
+            {% if threeBanners is not empty %}
+                <div class="l-flex-row">
+                    {% for banner in threeBanners %}
+                            {% set image = asset(banner.image.assetPath) %}
+
+
+                        {% set hasLink = false %}
+
+                        {% if banner.url != '#' and banner.url is not empty %}
+                            {% set hasLink = true %}
+                        {% endif %}
+                        <div class="l-flex-col-lg-4 {{ loop.index == 3 ? "l-flex-col-sm-12" : "l-flex-col-sm-6" }}">
+                            <{{ hasLink ? "a":"div" }} class="l-featured-offers-2-section-banner ui-featured-offers-2-section-banner" {% if hasLink is same as (true) %}href="{{ path('banner_redirect', {'id':banner.id}) }}"{% endif %} {{ banner.openInNewTab ? 'target="_blank" rel="noreferrer"' : 'rel="dofollow"' }}>
+                                <picture>
+                                    <source media="--small" data-srcset="{{ image|webp(loop.index == 3 ? 525 : 559) }}">
+                                    <source media="--medium" data-srcset="{{ image|webp(loop.index == 3 ? 540 : 260) }}">
+                                    <source media="--large" data-srcset="{{ image|webp(loop.index == 3 ? 920 : 350) }}">
+                                    <source media="--x-large" data-srcset="{{ image|webp(loop.index == 3 ? 1920 : 585) }}">
+                                    <img
+                                            class="l-responsive-img l-featured-offers-2-section-banner-img lazyload"
+                                            width="524"
+                                            height="410"
+                                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                            data-expand="-20"
+                                            data-src="{{ image|webp(525) }}"
+                                            alt="{{ banner.title is not null ? banner.title : "Ad" }}"
+                                    >
+                                </picture>
+                            <div class="l-featured-offers-2-section-banner-caption ui-featured-offers-2-section-banner-caption">
+                                <h4 class="l-featured-offers-2-section-banner-caption-title ui-featured-offers-2-section-banner-caption-title">{{ banner.title }}</h4>
+                                <div class="l-featured-offers-2-section-banner-caption-hidden ui-featured-offers-2-section-banner-caption-hidden">
+                                    <p>{{ banner.text }}</p>
+                                </div>
+                            </div>
+                            </{{ hasLink ? "a":"div" }}>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if twoBanners is not empty %}
+                <div class="l-flex-row">
+                    {% for banner in twoBanners %}
+                        {% set image = asset(banner.image.assetPath) %}
+
+
+                        {% set hasLink = false %}
+
+                        {% if banner.url != '#' and banner.url is not empty %}
+                            {% set hasLink = true %}
+                        {% endif %}
+                        <div class="l-flex-col-lg-6 l-flex-col-md-12">
+                            <{{ hasLink ? "a":"div" }} class="l-featured-offers-2-section-banner ui-featured-offers-2-section-banner" {% if hasLink is same as (true) %}href="{{ path('banner_redirect', {'id':banner.id}) }}"{% endif %} {{ banner.openInNewTab ? 'target="_blank" rel="noreferrer"' : 'rel="dofollow"' }}>
+                                <picture>
+                                    <source media="--small" data-srcset="{{ image|webp(559) }}">
+                                    <source media="--medium" data-srcset="{{ image|webp(540) }}">
+                                    <source media="--large" data-srcset="{{ image|webp(350) }}">
+                                    <source media="--x-large" data-srcset="{{ image|webp(585) }}">
+                                    <img
+                                            class="l-responsive-img l-featured-offers-2-section-banner-img lazyload"
+                                            width="797"
+                                            height="388"
+                                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                            data-expand="-20"
+                                            data-src="{{ image|webp(800) }}"
+                                            alt="{{ banner.title is not null ? banner.title : "Ad" }}"
+                                    >
+                                </picture>
+                                <div class="l-featured-offers-2-section-banner-caption ui-featured-offers-2-section-banner-caption">
+                                    <h4 class="l-featured-offers-2-section-banner-caption-title ui-featured-offers-2-section-banner-caption-title">{{ banner.title }}</h4>
+                                    <div class="l-featured-offers-2-section-banner-caption-hidden ui-featured-offers-2-section-banner-caption-hidden">
+                                        <p>{{ banner.text }}</p>
+                                    </div>
+                                </div>
+                            </{{ hasLink ? "a":"div" }}>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+{% endif %}

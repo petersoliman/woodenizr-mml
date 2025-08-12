@@ -1,0 +1,4 @@
+newShippingBundle_admin:
+  resource: "@NewShippingBundle/Controller/Administration/"
+  type:    annotation
+  prefix: /admin/new-shipping

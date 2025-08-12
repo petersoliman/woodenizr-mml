@@ -1,0 +1,671 @@
+@import './../../_components/base-styles';
+
+/*/
+ * Layout Components
+/*/
+
+@import './../../_components/layout/grids/l-container';
+@import './../../_components/layout/grids/l-flex-row';
+
+@import './../../_components/layout/grids/l-flex-col-md-4';
+@import './../../_components/layout/grids/l-flex-col-md-6';
+
+@import './../../_components/layout/grids/l-flex-col-lg-2';
+@import './../../_components/layout/grids/l-flex-col-lg-4';
+@import './../../_components/layout/grids/l-flex-col-lg-5';
+@import './../../_components/layout/grids/l-flex-col-lg-6';
+@import './../../_components/layout/grids/l-flex-col-lg-8';
+@import './../../_components/layout/grids/l-flex-col-lg-12';
+
+@import './../../_components/layout/grids/l-flex-col-xl-2';
+@import './../../_components/layout/grids/l-flex-col-xl-4';
+@import './../../_components/layout/grids/l-flex-col-xl-5';
+@import './../../_components/layout/grids/l-flex-col-xl-6';
+@import './../../_components/layout/grids/l-flex-col-xl-8';
+
+@import './../../_components/layout/grids/l-flex-col-xxl-2';
+@import './../../_components/layout/grids/l-flex-col-xxl-3';
+@import './../../_components/layout/grids/l-flex-col-xxl-5';
+
+@import './../../_components/layout/grids/l-product-list-grid';
+@import './../../_components/layout/sections/l-404';
+
+@import './../../_components/layout/boxes/l-filters-box';
+
+@import './../../_components/layout/accordions/l-filter-accordion-item';
+
+@import './../../_components/layout/sections/l-featured-section';
+@import './../../_components/layout/sections/l-featured-full-width-banner-section';
+
+@import './../../_components/layout/titles/l-page-title';
+@import './../../_components/layout/titles/l-page-desc';
+@import './../../_components/layout/titles/l-page-title-box';
+
+@import './../../_components/layout/slides/l-product-slide';
+
+@import './../../_components/layout/pagination/l-pagination';
+
+@import './../../_components/layout/breadcrumbs/l-breadcrumbs';
+
+@import './../../_components/layout/dropdowns/l-dropdown';
+
+@import './../../_components/layout/forms/l-form-input-box';
+@import './../../_components/layout/forms/l-form-input-and-icon-box';
+@import './../../_components/layout/forms/l-form-input-icon';
+@import './../../_components/layout/forms/l-form-checkbox';
+@import './../../_components/layout/forms/l-form-radio';
+
+@import './../../_components/layout/backdrops/l-backdrop';
+
+@import './../../_components/layout/modals/l-share-product-modal';
+
+/*/
+ * UI Components
+/*/
+
+@import './../../_components/ui/boxes/ui-filters-box';
+
+@import './../../_components/ui/accordions/ui-filter-accordion-item';
+
+@import './../../_components/ui/sections/ui-featured-section';
+@import './../../_components/ui/sections/ui-featured-full-width-banner-section';
+
+@import './../../_components/ui/titles/ui-page-title';
+@import './../../_components/ui/titles/ui-page-desc';
+
+@import './../../_components/ui/slides/ui-product-slide';
+
+@import './../../_components/ui/pagination/ui-pagination';
+
+@import './../../_components/ui/breadcrumbs/ui-breadcrumbs';
+
+@import './../../_components/ui/boxes/ui-products-list-results-count-box';
+
+@import './../../_components/ui/dropdowns/ui-dropdown';
+
+@import './../../_components/ui/forms/ui-form-checkbox';
+@import './../../_components/ui/forms/ui-form-radio';
+@import './../../_components/ui/forms/ui-form-input-icon';
+
+@import './../../_components/ui/backdrops/ui-backdrop';
+
+@import './../../_components/ui/modals/ui-share-product-modal';
+
+/*/
+ * Full
+/*/
+
+@import './../../_components/full/steps/progress-steps.scss';
+@import './../../_components/full/cart/cart-summary.scss';
+@import './../../_components/full/buttons/btn.scss';
+@import './../../_components/full/form/form.scss';
+@import './../../_components/full/form/stack-input.scss';
+@import './../../_components/full/alerts/alert.scss';
+
+.wrapper-progress-steps {
+  padding-top: 82px;
+  padding-bottom: 60px;
+}
+
+.wrapper-cart-summary {
+  padding-bottom: 24px;
+  @include media-max($xl) {
+    padding-bottom: 124px;
+  }
+}
+
+.wrapper-cart-cta {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 23px;
+  color: #686868;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  strong {
+    font-weight: 600;
+  }
+
+  @include media-min($xl) {
+    margin-bottom: 100px;
+  }
+  @include media-max($xl) {
+    position: fixed;
+    z-index: 150;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    right: 0;
+    background: #F7F7FA;
+    box-shadow: 0px -3px 20px #BBBBBB;
+    padding: 15px 20px;
+  }
+
+  .wrapper-cart-cta-xs-only {
+    display: none;
+    @include media-max($xl) {
+      display: block;
+    }
+  }
+}
+
+.wrapper-cart-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 45px;
+  @include media-max($xl) {
+    padding: 0 15px;
+  }
+
+  h3 {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 35px;
+    color: #3F3F3F;
+    @include media-max($xl) {
+      font-size: 18px;
+    }
+
+    small {
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 35px;
+      color: #B6B4BA;
+      @include media-max($xl) {
+        font-size: 14px;
+      }
+      @include ltr() {
+        padding-left: 20px;
+      }
+      @include rtl() {
+        padding-right: 20px;
+      }
+    }
+  }
+
+  a {
+    padding: 16px 37px;
+    font-weight: 500;
+    font-size: 18.7826px;
+    line-height: 23px;
+    @include media-max($xl) {
+      font-size: 14px;
+      padding: 10px 15px;
+    }
+  }
+}
+
+
+.wrapper-cart-items-list {
+  margin-bottom: 30px;
+
+  .wrapper-cart-item-container {
+    &:not(:last-child) {
+      margin-bottom: 35px;
+    }
+  }
+
+  .wrapper-cart-item-message {
+    background-color: #FAE3E3;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 27px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 30px;
+    color: #3F3F3F;
+    @include media-max($xl) {
+      flex-direction: column;
+      font-size: 14px;
+      line-height: 27px;
+      gap: 10px;
+      padding: 10px 15px;
+    }
+
+    span {
+      color: #BA5153;
+      display: inline-block;
+      @include ltr() {
+        padding-left: 12px;
+      }
+      @include rtl() {
+        padding-right: 12px;
+      }
+    }
+
+    button {
+      font-weight: 600;
+      text-decoration: underline;
+      padding: 0;
+      margin: 0 10px;
+      cursor: pointer;
+      border: 0;
+      background-color: transparent;
+      font-size: 16px;
+      line-height: 27px;
+      color: #5B5B5B;
+
+      &:hover {
+        color: var(--primary-color);
+      }
+
+      @include media-max($xl) {
+        font-size: 14px;
+        line-height: 27px;
+        margin: 0;
+      }
+    }
+  }
+
+  .wrapper-cart-item {
+    display: flex;
+    background: #fff;
+    padding: 30px;
+    @include media-max($xl) {
+      display: block;
+      padding: 15px;
+      &::after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+    }
+
+    &-img {
+      width: 112px;
+      height: 117px;
+      line-height: 117px;
+      text-align: center;
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      @include media-max($xl) {
+        width: 92px;
+        height: 87px;
+        line-height: 87px;
+        @include ltr() {
+          float: right;
+        }
+        @include rtl() {
+          float: left;
+        }
+      }
+    }
+
+    &-body {
+      display: inline-flex;
+      flex-grow: 1;
+      @include ltr() {
+        padding-left: 38px;
+      }
+      @include rtl() {
+        padding-right: 38px;
+      }
+      @include media-max($xl) {
+        flex-direction: column;
+        display: block;
+        @include ltr() {
+          padding-right: 0;
+          padding-left: 0;
+        }
+        @include rtl() {
+          padding-right: 0;
+          padding-left: 0;
+        }
+      }
+
+      .wrapper-cart-item-details {
+        a {
+          text-decoration: none;
+        }
+      }
+
+      .wrapper-cart-item-name {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 27px;
+        color: #3F3F3F;
+        margin: 0 0 40px;
+
+        small {
+          font-weight: 400;
+          font-size: 18px;
+          line-height: 24px;
+          color: #686868;
+          display: block;
+          margin-bottom: 8px;
+          @include media-max($xl) {
+            font-size: 14px;
+            margin-bottom: 3px;
+          }
+        }
+
+        @include media-max($xl) {
+          font-size: 14px;
+        }
+      }
+
+      .wrapper-cart-item-variants {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 17px;
+        color: #686868;
+        @include media-max($xl) {
+          font-size: 14px;
+        }
+
+        p {
+          margin: 0 0 12px;
+        }
+      }
+
+      .wrapper-cart-item-actions {
+        margin-top: 23px;
+        display: flex;
+        align-items: center;
+
+        button {
+          display: inline-flex;
+          gap: 6px;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 35px;
+          color: #686868;
+
+          &:not(:last-child) {
+            @include ltr() {
+              margin-right: 30px;
+            }
+            @include rtl() {
+              margin-left: 30px;
+            }
+          }
+
+          &.primary {
+            font-weight: 600;
+          }
+
+          &.primary,
+          &:hover {
+            color: var(--primary-color);
+
+            svg {
+              path {
+                fill: var(--primary-color);
+                stroke: var(--primary-color);
+              }
+            }
+          }
+        }
+
+        @include media-max($xl) {
+          justify-content: space-between;
+          width: 100%;
+        }
+      }
+
+      .wrapper-cart-item-meta {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        color: #686868;
+
+        p {
+          margin: 0 0 10px;
+          display: flex;
+          gap: 5px;
+          justify-content: flex-end;
+
+          &.primary {
+            color: var(--primary-color);
+          }
+
+          s {
+            color: #686868;
+            font-weight: 400;
+            font-size: 11px;
+            line-height: 24px;
+            color: #686868;
+            @include ltr() {
+              padding-right: 12px;
+            }
+            @include rtl() {
+              padding-left: 12px;
+            }
+          }
+        }
+
+        strong {
+          font-weight: 600;
+          font-size: 18px;
+        }
+
+        @include ltr() {
+          margin-left: auto;
+          padding-left: 38px;
+          text-align: right;
+        }
+        @include rtl() {
+          margin-right: auto;
+          padding-right: 38px;
+          text-align: left;
+        }
+        @include media-max($xl) {
+          margin: 0 !important;
+          padding: 0 !important;
+          text-align: inherit !important;
+          display: flex;
+          gap: 35px;
+          align-items: center;
+          justify-content: space-between;
+          padding-top: 30px !important;
+        }
+
+        .wrapper-cart-item-qty {
+          margin-top: 83px;
+          @include media-max($xl) {
+            margin-top: 0;
+          }
+
+          &-input-group {
+            width: auto;
+            border: 1px solid #EBEAED;
+            border-radius: 5px;
+
+            input {
+              width: 30px;
+              border: 0;
+              padding: 0;
+              text-align: center;
+              font-weight: 500;
+              font-size: 14px;
+              line-height: 23px;
+              border-radius: 0;
+              color: #2E2C34;
+              height: 52px;
+
+              &.disabled {
+                opacity: 0.6;
+                pointer-events: none;
+              }
+            }
+
+            button {
+              border: 0;
+              padding: 0 15px;
+              background: transparent;
+              cursor: pointer;
+
+              &.disabled {
+                cursor: not-allowed;
+
+                path {
+                  fill: #d3d3d3;
+                }
+              }
+
+              &:hover {
+                &:not(.disabled) {
+                  path {
+                    fill: var(--primary-color);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.wrapper-coupon-input-group {
+  .form-input {
+    overflow: hidden;
+    @include ltr() {
+      padding-right: 0;
+    }
+    @include rtl() {
+      padding-left: 0;
+    }
+
+    .input {
+      &:disabled {
+        pointer-events: none;
+        opacity: 0.6;
+      }
+    }
+
+    .action {
+      padding: 0 25px;
+      background-color: var(--primary-color);
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 35px;
+      color: #FFFFFF;
+
+      &:disabled {
+        pointer-events: none;
+        opacity: 0.6;
+      }
+
+      .remove {
+        display: none;
+      }
+
+      &.active {
+        .apply {
+          display: none;
+        }
+
+        .remove {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}
+
+.wrapper-coupon-input-msg {
+  &:empty {
+    margin: 0;
+  }
+
+  font-size: 16px;
+  color: #686868;
+  margin: 6px 0;
+}
+
+.wrapper-cart-error {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 23px;
+  color: #D83333;
+}
+
+.wrapper-cart-submit-btn {
+  &[disabled] {
+    pointer-events: none;
+    background: #F3F3F3;
+    border: 1px solid #D83333;
+    color: #B8B8B8;
+
+    svg {
+      path {
+        fill: #B8B8B8;
+      }
+    }
+  }
+}
+
+[hidden] {
+  display: none !important;
+}
+
+
+.wrapper-cart-empty {
+  padding: 88px 0;
+}
+
+.wrapper-cart-empty-card {
+  padding: 80px;
+  background: #fff;
+  text-align: center;
+  @include media-max($xl) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  &-icon {
+    svg {
+      width: 102px;
+    }
+  }
+
+  &-title {
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 35px;
+    color: #3F3F3F;
+    @include media-max($xl) {
+      max-width: 230px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 22px;
+    }
+  }
+
+  &-subtitle {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 35px;
+    color: #3F3F3F;
+    @include media-max($xl) {
+      max-width: 230px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 14px;
+    }
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+
+/*/
+ * Utilities
+/*/
+
+@import './../../_components/utilities/u-bg.scss';

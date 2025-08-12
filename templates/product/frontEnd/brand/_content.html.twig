@@ -1,0 +1,65 @@
+<div class="ui-featured-readings-section">
+    <div class="l-featured-readings-container">
+        <div class="l-container l-container--phone-spacing">
+            <br>
+            <br>
+            <br>
+            <br>
+
+
+            <p class="wrapper-title">
+                {{ seoPage.brief }}
+            </p>
+
+            <br>
+            <br>
+            <br>
+
+            <div class="l-flex-row">
+                {% for brand in brands %}
+                    <div class="l-flex-col-xl-3 l-flex-col-lg-4 l-flex-col-md-6">
+                        <a class="collection-card"
+                           href="{{ path('fe_product_filter_brand', {"slug": brand.seo.slug}) }}">
+                            {% if brand.post.mainImage %}
+                                {% set image = asset(brand.post.mainImage.assetPath) %}
+                            {% else %}
+                                {% set image = asset('assets/img/product-img-placeholder.webp') %}
+                            {% endif %}
+                            <div class="img">
+                                <picture>
+                                    <!--[if IE 9]><video style="display: none;><![endif]-->
+                                    <source data-srcset="{{ image|webp(null, 408) }}" media="--small"/>
+                                    <source data-srcset="{{ image|webp(null, 394) }}" media="--medium"/>
+                                    <source data-srcset="{{ image|webp(null, 255) }}" media="--large"/>
+                                    <source data-srcset="{{ image|webp(null, 328) }}" media="--x-large"/>
+                                    <source data-srcset="{{ image|webp(null, 230) }}" media="--xx-large"/>
+                                    <!--[if IE 9]></video><![endif]-->
+                                    <img
+                                            class="l-responsive-img l-reading-post-slide-img ui-reading-post-slide-img lazyload"
+                                            width="388"
+                                            height="283"
+                                            data-expand="-20"
+                                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                            data-src="{{ image|webp(null, 283) }}"
+                                            alt="{{ brand.title }}"
+                                    />
+                                </picture>
+                            </div>
+                            <h2 class="title">{{ brand.title }}</h2>
+                            <p>{{ brand.post.content.brief }}</p>
+                        </a>
+                    </div>
+                {% else %}
+                    {% include "fe/_not_found_content.html.twig" %}
+                {% endfor %}
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="l-product-list-grid-pagination" data-l-product-list-grid-pagination="true">
+    {% include "fe/_pagination.html.twig" %}
+</div>

@@ -1,0 +1,66 @@
+@import '../../mixins.scss';
+
+.ui-form-input-group {
+  border: 1px solid #E9E9E9;
+  border-radius: 5px;
+
+  .ui-form-input-group-item {
+    border: 0;
+  }
+
+  .ui-form-input-group-item:not(:first-child) {
+    border-radius: 0;
+    @include ltr {
+      border-left: 1px solid #E9E9E9;
+    }
+    @include rtl {
+      border-right: 1px solid #E9E9E9;
+    }
+  }
+
+  &.ui-form-input-group--border-dark-gray {
+    border-color: #B6B4BA;
+
+    .ui-form-input-group-item:not(:first-child) {
+      @include ltr {
+        border-left: 1px solid #B6B4BA;
+      }
+      @include rtl {
+        border-right: 1px solid #B6B4BA;
+      }
+    }
+  }
+}
+
+.ui-form-input-group-text {
+  padding: 4px 7px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #3F3F3F;
+  background: #F8F8F8;
+  @include ltr {
+    border-radius: 0 5px 5px 0 !important;
+  }
+  @include rtl {
+    border-radius: 5px 0 0 5px !important;
+  }
+}
+
+.ui-form-input-group-btn {
+  @include ltr {
+    border-radius: 0 5px 5px 0 !important;
+  }
+  @include rtl {
+    border-radius: 5px 0 0 5px !important;
+  }
+}
+
+.ui-form-input-group-input {
+  @include ltr {
+    border-radius: 5px 0 0 5px !important;
+  }
+  @include rtl {
+    border-radius: 0 5px 5px 0  !important;
+  }
+}

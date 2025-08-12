@@ -1,0 +1,8 @@
+{% set cr = app.request.attributes.get('_route') %}
+<header class="m-header">
+    <div class="l-backdrop ui-backdrop" data-m-header-backdrop="true"></div>
+    {% include 'fe/_header_topbar.html.twig' %}
+    {{ render(controller('App\\HomeBundle\\Controller\\HeaderFooterController::menu', {"cr":cr})) }}
+</header>
+
+

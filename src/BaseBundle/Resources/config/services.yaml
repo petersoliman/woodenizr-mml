@@ -1,0 +1,43 @@
+parameters:
+  request_blocker_path: '%kernel.project_dir%/var/request-blocker/'
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  Doctrine\Migrations\Version\DbalMigrationFactory: ~
+  App\BaseBundle\Migrations\Factory\MigrationFactoryDecorator:
+    decorates: Doctrine\Migrations\Version\DbalMigrationFactory
+    arguments: ['@App\BaseBundle\Migrations\Factory\MigrationFactoryDecorator.inner', '@service_container']
+
+  App\BaseBundle\Service\:
+    resource: '../../Service/*'
+
+  App\BaseBundle\Repository\:
+    resource: '../../Repository/*'
+    tags: [ 'doctrine.repository_service' ]
+
+  pn.kernel.request:
+    class: App\BaseBundle\Listener\KernelRequestListener
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+  # loggable hooks user username if one is in security context
+  extension.listener:
+    class:  App\BaseBundle\Listener\DoctrineExtensionListener
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+  gedmo.listener.loggable:
+    public: true
+    class: Gedmo\Loggable\LoggableListener
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
+    calls:
+      - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+  ProfilerListener:
+    class: App\BaseBundle\EventListener\ProfilerListener
+    tags:
+      - { name: kernel.event_listener, event: kernel.controller, method: onKernelController, priority: 0 }

@@ -1,0 +1,46 @@
+<div class="ui-featured-offers-section l-featured-offers-section">
+    <div class="l-container l-container--phone-spacing">
+        <div class="l-flex-row">
+            <% for(var i = 1; i < 3; i++) { %>
+                <!--Two banners 1 - DONE -->
+                <div class="l-flex-col-lg-6 l-flex-col-md-12">
+                    <a class="l-featured-offers-section-banner ui-featured-offers-section-banner" href="#">
+                        <picture>
+                            <!--[if IE 9]><video style="display: none;><![endif]-->
+                            <source
+                                    data-srcset="//placehold.co/559x272/73e6e<%= i %>/ffffff.webp?text=576"
+                                    media="--small" />
+                            <source
+                                    data-srcset="//placehold.co/540x262/73e6e<%= i %>/ffffff.webp?text=768"
+                                    media="--medium" />
+                            <source
+                                    data-srcset="//placehold.co/350x170/73e6e<%= i %>/ffffff.webp?text=992"
+                                    media="--large" />
+                            <source
+                                    data-srcset="//placehold.co/585x285/73e6e<%= i %>/ffffff.webp?text=1400"
+                                    media="--x-large" />
+
+                            <!--[if IE 9]></video><![endif]-->
+                            <img
+                                class="l-responsive-img l-featured-offers-section-banner-img lazyload"
+                                width="797"
+                                height="388"
+                                data-expand="-20"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                data-src="/assets/img/demo/offer-<%= i %>.webp"
+                                alt="Offer <%= i %>"
+                            />
+                        </picture>
+                        <div class="l-featured-offers-section-banner-caption ui-featured-offers-section-banner-caption">
+                            <h4 class="l-featured-offers-section-banner-caption-title ui-featured-offers-section-banner-caption-title">BEDROOMS</h4>
+                            <div class="l-featured-offers-section-banner-caption-hidden ui-featured-offers-section-banner-caption-hidden">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% } %>
+
+        </div>
+    </div>
+</div>

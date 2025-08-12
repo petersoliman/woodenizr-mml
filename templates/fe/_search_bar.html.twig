@@ -1,0 +1,25 @@
+<div class="m-header-topbar-searchbar l-form-input-box" data-l-form-datalist-container="true">
+    <form class="l-form-input-box l-form-input-and-icon-box l-form-input-and-icon-box--md" action="{{ path('fe_product_filter_search') }}" method="get">
+        <input
+                type="text"
+                class="l-form-input ui-form-input ui-form-input--md ui-form-input--focus-border-primary-light"
+                placeholder="{{ "header_search_input_placeholder_txt"|trans }}"
+                data-header-topbar-searchbar-input="true"
+                data-header-topbar-searchbar-input-url="{{ path("fe_filter_product_auto_complete_ajax") }}"
+                data-l-form-datalist="true"
+                name="str"
+                autocomplete="off"
+        />
+        <input type="hidden" name="_token" value="{{ csrf_token("search-auto-complete") }}" data-header-topbar-searchbar-token-input="true" />
+        <svg class="l-form-input-icon l-form-input-icon--md ui-form-input-icon" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.46547 0.65918C3.80015 0.65918 0 4.45933 0 9.12466C0 13.79 3.80015 17.5901 8.46547 17.5901C10.4942 17.5901 12.3574 16.8697 13.8176 15.6738L18.8721 20.7283C18.9501 20.8096 19.0435 20.8744 19.1469 20.9191C19.2503 20.9638 19.3615 20.9874 19.4742 20.9885C19.5868 20.9897 19.6985 20.9684 19.8028 20.9258C19.9071 20.8832 20.0018 20.8203 20.0814 20.7406C20.1611 20.661 20.224 20.5662 20.2666 20.462C20.3092 20.3577 20.3305 20.246 20.3294 20.1333C20.3282 20.0207 20.3046 19.9095 20.2599 19.8061C20.2152 19.7027 20.1504 19.6092 20.0691 19.5312L15.0146 14.4768C16.2105 13.0166 16.9309 11.1534 16.9309 9.12466C16.9309 4.45933 13.1308 0.65918 8.46547 0.65918ZM8.46547 2.35227C12.2158 2.35227 15.2379 5.37435 15.2379 9.12466C15.2379 12.875 12.2158 15.897 8.46547 15.897C4.71517 15.897 1.69309 12.875 1.69309 9.12466C1.69309 5.37435 4.71517 2.35227 8.46547 2.35227Z" fill="#686868" />
+        </svg>
+        <svg class="l-form-input-icon l-form-input-icon-action l-form-input-icon--md l-form-input-icon-align-end ui-form-input-icon-action" style="display: none;" data-header-topbar-searchbar-input-clear-btn="true" width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.4461 1.66179C10.752 1.35586 10.752 0.859855 10.4461 0.553929C10.1401 0.248002 9.64414 0.248002 9.33821 0.553928L5.5 4.39214L1.66179 0.553929C1.35586 0.248002 0.859855 0.248002 0.553928 0.553928C0.248002 0.859855 0.248002 1.35586 0.553928 1.66179L4.39214 5.5L0.553929 9.33821C0.248002 9.64414 0.248002 10.1401 0.553928 10.4461C0.859855 10.752 1.35586 10.752 1.66179 10.4461L5.5 6.60786L9.33821 10.4461C9.64414 10.752 10.1401 10.752 10.4461 10.4461C10.752 10.1401 10.752 9.64414 10.4461 9.33821L6.60786 5.5L10.4461 1.66179Z" fill="#686868" />
+        </svg>
+    </form>
+    <div class="ui-form-datalist-dropdown-menu l-form-datalist-dropdown-menu" data-l-form-datalist-dropdown-menu="true">
+        <div class="ui-form-datalist-dropdown-menu-items l-form-datalist-dropdown-menu-items" data-l-form-datalist-dropdown-menu-items="true">
+        </div>
+    </div>
+</div>

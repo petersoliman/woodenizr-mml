@@ -1,0 +1,41 @@
+{% set addEditCoverPhotoBtn = false %}
+{% if image is not defined %}
+    {% set image = getDCA(8, false) %}
+    {% set addEditCoverPhotoBtn = true %}
+{% endif %}
+
+{% if image is empty %}
+    {% set image = asset('/assets/img/placeholder-landscape.webp') %}
+{% endif %}
+<div class="l-featured-section ui-featured-section lazyload {{ desktopOnly is defined and desktopOnly == true ? "l-featured-section--desktop-only" }} {{ marginBottomZero is defined and marginBottomZero == true ? "ui-featured-section--spacing-bottom-0" }} "
+     data-bg="{{ image }}"
+     data-delay="5000"
+>
+    <div class="l-featured-section-content">
+        {% if addEditCoverPhotoBtn %}
+            {{ editDCA(8) }}
+        {% endif %}
+        <div class="l-container">
+            <div class="l-flex-row">
+                <div class="l-flex-col-lg-12">
+                    <div class="l-featured-section-content-box">
+                        <div class="l-page-title-box">
+                            {% if pageTitle is defined %}
+                                <h1 class="l-page-title ui-page-title {{ description is not defined or description is empty ? "ui-page-title--no-description" }}">{{ pageTitle }}</h1>
+                            {% endif %}
+                            {% if description is defined and description is not empty %}
+                                <div class="l-page-desc ui-page-desc">
+                                    {% if "<" in description|raw and ">" in description|raw %}
+                                        {{ description|raw }}
+                                    {% else %}
+                                        {{ description|nl2br }}
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+{% if is_granted('ROLE_ADMIN') %}
+    <div class="l-product-details-meta-specs-container">
+        <div class="l-product-details-meta-specs ui-product-details-meta-specs">
+            <strong>ProductId</strong> : #{{ product.id }}
+                                       |
+            <strong><a href="{{ path('product_edit', { 'id': product.id }) }}" target="_blank" rel="noreferrer" >Edit Product</a></strong>
+        </div>
+    </div>
+{% endif %}

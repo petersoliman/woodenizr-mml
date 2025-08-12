@@ -1,0 +1,6 @@
+.ui-featured-on-sale-products-section {
+    margin-bottom: 70px;
+    @include media-max($md) {
+        margin-bottom: 40px;
+    }
+}

@@ -1,0 +1,86 @@
+{% extends 'fe/base.html.twig' %}
+{% set seo = product.seo %}
+{% use '@PNSeo/FrontEnd/seo.html.twig' %}
+{% import 'fe/macros.html.twig' as macros %}
+
+{% block criticalCSS %}
+    {% include "product/frontEnd/productShow/_critical_css.css.twig" %}
+{% endblock %}
+
+{% block metaTag %}
+    {% if 'Lighthouse' not in app.request.headers.get('User-Agent') and 'GTmetrix' not in app.request.headers.get('User-Agent') %}
+        <link rel="canonical" href="{{ url('fe_product_show', {'slug':product.seo.slug, "_locale": "en"}) }}">
+        <meta property="twitter:title" content="{{ product.title|replace({"\n":' ', "\r":' '}) }}" />
+    {% endif %}
+
+    {% if microdata is not empty %}
+        <script type="application/ld+json">{{ microdata|raw }}</script>
+    {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/product-view/product-view.styles.css')) }}
+{% endblock %}
+
+{% block content %}
+    {% set inStock = productPrice.stock is defined and productPrice.stock > 0 %}
+    {% include "product/frontEnd/productShow/_header.html.twig" %}
+
+    <div class="l-product-view-overview-section ui-product-view-overview-section">
+        <div class="l-container">
+            {% include "fe/_breadcrumb.html.twig" %}
+            <div class="l-product-view-overview-section-row l-flex-row">
+                {% include "product/frontEnd/productShow/_gallery.html.twig" %}
+                {% include "product/frontEnd/productShow/_center_column.html.twig" %}
+                {% include "product/frontEnd/productShow/_right_column.html.twig" %}
+            </div>
+        </div>
+    </div>
+    <div class="l-container" data-l-tabs-container="true">
+        <div class="ui-tabs l-tabs" data-product-view-tabs="true" data-l-tabs="true">
+            <button class="l-tab-btn ui-tab-btn active" data-l-tab-btn="specs">{{ "specifications_txt"|trans }}</button>
+            <button class="l-tab-btn ui-tab-btn" data-l-tab-btn="desc">{{ "description_txt"|trans }}</button>
+            {#{% if noOfReviews %}
+                <button class="l-tab-btn ui-tab-btn" data-l-tab-btn="reviews">{{ "reviews_txt"|trans }}</button>
+            {% endif %}#}
+        </div>
+        <div>
+            <div class="l-tab ui-tab loading show" data-tab-specs="true" data-l-tab="specs">
+                <div class="ui-product-tab-specs l-product-tab-specs" data-tab-specs-container="true" data-tab-specs-url="{{ path("fe_product_specs_ajax", {"slug": product.seo.slug}) }}"></div>
+            </div>
+            <div class="l-tab ui-tab loading" data-tab-desc="true" data-l-tab="desc">
+                <div class="ui-product-tab-desc l-product-tab-desc" data-tab-desc-container="true" data-tab-desc-url="{{ path("fe_product_description_ajax", {"slug": product.seo.slug}) }}"></div>
+            </div>
+            {#<div class="l-tab ui-tab loading" data-tab-reviews="true" data-l-tab="reviews">
+                <div class="ui-product-tab-reviews l-product-tab-reviews loading" data-tab-reviews-container="true" data-tab-reviews-url="{{ path("fe_product_get_review_ajax", {"slug": product.seo.slug}) }}">
+                    <div class="l-product-reviews-row l-flex-row">
+                        <div class="ui-product-reviews-col ui-product-reviews-col-stats l-product-reviews-col-stats" data-tab-reviews-overall="true"></div>
+                        <div class="ui-product-reviews-col l-product-reviews-col-list">
+                            <span class="ui-product-reviews-col-title l-product-reviews-col-title">{{ noOfReviews|number_format }} {{ "customer_reviews_txt"|trans }}</span>
+                            <div class="l-product-reviews-customer-reviews-list" data-tab-reviews-list="true"></div>
+                            <div class="l-product-reviews-load-more-container ui-product-reviews-load-more-container" data-tab-reviews-load-more-btn-container="true">
+                                <button class="l-product-reviews-load-more-btn ui-product-reviews-load-more-btn" data-tab-reviews-load-more-btn="true" style="display: none;">
+                                    {{ "view_more_txt"|trans }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>#}
+        </div>
+    </div>
+
+    <br><br>
+    <div class="l-lazy-section ui-lazy-section" data-l-lazy-section="related-products" data-l-lazy-section-type="products" data-l-lazy-section-url="{{ path("fe_product_related_products_ajax", {"slug": product.seo.slug}) }}"></div>
+    <br><br>
+    <div class="l-lazy-section ui-lazy-section" data-l-lazy-section="related-products" data-l-lazy-section-type="products" data-l-lazy-section-url="{{ path("fe_product_recommended_for_you_products_ajax", {"slug": product.seo.slug}) }}"></div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ macros.assetCSS(asset('pages-assets/product-view/product-view.lazy.styles.css'), true) }}
+
+    {{ macros.assetJS(asset('pages-assets/product-view/product-view.js')) }}
+    {{ macros.assetJS(asset('pages-assets/product-view/product-view.lazy.js'), true) }}
+{% endblock %}

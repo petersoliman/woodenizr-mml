@@ -1,0 +1,131 @@
+<%- include ../_components/main/header/header.ejs %>
+<%- include ../_components/main/body/body-header.ejs %>
+<link rel="stylesheet" href="/pages-assets/magazine-single/magazine-single.styles.css">
+
+<div class="ui-featured-readings-section">
+    <div class="l-featured-readings-container">
+        <div class="l-container l-container--phone-spacing">
+            <br>
+            <br>
+            <br>
+            <br>
+
+
+            <div class="l-title-line l-title-line--spacing-bottom">
+                <div class="l-title-line-title ui-title-line-title ui-title-line-title--centered ui-title-line-title--semibold">
+                    Lorem Ipsum dolor sit amet
+                </div>
+            </div>
+
+
+            <picture>
+                <!--[if IE 9]>
+                <video style="display: none;><![endif]-->
+                <source data-srcset="//placehold.co/559x408/3e6f79/ffffff.webp?text=576" media="--small"/>
+                <source data-srcset="//placehold.co/540x394/3e6f79/ffffff.webp?text=768" media="--medium"/>
+                <source data-srcset="//placehold.co/350x255/3e6f79/ffffff.webp?text=992" media="--large"/>
+                <source data-srcset="//placehold.co/450x328/3e6f79/ffffff.webp?text=1400" media="--x-large"/>
+                <source data-srcset="//placehold.co/315x230/3e6f79/ffffff.webp?text=1600" media="--xx-large"/>
+                <!--[if IE 9]></video><![endif]-->
+                <img
+                        class="l-responsive-img l-reading-post-slide-img ui-reading-post-slide-img lazyload"
+                        width="1388"
+                        height="500"
+                        data-expand="-20"
+                        src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                        data-src="//placehold.co/1388x500/903e3e/ffffff.webp"
+                        alt="Reading Post"
+                />
+            </picture>
+            <br><br>
+            <div class="ui-editor-content-box">
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                    mollit anim id est laborum.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. </p>
+
+
+            </div>
+            <br>
+            <br>
+            <br>
+        </div>
+        <div class="u-bg-light" style="height: 31px;"></div>
+        <div class="l-container">
+
+            <br>
+            <br>
+            <br>
+            <div class="l-title-line l-title-line--spacing-bottom">
+                <div class="l-title-line-title ui-title-line-title ui-title-line-title--centered ui-title-line-title--semibold">
+                    Related Articles
+                </div>
+            </div>
+            <br>
+            <div class="l-flex-row">
+                <% for(var i = 1; i < 5; i++) { %>
+                    <div class="l-flex-col-xl-3 l-flex-col-lg-6 l-flex-col-md-6">
+                        <a href="#"
+                           class="ui-reading-post-slide l-reading-post-slide l-reading-post-slide--spacing-bottom">
+                            <div class="l-reading-post-slide-img-container">
+                                <picture>
+                                    <!--[if IE 9]>
+                                    <video style="display: none;><![endif]-->
+                                    <source data-srcset="//placehold.co/559x408/3e6f7<%= i %>/ffffff.webp?text=576"
+                                            media="--small"/>
+                                    <source data-srcset="//placehold.co/540x394/3e6f7<%= i %>/ffffff.webp?text=768"
+                                            media="--medium"/>
+                                    <source data-srcset="//placehold.co/350x255/3e6f7<%= i %>/ffffff.webp?text=992"
+                                            media="--large"/>
+                                    <source data-srcset="//placehold.co/450x328/3e6f7<%= i %>/ffffff.webp?text=1400"
+                                            media="--x-large"/>
+                                    <source data-srcset="//placehold.co/315x230/3e6f7<%= i %>/ffffff.webp?text=1600"
+                                            media="--xx-large"/>
+                                    <!--[if IE 9]></video><![endif]-->
+                                    <img
+                                            class="l-responsive-img l-reading-post-slide-img ui-reading-post-slide-img lazyload"
+                                            width="388"
+                                            height="283"
+                                            data-expand="-20"
+                                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                            data-src="//placehold.co/388x283/<%= i %>03e3e/ffffff.webp"
+                                            alt="Reading Post <%= i %>"
+                                    />
+                                </picture>
+                            </div>
+                            <div class="ui-reading-post-slide-body l-reading-post-slide-body">
+                                <div class="ui-reading-post-slide-body-box">
+                                    <h6 class="l-reading-post-slide-body-title ui-reading-post-slide-body-title">By Hany
+                                        Ghobery</h6>
+                                    <p class="l-reading-post-slide-body-body ui-reading-post-slide-body-body">Lorem
+                                        ipsum dolor sit amet consectetur adipisicing elit. Quas, blanditiis.</p>
+                                </div>
+                                <div class="ui-reading-post-slide-actions l-reading-post-slide-actions">
+                                    Read More <%- include ../_components/icons/arrow-right.svg.ejs %>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include ../_components/main/body/body-footer.ejs %>
+<link rel="stylesheet" href="/pages-assets/magazine-single/magazine-single.lazy.styles.css" fetchpriority="low">
+<script src="/pages-assets/magazine-single/magazine-single.js"></script>
+<script src="/pages-assets/magazine-single/magazine-single.lazy.js" fetchpriority="low"></script>
+<%- include ../_components/main/footer/footer.ejs %>

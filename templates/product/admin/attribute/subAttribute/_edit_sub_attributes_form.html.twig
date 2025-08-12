@@ -1,0 +1,32 @@
+{{ form_start(edit_sub_attribute_form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate', "id": "edit-sub-attibutes"} }) }}
+<div class="col-md-12">
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped" id="sub-attributes-table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Attributes</th>
+                    {% for translation in new_sub_attribute_form.translations %}
+                        <th>Attributes ({{ translation.vars.label }})</th>
+                    {% endfor %}
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for sub_attribute_form in edit_sub_attribute_form.subAttributes.children %}
+                    {% include 'product/admin/attribute/subAttribute/_row_prototype.html.twig' with {"form":sub_attribute_form } %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}
+</div>
+
+<div class="col-md-12 mt-20">
+    {% include 'adminTemplate/pagination.html.twig' %}
+</div>
+{{ form_end(edit_sub_attribute_form) }}

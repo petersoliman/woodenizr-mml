@@ -1,0 +1,419 @@
+@import './../../_components/base-styles';
+
+/*/
+ * Layout Components
+/*/
+
+@import './../../_components/layout/grids/l-container';
+@import './../../_components/layout/grids/l-flex-row';
+
+@import './../../_components/layout/grids/l-flex-col-md-4';
+@import './../../_components/layout/grids/l-flex-col-md-6';
+
+@import './../../_components/layout/grids/l-flex-col-lg-2';
+@import './../../_components/layout/grids/l-flex-col-lg-4';
+@import './../../_components/layout/grids/l-flex-col-lg-5';
+@import './../../_components/layout/grids/l-flex-col-lg-6';
+@import './../../_components/layout/grids/l-flex-col-lg-8';
+@import './../../_components/layout/grids/l-flex-col-lg-12';
+
+@import './../../_components/layout/grids/l-flex-col-xl-2';
+@import './../../_components/layout/grids/l-flex-col-xl-4';
+@import './../../_components/layout/grids/l-flex-col-xl-5';
+@import './../../_components/layout/grids/l-flex-col-xl-6';
+@import './../../_components/layout/grids/l-flex-col-xl-8';
+
+@import './../../_components/layout/grids/l-flex-col-xxl-2';
+@import './../../_components/layout/grids/l-flex-col-xxl-3';
+@import './../../_components/layout/grids/l-flex-col-xxl-5';
+
+@import './../../_components/layout/grids/l-product-list-grid';
+@import './../../_components/layout/sections/l-404';
+
+@import './../../_components/layout/boxes/l-filters-box';
+
+@import './../../_components/layout/accordions/l-filter-accordion-item';
+
+@import './../../_components/layout/sections/l-featured-section';
+@import './../../_components/layout/sections/l-featured-full-width-banner-section';
+
+@import './../../_components/layout/titles/l-page-title';
+@import './../../_components/layout/titles/l-page-desc';
+@import './../../_components/layout/titles/l-page-title-box';
+
+@import './../../_components/layout/slides/l-product-slide';
+
+@import './../../_components/layout/pagination/l-pagination';
+
+@import './../../_components/layout/breadcrumbs/l-breadcrumbs';
+
+@import './../../_components/layout/dropdowns/l-dropdown';
+
+@import './../../_components/layout/forms/l-form-input-box';
+@import './../../_components/layout/forms/l-form-input-and-icon-box';
+@import './../../_components/layout/forms/l-form-input-icon';
+@import './../../_components/layout/forms/l-form-checkbox';
+@import './../../_components/layout/forms/l-form-radio';
+
+@import './../../_components/layout/backdrops/l-backdrop';
+
+@import './../../_components/layout/modals/l-share-product-modal';
+
+/*/
+ * UI Components
+/*/
+
+@import './../../_components/ui/boxes/ui-filters-box';
+
+@import './../../_components/ui/accordions/ui-filter-accordion-item';
+
+@import './../../_components/ui/sections/ui-featured-section';
+@import './../../_components/ui/sections/ui-featured-full-width-banner-section';
+
+@import './../../_components/ui/titles/ui-page-title';
+@import './../../_components/ui/titles/ui-page-desc';
+
+@import './../../_components/ui/slides/ui-product-slide';
+
+@import './../../_components/ui/pagination/ui-pagination';
+
+@import './../../_components/ui/breadcrumbs/ui-breadcrumbs';
+
+@import './../../_components/ui/boxes/ui-products-list-results-count-box';
+
+@import './../../_components/ui/dropdowns/ui-dropdown';
+
+@import './../../_components/ui/forms/ui-form-checkbox';
+@import './../../_components/ui/forms/ui-form-radio';
+@import './../../_components/ui/forms/ui-form-input-icon';
+
+@import './../../_components/ui/backdrops/ui-backdrop';
+
+@import './../../_components/ui/modals/ui-share-product-modal';
+
+/*/
+ * Full
+/*/
+
+@import './../../_components/full/steps/progress-steps.scss';
+@import './../../_components/full/cart/cart-summary.scss';
+@import './../../_components/full/buttons/btn.scss';
+@import './../../_components/full/form/form.scss';
+@import './../../_components/full/form/stack-input.scss';
+@import './../../_components/full/alerts/alert.scss';
+
+.wrapper-progress-steps {
+  padding-top: 82px;
+  padding-bottom: 60px;
+}
+
+.wrapper-cart-summary {
+  padding-bottom: 24px;
+  @include media-max($xl) {
+    padding-bottom: 124px;
+  }
+}
+
+.wrapper-cart-cta {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 23px;
+  color: #686868;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  strong {
+    font-weight: 600;
+  }
+  @include media-min($xl) {
+    margin-bottom: 100px;
+  }
+  .wrapper-cart-cta-xs-only {
+    display: none;
+    @include media-max($xl) {
+      display: block;
+    }
+  }
+}
+
+.wrapper-title {
+  margin-top: 54px;
+  margin-bottom: 25px;
+  background-color: #fff;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 35px;
+  color: var(--primary-color);
+  @include media-max($xl) {
+    font-size: 18px;
+  }
+  span {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: inline-block;
+    @include ltr() {
+      padding-right: 28px;
+    }
+    @include rtl() {
+      padding-left: 28px;
+    }
+  }
+}
+
+.wrapper-address-payment-card {
+  padding: 46px 136px;
+  background-color: #fff;
+  margin-bottom: 24px;
+  @include media-max($xl) {
+    padding: 26px 14px;
+  }
+  .wrapper-address {
+    background: #FFFFFF;
+    border: 1px solid #E9E9E9;
+    border-radius: 5px;
+    padding: 28px 36px 38px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #686868;
+    margin-bottom: 25px;
+    p {
+      margin: 0;
+      &:not(:last-child) {
+        margin: 0 0 12px;
+      }
+      span,
+      strong {
+        color: #3F3F3F;
+        @include media-max($xl) {
+          display: block;
+          padding: 0 !important;
+          margin-bottom: 5px;
+        }
+      }
+      .space {
+        @include media-max($xl) {
+          margin-bottom: 15px;
+        }
+      }
+      strong {
+        font-weight: 600;
+      }
+    }
+    &-name {
+      strong,
+      span {
+        @include ltr() {
+          padding-left: 12px;
+        }
+        @include rtl() {
+          padding-right: 12px;
+        }
+      }
+    }
+    &-details {
+      strong,
+      span {
+        @include ltr() {
+          padding-left: 30px;
+        }
+        @include rtl() {
+          padding-right: 30px;
+        }
+      }
+    }
+    &-address {
+      strong,
+      span {
+        @include ltr() {
+          padding-left: 16px;
+        }
+        @include rtl() {
+          padding-right: 16px;
+        }
+      }
+    }
+  }
+  .wrapper-payment-method {
+    background: #FFFFFF;
+    border: 1px solid #E9E9E9;
+    border-radius: 10px;
+    padding: 12px 36px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 35px;
+    color: #3F3F3F;
+    display: flex;
+    justify-content: space-between;
+    @include media-max($xl) {
+      padding: 12px;
+    }
+    &-name {
+      @include media-max($xl) {
+        font-size: 0;
+      }
+      span {
+        @include media-max($xl) {
+          font-size: 16px;
+          padding: 0 !important;
+        }
+        font-weight: 600;
+        color: #3F3F3F;
+        @include ltr() {
+          padding-left: 14px;
+        }
+        @include rtl() {
+          padding-right: 14px;
+        }
+      }
+    }
+    &-icons {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      img {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 36px;
+      }
+    }
+  }
+}
+
+.wrapper-cart-items-card {
+  padding: 57px 133px 76px;
+  background-color: #fff;
+  @include media-max($xl) {
+    padding: 46px 29px 33px 34px;
+    margin-bottom: 60px;
+  }
+  .wrapper-cart-items-list {
+    .wrapper-cart-item {
+      display: flex;
+      &-img {
+        width: 112px;
+        height: 117px;
+        line-height: 117px;
+        text-align: center;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+        }
+      }
+      &-body {
+        display: inline-flex;
+        flex-grow: 1;
+        @include ltr() {
+          padding-left: 38px;
+        }
+        @include rtl() {
+          padding-right: 38px;
+        }
+        @include media-max($xl) {
+          flex-direction: column;
+        }
+        .wrapper-cart-item-details {
+        }
+        .wrapper-cart-item-name {
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 27px;
+          color: #3F3F3F;
+          margin: 0 0 40px;
+        }
+        .wrapper-cart-item-variants {
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 17px;
+          color: #686868;
+          p {
+            margin: 0 0 12px;
+          }
+        }
+        .wrapper-cart-item-meta {
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 24px;
+          color: #686868;
+          p {
+            margin: 0 0 10px;
+          }
+          strong {
+            font-weight: 600;
+            font-size: 18px;
+          }
+          @include ltr() {
+            margin-left: auto;
+            padding-left: 38px;
+            text-align: right;
+          }
+          @include rtl() {
+            margin-right: auto;
+            padding-right: 38px;
+            text-align: left;
+          }
+          @include media-max($xl) {
+            margin: 0 !important;
+            padding: 0 !important;
+            text-align: inherit !important;
+            display: flex;
+            gap: 35px;
+            padding-top: 41px !important;
+          }
+        }
+      }
+      &:not(:last-child) {
+        margin-bottom: 55px;
+        padding-bottom: 50px;
+        border-bottom: 1px solid #E9E9E9;
+      }
+    }
+  }
+}
+
+.wrapper-cart-submit-btn {
+  &[disabled] {
+    pointer-events: none;
+    background: #F3F3F3;
+    border: 1px solid #D83333;
+    color: #B8B8B8;
+    svg {
+      path {
+        fill: #B8B8B8;
+      }
+    }
+  }
+}
+
+.wrapper-back-btn {
+  font-weight: 600;
+  margin-top: 59px;
+  margin-bottom: 59px;
+  @include media-max($xl) {
+    display: none;
+  }
+}
+.wrapper-cart-term-condition{
+  padding: 26px 31px;
+  border: 2px solid #E9E9E9;
+  background: #FFF;
+  margin-bottom: 24px;
+}
+
+.wrapper-cart-error {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 23px;
+  color: #D83333;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/*/
+ * Utilities
+/*/
+
+@import './../../_components/utilities/u-bg.scss';

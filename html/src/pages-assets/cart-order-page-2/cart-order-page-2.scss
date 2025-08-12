@@ -1,0 +1,306 @@
+@import './../../_components/base-styles';
+
+/*/
+ * Layout Components
+/*/
+
+@import './../../_components/layout/grids/l-container';
+@import './../../_components/layout/grids/l-flex-row';
+
+@import './../../_components/layout/grids/l-flex-col-md-4';
+@import './../../_components/layout/grids/l-flex-col-md-6';
+
+@import './../../_components/layout/grids/l-flex-col-lg-2';
+@import './../../_components/layout/grids/l-flex-col-lg-4';
+@import './../../_components/layout/grids/l-flex-col-lg-5';
+@import './../../_components/layout/grids/l-flex-col-lg-6';
+@import './../../_components/layout/grids/l-flex-col-lg-8';
+@import './../../_components/layout/grids/l-flex-col-lg-12';
+
+@import './../../_components/layout/grids/l-flex-col-xl-2';
+@import './../../_components/layout/grids/l-flex-col-xl-4';
+@import './../../_components/layout/grids/l-flex-col-xl-5';
+@import './../../_components/layout/grids/l-flex-col-xl-6';
+@import './../../_components/layout/grids/l-flex-col-xl-8';
+
+@import './../../_components/layout/grids/l-flex-col-xxl-2';
+@import './../../_components/layout/grids/l-flex-col-xxl-3';
+@import './../../_components/layout/grids/l-flex-col-xxl-5';
+
+@import './../../_components/layout/grids/l-product-list-grid';
+@import './../../_components/layout/sections/l-404';
+
+@import './../../_components/layout/boxes/l-filters-box';
+
+@import './../../_components/layout/accordions/l-filter-accordion-item';
+
+@import './../../_components/layout/sections/l-featured-section';
+@import './../../_components/layout/sections/l-featured-full-width-banner-section';
+
+@import './../../_components/layout/titles/l-page-title';
+@import './../../_components/layout/titles/l-page-desc';
+@import './../../_components/layout/titles/l-page-title-box';
+
+@import './../../_components/layout/slides/l-product-slide';
+
+@import './../../_components/layout/pagination/l-pagination';
+
+@import './../../_components/layout/breadcrumbs/l-breadcrumbs';
+
+@import './../../_components/layout/dropdowns/l-dropdown';
+
+@import './../../_components/layout/forms/l-form-input-box';
+@import './../../_components/layout/forms/l-form-input-and-icon-box';
+@import './../../_components/layout/forms/l-form-input-icon';
+@import './../../_components/layout/forms/l-form-checkbox';
+@import './../../_components/layout/forms/l-form-radio';
+
+@import './../../_components/layout/backdrops/l-backdrop';
+
+@import './../../_components/layout/modals/l-share-product-modal';
+
+/*/
+ * UI Components
+/*/
+
+@import './../../_components/ui/boxes/ui-filters-box';
+
+@import './../../_components/ui/accordions/ui-filter-accordion-item';
+
+@import './../../_components/ui/sections/ui-featured-section';
+@import './../../_components/ui/sections/ui-featured-full-width-banner-section';
+
+@import './../../_components/ui/titles/ui-page-title';
+@import './../../_components/ui/titles/ui-page-desc';
+
+@import './../../_components/ui/slides/ui-product-slide';
+
+@import './../../_components/ui/pagination/ui-pagination';
+
+@import './../../_components/ui/breadcrumbs/ui-breadcrumbs';
+
+@import './../../_components/ui/boxes/ui-products-list-results-count-box';
+
+@import './../../_components/ui/dropdowns/ui-dropdown';
+
+@import './../../_components/ui/forms/ui-form-checkbox';
+@import './../../_components/ui/forms/ui-form-radio';
+@import './../../_components/ui/forms/ui-form-input-icon';
+
+@import './../../_components/ui/backdrops/ui-backdrop';
+
+@import './../../_components/ui/modals/ui-share-product-modal';
+
+/*/
+ * Full
+/*/
+
+@import './../../_components/full/steps/progress-steps.scss';
+@import './../../_components/full/cart/cart-summary.scss';
+@import './../../_components/full/buttons/btn.scss';
+@import './../../_components/full/form/form.scss';
+@import './../../_components/full/form/stack-input.scss';
+@import './../../_components/full/alerts/alert.scss';
+
+.wrapper-progress-steps {
+  padding-top: 82px;
+  padding-bottom: 60px;
+}
+
+.wrapper-cart-summary {
+  padding-bottom: 24px;
+  @include media-max($xl) {
+    padding-bottom: 124px;
+  }
+}
+
+.wrapper-cart-cta {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 23px;
+  color: #686868;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  strong {
+    font-weight: 600;
+  }
+  @include media-min($xl) {
+    margin-bottom: 100px;
+  }
+  @include media-max($xl) {
+    position: fixed;
+    z-index: 150;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    right: 0;
+    background: #F7F7FA;
+    box-shadow: 0px -3px 20px #BBBBBB;
+    padding: 15px 20px;
+  }
+  .wrapper-cart-cta-xs-only {
+    display: none;
+    @include media-max($xl) {
+      display: block;
+    }
+  }
+}
+
+.wrapper-card {
+  padding: 56px 141px 82px 136px;
+  background: #fff;
+  margin-bottom: 30px;
+  @include media-max($xl) {
+    padding: 38px 14px;
+  }
+  .wrapper-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    @include media-max($xl) {
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    &-title {
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 35px;
+      color: #3F3F3F;
+      margin-bottom: 0;
+      margin-top: 0;
+      @include media-max($xl) {
+        font-size: 18px;
+      }
+    }
+  }
+  .wrapper-card-section-1 {
+    margin-bottom: 59px;
+    p {
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 35px;
+      color: #686868;
+      margin: 0;
+    }
+  }
+  .wrapper-card-section-2 {
+    font-weight: 600;
+    @include media-max($xl) {
+      display: none;
+    }
+  }
+}
+
+.wrapper-payment-methods {
+  margin-top: 25px;
+  .wrapper-payment-method {
+    display: block;
+    width: 100%;
+    &-card {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      cursor: pointer;
+      padding: 11px 32px;
+      border: 1px solid #E9E9E9;
+      border-radius: 10px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 35px;
+      color: #3F3F3F;
+      background: #fff;
+      position: relative;
+      z-index: 1;
+      min-height: 60px;
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      @include media-max($xl) {
+        padding: 8px 20px;
+        min-height: unset;
+      }
+      &-icons {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        img {
+          width: auto;
+          height: auto;
+          max-height: 34px;
+          @include media-max($xl) {
+            max-height: 25px;
+          }
+        }
+      }
+    }
+    &-notes {
+      background-color: #F3F3F3;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 23px;
+      color: #686868;
+      padding: 15px 32px 12px;
+      border-radius: 0 0 10px 10px;
+      transform: translateY(-5px);
+      z-index: -1;
+    }
+    &:hover {
+      .wrapper-payment-method-card {
+        border-color: var(--primary-color);
+      }
+    }
+    &.active {
+      .wrapper-payment-method-card {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px var(--primary-color);
+      }
+    }
+    &[disabled] {
+      pointer-events: none;
+      .wrapper-payment-method-card {
+        .ui-form-radio-label,
+        img {
+          opacity: 0.2;
+        }
+      }
+    }
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+
+.wrapper-cart-submit-btn {
+  &[disabled] {
+    pointer-events: none;
+    background: #F3F3F3;
+    border: 1px solid #D83333;
+    color: #B8B8B8;
+    svg {
+      path {
+        fill: #B8B8B8;
+      }
+    }
+  }
+}
+
+.wrapper-cart-error {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 23px;
+  color: #D83333;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/*/
+ * Utilities
+/*/
+
+@import './../../_components/utilities/u-bg.scss';

@@ -1,0 +1,71 @@
+@import '../../mixins.scss';
+
+.l-featured-floating-banners-section {
+    position: relative;
+    margin-top: -120px;
+    margin-bottom: 15px;
+    z-index: 25;
+    overflow: hidden;
+    &-slider {
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        overflow: hidden;
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+        top: 72%;
+    }
+}
+
+.l-featured-floating-banner {
+    position: relative;
+}
+
+.l-featured-floating-banner,
+.l-featured-floating-banner-img {
+    display: block;
+    width: 100%;
+    height: 334px;
+    object-fit: cover;
+    @include media-max($lg) {
+        //width: auto;
+        height: 320px;
+    }
+    @include media-max($md) {
+        //width: auto;
+        height: 191px;
+    }
+}
+
+.l-featured-floating-banner-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    &-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 0 0 8px;
+    }
+    &-txt {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 0;
+    }
+}
+
+.l-featured-floating-banner:hover {
+    .l-featured-floating-banner-caption {
+        &-title,
+        &-txt {
+            overflow: initial;
+            text-overflow: initial;
+            white-space: initial;
+            word-wrap: initial;
+        }
+    }
+}

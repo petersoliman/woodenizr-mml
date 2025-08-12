@@ -1,0 +1,13 @@
+online_payment_bundle:
+  resource: "@OnlinePaymentBundle/Controller/Administration"
+  type:     annotation
+  prefix:   /admin/online-payment
+
+
+fe_online_payment_bundle:
+  resource: "@OnlinePaymentBundle/Controller/FrontEnd"
+  type:     annotation
+  prefix:   /{_locale}/online-payment
+  defaults: { _locale: '%locale%' }
+  requirements:
+    _locale: '%app.locales%'

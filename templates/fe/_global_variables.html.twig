@@ -1,0 +1,65 @@
+{# START Load CSS #}
+<script>!function (n) { "use strict"; n.loadCSS || (n.loadCSS = function () { }); var t, o = loadCSS.relpreload = {}; o.support = function () { var e; try { e = n.document.createElement("link").relList.supports("preload") } catch (t) { e = !1 } return function () { return e } }(), o.bindMediaToggle = function (t) { var e = t.media || "all"; function a() { t.addEventListener ? t.removeEventListener("load", a) : t.attachEvent && t.detachEvent("onload", a), t.setAttribute("onload", null), t.media = e } t.addEventListener ? t.addEventListener("load", a) : t.attachEvent && t.attachEvent("onload", a), setTimeout(function () { t.rel = "stylesheet", t.media = "only x" }), setTimeout(a, 3e3) }, o.poly = function () { if (!o.support()) for (var t = n.document.getElementsByTagName("link"), e = 0; e < t.length; e++) { var a = t[e]; "preload" !== a.rel || "style" !== a.getAttribute("as") || a.getAttribute("data-loadcss") || (a.setAttribute("data-loadcss", !0), o.bindMediaToggle(a)) } }, o.support() || (o.poly(), t = n.setInterval(o.poly, 500), n.addEventListener ? n.addEventListener("load", function () { o.poly(), n.clearInterval(t) }) : n.attachEvent && n.attachEvent("onload", function () { o.poly(), n.clearInterval(t) })), "undefined" != typeof exports ? exports.loadCSS = loadCSS : n.loadCSS = loadCSS }("undefined" != typeof global ? global : this);</script>
+{# END Load CSS #}
+<script>
+    // Global functions
+    function __(string) {
+        return typeof APP.messages[string] != "undefined" ? APP.messages[string] : string;
+    }
+
+    // Constants
+    var APP = {
+        currency: "{{ userCurrencySymbol() }}",
+        gtmEnhancedEcommerceCurrencyCode: "EGP",
+        cartLastUpdateHash: {{ render(controller("App\\ECommerceBundle\\Controller\\FrontEnd\\CartWidgetController::getCartLastUpdateHash") ) }},
+        isLoggedIn: {{ is_granted('ROLE_USER') ? 'true' : 'false' }},
+        cartUrls: {
+            list: "{{ path('fe_cart_widget_list_ajax') }}",
+            addItem: "{{ path('fe_cart_widget_add_item_ajax') }}",
+            updateQty: "{{ path('fe_cart_widget_update_qty_item_ajax') }}",
+            removeItem: "{{ path('fe_cart_widget_remove_item_ajax') }}",
+            removeFromCartAndAddToWishlist: "{{ path('fe_cart_widget_remove_from_cart_and_add_to_wishlist_ajax') }}",
+            addCouponCode: "{{ path('fe_cart_widget_add_coupon_ajax') }}",
+            removeCouponCode: "{{ path('fe_cart_widget_remove_coupon_ajax') }}",
+        },
+        productUrls: {
+            variants: "{{ path('fe_product_variant_get_data_ajax') }}",
+        },
+        newsletter: {
+            link: "{{ path('fe_subscribe') }}",
+            _token: "{{ csrf_token("newsletter-token") }}"
+        },
+        addressUrls: {
+            list: "{{ path('fe_shipping_address_list_api') }}",
+            makeDefault: "{{ path('fe_shipping_address_make_default_api') }}",
+            add: "{{ path('fe_shipping_address_new_api') }}",
+            edit: "{{ path('fe_shipping_address_edit_api') }}",
+            remove: "{{ path('fe_shipping_address_delete_api') }}",
+        },
+        messages: {
+            "Copied": "{{ "copied_txt"|trans }}",
+            "Add to Wishlist": "{{ "add_to_wishlist_txt"|trans }}",
+            "Save for Later": "{{ "save_for_later_txt"|trans }}",
+            "Remove from Wishlist": "{{ "remove_from_wishlist_txt"|trans }}",
+            "Delete": "{{ "delete_txt"|trans }}",
+            "Share": "{{ "share_txt"|trans }}",
+            "Out of Stock": "{{ "out_of_stock_txt"|trans }}",
+            "Add to Cart": "{{ "add_to_cart_txt"|trans }}",
+            "Ratings": "{{ "ratings_txt"|trans }}",
+            "Saved": "{{ "save_money_txt"|trans }}",
+            "Please type correct email address": "{{ "enter_correct_email_msg"|trans }}",
+            "Please login first": "{{ "please_login_first_msg"|trans }}",
+            "Price not found": "{{ "price_not_found_msg"|trans }}",
+        }
+    }
+    var APP_DOM = {
+        modals: {},
+        tooltips: {
+            refresh: () => {
+            }
+        }
+    }
+    var APP_DATA = {
+        cart: {}
+    }
+</script>

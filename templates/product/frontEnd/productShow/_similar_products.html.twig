@@ -1,0 +1,7 @@
+{% if productPrice.stock is defined and productPrice.stock < 1  %}
+    <div class="ui-product-view-overview-section-col" data-similar-products-section="true">
+        <div class="l-product-similar-products">
+            <div class="l-lazy-section ui-lazy-section" data-l-lazy-section="similar-products" data-l-lazy-section-type="products" data-l-lazy-section-url="{{ path('fe_product_similar_product_ajax', {"slug": product.seo.slug }) }}"></div>
+        </div>
+    </div>
+{% endif %}

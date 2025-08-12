@@ -1,0 +1,250 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Group Update List{% endset %}
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body -%}
+    {% include 'product/admin/product/_filter.html.twig' with {"open": true} %}
+    {% set productSelected = app.request.session.get('productSelected') %}
+    <div class="row">
+        <div class="col-md-4 mb-15">
+            <label class="control-label">Apply bulk update on: </label>
+            <input type="hidden" id="allFilterResult" value="{{ paginator.totalItems }}" />
+            <input type="hidden" id="selectedItemsCount" value="{{ productSelected|length }}" />
+            <div class="input-group" id="apply-bulk-update">
+                <select class="form-control">
+                    <option value="">None</option>
+                    <option value="selectedItems" data-url="{{ path('product_group_update_action') }}">Selected Items</option>
+                    <option value="all" data-url="{{ path('product_group_update_action', app.request.query.all|merge({'filter':1})) }}">All filter result pages</option>
+                </select>
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button">Proceed to update</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-flat">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-th-block table-info">
+                <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" class="checkAllProduct">
+                        <i class="icon-spinner2 spinner" style="display: none;"></i>
+                    </th>
+                    <th>#</th>
+                    <th>SKU</th>
+                    <th>Title</th>
+                    <th>Image</th>
+                    <th>Category</th>
+                    <th>Created</th>
+                    <th>Published</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" {% if productSelected != null and product.id in productSelected %}checked=""{% endif %} id="check_{{ product.id }}" value="{{ product.id }}" class="checkProduct">
+                            <i class="icon-spinner2 spinner" style="display: none;"></i>
+                        </td>
+                        <td>{{ product.id }}</td>
+                        <td>{% if product.sku %}{{ product.sku|pn_json_encode }}{% else %}N/A{% endif %}</td>
+                        <td>{{ product.title|pn_json_encode }}</td>
+                        <td>
+                            {% if product.mainImage %}
+                                <div class='thumb' style='width: 58px; height: 58px;object-fit: cover;'>
+                                    <a href='{{ asset(product.mainImage.assetPath) }}' data-popup='lightbox'><img src='{{ asset(product.mainImage.assetPath)|webp(60) }}' alt='' style='width: 58px; height: 58px;object-fit: cover;'><span class='zoom-image'><i class='icon-plus2'></i></span></a>
+                                </div>
+                            {% else %}
+                                --
+                            {% endif %}
+                        </td>
+                        <td>{{ product.category.title|pn_json_encode }}</td>
+                        <td>{% if product.created %}{{ product.created|dateTimeFormat }}{% else %}--{% endif %}</td>
+                        <td>
+                            {% if product.publish %}
+                                <div class="label label-success">Yes</div>
+                            {% else %}
+                                <div class="label label-danger">No</div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">No record found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-body">
+            {{ include('adminTemplate/pagination.html.twig', {'paginator':paginator}) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/bootbox.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/sweet_alert.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/components_thumbnails.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/media/fancybox.min.js') }}"></script>
+    {% include 'product/admin/product/_filter_js.html.twig' %}
+    <script>
+        $(function () {
+            var inProgress = 0;
+
+            function handleBefore() {
+                inProgress++;
+            }
+
+            function handleComplete() {
+                if (!--inProgress) {
+                    $('.spinner').hide();
+                    $('input:checkbox').show();
+                }
+            }
+
+            $('.checkAllProduct').click(function () {
+                var checkAllProductIsChecked = $(this).is(":checked");
+                if (checkAllProductIsChecked == true) {
+                    var type = 'add';
+                } else {
+                    var type = 'remove';
+
+                }
+                var products = new Array();
+                $(".checkProduct").each(function () {
+                    $(this).prop('checked', checkAllProductIsChecked);
+                    products.push($(this).val());
+                });
+                var productsJson = JSON.stringify(products);
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('product_group_update_session_ajax') }}",
+                    beforeSend: handleBefore,
+                    data: {'id': productsJson, 'type': type},
+                    success: function (obj) {
+                        $("#selectedItemsCount").val(obj.length);
+                    }
+                });
+            });
+            $('.checkProduct').click(function () {
+                $(this).hide();
+                $(this).next('.spinner').show();
+                var id = $(this).val();
+                $this = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('product_group_update_session_ajax') }}",
+                    beforeSend: handleBefore,
+                    data: {'id': id},
+                    success: function (obj) {
+                        $("#selectedItemsCount").val(obj.length);
+                        $this.next('.spinner').hide();
+                        $this.show();
+                        handleComplete();
+                    }
+                });
+            });
+
+        });
+
+
+        function generateCode(length) {
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+
+
+        $("#apply-bulk-update button").click(function () {
+            console.log(1);
+            var selectElement = $(this).parents('.input-group').find("select");
+            var val = selectElement.find("option:selected").val();
+            var url = selectElement.find("option:selected").data("url");
+
+            if (typeof url === "undefined") {
+                swal({
+                    title: "Please select",
+                    type: "error",
+                    showConfirmButton: false,
+                    showCancelButton: true,
+                    cancelButtonText: "Close",
+                    cancelButtonColor: "#2196F3",
+                });
+                return false;
+            }
+            if (val == "all") {
+                updateAllFilterResults(url, $("#allFilterResult").val());
+            } else if (val == "selectedItems") {
+                var selectedItemsCount = $("#selectedItemsCount").val();
+                if (selectedItemsCount > 0) {
+                    updateAllFilterResults(url, selectedItemsCount);
+                } else {
+                    swal({
+                        title: "Please select",
+                        type: "error",
+                        showConfirmButton: false,
+                        showCancelButton: true,
+                        cancelButtonText: "Close",
+                        cancelButtonColor: "#2196F3",
+                    });
+                }
+            }
+
+        });
+
+        function updateAllFilterResults(url, count) {
+            var code = generateCode(5);
+            swal({
+                title: "Are you sure you want to update " + count + " item(s)",
+                text: 'Please enter this code below "' + code + '" to submit this action',
+                type: "input",
+                showCancelButton: true,
+                confirmButtonColor: "#2196F3",
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+                inputPlaceholder: "Write Code"
+            }, function (inputValue) {
+                if (inputValue === false) {
+                    return false;
+                } else if (inputValue === code) {
+                    swal({
+                        title: "Please wait ...",
+                        type: "success",
+                        showConfirmButton: false
+                    });
+                    $(".checkProduct").each(function () {
+                        $(this).prop('checked', true);
+                    });
+                    window.location = url;
+                } else if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false;
+                } else {
+                    swal.showInputError("Wrong, Please try again!!");
+                    return false;
+                }
+            });
+        }
+
+        $("#updateAllFilterResult").click(function () {
+            updateAllFilterResults();
+        });
+
+    </script>
+{% endblock %}

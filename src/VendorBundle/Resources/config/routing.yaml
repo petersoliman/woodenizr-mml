@@ -1,0 +1,4 @@
+vendor_admin:
+  resource: "@VendorBundle/Controller/Administration"
+  type:     annotation
+  prefix:   /admin/vendor
