@@ -1,0 +1,603 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}SEO Management - {{ product.title }}{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('product_index') }}">Products List</a></li>
+            <li><a href="{{ path('product_edit', {'id': product.id}) }}">{{ product.title }}</a></li>
+            <li class="active">SEO Management</li>
+        </ul>
+        <ul class="breadcrumb-elements">
+            <li>
+                <a href="{{ path('product_edit', {'id': product.id}) }}">
+                    <i class="icon-arrow-left8 position-left"></i> Back to Product
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/product/js/seo-analysis.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/product/css/seo-analysis.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+    {# Flash Messages #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
+    {% if product.seo %}
+        <div class="row">
+            {# Left Side - SEO Form Fields (2/3 width) #}
+            <div class="col-lg-8">
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <h6 class="panel-title"><i class="icon-stack-check"></i> SEO Settings for "{{ product.title }}"</h6>
+                    </div>
+                    <div class="panel-body">
+                        <form method="post" action="{{ path('product_seo_update', {'id': product.id}) }}" id="seoForm">
+                            {# Basic SEO Settings #}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h6 class="text-semibold text-uppercase text-muted mb-15">Basic SEO Settings</h6>
+                            </div>
+                        </div>
+                        
+                        {# English and Arabic side by side #}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_title">SEO Title (English)</label>
+                                    <input type="text" id="seo_title" name="seo[title]" value="{{ product.seo.title|default('') }}" class="form-control" placeholder="SEO title">
+                                    <div class="help-block">Maximum 60 characters recommended</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_ar_title">SEO Title (Arabic)</label>
+                                    <input type="text" id="seo_ar_title" name="seo[translations][ar][title]" value="{{ product.seo.translations.ar.title|default('') }}" class="form-control" placeholder="SEO title in Arabic">
+                                    <div class="help-block">Maximum 60 characters recommended</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_slug">URL Slug (English)</label>
+                                    <input type="text" id="seo_slug" name="seo[slug]" value="{{ product.seo.slug|default('') }}" class="form-control" placeholder="URL slug">
+                                    <div class="help-block">URL-friendly version of the title</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_ar_slug">URL Slug (Arabic)</label>
+                                    <input type="text" id="seo_ar_slug" name="seo[translations][ar][slug]" value="{{ product.seo.translations.ar.slug|default('') }}" class="form-control" placeholder="URL slug in Arabic">
+                                    <div class="help-block">URL-friendly version of the Arabic title</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_focus_keyword">Focus Keyword (English)</label>
+                                    <input type="text" id="seo_focus_keyword" name="seo[focusKeyword]" value="{{ product.seo.focusKeyword|default('') }}" class="form-control" placeholder="Main keyword for this product">
+                                    <div class="help-block">Primary keyword to target</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_ar_focus_keyword">Focus Keyword (Arabic)</label>
+                                    <input type="text" id="seo_ar_focus_keyword" name="seo[translations][ar][focusKeyword]" value="{{ product.seo.translations.ar.focusKeyword|default('') }}" class="form-control" placeholder="Main keyword in Arabic">
+                                    <div class="help-block">Primary Arabic keyword to target</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_meta_keywords">Meta Keywords (English)</label>
+                                    <input type="text" id="seo_meta_keywords" name="seo[metaKeyword]" value="{{ product.seo.metaKeyword|default('') }}" class="form-control" placeholder="Meta keywords">
+                                    <div class="help-block">Comma-separated keywords</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_ar_meta_keywords">Meta Keywords (Arabic)</label>
+                                    <input type="text" id="seo_ar_meta_keywords" name="seo[translations][ar][metaKeyword]" value="{{ product.seo.translations.ar.metaKeyword|default('') }}" class="form-control" placeholder="Meta keywords in Arabic">
+                                    <div class="help-block">Comma-separated Arabic keywords</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_meta_description">Meta Description (English)</label>
+                                    <textarea id="seo_meta_description" name="seo[metaDescription]" class="form-control" rows="3" placeholder="Meta description">{{ product.seo.metaDescription|default('') }}</textarea>
+                                    <div class="help-block">Maximum 160 characters recommended</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="seo_ar_meta_description">Meta Description (Arabic)</label>
+                                        <textarea id="seo_ar_meta_description" name="seo[translations][ar][metaDescription]" class="form-control" rows="3" placeholder="Meta description in Arabic">{{ product.seo.translations.ar.metaDescription|default('') }}</textarea>
+                                        <div class="help-block">Maximum 160 characters recommended</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_meta_tags">Meta Tags (English)</label>
+                                    <input type="text" id="seo_meta_tags" name="seo[metaTags]" value="{{ product.seo.metaTags|default('') }}" class="form-control" placeholder="Additional meta tags">
+                                    <div class="help-block">Additional meta tags for this product</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_ar_meta_tags">Meta Tags (Arabic)</label>
+                                    <input type="text" id="seo_ar_meta_tags" name="seo[translations][ar][metaTags]" value="{{ product.seo.translations.ar.metaTags|default('') }}" class="form-control" placeholder="Additional meta tags in Arabic">
+                                    <div class="help-block">Additional Arabic meta tags for this product</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {# Advanced SEO Settings #}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h6 class="text-semibold text-uppercase text-muted mb-15 mt-20">Advanced SEO Settings</h6>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_canonical_url">Canonical URL</label>
+                                    <input type="url" id="seo_canonical_url" name="seo[canonicalUrl]" value="{{ product.seo.canonicalUrl|default('') }}" class="form-control" placeholder="https://example.com/page">
+                                    <div class="help-block">Canonical URL to prevent duplicate content</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_robots">Robots Meta Tag</label>
+                                    <input type="text" id="seo_robots" name="seo[robots]" value="{{ product.seo.robots|default('index, follow') }}" class="form-control" placeholder="index, follow">
+                                    <div class="help-block">Search engine crawling instructions</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {# Social Media SEO Settings #}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h6 class="text-semibold text-uppercase text-muted mb-15 mt-20">Social Media SEO</h6>
+                            </div>
+                        </div>
+                        
+                        {# Facebook Settings #}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_facebook_title">Facebook Title</label>
+                                    <input type="text" id="seo_facebook_title" name="seo[seoSocials][facebook][title]" value="{{ product.seo.seoSocials.facebook.title|default('') }}" class="form-control" placeholder="Custom title for Facebook sharing">
+                                    <div class="help-block">Override default title for Facebook</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_facebook_description">Facebook Description</label>
+                                    <textarea id="seo_facebook_description" name="seo[seoSocials][facebook][description]" class="form-control" rows="2" placeholder="Custom description for Facebook sharing">{{ product.seo.seoSocials.facebook.description|default('') }}</textarea>
+                                    <div class="help-block">Override default description for Facebook</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {# Instagram Settings #}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_instagram_title">Instagram Title</label>
+                                    <input type="text" id="seo_instagram_title" name="seo[seoSocials][instagram][title]" value="{{ product.seo.seoSocials.instagram.title|default('') }}" class="form-control" placeholder="Custom title for Instagram sharing">
+                                    <div class="help-block">Override default title for Instagram</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_instagram_description">Instagram Description</label>
+                                    <textarea id="seo_instagram_description" name="seo[seoSocials][instagram][description]" class="form-control" rows="2" placeholder="Custom description for Instagram sharing">{{ product.seo.seoSocials.instagram.description|default('') }}</textarea>
+                                    <div class="help-block">Override default description for Instagram (max 125 characters)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {# Twitter Settings #}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_twitter_title">Twitter Title</label>
+                                    <input type="text" id="seo_twitter_title" name="seo[seoSocials][twitter][title]" value="{{ product.seo.seoSocials.twitter.title|default('') }}" class="form-control" placeholder="Custom title for Twitter sharing">
+                                    <div class="help-block">Override default title for Twitter</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_twitter_description">Twitter Description</label>
+                                    <textarea id="seo_twitter_description" name="seo[seoSocials][twitter][description]" class="form-control" rows="2" placeholder="Custom description for Twitter sharing">{{ product.seo.seoSocials.twitter.description|default('') }}</textarea>
+                                    <div class="help-block">Override default description for Twitter (max 280 characters)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {# LinkedIn Settings #}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_linkedin_title">LinkedIn Title</label>
+                                    <input type="text" id="seo_linkedin_title" name="seo[seoSocials][linkedin][title]" value="{{ product.seo.seoSocials.linkedin.title|default('') }}" class="form-control" placeholder="Custom title for LinkedIn sharing">
+                                    <div class="help-block">Override default title for LinkedIn</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="seo_linkedin_description">LinkedIn Description</label>
+                                    <textarea id="seo_linkedin_description" name="seo[seoSocials][linkedin][description]" class="form-control" rows="2" placeholder="Custom description for LinkedIn sharing">{{ product.seo.seoSocials.linkedin.description|default('') }}</textarea>
+                                    <div class="help-block">Override default description for LinkedIn</div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" class="btn btn-primary">Save SEO Settings</button>
+                        <a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-default">Cancel</a>
+                    </div>
+                </div>
+            </div>
+            
+            {# Right Side - Analysis and Global Settings (1/3 width) #}
+            <div class="col-lg-4">
+                {# Global SEO Settings Note - Top #}
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <h6 class="panel-title"><i class="icon-cog3"></i> Global SEO Settings</h6>
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert alert-info">
+                            <h6><i class="icon-info22"></i> <strong>Global Configuration</strong></h6>
+                            <p style="margin-bottom: 10px;">Social media handles, Pinterest Rich Pins, and website author are configured globally for your entire website.</p>
+                            <p style="margin-bottom: 0;">
+                                <strong>To configure:</strong> Go to <a href="{{ path('site_setting_index') }}" target="_blank">Site Settings</a> and look for:
+                            </p>
+                            <ul style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
+                                <li><strong>Website Author:</strong> Your company or organization name</li>
+                                <li><strong>Twitter Site Handle:</strong> Your company's main Twitter account</li>
+                                <li><strong>Twitter Creator Handle:</strong> Individual author's Twitter account</li>
+                                <li><strong>Enable Pinterest Rich Pins:</strong> Enable rich pin functionality site-wide</li>
+                                <li><strong>Facebook App ID:</strong> For Facebook Open Graph optimization</li>
+                                <li><strong>Instagram Business Account:</strong> For Instagram sharing optimization</li>
+                            </ul>
+                        </div>
+                        
+                        {# Social Media Images Note - Under Global Configuration #}
+                        <div class="alert alert-warning" style="margin-top: 15px;">
+                            <h6><i class="icon-image2"></i> <strong>Social Media Images</strong></h6>
+                            <p class="mb-0">Social media images are selected from your product gallery. Go to <a href="{{ path('post_set_images', {'id': product.post.id}) }}" target="_blank"><strong>Manage Image Gallery</strong></a> to assign specific images for Facebook, Instagram, Twitter, and LinkedIn sharing.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                {# SEO Analysis Section - Bottom #}
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <h6 class="panel-title"><i class="icon-stats-bars"></i> SEO Analysis</h6>
+                        <div class="heading-elements">
+                            <span class="label label-{{ seo_score_color|default('default') }}">{{ seo_score|default(0) }}/100</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        {# Overall Score #}
+                        <div class="text-center mb-20">
+                            <div class="seo-score-circle" data-score="{{ seo_score|default(0) }}">
+                                <div class="score-number">{{ seo_score|default(0) }}</div>
+                                <div class="score-label">SEO Score</div>
+                            </div>
+                        </div>
+
+                        {# Analysis Results #}
+                        <div class="seo-analysis-results">
+                            {# Basic SEO Analysis #}
+                            <div class="analysis-group">
+                                <h6 class="text-semibold text-uppercase text-muted mb-10">Basic SEO</h6>
+                                
+                                {# SEO Title Analysis #}
+                                <div class="analysis-item {{ seo_title_status|default('danger') }}">
+                                    <div class="analysis-icon">
+                                        {% if seo_title_status == 'success' %}
+                                            <i class="icon-checkmark-circle text-success"></i>
+                                        {% elseif seo_title_status == 'warning' %}
+                                            <i class="icon-warning text-warning"></i>
+                                        {% else %}
+                                            <i class="icon-cross-circle text-danger"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="analysis-content">
+                                        <div class="analysis-title">SEO Title</div>
+                                        <div class="analysis-description">
+                                            {% if product.seo.title %}
+                                                {% set title_length = product.seo.title|length %}
+                                                {% if title_length < 30 %}
+                                                    Too short ({{ title_length }}/60 chars). Add more descriptive content.
+                                                {% elseif title_length > 60 %}
+                                                    Too long ({{ title_length }}/60 chars). Keep under 60 characters.
+                                                {% else %}
+                                                    Perfect length ({{ title_length }}/60 chars).
+                                                {% endif %}
+                                            {% else %}
+                                                Missing SEO title. Add a descriptive title for better search rankings.
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {# Meta Description Analysis #}
+                                <div class="analysis-item {{ meta_description_status|default('danger') }}">
+                                    <div class="analysis-icon">
+                                        {% if meta_description_status == 'success' %}
+                                            <i class="icon-checkmark-circle text-success"></i>
+                                        {% elseif meta_description_status == 'warning' %}
+                                            <i class="icon-warning text-warning"></i>
+                                        {% else %}
+                                            <i class="icon-cross-circle text-danger"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="analysis-content">
+                                        <div class="analysis-title">Meta Description</div>
+                                        <div class="analysis-description">
+                                            {% if product.seo.metaDescription %}
+                                                {% set desc_length = product.seo.metaDescription|length %}
+                                                {% if desc_length < 120 %}
+                                                    Too short ({{ desc_length }}/160 chars). Add more descriptive content.
+                                                {% elseif desc_length > 160 %}
+                                                    Too long ({{ desc_length }}/160 chars). Keep under 160 characters.
+                                                {% else %}
+                                                    Perfect length ({{ desc_length }}/160 chars).
+                                                {% endif %}
+                                            {% else %}
+                                                Missing meta description. Add a compelling description for search results.
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {# Focus Keyword Analysis #}
+                                <div class="analysis-item {{ focus_keyword_status|default('danger') }}">
+                                    <div class="analysis-icon">
+                                        {% if focus_keyword_status == 'success' %}
+                                            <i class="icon-checkmark-circle text-success"></i>
+                                        {% elseif focus_keyword_status == 'warning' %}
+                                            <i class="icon-warning text-warning"></i>
+                                        {% else %}
+                                            <i class="icon-cross-circle text-danger"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="analysis-content">
+                                        <div class="analysis-title">Focus Keyword</div>
+                                        <div class="analysis-description">
+                                            {% if product.seo.focusKeyword %}
+                                                {% set keyword = product.seo.focusKeyword %}
+                                                {% set title_contains = keyword|lower in (product.seo.title|lower)|default(false) %}
+                                                {% set desc_contains = keyword|lower in (product.seo.metaDescription|lower)|default(false) %}
+                                                {% set url_contains = keyword|lower in (product.seo.slug|lower)|default(false) %}
+                                                
+                                                <strong>Keyword:</strong> "{{ keyword }}"<br>
+                                                {% if title_contains %}✅ In title{% else %}❌ Not in title{% endif %} |
+                                                {% if desc_contains %}✅ In description{% else %}❌ Not in description{% endif %} |
+                                                {% if url_contains %}✅ In URL{% else %}❌ Not in URL{% endif %}
+                                            {% else %}
+                                                No focus keyword set. Choose a primary keyword to target.
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {# URL Slug Analysis #}
+                                <div class="analysis-item {{ slug_status|default('danger') }}">
+                                    <div class="analysis-icon">
+                                        {% if slug_status == 'success' %}
+                                            <i class="icon-checkmark-circle text-success"></i>
+                                        {% elseif slug_status == 'warning' %}
+                                            <i class="icon-warning text-warning"></i>
+                                        {% else %}
+                                            <i class="icon-cross-circle text-danger"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="analysis-content">
+                                        <div class="analysis-title">URL Slug</div>
+                                        <div class="analysis-description">
+                                            {% if product.seo.slug %}
+                                                {% set slug_length = product.seo.slug|length %}
+                                                {% if slug_length < 3 %}
+                                                    Too short. Make it more descriptive.
+                                                {% elseif slug_length > 50 %}
+                                                    Too long. Keep URLs concise.
+                                                {% else %}
+                                                    Good length and format.
+                                                {% endif %}
+                                            {% else %}
+                                                Missing URL slug. Create a URL-friendly version of the title.
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {# Content Analysis #}
+                            <div class="analysis-group">
+                                <h6 class="text-semibold text-uppercase text-muted mb-10">Content Quality</h6>
+                                
+                                {# Product Description Analysis #}
+                                <div class="analysis-item {{ description_status|default('danger') }}">
+                                    <div class="analysis-icon">
+                                        {% if description_status == 'success' %}
+                                            <i class="icon-checkmark-circle text-success"></i>
+                                        {% elseif description_status == 'warning' %}
+                                            <i class="icon-warning text-warning"></i>
+                                        {% else %}
+                                            <i class="icon-cross-circle text-danger"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="analysis-content">
+                                        <div class="analysis-title">Product Description</div>
+                                        <div class="analysis-description">
+                                            {# Debug: Show current description data #}
+                                            <div style="background: #f5f5f5; padding: 10px; margin-bottom: 10px; border-radius: 4px; font-size: 12px;">
+                                                <strong>Debug Info:</strong><br>
+                                                Has Post: {{ product.post ? 'YES' : 'NO' }}<br>
+                                                {% if product.post %}
+                                                    Has Content: {{ product.post.content ? 'YES' : 'NO' }}<br>
+                                                    {% if product.post.content %}
+                                                        Content Keys: {{ product.post.content|keys|join(', ') }}<br>
+                                                        Description: "{{ product.post.content.description|default('EMPTY') }}"<br>
+                                                        Description Length: {{ product.post.content.description|default('')|length }} chars<br>
+                                                        {% if product.post.content.description %}
+                                                            Clean Description: "{{ product.post.content.description|striptags }}"<br>
+                                                            PHP Calculated Word Count: {{ description_word_count|default(0) }} words<br>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            </div>
+                                            
+                                            {% if product.post %}
+                                                {% set content = product.post.content %}
+                                                {% if content and content.description %}
+                                                    {% set description = content.description %}
+                                                    {% set desc_words = description_word_count|default(0) %}
+                                                    {% if desc_words < 100 %}
+                                                        Too short ({{ desc_words }} words). Aim for at least 300 words.
+                                                    {% elseif desc_words < 300 %}
+                                                        Good start ({{ desc_words }} words). Consider adding more content.
+                                                    {% else %}
+                                                        Excellent length ({{ desc_words }} words). Good for SEO.
+                                                    {% endif %}
+                                                {% else %}
+                                                    Missing product description. Add detailed content for better SEO.
+                                                {% endif %}
+                                            {% else %}
+                                                Missing product post. Please create a post for this product first.
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {# Image Optimization Analysis #}
+                                <div class="analysis-item {{ images_status|default('danger') }}">
+                                    <div class="analysis-icon">
+                                        {% if images_status == 'success' %}
+                                            <i class="icon-checkmark-circle text-success"></i>
+                                        {% elseif images_status == 'warning' %}
+                                            <i class="icon-warning text-warning"></i>
+                                        {% else %}
+                                            <i class="icon-cross-circle text-danger"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="analysis-content">
+                                        <div class="analysis-title">Image Optimization</div>
+                                        <div class="analysis-description">
+                                            {% set image_count = product.post.images|length %}
+                                            {% if image_count > 0 %}
+                                                {% set images_with_alt = 0 %}
+                                                {% for image in product.post.images %}
+                                                    {% if image.alt %}
+                                                        {% set images_with_alt = images_with_alt + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                
+                                                {{ image_count }} images found. 
+                                                {% if images_with_alt == image_count %}
+                                                    ✅ All images have alt text.
+                                                {% else %}
+                                                    ⚠️ {{ images_with_alt }}/{{ image_count }} images have alt text.
+                                                {% endif %}
+                                            {% else %}
+                                                No images found. Add product images with proper alt text.
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {# Social Media Analysis #}
+                            <div class="analysis-group">
+                                <h6 class="text-semibold text-uppercase text-muted mb-10">Social Media</h6>
+                                
+                                {# Social Media Images Analysis #}
+                                <div class="analysis-item {{ social_images_status|default('danger') }}">
+                                    <div class="analysis-icon">
+                                        {% if social_images_status == 'success' %}
+                                            <i class="icon-checkmark-circle text-success"></i>
+                                        {% elseif social_images_status == 'warning' %}
+                                            <i class="icon-warning text-warning"></i>
+                                        {% else %}
+                                            <i class="icon-cross-circle text-danger"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="analysis-content">
+                                        <div class="analysis-title">Social Media Images</div>
+                                        <div class="analysis-description">
+                                            {% set social_images = 0 %}
+                                            {% for image in product.post.images %}
+                                                {% if image.imageType and image.imageType in [4, 5, 6, 7, 8] %}
+                                                    {% set social_images = social_images + 1 %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            
+                                            {% if social_images > 0 %}
+                                                ✅ {{ social_images }} social media images configured.
+                                            {% else %}
+                                                ⚠️ No social media images assigned. 
+                                                <a href="{{ path('post_set_images', {'id': product.post.id}) }}" target="_blank">Configure now</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {# Action Buttons #}
+                        <div class="text-center mt-20">
+                            <button type="button" class="btn btn-info btn-sm" onclick="refreshSeoAnalysis()">
+                                <i class="icon-refresh"></i> Refresh Analysis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-warning">
+            <h6><i class="icon-warning"></i> <strong>No SEO Entity Found</strong></h6>
+            <p>This product doesn't have SEO settings configured yet. Please create the SEO entity first.</p>
+        </div>
+    {% endif %}
+{% endblock %}

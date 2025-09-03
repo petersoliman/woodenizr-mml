@@ -38,7 +38,7 @@
                     {#                    <li {% if cr in ['team_index', 'team_new', 'team_edit'] %} class="active" {% endif %}> #}
                     {#                        <a href="{{ path('team_index') }}"><i class="fa fa-male"></i><span>Team Members List</span></a> #}
                     {#                    </li> #}
-                    <li {% if cr in ['brand_index','brand_new', 'brand_edit', 'product_group_update_index', 'product_group_update_action','product_bulk_generate_index','product_bulk_generate_new','product_bulk_generate_edit','product_bulk_generate_show','product_index','product_new', 'product_edit','category_index','category_new', 'category_edit', 'attribute_index','attribute_new', 'attribute_edit','collection_index', 'collection_edit', 'collection_new', 'collection_clone', 'collection_manage_product', 'occasion_index', 'occasion_edit', 'occasion_new', 'occasion_clone', 'occasion_manage_product'] %} class="active" {% endif %}>
+                    <li {% if cr in ['brand_index','brand_new', 'brand_edit', 'product_group_update_index', 'product_group_update_action','product_bulk_generate_index','product_bulk_generate_new','product_bulk_generate_edit','product_bulk_generate_show','product_upload_csv','product_index','product_new', 'product_edit','category_index','category_new', 'category_edit', 'attribute_index','attribute_new', 'attribute_edit','collection_index', 'collection_edit', 'collection_new', 'collection_clone', 'collection_manage_product', 'occasion_index', 'occasion_edit', 'occasion_new', 'occasion_clone', 'occasion_manage_product'] %} class="active" {% endif %}>
                         <a href="#"><i class="icon-basket"></i> <span>Products Catalog</span></a>
                         <ul>
                             <li {% if cr in ['product_index','product_new', 'product_edit'] %}class="active"{% endif %}>
@@ -65,6 +65,12 @@
                             </li>
                             <li {% if cr in ['product_bulk_generate_index','product_bulk_generate_new','product_bulk_generate_edit','product_bulk_generate_show'] %}class="active"{% endif %}>
                                 <a href="{{ path('product_bulk_generate_index') }}">Bulk Generate</a>
+                            </li>
+                            <li {% if cr in ['product_upload_csv'] %}class="active"{% endif %}>
+                                <a href="{{ path('product_upload_csv') }}">Bulk Upload</a>
+                            </li>
+                            <li {% if cr in ['product_cgd_index', 'product_cgd_show', 'product_cgd_approve', 'product_cgd_reject'] %}class="active"{% endif %}>
+                                <a href="{{ path('product_cgd_index') }}">CGData Approval</a>
                             </li>
                         </ul>
                     </li>

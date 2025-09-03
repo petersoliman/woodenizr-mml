@@ -3,6 +3,79 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
+        /* Product Edit Page Styling */
+        .panel-heading .panel-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .text-semibold.text-uppercase.text-muted {
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        .mb-15 {
+            margin-bottom: 15px;
+        }
+        
+        .mt-20 {
+            margin-top: 20px;
+        }
+        
+        .alert-sm {
+            padding: 8px 12px;
+            margin-bottom: 0;
+        }
+        
+        .alert-sm h6 {
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+        
+        .alert-sm p {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .help-block {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .help-block strong {
+            color: #333;
+        }
+        
+        /* Form field spacing */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        /* Panel spacing */
+        .panel {
+            margin-bottom: 25px;
+        }
+        
+        .panel-body {
+            padding: 20px;
+        }
+        
+        /* Breadcrumb improvements */
+        .breadcrumb-elements li a {
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .breadcrumb-elements li a:hover {
+            background-color: #f5f5f5;
+            text-decoration: none;
+        }
+        
+        /* Loading animation */
         .box-loading {
             position: relative;
         }
@@ -28,6 +101,47 @@
             -o-animation: rotation 1s linear infinite;
             animation: rotation 1s linear infinite;
         }
+        
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .col-lg-9, .col-lg-3 {
+                width: 100%;
+            }
+            
+            .breadcrumb-elements {
+                margin-top: 10px;
+            }
+            
+            .breadcrumb-elements li {
+                display: block;
+                margin-bottom: 5px;
+            }
+        }
+        
+        /* SEO Tab Styling */
+        #seo-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        #seo-section .panel {
+            margin-bottom: 0;
+        }
+        
+        .breadcrumb-elements li a.active {
+            background-color: #5cb85c;
+            color: white;
+            border-radius: 4px;
+            padding: 8px 12px;
+        }
+        
+        .breadcrumb-elements li a:hover {
+            background-color: #f5f5f5;
+            text-decoration: none;
+        }
     </style>
 {% endblock %}
 {% block breadcrumb %}
@@ -38,21 +152,32 @@
             <li class="active">{{ page_title }}</li>
         </ul>
         <ul class="breadcrumb-elements">
+            {% if product.seo %}
             <li>
                 <a href="{{ path('fe_product_show', { 'slug': product.seo.slug}) }}" target="_blank">
                     <i class="icon-eye position-left"></i> Preview
                 </a>
             </li>
+            {% endif %}
+            <li>
+                <a href="{{ path('product_seo_manage', {'id': product.id}) }}">
+                    <i class="icon-stack-check position-left"></i> SEO
+                </a>
+            </li>
+            {% if product.post %}
             <li>
                 <a href="{{ path('post_set_images', { 'id': product.post.id}) }}">
                     <i class="fa fa-image position-left"></i> Manage Image Gallery
                 </a>
             </li>
+            {% endif %}
+            {% if product.threeSixtyView %}
             <li>
                 <a href="{{ path('three_sixty_view_images', { 'id': product.threeSixtyView.id}) }}">
                     <i class="icon-cube4 position-left"></i> 360 View
                 </a>
             </li>
+            {% endif %}
             {% if constant("App\\BaseBundle\\SystemConfiguration::PRODUCT_PRICE_TYPE").value == constant("App\\BaseBundle\\ProductPriceTypeEnum::VARIANTS").value and product.enableVariants %}
                 <li>
                     <a href="{{ path('product_variant_index', { 'id': product.id}) }}">
@@ -67,13 +192,41 @@
     {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'} }) }}
     <div class="row">
         <div class="col-lg-9">
-            {% set defaultTwig= include ("product/admin/product/_form.html.twig") %}
-            {{ include ("@PNLocale/new_or_edit_tab_structure.html.twig", {'defaultTwig': defaultTwig, "transTwigPath" : "product/admin/product/_form_trans.html.twig"} ) }}
+            {# Translation Tabs at the Top #}
+            {% set languages = pnLanguages() %}
+            {% set defaultLocale = getParameter('locale') %}
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs nav-tabs-highlight">
+                            <li class="active"><a href="#locale-tab-{{ defaultLocale }}" data-toggle="tab"><img src="{{ asset('admin/images/flags/us.png') }}"/> English (Default)</a></li>
+                            {% for language in languages %}
+                                <li>
+                                    <a href="#locale-tab-{{ language.locale }}" data-toggle="tab"><img src="{{ asset(language.flagAsset) }}"/> {{ language.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="locale-tab-{{ defaultLocale }}">
+                                {# Main Product Form in English Tab #}
+                                {% include "product/admin/product/_form.html.twig" %}
+                            </div>
+                            {% for language in languages %}
+                                <div class="tab-pane" id="locale-tab-{{ language.locale }}">
+                                    {% include "product/admin/product/_form_trans.html.twig" with {"locale": language.locale} %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-lg-3">
             {% include "product/admin/product/_new_edit_aside.html.twig" %}
         </div>
     </div>
+    
     {{ form_end(form) }}
 {% endblock %}
 {% block javascripts %}

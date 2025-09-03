@@ -1,0 +1,49 @@
+{% extends 'adminTemplate/base.html.twig' %}
+
+{% block title %}Debug Test{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Debug Test Page</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Debug Information</h3>
+                </div>
+                <div class="card-body">
+                    <h4>Template Variables:</h4>
+                    <ul>
+                        <li><strong>product_cgds:</strong> {{ product_cgds|length }} items</li>
+                        <li><strong>statistics:</strong> {{ statistics|json_encode }}</li>
+                        <li><strong>current_status:</strong> {{ current_status }}</li>
+                        <li><strong>current_page:</strong> {{ current_page }}</li>
+                        <li><strong>search_query:</strong> {{ search_query }}</li>
+                    </ul>
+                    
+                    <h4>Product CGDs Data:</h4>
+                    {% if product_cgds|length > 0 %}
+                        <p>Found {{ product_cgds|length }} entries:</p>
+                        <ul>
+                        {% for item in product_cgds %}
+                            <li>ID: {{ item.id }}, Name: {{ item.name }}, Status: {{ item.status }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p><strong>No entries found</strong> - This should be visible!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

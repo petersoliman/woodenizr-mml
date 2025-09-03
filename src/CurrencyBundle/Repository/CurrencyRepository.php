@@ -32,7 +32,14 @@ class CurrencyRepository extends BaseRepository
 
     public function getDefaultCurrency(): ?Currency
     {
-        return $this->findOneBy(["default" => true, "deleted" => null]);
+        $currency = $this->findOneBy(["default" => true, "deleted" => null]);
+        
+        // If no default currency exists, try to get any available currency
+        if ($currency === null) {
+            $currency = $this->findOneBy(["deleted" => null]);
+        }
+        
+        return $currency;
     }
 
     public function changeDefault(Currency $currency): void

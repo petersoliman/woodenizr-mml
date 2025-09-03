@@ -1,5 +1,5 @@
 {% apply spaceless %}
-    {% if attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::GOOGLE_TAG_MANAGER_ID')) is not empty %}
+    {% if data is not empty and attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::GOOGLE_TAG_MANAGER_ID')) is not empty %}
         <!-- Google Tag Manager -->
         <script>
             var userAgent = navigator.userAgent;
@@ -15,7 +15,7 @@
         </script>
         <!-- End Google Tag Manager -->
     {% endif %}
-    {% if attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::FACEBOOK_PIXEL_ID')) is not empty %}
+    {% if data is not empty and attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::FACEBOOK_PIXEL_ID')) is not empty %}
         <!-- Facebook Pixel Code -->
         <script>
             var userAgent = navigator.userAgent;
@@ -36,7 +36,7 @@
         </script>
         <!-- END Facebook Pixel Code -->
     {% endif %}
-    {% if attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::FACEBOOK_CHAT_PAGE_ID')) is not empty %}
+    {% if data is not empty and attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::FACEBOOK_CHAT_PAGE_ID')) is not empty %}
         <!-- Your SDK code -->
         <script>
             var regexLighthouse = RegExp("Chrome-Lighthouse", "ig")
@@ -66,5 +66,5 @@
             }
         </script>
     {% endif %}
-    {% if attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::WEBSITE_HEAD_TAGS')) is not empty %}{{ attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::WEBSITE_HEAD_TAGS'))|raw }}{% endif %}
+    {% if data is not empty and attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::WEBSITE_HEAD_TAGS')) is not empty %}{{ attribute(data, constant('App\\CMSBundle\\Entity\\SiteSetting::WEBSITE_HEAD_TAGS'))|raw }}{% endif %}
 {% endapply  %}

@@ -1,18 +1,21 @@
 {% import 'adminTemplate/macros.html.twig' as macros %}
-{% set trans_form = form.translations[locale] %}
-{% set post_form = form.post.translations[locale] %}
-{% set seo_form = form.seo %}
-<div class="panel panel-flat">
-    <div class="panel-body">
-        <div class="row">
-            {{ macros.input(trans_form.title) }}
+
+{# Only show translation form if the locale exists in the form #}
+{% if form.translations[locale] is defined and form.translations[locale] is not null %}
+    {% set trans_form = form.translations[locale] %}
+    {% set post_form = form.post.translations[locale] %}
+    
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h6 class="panel-title"><i class="icon-language"></i> {{ locale|upper }} Translation</h6>
         </div>
-        <div class="row">
-            {{ macros.input(post_form.description, 12, null,null, 'form-control ckeditor') }}
+        <div class="panel-body">
+            <div class="row">
+                {{ macros.input(trans_form.title) }}
+            </div>
+            <div class="row">
+                {{ macros.input(post_form.description, 12, null,null, 'form-control ckeditor') }}
+            </div>
         </div>
     </div>
-    <div class="panel-footer">
-        {% include 'product/admin/product/_save_btns.html.twig' %}
-    </div>
-</div>
-{% include '@PNSeo/Administration/Seo/seo.html.twig' with { 'seoForm':seo_form, 'entity':product } %}
+{% endif %}

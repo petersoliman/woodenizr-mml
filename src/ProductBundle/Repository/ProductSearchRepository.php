@@ -348,6 +348,10 @@ class ProductSearchRepository extends BaseRepository
 
     private function filterWhereClause(QueryBuilder $statement, \stdClass $search): void
     {
+        // Base filters - always apply these for frontend display
+        $statement->andWhere('p.publish = 1');
+        $statement->andWhere('p.deleted IS NULL');
+        
         //        if (isset($search->string) and Validate::not_null($search->string)) {
         //            $statement->addSelect("MATCH_AGAINST (ps.normalizedTxt, :searchTerm ) as score");
         //            $statement->andWhere("MATCH_AGAINST(ps.normalizedTxt, :searchTerm) > 0.5");

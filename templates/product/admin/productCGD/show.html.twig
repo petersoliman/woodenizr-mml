@@ -1,0 +1,339 @@
+{% extends 'adminTemplate/base.html.twig' %}
+
+{% block title %}ProductCGD Details - {{ product_cgd.name }}{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">ProductCGD Details</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ path('admin_index') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ path('product_cgd_index') }}">ProductCGD</a></li>
+                        <li class="breadcrumb-item active">{{ product_cgd.name }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <!-- Status Banner -->
+            <div class="alert alert-{{ product_cgd.status == 'pending' ? 'warning' : (product_cgd.status == 'approved' ? 'success' : 'danger') }} alert-dismissible">
+                <h5><i class="icon fas fa-{{ product_cgd.status == 'pending' ? 'clock' : (product_cgd.status == 'approved' ? 'check' : 'times') }}"></i> 
+                    Status: {{ product_cgd.statusLabel }}</h5>
+                {% if product_cgd.status == 'rejected' and product_cgd.rejectionReason %}
+                    <p><strong>Rejection Reason:</strong> {{ product_cgd.rejectionReason }}</p>
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <!-- Main Product Information -->
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-box"></i> Product Information
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl>
+                                        <dt>Name</dt>
+                                        <dd>{{ product_cgd.name }}</dd>
+                                        
+                                        <dt>SKU</dt>
+                                        <dd>
+                                            {% if product_cgd.sku %}
+                                                <code>{{ product_cgd.sku }}</code>
+                                            {% else %}
+                                                <span class="text-muted">Not specified</span>
+                                            {% endif %}
+                                        </dd>
+                                        
+                                        <dt>Price</dt>
+                                        <dd>
+                                            {% if product_cgd.price %}
+                                                ${{ product_cgd.price|number_format(2) }}
+                                            {% else %}
+                                                <span class="text-muted">Not specified</span>
+                                            {% endif %}
+                                        </dd>
+                                        
+                                        <dt>URL</dt>
+                                        <dd>
+                                            {% if product_cgd.url %}
+                                                <a href="{{ product_cgd.url }}" target="_blank" class="text-break">
+                                                    {{ product_cgd.url }}
+                                                </a>
+                                            {% else %}
+                                                <span class="text-muted">Not specified</span>
+                                            {% endif %}
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl>
+                                        <dt>Category</dt>
+                                        <dd>
+                                            <span class="badge badge-info">{{ product_cgd.category.title }}</span>
+                                        </dd>
+                                        
+                                        <dt>Brand</dt>
+                                        <dd>
+                                            {% if product_cgd.brand %}
+                                                <span class="badge badge-secondary">{{ product_cgd.brand.title }}</span>
+                                            {% else %}
+                                                <span class="text-muted">Not assigned</span>
+                                            {% endif %}
+                                        </dd>
+                                        
+                                        <dt>Batch ID</dt>
+                                        <dd>
+                                            {% if product_cgd.batchId %}
+                                                <code>{{ product_cgd.batchId }}</code>
+                                            {% else %}
+                                                <span class="text-muted">Not specified</span>
+                                            {% endif %}
+                                        </dd>
+                                        
+                                        <dt>Product ID</dt>
+                                        <dd>
+                                            {% if product_cgd.productId %}
+                                                <a href="{{ path('product_edit', {'id': product_cgd.productId}) }}" class="badge badge-success">
+                                                    {{ product_cgd.productId }}
+                                                </a>
+                                                <small class="text-muted">(Click to view product)</small>
+                                            {% else %}
+                                                <span class="text-muted">Not yet created</span>
+                                            {% endif %}
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            
+                            {% if product_cgd.description %}
+                                <hr>
+                                <dt>Description</dt>
+                                <dd>{{ product_cgd.description|nl2br }}</dd>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Technical Specifications -->
+                    {% if product_cgd.technicalSpecs and product_cgd.technicalSpecs|length > 0 %}
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-cogs"></i> Technical Specifications
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Specification</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for key, value in product_cgd.technicalSpecs %}
+                                                <tr>
+                                                    <td><strong>{{ key|title }}</strong></td>
+                                                    <td>
+                                                        {% if value is iterable %}
+                                                            <ul class="list-unstyled mb-0">
+                                                                {% for item in value %}
+                                                                    <li>{{ item }}</li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        {% else %}
+                                                            {{ value }}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Metadata -->
+                    {% if product_cgd.metadata and product_cgd.metadata|length > 0 %}
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-info-circle"></i> Additional Metadata
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Field</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for key, value in product_cgd.metadata %}
+                                                <tr>
+                                                    <td><strong>{{ key|title }}</strong></td>
+                                                    <td>{{ value }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-md-4">
+                    <!-- Images -->
+                    {% if product_cgd.images and product_cgd.images|length > 0 %}
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-images"></i> Product Images ({{ product_cgd.images|length }})
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    {% for imageUrl in product_cgd.images %}
+                                        <div class="col-6 mb-2">
+                                            <a href="{{ imageUrl }}" target="_blank" class="d-block">
+                                                <img src="{{ imageUrl }}" alt="Product Image" 
+                                                     class="img-fluid rounded" style="max-height: 100px; object-fit: cover;">
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- System Information -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-database"></i> System Information
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <dl>
+                                <dt>Created</dt>
+                                                                        <dd>{{ product_cgd.created|date('Y-m-d H:i:s') }}</dd>
+                                
+                                <dt>Created By</dt>
+                                <dd>
+                                    {% if product_cgd.createdBy %}
+                                        {{ product_cgd.createdBy.email }}
+                                    {% else %}
+                                        <span class="text-muted">System</span>
+                                    {% endif %}
+                                </dd>
+                                
+                                {% if product_cgd.approvedBy %}
+                                    <dt>Approved By</dt>
+                                    <dd>{{ product_cgd.approvedBy.email }}</dd>
+                                    
+                                    <dt>Approved At</dt>
+                                    <dd>{{ product_cgd.approvedAt|date('Y-m-d H:i:s') }}</dd>
+                                {% endif %}
+                                
+                                <dt>Last Updated</dt>
+                                <dd>{{ product_cgd.updatedAt|date('Y-m-d H:i:s') }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-tools"></i> Actions
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            {% if product_cgd.isPending() %}
+                                <form method="POST" action="{{ path('product_cgd_approve', {'id': product_cgd.id}) }}" class="mb-2">
+                                    <button type="submit" class="btn btn-success btn-block">
+                                        <i class="fas fa-check"></i> Approve
+                                    </button>
+                                </form>
+                                
+                                <button type="button" class="btn btn-danger btn-block" id="reject-btn">
+                                    <i class="fas fa-times"></i> Reject
+                                </button>
+                            {% elseif product_cgd.isApproved() %}
+                                <div class="alert alert-success">
+                                    <i class="fas fa-check-circle"></i> This entry has been approved and is ready for conversion to a product.
+                                </div>
+                            {% elseif product_cgd.isRejected() %}
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-times-circle"></i> This entry has been rejected.
+                                </div>
+                            {% endif %}
+                            
+                            <hr>
+                            <a href="{{ path('product_cgd_index') }}" class="btn btn-secondary btn-block">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal fade" id="reject-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reject ProductCGD Entry</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{{ path('product_cgd_reject', {'id': product_cgd.id}) }}">
+                <div class="modal-body">
+                    <p>Please provide a reason for rejecting this ProductCGD entry:</p>
+                    <div class="form-group">
+                        <textarea name="rejection_reason" class="form-control" rows="3" 
+                                  placeholder="Enter rejection reason..." required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Reject Entry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+$(document).ready(function() {
+    // Handle reject button click
+    $('#reject-btn').click(function() {
+        $('#reject-modal').modal('show');
+    });
+});
+</script>
+{% endblock %}

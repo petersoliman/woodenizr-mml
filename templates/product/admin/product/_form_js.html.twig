@@ -27,14 +27,7 @@
         $('[data-popup="lightbox"]').fancybox({
             padding: 3
         });
-        $("button[name*='action-btn']").click(function () {
-            if ($(this).closest('form').valid()) {
-                $(this).closest('form').append(
-                    $("<input/>", {type: "hidden", name: "action", value: $(this).val()})
-                );
-                $(this).closest('form')[0].submit();
-            }
-        });
+
 
         $('[name*="[relatedProducts]"]').select2({
             minimumInputLength: 2,

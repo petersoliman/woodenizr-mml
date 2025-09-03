@@ -30,6 +30,9 @@
             </li>
         </ul>
     {% endif %}
+    
+
+    
     <div class="panel panel-flat">
         <div class="panel-body">
             <table class="table datatable-ajax table-striped datatable-responsive">
@@ -55,13 +58,20 @@
     </div>
 
 {% endblock %}
+
+
+
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/datatables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/notifications/sweet_alert.min.js') }}"></script>
     {% if parentCategory %}
-        {{ include('adminTemplate/datatable.html.twig', {'path':path('category_datatable',{'id':parentCategory.id})}) }}
+        {{ include('adminTemplate/datatable.html.twig', {'path':path('category_datatable',{'id':parentCategory.id}), 'order': 1}) }}
     {% else %}
-        {{ include('adminTemplate/datatable.html.twig', {'path':path('category_datatable')}) }}
+        {{ include('adminTemplate/datatable.html.twig', {'path':path('category_datatable'), 'order': 1}) }}
     {% endif %}
+    
+    {# Include CGData modals and functionality - Created by cursor on 2025-08-27 #}
+    {% include 'product/admin/category/_cgdata.html.twig' with {'parentCategory': parentCategory} %}
 {% endblock javascripts %}

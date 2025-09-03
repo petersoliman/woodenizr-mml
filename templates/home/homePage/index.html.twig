@@ -6,16 +6,17 @@
 {% block criticalCSS %}
     {% include "home/homePage/_critical_css.css.twig" %}
 {% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
     {{ macros.assetCSS(asset('pages-assets/home/home.styles.css')) }}
 {% endblock %}
-{% block content %}
 
+{% block content %}
     {% include "home/homePage/_header.html.twig" %}
     {% include "home/homePage/_info.html.twig" %}
 
-{#    <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-offers" data-l-lazy-section-type="simple" data-l-lazy-section-url="{{ path('fe_home_first_banners_section_ajax') }}"></div>#}
+    {#    <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-offers" data-l-lazy-section-type="simple" data-l-lazy-section-url="{{ path('fe_home_first_banners_section_ajax') }}"></div>#}
     <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="new-arrivals" data-l-lazy-section-type="products" data-l-lazy-section-url="{{ path('fe_home_new_arrivals_section_ajax') }}"></div>
     <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="recommended-for-you" data-l-lazy-section-type="products" data-l-lazy-section-url="{{ path('fe_home_recommended_for_you_section_ajax') }}"></div>
 
@@ -23,14 +24,12 @@
     <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-offers-2" data-l-lazy-section-type="simple" data-l-lazy-section-url="{{ path('fe_home_second_banners_section_ajax') }}"></div>
     <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="best-seller" data-l-lazy-section-type="products" data-l-lazy-section-url="{{ path('fe_home_best_seller_section_ajax') }}"></div>
 
-
-
     {% if constant("App\\BaseBundle\\SystemConfiguration::ENABLE_COLLECTION") %}
         <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-collections" data-l-lazy-section-type="simple" data-l-lazy-section-url="{{ path('fe_home_collection_section_ajax') }}"></div>
     {% endif %}
+    
     <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-offers-4" data-l-lazy-section-type="simple" data-l-lazy-section-url="{{ path('fe_home_fourth_banners_section_ajax') }}"></div>
     <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-reading" data-l-lazy-section-type="simple" data-l-lazy-section-url="{{ path('fe_home_blog_section_ajax') }}"></div>
-
 
     <div class="l-lazy-section ui-lazy-section loading" data-l-lazy-section="featured-categories-products" data-l-lazy-section-type="products" data-l-lazy-section-url="{{ path('fe_home_featured_category_section_ajax') }}"></div>
 {% endblock %}
@@ -38,7 +37,6 @@
 {% block javascripts %}
     {{ parent() }}
     {{ macros.assetCSS(asset('pages-assets/home/home.lazy.styles.css'), true) }}
-
     {{ macros.assetJS(asset('pages-assets/home/home.js')) }}
     {{ macros.assetJS(asset('pages-assets/home/home.lazy.js'), true) }}
 {% endblock %}

@@ -3,6 +3,20 @@ product_admin:
   type: annotation
   prefix: /admin/product
 
+# Redirect from /admin/product to /admin/product/ to handle trailing slash issue
+# This route must come before the annotation routes to take precedence
+product_admin_redirect:
+  path: /admin/product
+  defaults:
+    _controller: App\ProductBundle\Controller\Administration\ProductController::redirectToIndex
+  methods: [GET]
+
+# ProductCGD routes for Category Generate Data approval workflow
+product_cgd_admin:
+  resource: "@ProductBundle/Controller/Administration/ProductCGDController.php"
+  type: annotation
+  prefix: ""
+
 product_frontEnd:
   resource: "@ProductBundle/Controller/FrontEnd"
   type: annotation

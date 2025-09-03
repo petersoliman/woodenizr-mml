@@ -33,6 +33,18 @@
         {{ form_widget(form.weight) }}
         {{ form_errors(form.weight) }}
     </td>
+    <td>
+        {{ form_widget(form.length) }}
+        {{ form_errors(form.length) }}
+    </td>
+    <td>
+        {{ form_widget(form.width) }}
+        {{ form_errors(form.width) }}
+    </td>
+    <td>
+        {{ form_widget(form.height) }}
+        {{ form_errors(form.height) }}
+    </td>
     {% if constant("App\\BaseBundle\\SystemConfiguration::PRODUCT_PRICE_TYPE").value == constant("App\\BaseBundle\\ProductPriceTypeEnum::MULTI_PRICES").value %}
         <td class="text-center">
             <a href="#" class="btn btn-danger delete" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-minus"></i></a>

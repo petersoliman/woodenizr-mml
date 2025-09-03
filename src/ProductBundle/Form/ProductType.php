@@ -27,6 +27,7 @@ use PN\ContentBundle\Form\PostType;
 use PN\LocaleBundle\Form\Type\TranslationsType;
 use PN\MediaBundle\Form\SingleImageType;
 use PN\SeoBundle\Form\SeoType;
+use App\SeoBundle\Form\EnhancedSeoType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -81,7 +82,7 @@ class ProductType extends AbstractType
                 "label" => "Search Terms",
                 "required" => false,
             ])
-            ->add('image', SingleImageType::class, ["mapped" => false])
+
             ->add('publish', CheckboxType::class, [
                 "required" => false,
                 "label" => "Published",
@@ -91,7 +92,6 @@ class ProductType extends AbstractType
                 "required" => false,
                 "label" => "New Arrival",
             ])
-            ->add('seo', SeoType::class)
             ->add('post', PostType::class, ["attributes" => $postTypeModel])
             ->add('details', ProductDetailsType::class)
             ->add('translations', TranslationsType::class, [

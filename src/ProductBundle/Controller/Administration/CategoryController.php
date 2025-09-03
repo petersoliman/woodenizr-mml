@@ -4,12 +4,16 @@ namespace App\ProductBundle\Controller\Administration;
 
 use App\BaseBundle\Controller\AbstractController;
 use App\BaseBundle\SystemConfiguration;
+use App\ProductBundle\Entity\Brand;
 use App\ProductBundle\Entity\Category;
+use App\ProductBundle\Entity\Product;
+use App\ProductBundle\Controller\Administration\ProductController;
 use App\ProductBundle\Form\CategoryType;
 use App\ProductBundle\Repository\CategoryRepository;
 use App\ProductBundle\Repository\ProductRepository;
 use App\ProductBundle\Service\CategoryService;
 use App\ProductBundle\Service\CategoryWebsiteHeaderService;
+use App\ProductBundle\Service\ProductCGDService;
 use PN\MediaBundle\Entity\Image;
 use PN\MediaBundle\Service\UploadImageService;
 use PN\ServiceBundle\Service\UserService;
@@ -242,7 +246,16 @@ class CategoryController extends AbstractController
         $search = new \stdClass;
         $search->deleted = 0;
         $search->string = $srch['value'];
-        $search->ordr = $ordr[0];
+        
+        // Set default sorting by tarteb (column 1) in descending order for proper priority sorting
+        // Only override if a specific sorting is requested by the user
+        if ($ordr && isset($ordr[0]) && isset($ordr[0]['column'])) {
+            $search->ordr = $ordr[0];
+        } else {
+            // Default sorting: tarteb DESC (1 = highest priority) then title ASC
+            $search->ordr = ["column" => 1, "dir" => "DESC"];
+        }
+        
         $search->parent = "";
         if ($id) {
             $parentCategory = $categoryRepository->find($id);
@@ -335,4 +348,149 @@ class CategoryController extends AbstractController
         $this->em()->flush();
 
     }
+
+
+
+
+
+
+
+
+    /**
+     * CGData (Category Generate Data) API endpoint to fetch products list from external API
+     * 
+     * @Route("/{id}/cgdata/fetch", requirements={"id" = "\d+"}, name="category_cgdata_fetch", methods={"POST"})
+     * @param Category $category
+     * @param Request $request
+     * @return Response
+     * 
+     * Created by: cursor
+     * Date: 2025-01-27
+     * Reason: Add CGData (Category Generate Data) functionality to fetch products list from external API for a specific category
+     */
+    public function cgdataFetch(Category $category, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        try {
+            // Get category information
+            $categoryId = $category->getId();
+            $categoryName = $category->getTitle();
+
+            // Get the category URL from the request
+            $requestData = json_decode($request->getContent(), true);
+            $categoryUrl = $requestData['category_url'] ?? null;
+            
+            if (!$categoryUrl) {
+                return $this->json([
+                    'success' => false,
+                    'error' => 'Category URL is required. Please provide the external category URL.'
+                ]);
+            }
+            
+            // Validate URL format
+            if (!filter_var($categoryUrl, FILTER_VALIDATE_URL)) {
+                return $this->json([
+                    'success' => false,
+                    'error' => 'Invalid URL format. Please provide a valid URL.'
+                ]);
+            }
+
+            // Prepare API call to category API
+            $apiUrl = 'http://localhost:8013/category_api.php';
+            
+            // API expects url and extractionType parameters
+            $postData = 'url=' . urlencode($categoryUrl) . '&extractionType=json';
+
+            // Make API call using cURL
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $apiUrl);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/x-www-form-urlencoded',
+                'Accept: application/json'
+            ]);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Only for development
+
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlError = curl_error($ch);
+            curl_close($ch);
+
+            if ($curlError) {
+                return $this->json([
+                    'success' => false,
+                    'error' => 'API call failed: ' . $curlError
+                ]);
+            }
+
+            if ($httpCode !== 200) {
+                return $this->json([
+                    'success' => false,
+                    'error' => 'API returned error code: ' . $httpCode
+                ]);
+            }
+
+            $apiData = json_decode($response, true);
+            
+            if (!$apiData) {
+                return $this->json([
+                    'success' => false,
+                    'error' => 'Invalid JSON response from API'
+                ]);
+            }
+
+            // Check if API call was successful
+            if (!isset($apiData['success']) || !$apiData['success']) {
+                return $this->json([
+                    'success' => false,
+                    'error' => 'API returned unsuccessful response'
+                ]);
+            }
+
+            // Extract products data from API response
+            $products = $apiData['products'] ?? [];
+            $count = $apiData['count'] ?? 0;
+
+            // Return the API response for user review
+            return $this->json([
+                'success' => true,
+                'category' => [
+                    'id' => $categoryId,
+                    'name' => $categoryName,
+                    'url' => $categoryUrl
+                ],
+                'products' => $products,
+                'count' => $count,
+                'raw_api_response' => $apiData,
+                'api_request' => [
+                    'url' => $apiUrl,
+                    'method' => 'POST',
+                    'payload' => $postData,
+                    'http_code' => $httpCode
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->json([
+                'success' => false,
+                'error' => 'An error occurred: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+
+
+    // cgdataSaveToTempProducts moved to ProductCGDController to centralize CGD endpoints
+
+
+
+
+
+
+
+
 }

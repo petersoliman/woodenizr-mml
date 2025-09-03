@@ -74,6 +74,24 @@ class ProductPrice implements DateTimeInterface
 
     /**
      * @Gedmo\Versioned
+     * @ORM\Column(name="length", type="float", nullable=true)
+     */
+    private ?float $length = null;
+
+    /**
+     * @Gedmo\Versioned
+     * @ORM\Column(name="width", type="float", nullable=true)
+     */
+    private ?float $width = null;
+
+    /**
+     * @Gedmo\Versioned
+     * @ORM\Column(name="height", type="float", nullable=true)
+     */
+    private ?float $height = null;
+
+    /**
+     * @Gedmo\Versioned
      * @ORM\Column(name="promotional_expiry_date", type="date", nullable=true)
      */
     private ?\DateTime $promotionalExpiryDate = null;
@@ -294,6 +312,42 @@ class ProductPrice implements DateTimeInterface
     public function setWeight(?float $weight): static
     {
         $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function getLength(): ?float
+    {
+        return $this->length;
+    }
+
+    public function setLength(?float $length): static
+    {
+        $this->length = $length;
+
+        return $this;
+    }
+
+    public function getWidth(): ?float
+    {
+        return $this->width;
+    }
+
+    public function setWidth(?float $width): static
+    {
+        $this->width = $width;
+
+        return $this;
+    }
+
+    public function getHeight(): ?float
+    {
+        return $this->height;
+    }
+
+    public function setHeight(?float $height): static
+    {
+        $this->height = $height;
 
         return $this;
     }

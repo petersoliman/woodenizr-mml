@@ -11,13 +11,54 @@
     </div>
 {% endblock %}
 {% block body -%}
+    <style>
+        .price-update-form .form-group {
+            margin-bottom: 20px;
+        }
+        .price-update-form .content-divider {
+            margin: 30px 0 20px 0;
+        }
+        .price-update-form .alert {
+            margin-bottom: 20px;
+        }
+        .price-update-form .input-group-addon {
+            min-width: 40px;
+            text-align: center;
+        }
+        .price-update-form .checkbox label {
+            font-weight: normal;
+        }
+        .price-update-form .text-muted {
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+        }
+        .price-update-form .panel-footer {
+            margin-top: 20px;
+        }
+        .price-update-form .disabled-field {
+            background-color: #f5f5f5 !important;
+            color: #999 !important;
+            cursor: not-allowed !important;
+        }
+        .price-update-form .disabled-field:focus {
+            border-color: #ddd !important;
+            box-shadow: none !important;
+        }
+        
+
+    </style>
+    
     <div class="panel panel-flat">
         <div class="panel-body">
             <div class="tabbable tab-content-bordered ">
                 <ul class="nav nav-tabs nav-tabs-highlight">
                     <li class="active"><a href="#panel-1" data-toggle="tab">Options</a></li>
-                    {#                    <li><a href="#panel-3" data-toggle="tab">Promotion Price and Expiry date</a></li> #}
+                    {#                    <li><a href="#panel-3" data-toggle="tab">Promotion Price and Expiry date</a> #}
                     <li><a href="#panel-4" data-toggle="tab">Description</a></li>
+                    <li><a href="#panel-5" data-toggle="tab">Price</a></li>
+                    <li><a href="#panel-6" data-toggle="tab">Stock</a></li>
+                    <li><a href="#panel-7" data-toggle="tab">Dimensions & Weight</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -189,6 +230,198 @@
                             </div>
                         </form>
                     </div>
+                    <div class="tab-pane has-padding fade" id="panel-5">
+                        <div class="content-divider content-divider-muted text-muted">
+                            <span>Unit Price Updates</span>
+                        </div>
+                        <form method="POST" action="{{ path('product_group_update_action_update') }}" class="price-update-form" id="priceUpdateForm">
+
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="priceUpdateType">Update Type</label>
+                                        <select id="priceUpdateType" name="data[priceUpdateType]" class="form-control" required>
+                                            <option value="">Select update type</option>
+                                            <option value="+percentage">+ Percentage</option>
+                                            <option value="-percentage">- Percentage</option>
+                                            <option value="+fixed">+ Fixed amount</option>
+                                            <option value="-fixed">- Fixed amount</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="priceUpdateValue">Update Value</label>
+                                        <div class="input-group">
+                                            <input type="number" id="priceUpdateValue" name="data[priceUpdateValue]" class="form-control" step="0.01" min="0" required>
+                                            <span class="input-group-addon" id="priceUpdateUnit">%</span>
+                                        </div>
+                                        <small class="text-muted" id="priceUpdateHelp">Enter the percentage to increase/decrease</small>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                            <div class="content-divider content-divider-muted text-muted">
+                                <span>Promotion Price Management</span>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="promotionDiscount">Promotion Discount (%)</label>
+                                        <div class="input-group">
+                                            <input type="number" id="promotionDiscount" name="data[promotionDiscount]" class="form-control" min="0" max="100" step="0.01">
+                                            <span class="input-group-addon">%</span>
+                                        </div>
+                                        <small class="text-muted">Leave empty to remove promotion</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="promotionExpiry">Promotion Expiry Date</label>
+                                        <input type="text" class="form-control datepicker-future" name="data[promotionExpiry]" id="promotionExpiry" placeholder="Promotion expiry date">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="removePromotion">
+                                            <input type="checkbox" id="removePromotion" name="data[removePromotion]" value="1">
+                                            Remove all promotions
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                            
+
+                            
+
+                            
+                            <!-- Auto-sync Note -->
+                            <div class="alert alert-info">
+                                <strong>ℹ️ Note:</strong> 
+                                <small class="text-muted">After updating prices, the product search index will be automatically synchronized to ensure frontend displays correct prices.</small>
+                            </div>
+                            
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-sm-12 text-right">
+                                        <input type="hidden" name="type" value="price" />
+                                        <input type="hidden" class="action" name="action" value="saveAndExit" />
+
+                                        <button type="submit" class="btn btn-warning action-btn" value="saveAndExit" onclick="console.log('Price form submit button clicked')">Update and exit</button>
+                                        <button type="submit" class="btn btn-primary ml-10 action-btn" value="saveAndNext" onclick="console.log('Price form submit button clicked')">Update and continue on the selected list</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Stock Management Tab -->
+                    <div class="tab-pane has-padding fade" id="panel-6">
+                        <div class="content-divider content-divider-muted text-muted">
+                            <span>Stock Management</span>
+                        </div>
+                        <form method="POST" action="{{ path('product_group_update_action_update') }}" class="stock-update-form" id="stockUpdateForm">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="stockUpdateType">Stock Update Type</label>
+                                        <select id="stockUpdateType" name="data[stockUpdateType]" class="form-control" required>
+                                            <option value="">Select update type</option>
+                                            <option value="set">Set to specific value</option>
+                                            <option value="add">Add to current stock</option>
+                                            <option value="subtract">Subtract from current stock</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="stockUpdateValue">Stock Value</label>
+                                        <input type="number" id="stockUpdateValue" name="data[stockUpdateValue]" class="form-control" min="0" required>
+                                        <small class="text-muted">Enter the stock quantity</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="stockAlertThreshold">Low Stock Alert</label>
+                                        <input type="number" id="stockAlertThreshold" name="data[stockAlertThreshold]" class="form-control" min="0">
+                                        <small class="text-muted">Optional: Set low stock warning threshold</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                            
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-sm-12 text-right">
+                                        <input type="hidden" name="type" value="stock" />
+                                        <input type="hidden" class="action" name="action" value="saveAndExit" />
+
+                                        <button type="submit" class="btn btn-warning action-btn" value="saveAndExit">Update and exit</button>
+                                        <button type="submit" class="btn btn-primary ml-10 action-btn" value="saveAndNext">Update and continue on the selected list</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Dimensions & Weight Tab -->
+                    <div class="tab-pane has-padding fade" id="panel-7">
+                        <div class="content-divider content-divider-muted text-muted">
+                            <span>Product Dimensions & Weight</span>
+                        </div>
+                        <form method="POST" action="{{ path('product_group_update_action_update') }}" class="dimensions-update-form" id="dimensionsUpdateForm">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="productLength">Length (cm)</label>
+                                        <input type="number" id="productLength" name="data[productLength]" class="form-control" step="0.1" min="0">
+                                        <small class="text-muted">Product length in centimeters</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="productWidth">Width (cm)</label>
+                                        <input type="number" id="productWidth" name="data[productWidth]" class="form-control" step="0.1" min="0">
+                                        <small class="text-muted">Product width in centimeters</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="productHeight">Height (cm)</label>
+                                        <input type="number" id="productHeight" name="data[productHeight]" class="form-control" step="0.1" min="0">
+                                        <small class="text-muted">Product height in centimeters</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="productWeight">Weight (kg)</label>
+                                        <input type="number" id="productWeight" name="data[productWeight]" class="form-control" step="0.01" min="0">
+                                        <small class="text-muted">Product weight in kilograms</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                            
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-sm-12 text-right">
+                                        <input type="hidden" name="type" value="dimensions" />
+                                        <input type="hidden" class="action" name="action" value="saveAndExit" />
+
+                                        <button type="submit" class="btn btn-warning action-btn" value="saveAndExit">Update and exit</button>
+                                        <button type="submit" class="btn btn-primary ml-10 action-btn" value="saveAndNext">Update and continue on the selected list</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -291,6 +524,23 @@
         });
 
         $(document).ready(function () {
+            console.log('=== PAGE LOADED ===');
+            console.log('Price update form found:', $('.price-update-form').length);
+            console.log('Price update form element:', $('.price-update-form')[0]);
+            console.log('Type field found:', $('.price-update-form input[name="type"]').length);
+            console.log('Type field value:', $('.price-update-form input[name="type"]').val());
+            console.log('All forms on page:', $('form').length);
+            
+            // Test native JavaScript selector
+            var nativeForm = document.getElementById('priceUpdateForm');
+            console.log('Native JS - Price update form found:', nativeForm);
+            if (nativeForm) {
+                console.log('Native JS - Form action:', nativeForm.action);
+                console.log('Native JS - Form method:', nativeForm.method);
+                console.log('Native JS - Type field:', nativeForm.querySelector('input[name="type"]'));
+                console.log('Native JS - Type field value:', nativeForm.querySelector('input[name="type"]') ? nativeForm.querySelector('input[name="type"]').value : 'NOT FOUND');
+            }
+            
             var yesterday = new Date((new Date()).valueOf() - 1000 * 60 * 60 * 24);
             $('.datepicker-future').pickadate({
                 format: 'dd/mm/yyyy',
@@ -353,6 +603,81 @@
                 let element = $(deselectElement).prop("checked", false);
                 $.uniform.update(element)
             })
+            
+            // Handle promotion removal checkbox
+            $('#removePromotion').change(function() {
+                var isChecked = $(this).is(':checked');
+                var promotionDiscount = $('#promotionDiscount');
+                var promotionExpiry = $('#promotionExpiry');
+                
+                if (isChecked) {
+                    // Disable promotion fields when removing promotions
+                    promotionDiscount.prop('disabled', true).val('');
+                    promotionExpiry.prop('disabled', true).val('');
+                    
+                    // Add visual styling to show disabled state
+                    promotionDiscount.addClass('disabled-field');
+                    promotionExpiry.addClass('disabled-field');
+                } else {
+                    // Enable promotion fields when not removing promotions
+                    promotionDiscount.prop('disabled', false);
+                    promotionExpiry.prop('disabled', false);
+                    
+                    // Remove visual styling
+                    promotionDiscount.removeClass('disabled-field');
+                    promotionExpiry.removeClass('disabled-field');
+                }
+            });
+            
+            // Initialize promotion fields state on page load
+            if ($('#removePromotion').is(':checked')) {
+                $('#promotionDiscount').prop('disabled', true).addClass('disabled-field');
+                $('#promotionExpiry').prop('disabled', true).addClass('disabled-field');
+            }
+            
+
+            
+            // Handle price update type change
+            $('#priceUpdateType').change(function() {
+                var type = $(this).val();
+                var unit = $('#priceUpdateUnit');
+                var help = $('#priceUpdateHelp');
+                var valueInput = $('#priceUpdateValue');
+                
+                if (type === '+percentage') {
+                    unit.text('%');
+                    help.text('Enter the percentage to increase prices (e.g., 10 for 10% increase)');
+                    valueInput.attr('min', '0');
+                    valueInput.attr('max', '1000');
+                } else if (type === '-percentage') {
+                    unit.text('%');
+                    help.text('Enter the percentage to decrease prices (e.g., 10 for 10% decrease)');
+                    valueInput.attr('min', '0');
+                    valueInput.attr('max', '100');
+                } else if (type === '+fixed') {
+                    unit.text('Amount');
+                    help.text('Enter the fixed amount to add to current prices');
+                    valueInput.attr('min', '0');
+                    valueInput.removeAttr('max');
+                } else if (type === '-fixed') {
+                    unit.text('Amount');
+                    help.text('Enter the fixed amount to subtract from current prices');
+                    valueInput.attr('min', '0');
+                    valueInput.removeAttr('max');
+                } else {
+                    unit.text('');
+                    help.text('');
+                    valueInput.removeAttr('min');
+                    valueInput.removeAttr('max');
+                }
+            });
+            
+            // Currency field removed - prices are updated for all currencies
+            
+            // JAVASCRIPT COMPLETELY DISABLED - Form works without any JavaScript interference
+            console.log('All JavaScript form handling disabled - form will submit normally');
+            
+
         });
 
     </script>

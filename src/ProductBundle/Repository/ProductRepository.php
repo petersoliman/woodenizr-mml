@@ -305,6 +305,41 @@ class ProductRepository extends BaseRepository
         return $entities;
     }
 
+    /**
+     * Simplified filter without heavy joins for admin datatable
+     * Created by: cursor
+     * Date: 2025-09-01 01:00
+     */
+    public function filterSimple(\stdClass $search, bool $count = false, ?int $start = null, ?int $length = null): array|int
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->andWhere('p.deleted IS NULL');
+
+        if (isset($search->string) && Validate::not_null($search->string)) {
+            $qb->andWhere('p.id LIKE :q OR p.title LIKE :q OR p.sku LIKE :q')
+               ->setParameter('q', '%' . trim($search->string) . '%');
+        }
+        if (isset($search->category) && Validate::not_null($search->category)) {
+            $qb->andWhere('p.category = :cat')->setParameter('cat', $search->category);
+        }
+
+        if ($count) {
+            return (int) $qb->select('COUNT(DISTINCT p.id)')->getQuery()->getSingleScalarResult();
+        }
+
+        // Order
+        $sortMap = ['p.id', 'p.sku', 'p.title', 'p.created', 'p.publish'];
+        $ordr = $search->ordr ?? ['column' => 0, 'dir' => 'asc'];
+        $col = (int) ($ordr['column'] ?? 0);
+        $dir = strtoupper($ordr['dir'] ?? 'ASC') === 'DESC' ? 'DESC' : 'ASC';
+        $qb->orderBy($sortMap[$col] ?? 'p.id', $dir);
+
+        if ($start !== null) { $qb->setFirstResult((int) $start); }
+        if ($length !== null) { $qb->setMaxResults((int) $length); }
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function getProductByImage(Image $image): ?Product
     {
         return $this->createQueryBuilder("p")

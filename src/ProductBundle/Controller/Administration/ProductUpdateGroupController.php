@@ -3,12 +3,15 @@
 namespace App\ProductBundle\Controller\Administration;
 
 use App\BaseBundle\Controller\AbstractController;
+use App\CurrencyBundle\Entity\Currency;
 use App\ECommerceBundle\Entity\Coupon;
 use App\ECommerceBundle\Entity\CouponHasProduct;
 use App\ProductBundle\Entity\Product;
+use App\ProductBundle\Entity\ProductPrice;
 use App\ProductBundle\Form\Filter\ProductFilterType;
 use App\ProductBundle\Repository\ProductRepository;
 use App\ProductBundle\Service\ProductService;
+use App\ProductBundle\Service\ProductSearchService;
 use Doctrine\ORM\EntityManagerInterface;
 use PN\ServiceBundle\Lib\Paginator;
 use PN\ServiceBundle\Service\UserService;
@@ -28,11 +31,13 @@ class ProductUpdateGroupController extends AbstractController
 
     private ?string $username = null;
     private UserService $userService;
+    private ProductSearchService $productSearchService;
 
-    public function __construct(EntityManagerInterface $em, UserService $userService)
+    public function __construct(EntityManagerInterface $em, UserService $userService, ProductSearchService $productSearchService)
     {
         parent::__construct($em);
         $this->userService = $userService;
+        $this->productSearchService = $productSearchService;
     }
 
     /**
@@ -193,6 +198,9 @@ class ProductUpdateGroupController extends AbstractController
                 $n++;
                 $this->updateCheckboxes($entity, $data);
             }
+            
+            // Re-index products after checkbox updates
+            $this->reindexUpdatedProducts($entities);
         } elseif ($type == 'promotion') {
             if (!isset($data['removeDiscount'])) {
                 if (isset($data['discount']) and (!Validate::not_null($data['discount']) or !is_numeric($data['discount']))) {
@@ -217,13 +225,110 @@ class ProductUpdateGroupController extends AbstractController
                 $n++;
                 $this->updatePromotionPrice($entity, $data, $promotionalExpiryDate);
             }
+            
+            // Re-index products after promotion updates
+            $this->reindexUpdatedProducts($entities);
         } elseif ($type == 'content') {
             foreach ($entities as $entity) {
                 $n++;
                 $this->updateContent($entity, $data);
             }
+            
+            // Re-index products after content updates
+            $this->reindexUpdatedProducts($entities);
+        } elseif ($type == 'price') {
+
+            
+
+            
+            if (!isset($data['priceUpdateType']) or !Validate::not_null($data['priceUpdateType'])) {
+                $this->addFlash('error', 'Please select price update type');
+                return $this->redirectToRoute('product_group_update_action');
+            }
+            if (!isset($data['priceUpdateValue']) or !Validate::not_null($data['priceUpdateValue']) or !is_numeric($data['priceUpdateValue'])) {
+                $this->addFlash('error', 'Please enter a valid price update value');
+                return $this->redirectToRoute('product_group_update_action');
+            }
+            // Currency field removed - we only update the price without currency selection
+            
+            // Additional validation for price updates
+            $updateValue = (float) $data['priceUpdateValue'];
+            $updateType = $data['priceUpdateType'];
+            
+            if ($updateType === '+percentage' && ($updateValue < 0 || $updateValue > 1000)) {
+                $this->addFlash('error', 'Percentage increase must be between 0 and 1000');
+                return $this->redirectToRoute('product_group_update_action');
+            }
+            
+            if ($updateType === '-percentage' && ($updateValue < 0 || $updateValue > 100)) {
+                $this->addFlash('error', 'Percentage decrease must be between 0 and 100');
+                return $this->redirectToRoute('product_group_update_action');
+            }
+            
+            if ($updateType === '-fixed' && $updateValue < 0) {
+                $this->addFlash('error', 'Fixed amount to subtract cannot be negative');
+                return $this->redirectToRoute('product_group_update_action');
+            }
+            
+            // Validate promotion data
+            if (isset($data['promotionDiscount']) && Validate::not_null($data['promotionDiscount'])) {
+                $discount = (float) $data['promotionDiscount'];
+                if ($discount < 0 || $discount > 100) {
+                    $this->addFlash('error', 'Promotion discount must be between 0 and 100');
+                    return $this->redirectToRoute('product_group_update_action');
+                }
+                
+                if (!isset($data['promotionExpiry']) || !Validate::not_null($data['promotionExpiry'])) {
+                    $this->addFlash('error', 'Promotion discount requires an expiry date');
+                    return $this->redirectToRoute('product_group_update_action');
+                }
+                
+                if (!Validate::date($data['promotionExpiry'])) {
+                    $this->addFlash('error', 'Please enter a valid promotion expiry date');
+                    return $this->redirectToRoute('product_group_update_action');
+                }
+            }
+            
+            foreach ($entities as $entity) {
+                $n++;
+                $this->updateProductPrices($entity, $data);
+            }
+            
+            // Re-index the updated products to sync product_search table
+            $this->reindexUpdatedProducts($entities);
+        } elseif ($type == 'stock') {
+            if (!$this->validateStockData($data)) {
+                return $this->redirectToRoute('product_group_update_action');
+            }
+            
+            foreach ($entities as $entity) {
+                $n++;
+                $this->updateProductStock($entity, $data);
+            }
+        } elseif ($type == 'dimensions') {
+            if (!$this->validateDimensionsData($data)) {
+                return $this->redirectToRoute('product_group_update_action');
+            }
+            
+            foreach ($entities as $entity) {
+                $n++;
+                $this->updateProductDimensions($entity, $data);
+            }
         }
-        $this->em()->flush();
+        
+        // Flush all changes to database first
+        try {
+            $this->em()->flush();
+        } catch (\Exception $e) {
+            error_log("Database flush failed: " . $e->getMessage());
+            $this->addFlash('error', 'Database update failed: ' . $e->getMessage());
+            return $this->redirectToRoute('product_group_update_action');
+        }
+        
+        // Then re-index the updated products
+        if ($type == 'price' || $type == 'stock' || $type == 'dimensions') {
+            $this->reindexUpdatedProducts($entities);
+        }
 
         $this->addFlash('success', $n.' Products updated successfully');
         if ($request->request->get('action') == "saveAndNext") {
@@ -287,19 +392,7 @@ class ProductUpdateGroupController extends AbstractController
 
     private function updatePromotionPrice(Product $product, $data, \DateTime $promotionalExpiryDate = null)
     {
-
-
-        //        foreach ($product->getPrices() as $price) {
-        //            if (isset($data['removeDiscount'])) {
-        //                $price->setPromotionalPrice(null);
-        //                $price->setPromotionalExpiryDate(null);
-        //            } else {
-        //                $promotionalPrice = $price->getPrice() - ($price->getPrice() / 100) * $data['discount'];
-        //                $price->setPromotionalPrice($promotionalPrice);
-        //                $price->setPromotionalExpiryDate($promotionalExpiryDate);
-        //            }
-        //            $this->em()->persist($price);
-        //        }
+        // This method is kept for compatibility but promotion handling is now done in updateProductPrices
         $product->setModifiedBy($this->getUsername());
         $this->em()->persist($product);
     }
@@ -323,5 +416,304 @@ class ProductUpdateGroupController extends AbstractController
         $product->setModifiedBy($this->getUsername());
         $this->em()->persist($product);
     }
+
+    private function updateProductPrices(Product $product, $data)
+    {
+        $updateType = $data['priceUpdateType'];
+        $updateValue = (float) $data['priceUpdateValue'];
+        
+        // Get all available currencies to ensure we update/create prices for all
+        $currencies = $this->em()->getRepository(Currency::class)->findAll();
+        if (empty($currencies)) {
+            error_log("No currencies found for price update");
+            return;
+        }
+        
+        // Update unit prices - for all currencies
+        $updatedPrices = 0;
+        foreach ($currencies as $currency) {
+            // Find existing price for this currency, or create new one
+            $price = $this->findOrCreateProductPrice($product, $currency);
+            
+            $currentPrice = $price->getUnitPrice() ?? 0;
+            $newPrice = $currentPrice;
+            
+            switch ($updateType) {
+                case '+percentage':
+                    // Handle percentage increase
+                    $newPrice = $currentPrice + ($currentPrice * $updateValue / 100);
+                    break;
+                case '-percentage':
+                    // Handle percentage decrease
+                    $newPrice = $currentPrice - ($currentPrice * $updateValue / 100);
+                    break;
+                case '+fixed':
+                    // Handle fixed amount increase
+                    $newPrice = $currentPrice + $updateValue;
+                    break;
+                case '-fixed':
+                    // Handle fixed amount decrease
+                    $newPrice = max(0, $currentPrice - $updateValue);
+                    break;
+            }
+            
+            // Ensure price is not negative
+            $newPrice = max(0, $newPrice);
+            
+            $price->setUnitPrice($newPrice);
+            $this->em()->persist($price);
+            $updatedPrices++;
+        }
+        
+        // Handle promotion prices - for all currencies
+        if (isset($data['removePromotion']) && $data['removePromotion']) {
+            // Remove all promotions for all currencies
+            foreach ($currencies as $currency) {
+                $price = $this->findOrCreateProductPrice($product, $currency);
+                $price->setPromotionalPrice(null);
+                $price->setPromotionalExpiryDate(null);
+                $this->em()->persist($price);
+            }
+        } elseif (isset($data['promotionDiscount']) && Validate::not_null($data['promotionDiscount'])) {
+            $discount = (float) $data['promotionDiscount'];
+            $promotionalExpiryDate = null;
+            
+            if (isset($data['promotionExpiry']) && Validate::not_null($data['promotionExpiry'])) {
+                $promotionalExpiryDate = Date::convertDateFormat($data['promotionExpiry'], Date::DATE_FORMAT3, Date::DATE_FORMAT2);
+                $promotionalExpiryDate = new \DateTime($promotionalExpiryDate);
+            }
+            
+            if ($promotionalExpiryDate) {
+                foreach ($currencies as $currency) {
+                    $price = $this->findOrCreateProductPrice($product, $currency);
+                    $unitPrice = $price->getUnitPrice() ?? 0;
+                    $promotionalPrice = $unitPrice - ($unitPrice * $discount / 100);
+                    $price->setPromotionalPrice($promotionalPrice);
+                    $price->setPromotionalExpiryDate($promotionalExpiryDate);
+                    $this->em()->persist($price);
+                }
+            }
+        }
+        
+        $product->setModifiedBy($this->getUsername());
+        $this->em()->persist($product);
+    }
+
+    /**
+     * Re-index updated products to sync product_search table
+     */
+    private function reindexUpdatedProducts(array $products): void
+    {
+        try {
+            foreach ($products as $product) {
+                // Re-index each updated product
+                $this->productSearchService->insertOrDeleteProductInSearch($product);
+            }
+        } catch (\Exception $e) {
+            error_log("Error during product re-indexing: " . $e->getMessage());
+            // Don't throw the exception - we don't want to fail the price update
+            // Just log the error for debugging
+        }
+    }
+
+    /**
+     * Update product stock information
+     * Stock fields are stored in ProductPrice entities (one for each currency)
+     * Creates ProductPrice entities for all currencies if they don't exist
+     */
+    private function updateProductStock(Product $product, $data)
+    {
+        $stockUpdateType = $data['stockUpdateType'];
+        $stockUpdateValue = (int) $data['stockUpdateValue'];
+        
+        // Get all available currencies
+        $currencies = $this->em()->getRepository(Currency::class)->findAll();
+        if (empty($currencies)) {
+            error_log("No currencies found for stock update");
+            return;
+        }
+        
+        $updatedPrices = 0;
+        
+        foreach ($currencies as $currency) {
+            // Find existing price for this currency, or create new one
+            $price = $this->findOrCreateProductPrice($product, $currency);
+            
+            $currentStock = $price->getStock() ?? 0;
+            $newStock = $this->calculateNewStock($currentStock, $stockUpdateType, $stockUpdateValue);
+            
+            $price->setStock($newStock);
+            $this->em()->persist($price);
+            $updatedPrices++;
+            
+        }
+        
+        $product->setModifiedBy($this->getUsername());
+        $this->em()->persist($product);
+    }
+
+    /**
+     * Update product dimensions and weight
+     * Weight, length, width, and height fields are stored in ProductPrice entities
+     * Creates ProductPrice entities for all currencies if they don't exist
+     */
+    private function updateProductDimensions(Product $product, $data)
+    {
+        $updatedPrices = 0;
+        
+        // Get all available currencies
+        $currencies = $this->em()->getRepository(Currency::class)->findAll();
+        if (empty($currencies)) {
+            error_log("No currencies found for dimensions update");
+            return;
+        }
+        
+        foreach ($currencies as $currency) {
+            // Find existing price for this currency, or create new one
+            $price = $this->findOrCreateProductPrice($product, $currency);
+            $hasChanges = false;
+            
+            // Update weight if provided
+            if (isset($data['productWeight']) && Validate::not_null($data['productWeight'])) {
+                $weight = (float) $data['productWeight'];
+                $price->setWeight($weight);
+                $hasChanges = true;
+            }
+            
+            // Update length if provided
+            if (isset($data['productLength']) && Validate::not_null($data['productLength'])) {
+                $length = (float) $data['productLength'];
+                $price->setLength($length);
+                $hasChanges = true;
+            }
+            
+            // Update width if provided
+            if (isset($data['productWidth']) && Validate::not_null($data['productWidth'])) {
+                $width = (float) $data['productWidth'];
+                $price->setWidth($width);
+                $hasChanges = true;
+            }
+            
+            // Update height if provided
+            if (isset($data['productHeight']) && Validate::not_null($data['productHeight'])) {
+                $height = (float) $data['productHeight'];
+                $price->setHeight($height);
+                $hasChanges = true;
+            }
+            
+            if ($hasChanges) {
+                $this->em()->persist($price);
+                $updatedPrices++;
+            }
+        }
+        
+        $product->setModifiedBy($this->getUsername());
+        $this->em()->persist($product);
+    }
+
+    /**
+     * Validate stock update data
+     */
+    private function validateStockData($data): bool
+    {
+        if (!isset($data['stockUpdateType']) || !Validate::not_null($data['stockUpdateType'])) {
+            $this->addFlash('error', 'Please select stock update type');
+            return false;
+        }
+        
+        if (!isset($data['stockUpdateValue']) || !Validate::not_null($data['stockUpdateValue']) || !is_numeric($data['stockUpdateValue'])) {
+            $this->addFlash('error', 'Please enter a valid stock value');
+            return false;
+        }
+        
+        if ((int) $data['stockUpdateValue'] < 0) {
+            $this->addFlash('error', 'Stock value cannot be negative');
+            return false;
+        }
+        
+        return true;
+    }
+
+    /**
+     * Validate dimensions update data
+     */
+    private function validateDimensionsData($data): bool
+    {
+        $hasData = false;
+        $dimensionFields = ['productLength', 'productWidth', 'productHeight', 'productWeight'];
+        
+        foreach ($dimensionFields as $field) {
+            if (isset($data[$field]) && Validate::not_null($data[$field])) {
+                $hasData = true;
+                break;
+            }
+        }
+        
+        if (!$hasData) {
+            $this->addFlash('error', 'Please enter at least one dimension or weight value');
+            return false;
+        }
+        
+        foreach ($dimensionFields as $field) {
+            if (isset($data[$field]) && Validate::not_null($data[$field])) {
+                if (!is_numeric($data[$field]) || (float) $data[$field] < 0) {
+                    $fieldName = ucfirst(str_replace('product', '', $field));
+                    $this->addFlash('error', $fieldName . ' must be a positive number');
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+
+    /**
+     * Calculate new stock value based on update type
+     */
+    private function calculateNewStock(int $currentStock, string $updateType, int $updateValue): int
+    {
+        return match ($updateType) {
+            'set' => $updateValue,
+            'add' => $currentStock + $updateValue,
+            'subtract' => max(0, $currentStock - $updateValue),
+            default => $currentStock,
+        };
+    }
+
+    /**
+     * Find existing ProductPrice for a product and currency, or create new one
+     */
+    private function findOrCreateProductPrice(Product $product, $currency): ProductPrice
+    {
+        // First try to find existing price for this currency
+        $existingPrice = $this->em()->getRepository(ProductPrice::class)->findOneBy([
+            'product' => $product,
+            'currency' => $currency,
+            'deleted' => null
+        ]);
+        
+        if ($existingPrice) {
+            return $existingPrice;
+        }
+        
+        // Create new ProductPrice if none exists
+        $newPrice = new \App\ProductBundle\Entity\ProductPrice();
+        $newPrice->setProduct($product);
+        $newPrice->setCurrency($currency);
+        $newPrice->setUnitPrice(0); // Default price, will be updated later if needed
+        $newPrice->setStock(0); // Default stock
+        $newPrice->setWeight(0); // Default weight
+        
+        // Set required fields
+        $newPrice->setCreator($this->getUsername());
+        $newPrice->setModifiedBy($this->getUsername());
+        
+        // Add to product's prices collection
+        $product->getPrices()->add($newPrice);
+        
+        return $newPrice;
+    }
+
+
 
 }

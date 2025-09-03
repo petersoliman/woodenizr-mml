@@ -1,0 +1,762 @@
+{# CGData Modals and JavaScript - Created by cursor on 2025-08-27 for category product listing from external API #}
+
+{# CGData URL Input Modal #}
+<div id="cgdata-url-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">CGData (Category Generate Data) - Enter URL</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <h6><i class="icon-info"></i> External API Integration</h6>
+                    <p>Enter the external category URL to fetch product listings using the CGData API.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cgdata-url-input">Category URL:</label>
+                    <input type="url" class="form-control" id="cgdata-url-input" 
+                           placeholder="https://example.com/category-page/" required>
+                    <p class="help-block">
+                        Enter the external category URL to fetch products from. 
+                        For category: <strong><span id="cgdata-selected-category"></span></strong>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="cgdata-fetch-btn">
+                    <i class="icon-cloud-download"></i> Fetch Products
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# CGData Results Modal #}
+<div id="cgdata-modal" class="modal fade">
+    <div class="modal-dialog modal-lg" style="width: 95%; max-width: 1200px;">
+        <div class="modal-content">
+            <style>
+                /* CGData Modal Styling */
+                #cgdata-modal .modal-body {
+                    max-height: 70vh;
+                    overflow-y: auto;
+                    padding: 20px;
+                }
+                #cgdata-modal .table-responsive {
+                    max-height: none;
+                    overflow-x: auto;
+                }
+                #cgdata-modal .table {
+                    table-layout: auto;
+                    width: 100%;
+                    min-width: 800px;
+                }
+                #cgdata-modal .table td {
+                    max-width: 200px;
+                    word-wrap: break-word;
+                    vertical-align: top;
+                    padding: 8px;
+                }
+                #cgdata-modal .table th {
+                    white-space: nowrap;
+                    background-color: #f5f5f5;
+                    position: sticky;
+                    top: 0;
+                    z-index: 10;
+                }
+                /* CGData Image Styling */
+                .cgdata-image-thumbnail {
+                    cursor: pointer;
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                }
+                .cgdata-image-thumbnail:hover {
+                    transform: scale(1.1);
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                    position: relative;
+                }
+                .image-gallery {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 5px;
+                }
+                .image-gallery > div {
+                    flex: 0 0 auto;
+                }
+                /* Scrollable content styling */
+                #cgdata-products-list {
+                    overflow: visible;
+                }
+                /* Raw API response panel styling */
+                .panel-body pre {
+                    max-height: 300px;
+                    overflow-y: auto;
+                }
+                /* Scroll indicators */
+                .table-responsive::after {
+                    content: "↔ Scroll horizontally to see more columns";
+                    position: absolute;
+                    bottom: 5px;
+                    right: 10px;
+                    background: rgba(0,0,0,0.7);
+                    color: white;
+                    padding: 2px 6px;
+                    border-radius: 3px;
+                    font-size: 11px;
+                    opacity: 0.8;
+                    pointer-events: none;
+                }
+                /* Expandable text styling */
+                .expandable-text {
+                    position: relative;
+                }
+                .toggle-text {
+                    cursor: pointer;
+                    text-decoration: none;
+                }
+                .toggle-text:hover {
+                    text-decoration: underline;
+                }
+            </style>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">CGData (Category Generate Data) - Product List</h4>
+            </div>
+            <div class="modal-body">
+                <div id="cgdata-loading" style="display: none;">
+                    <div class="text-center">
+                        <i class="icon-spinner2 spinner"></i>
+                        <h6>Fetching products from external API...</h6>
+                        <p>Please wait while we retrieve the product listings.</p>
+                    </div>
+                </div>
+                
+                <div id="cgdata-error" style="display: none;" class="alert alert-danger">
+                    <h6><i class="icon-warning"></i> Error</h6>
+                    <p id="cgdata-error-message"></p>
+                </div>
+                
+                <div id="cgdata-content" style="display: none;">
+                    <div id="cgdata-products-list">
+                        <!-- Dynamic content will be inserted here by JavaScript -->
+                    </div>
+                    
+                    <div class="panel panel-default" style="margin-top: 20px;">
+                        <div class="panel-heading">
+                            <h6 class="panel-title">
+                                <a data-toggle="collapse" href="#cgdata-raw-response">
+                                    <i class="icon-code"></i> Raw API Response (Debug)
+                                </a>
+                            </h6>
+                        </div>
+                        <div id="cgdata-raw-response" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <pre id="cgdata-raw-json"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Brand Selection Modal #}
+<div id="cgdata-brand-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Brand Assignment Required</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <h6><i class="icon-warning"></i> Missing Brands Found</h6>
+                    <p>Some products have brands that don't exist in the database. Please assign existing brands or choose to create products without brands.</p>
+                </div>
+                
+                <div id="brand-assignment-list">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <button type="button" class="btn btn-warning" id="save-without-brands-btn">
+                        <i class="icon-warning"></i> Save Without Brands
+                    </button>
+                </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="save-with-brands-btn">
+                    <i class="icon-checkmark"></i> Save with Selected Brands
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# CGData JavaScript #}
+<script type="text/javascript">
+    console.log('CGData: External file loaded');
+    
+    $(document).ready(function () {
+        console.log('CGData: Document ready - initializing...');
+        
+        let currentCategoryId = null;
+        let currentCategoryName = null;
+        
+        // Set current page category information if available
+        {% if parentCategory %}
+            const pageCategory = {
+                id: {{ parentCategory.id }},
+                name: {{ parentCategory.title|json_encode|raw }}
+            };
+            console.log('CGData: Page category detected:', pageCategory);
+        {% else %}
+            const pageCategory = null;
+            console.log('CGData: No page category (root level)');
+        {% endif %}
+        
+        // Debug: Check if CGData buttons exist
+        console.log('CGData: Found', $('.cgdata-category-btn').length, 'CGData buttons on page');
+        
+        // Check again after DataTable might have loaded
+        setTimeout(function() {
+            console.log('CGData: After 2 seconds, found', $('.cgdata-category-btn').length, 'CGData buttons');
+            if ($('.cgdata-category-btn').length > 0) {
+                console.log('CGData: Button details:', $('.cgdata-category-btn').first().get(0));
+            }
+        }, 2000);
+        
+        // CGData button click handler for category rows - opens URL input modal
+        $(document).on('click', '.cgdata-category-btn', function(e) {
+            e.preventDefault();
+            console.log('CGData: Button clicked!', this);
+            
+            currentCategoryId = $(this).data('category-id');
+            currentCategoryName = $(this).data('category-name');
+            
+            console.log('CGData: Requesting URL for category', currentCategoryId, currentCategoryName);
+            console.log('CGData: Button data attributes:', $(this).data());
+            
+            // Show URL input modal
+            $('#cgdata-selected-category').text(currentCategoryName);
+            $('#cgdata-url-input').val('');
+            
+            $('#cgdata-url-modal').modal('show');
+        });
+        
+        // Fetch button click handler - validates URL and makes API call
+        $('#cgdata-fetch-btn').click(function() {
+            const enteredUrl = $('#cgdata-url-input').val().trim();
+            
+            // Validate URL
+            if (!enteredUrl) {
+                alert('Please enter a URL');
+                return;
+            }
+            
+            // Basic URL validation
+            try {
+                new URL(enteredUrl);
+            } catch (e) {
+                alert('Please enter a valid URL (including http:// or https://)');
+                return;
+            }
+            
+            // Close URL modal and open results modal
+            $('#cgdata-url-modal').modal('hide');
+            $('#cgdata-modal').modal('show');
+            $('#cgdata-loading').show();
+            $('#cgdata-error').hide();
+            $('#cgdata-content').hide();
+            
+            console.log('CGData: Making API call for category', currentCategoryId, 'with URL', enteredUrl);
+            
+            // Make API call
+            $.ajax({
+                url: '/admin/product/category/' + currentCategoryId + '/cgdata/fetch',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    category_url: enteredUrl
+                }),
+                success: function(response) {
+                    console.log('CGData: API response received', response);
+                    $('#cgdata-loading').hide();
+                    
+                    if (response.success) {
+                        const categoryInfo = response.category.name + ' (ID: ' + response.category.id + ')';
+                        $('#cgdata-category-name').text(categoryInfo);
+                        
+                        // Show raw API response
+                        $('#cgdata-raw-json').text(JSON.stringify(response.raw_api_response, null, 2));
+                        
+                        // Display products with raw API response
+                        displayProducts(response.products, response.count, response.category, response.raw_api_response);
+                        
+                        $('#cgdata-content').show();
+                    } else {
+                        $('#cgdata-error').show();
+                        $('#cgdata-error-message').text(response.error || 'An error occurred');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('CGData: API call error', error);
+                    $('#cgdata-loading').hide();
+                    $('#cgdata-error').show();
+                    $('#cgdata-error-message').text('API call failed: ' + error);
+                }
+            });
+        });
+        
+        // Enter key handler for URL input
+        $('#cgdata-url-input').keypress(function(e) {
+            if (e.which === 13) { // Enter key
+                $('#cgdata-fetch-btn').click();
+            }
+        });
+
+        // Auto-focus URL input when the modal is fully shown
+        $('#cgdata-url-modal').on('shown.bs.modal', function () {
+            setTimeout(function(){ $('#cgdata-url-input').trigger('focus'); }, 10);
+        });
+        
+        // Reset URL modal when closed
+        $('#cgdata-url-modal').on('hidden.bs.modal', function () {
+            $('#cgdata-url-input').val('');
+            currentCategoryId = null;
+            currentCategoryName = null;
+        });
+        
+        // Reset modal state when closed
+        $('#cgdata-modal').on('hidden.bs.modal', function () {
+            $('#cgdata-loading').hide();
+            $('#cgdata-error').hide();
+            $('#cgdata-content').hide();
+            $('#cgdata-products-list').html('');
+            $('#cgdata-raw-json').text('');
+            $('#cgdata-raw-response').removeClass('in');
+
+            // Clear global data
+            window.cgdataProducts = null;
+            window.cgdataCategory = null;
+        });
+        
+        // Function to display products from CGData API
+        function displayProducts(products, count, category, rawApiResponse = null) {
+            const productsContainer = $('#cgdata-products-list');
+            
+            // Clear previous content
+            productsContainer.html('');
+            
+            let html = '';
+            
+            if (!products || !Array.isArray(products) || products.length === 0) {
+                html = '<div class="alert alert-warning">';
+                html += '<h6><i class="icon-warning"></i> No Products Found</h6>';
+                html += '<p>No products were found for this category.</p>';
+                html += '</div>';
+            } else {
+                // Summary with category and brand information
+                html += '<div class="alert alert-success">';
+                html += '<h6><i class="icon-checkmark-circle2"></i> Products Retrieved Successfully</h6>';
+                html += '<p><strong>' + count + '</strong> products found from <strong>' + category.name + '</strong></p>';
+                if (category.url) {
+                    html += '<p><small><strong>Source:</strong> <a href="' + category.url + '" target="_blank">' + category.url + '</a></small></p>';
+                }
+                html += '</div>';
+                
+                // Database category and brand information
+                html += '<div class="alert alert-info">';
+                html += '<h6><i class="icon-database"></i> Database Information</h6>';
+                html += '<div class="row">';
+                html += '<div class="col-md-6">';
+                html += '<p><strong>Target Category:</strong><br>';
+                html += 'ID: <span class="label label-primary">' + category.id + '</span> ';
+                html += 'Name: <strong>' + category.name + '</strong></p>';
+                html += '</div>';
+                html += '<div class="col-md-6">';
+                html += '<p><strong>Brand Detection:</strong><br>';
+                html += '<span id="brand-detection-status">Checking brands...</span></p>';
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+                
+                // Scroll help notice
+                html += '<div class="alert alert-warning" style="margin-bottom: 15px; padding: 10px;">';
+                html += '<small><i class="icon-info"></i> <strong>Navigation Tips:</strong> ';
+                html += 'Table is scrollable both vertically and horizontally. ';
+                html += 'Long text can be expanded by clicking "Show more". ';
+                html += 'Click images to view full size.</small>';
+                html += '</div>';
+                
+                // Get all possible keys from all products to create dynamic columns
+                const allKeys = new Set();
+                products.forEach(product => {
+                    Object.keys(product).forEach(key => allKeys.add(key));
+                });
+                const productKeys = Array.from(allKeys).sort();
+                
+                // Products table with dynamic columns
+                html += '<div class="table-responsive" style="max-height: 500px; overflow-y: auto;">';
+                html += '<table class="table table-striped table-hover table-condensed">';
+                html += '<thead>';
+                html += '<tr>';
+                html += '<th style="width: 50px;">#</th>';
+                
+                // Add columns for each available product field with better sizing
+                productKeys.forEach(key => {
+                    const displayName = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+                    let width = '150px';
+                    
+                    // Set specific widths for known fields
+                    if (key === 'sku') width = '120px';
+                    else if (key === 'name') width = '200px';
+                    else if (key === 'description') width = '250px';
+                    else if (key === 'images') width = '120px';
+                    else if (key === 'url') width = '100px';
+                    else if (key === 'price') width = '80px';
+                    else if (key === 'technical_specs') width = '200px';
+                    
+                    html += '<th style="width: ' + width + '; min-width: ' + width + ';">' + displayName + '</th>';
+                });
+                
+                html += '<th style="width: 150px; min-width: 150px;">Actions</th>';
+                html += '</tr>';
+                html += '</thead>';
+                html += '<tbody>';
+                
+                products.forEach(function(product, index) {
+                    html += '<tr>';
+                    html += '<td>' + (index + 1) + '</td>';
+                    
+                    // Display each field value
+                    productKeys.forEach(key => {
+                        const value = product[key];
+                        html += '<td>';
+                        
+                        if (key === 'url' && value) {
+                            // Make URLs clickable
+                            html += '<a href="' + value + '" target="_blank" class="btn btn-xs btn-link">';
+                            html += '<i class="icon-link"></i> View';
+                            html += '</a>';
+                        } else if (key === 'sku' && value) {
+                            // Style SKUs with label
+                            html += '<span class="label label-default">' + value + '</span>';
+                        } else if ((key === 'brand' || key === 'brand_name' || key === 'manufacturer') && value) {
+                            // Just display the brand name, no dropdown here
+                            html += '<span class="label label-info">' + value + '</span>';
+                        } else if (key === 'images' && value && Array.isArray(value)) {
+                            // Display images as thumbnails
+                            html += '<div class="image-gallery" style="max-width: 250px;">';
+                            value.forEach(function(imageUrl, imgIndex) {
+                                if (imageUrl && typeof imageUrl === 'string') {
+                                    html += '<div>';
+                                    html += '<img src="' + imageUrl + '" style="max-width: 80px; max-height: 60px; border: 1px solid #ddd; border-radius: 4px;" ';
+                                    html += 'onclick="window.open(\'' + imageUrl + '\', \'_blank\')" ';
+                                    html += 'title="Click to view full size (Image ' + (imgIndex + 1) + ')" class="cgdata-image-thumbnail" ';
+                                    html += 'onerror="this.style.display=\'none\'" />';
+                                    html += '</div>';
+                                }
+                            });
+                            html += '</div>';
+                        } else if ((key.toLowerCase().includes('image') || key.toLowerCase().includes('img')) && value && typeof value === 'string' && (value.startsWith('http') || value.startsWith('/'))) {
+                            // Single image URL
+                            html += '<img src="' + value + '" style="max-width: 80px; max-height: 60px; border: 1px solid #ddd; border-radius: 4px;" ';
+                            html += 'onclick="window.open(\'' + value + '\', \'_blank\')" ';
+                            html += 'title="Click to view full size" class="cgdata-image-thumbnail" ';
+                            html += 'onerror="this.style.display=\'none\'" />';
+                        } else if (value !== null && value !== undefined && value !== '') {
+                            // For complex objects, stringify them
+                            if (typeof value === 'object') {
+                                html += '<div style="max-height:80px; overflow-y:auto; border:1px solid #ddd; padding:5px; background:#f9f9f9; border-radius:3px;">';
+                                html += '<small><pre style="margin:0; font-size:10px; white-space:pre-wrap;">' + JSON.stringify(value, null, 2) + '</pre></small>';
+                                html += '</div>';
+                            } else {
+                                // Truncate long text with expand option
+                                const textValue = String(value);
+                                if (textValue.length > 100) {
+                                    const shortText = textValue.substring(0, 100);
+                                    const fullText = textValue;
+                                    html += '<div class="expandable-text">';
+                                    html += '<span class="short-text">' + shortText + '...</span>';
+                                    html += '<span class="full-text" style="display:none;">' + fullText + '</span>';
+                                    html += '<br><small><a href="#" class="toggle-text" style="color:#337ab7;">Show more</a></small>';
+                                    html += '</div>';
+                                } else {
+                                    html += '<span>' + textValue + '</span>';
+                                }
+                            }
+                        } else {
+                            html += '<span class="text-muted">N/A</span>';
+                        }
+                        
+                        html += '</td>';
+                    });
+                    
+                    // Actions column
+                    html += '<td>';
+                    if (product.sku) {
+                        html += '<div class="btn-group">';
+                        html += '<button class="btn btn-xs btn-primary" onclick="searchProductBySku(\'' + product.sku + '\')" title="Search for this product in the system">';
+                        html += '<i class="icon-search4"></i> Find';
+                        html += '</button>';
+
+                        html += '</div>';
+                    }
+                    html += '</td>';
+                    html += '</tr>';
+                });
+                
+                html += '</tbody>';
+                html += '</table>';
+                html += '</div>';
+                
+                // Raw API response panel already exists at top (cgdata-raw-response)
+            }
+            
+            // Create a simple HTML form for product submission
+            html += '<form method="POST" id="cgdata-products-form" action="{{ path('category_cgdata_save_products') }}" style="margin-top: 20px;">';
+            html += '<div class="alert alert-info">';
+            html += '<i class="icon-info"></i> <strong>New Workflow:</strong> Products will be saved to an approval queue for admin review before being created.';
+            html += '</div>';
+            html += '<input type="hidden" name="category_id" value="' + category.id + '">';
+            html += '<input type="hidden" name="catId" value="' + category.id + '">';
+            html += '<input type="hidden" name="brand_id" id="cgdata-hidden-brand-id" value="">';
+            html += '<input type="hidden" name="BrndId" id="cgdata-hidden-brand-id-legacy" value="">';
+            
+            // Add hidden fields for each product
+            products.forEach(function(product, index) {
+                html += '<input type="hidden" name="products[' + index + '][sku]" value="' + (product.sku || '') + '">';
+                html += '<input type="hidden" name="products[' + index + '][name]" value="' + (product.name || '') + '">';
+                html += '<input type="hidden" name="products[' + index + '][description]" value="' + (product.description || '') + '">';
+                html += '<input type="hidden" name="products[' + index + '][price]" value="' + (product.price || '') + '">';
+                html += '<input type="hidden" name="products[' + index + '][url]" value="' + (product.url || '') + '">';
+                
+                // Handle technical specs
+                if (product.technical_specs && typeof product.technical_specs === 'object') {
+                    html += '<input type="hidden" name="products[' + index + '][technical_specs]" value="' + JSON.stringify(product.technical_specs) + '">';
+                }
+                
+                // Handle images
+                if (product.images && Array.isArray(product.images)) {
+                    product.images.forEach(function(imageUrl, imgIndex) {
+                        html += '<input type="hidden" name="products[' + index + '][images][' + imgIndex + ']" value="' + imageUrl + '">';
+                    });
+                }
+                
+                // Handle brand data
+                const brandName = product.brand || product.brand_name || product.manufacturer;
+                if (brandName) {
+                    html += '<input type="hidden" name="products[' + index + '][brand_name]" value="' + brandName + '">';
+                }
+            });
+            
+            // Removed Assign Brand to All Products dropdown per request
+            
+            html += '<button type="submit" class="btn btn-warning btn-lg" id="cgdata-save-form-btn">';
+            html += '<i class="icon-clock"></i> Save to Approval Queue';
+            html += '</button>';
+            html += '</form>';
+            
+            productsContainer.html(html);
+
+            // Bind submit handler to set hidden brand id from brand detection (non-blocking)
+            $(document).off('submit', '#cgdata-products-form').on('submit', '#cgdata-products-form', function() {
+                const brandId = $('#global-brand-dropdown').val();
+                if (brandId) {
+                    $('#cgdata-hidden-brand-id').val(brandId);
+                    $('#cgdata-hidden-brand-id-legacy').val(brandId);
+                }
+                const submitBtn = $('#cgdata-save-form-btn');
+                submitBtn.prop('disabled', true).html('<i class="icon-spinner2 spinner"></i> Saving...');
+                return true;
+            });
+            
+            // Expose products and category globally for later steps
+            window.cgdataProducts = products;
+            window.cgdataCategory = category;
+            
+            // Update brand detection panel and load brand dropdowns
+            setTimeout(function() {
+                try {
+                    checkBrandsInProducts(products);
+                    loadBrandDropdowns();
+                } catch (e) {
+                    console.error('CGData brand detection error:', e);
+                }
+                // Simple form brand list removed
+            }, 300);
+        }
+        
+        // Removed simple form dropdown handling and brand requirement on submit
+        
+        // Function to check brands in products and display brand information
+        function checkBrandsInProducts(products) {
+            // Extract unique brand names from products
+            const brandNames = new Set();
+            products.forEach(product => {
+                // Look for brand information in different possible fields
+                const brandName = product.brand || product.brand_name || product.manufacturer;
+                if (brandName && typeof brandName === 'string') {
+                    brandNames.add(brandName.trim());
+                }
+            });
+            
+            if (brandNames.size === 0) {
+                $('#brand-detection-status').html('<span class="text-muted">No brand information found in products</span>');
+                return;
+            }
+            
+            const uniqueBrands = Array.from(brandNames);
+            
+            // Replace "Brand Detection:" with brand assignment dropdown
+            let brandHtml = '<div class="form-group" style="margin-top: 5px;">';
+            brandHtml += '<label for="global-brand-dropdown">Assign detected brands to database brand:</label>';
+            brandHtml += '<select class="form-control" id="global-brand-dropdown" style="margin-top: 5px;">';
+            brandHtml += '<option value="">Loading brands from database...</option>';
+            brandHtml += '</select>';
+            brandHtml += '<small class="text-muted">Detected: ';
+            
+            // Show detected brands in the help text
+            uniqueBrands.forEach((brandName, index) => {
+                brandHtml += brandName;
+                if (index < uniqueBrands.length - 1) {
+                    brandHtml += ', ';
+                }
+            });
+            
+            brandHtml += ' | Will assign selected brand to all products with detected brands.</small>';
+            brandHtml += '</div>';
+            
+            $('#brand-detection-status').html(brandHtml);
+            
+            // Store detected brands globally for later use
+            window.cgdataDetectedBrands = uniqueBrands;
+        }
+        
+        // Function to load and populate the global brand dropdown
+        function loadBrandDropdowns() {
+            // Fetch available brands from database
+            $.ajax({
+                url: '{{ path('category_cgdata_brands') }}',
+                method: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        const availableBrands = response.brands;
+                        const globalDropdown = $('#global-brand-dropdown');
+                        
+                        if (globalDropdown.length > 0) {
+                            // Clear loading option
+                            globalDropdown.empty();
+                            
+                            // Add default option
+                            globalDropdown.append('<option value="">Select brand or leave unassigned</option>');
+                            
+                            // Add all available brands
+                            availableBrands.forEach(brand => {
+                                globalDropdown.append('<option value="' + brand.id + '">' + brand.title + '</option>');
+                            });
+                            
+                            // Try to auto-select if there's only one detected brand that matches
+                            if (window.cgdataDetectedBrands && window.cgdataDetectedBrands.length === 1) {
+                                const detectedBrand = window.cgdataDetectedBrands[0];
+                                const matchingBrand = availableBrands.find(brand => 
+                                    brand.title.toLowerCase() === detectedBrand.toLowerCase()
+                                );
+                                if (matchingBrand) {
+                                    globalDropdown.val(matchingBrand.id);
+                                    globalDropdown.addClass('has-success').css('border-color', '#5cb85c');
+                                }
+                            }
+                            
+                            console.log('CGData: Global brand dropdown populated with', availableBrands.length, 'brands');
+                        }
+                    } else {
+                        console.error('Error loading brands:', response.error);
+                        $('#global-brand-dropdown').html('<option value="">Error loading brands</option>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching brands:', error);
+                    $('#global-brand-dropdown').html('<option value="">Error loading brands</option>');
+                }
+            });
+        }
+        
+        // Function to search for product by SKU in the system
+        function searchProductBySku(sku) {
+            // This could open the product search page with the SKU pre-filled
+            const searchUrl = "{{ path('product_index_all') }}?search=" + encodeURIComponent(sku);
+            window.open(searchUrl, '_blank');
+        }
+        
+        // Function to collect brand assignment from global dropdown
+        function collectBrandAssignments() {
+            const assignments = {};
+            const globalDropdown = $('#global-brand-dropdown');
+            const selectedBrandId = globalDropdown.val();
+            
+            if (selectedBrandId && window.cgdataProducts && window.cgdataDetectedBrands) {
+                // Apply the selected brand to all products that have a detected brand
+                window.cgdataProducts.forEach((product, index) => {
+                    const productBrand = product.brand || product.brand_name || product.manufacturer;
+                    if (productBrand && window.cgdataDetectedBrands.includes(productBrand.trim())) {
+                        assignments[index] = selectedBrandId;
+                    }
+                });
+            }
+            
+            console.log('CGData: Global brand assignment applied to', Object.keys(assignments).length, 'products');
+            console.log('CGData: Selected brand ID:', selectedBrandId);
+            return assignments;
+        }
+        
+
+        
+
+        
+
+        
+        // Reset modal state when closed
+        $('#cgdata-modal').on('hidden.bs.modal', function () {
+            $('#cgdata-loading').hide();
+            $('#cgdata-error').hide();
+            $('#cgdata-content').hide();
+            $('#cgdata-products-list').html('');
+            $('#cgdata-raw-json').text('');
+            $('#cgdata-raw-response').removeClass('in');
+
+            // Clear global data
+            window.cgdataProducts = null;
+            window.cgdataCategory = null;
+        });
+        
+        // Handle expandable text toggle
+        $(document).on('click', '.toggle-text', function(e) {
+            e.preventDefault();
+            const container = $(this).closest('.expandable-text');
+            const shortText = container.find('.short-text');
+            const fullText = container.find('.full-text');
+            const link = $(this);
+            
+            if (fullText.is(':visible')) {
+                fullText.hide();
+                shortText.show();
+                link.text('Show more');
+            } else {
+                shortText.hide();
+                fullText.show();
+                link.text('Show less');
+            }
+        });
+        
+        console.log('CGData: All event handlers registered');
+    });
+</script>

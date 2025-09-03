@@ -10,6 +10,11 @@ pn_media:
 pn_content:
   resource: "@PNContentBundle/Resources/config/routing.yml"
 
+app_content:
+  resource: "@ContentBundle/Controller/"
+  type: annotation
+  prefix: /admin/app-content/
+
 user_bundle:
   resource: "@UserBundle/Resources/config/routing.yaml"
 

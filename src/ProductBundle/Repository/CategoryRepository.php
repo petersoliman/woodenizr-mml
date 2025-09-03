@@ -30,7 +30,16 @@ class CategoryRepository extends BaseRepository
         foreach ($mainCategory as $cat) {
             $list[$cat->getTitle()] = [];
 
-            foreach ($cat->getChildren() as $sub) {
+            $children = $this->createQueryBuilder($this->tableAlias)
+                ->where("{$this->tableAlias}.parent = :parentId")
+                ->andWhere("{$this->tableAlias}.deleted IS NULL")
+                ->setParameter('parentId', $cat->getId())
+                ->orderBy("{$this->tableAlias}.tarteb", "DESC")
+                ->addOrderBy("{$this->tableAlias}.title", "ASC")
+                ->getQuery()
+                ->execute();
+
+            foreach ($children as $sub) {
                 $list[$cat->getTitle()][$sub->getId()] = $sub;
             }
         }
@@ -80,6 +89,12 @@ class CategoryRepository extends BaseRepository
         ];
 
         $this->filterOrderLogic($statement, $search, $sortSQL);
+        
+        // Add secondary sorting: if no specific order is requested, sort by tarteb first (1 = highest priority), then alphabetically
+        if (!isset($search->ordr) || !Validate::not_null($search->ordr)) {
+            $statement->addOrderBy("{$this->tableAlias}.tarteb", "DESC");
+            $statement->addOrderBy("{$this->tableAlias}.title", "ASC");
+        }
     }
 
 

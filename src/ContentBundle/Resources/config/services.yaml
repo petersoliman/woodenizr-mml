@@ -11,3 +11,7 @@ services:
   App\ContentBundle\Repository\:
     resource: '../../Repository'
     tags: [ 'doctrine.repository_service' ]
+
+  App\ContentBundle\Controller\:
+    resource: '../../Controller'
+    tags: ['controller.service_arguments']

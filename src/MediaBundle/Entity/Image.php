@@ -16,6 +16,11 @@ class Image extends BaseImage implements ImageInterface
 {
     const TYPE_COVER_PHOTO = 3;
 
+    /**
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
+     */
+    protected $title;
+
     use ImageTrait;
 
     /**
@@ -36,6 +41,28 @@ class Image extends BaseImage implements ImageInterface
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string|null $title
+     * @return Image
+     */
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string|null
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
     }
 
     /**

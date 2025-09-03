@@ -76,11 +76,16 @@ class CategorySubscriber implements EventSubscriber
 
     private function updateNoOfAllProducts(Category $category): int
     {
-        $search = new \stdClass();
-        $search->deleted = 0;
-        $search->categories = explode(',', $category->getConcatIds());
+        // Count only products that meet the search criteria (have prices, are not deleted, etc.)
+        $qb = $this->productRepository->createQueryBuilder('p');
+        $qb->select('COUNT(DISTINCT p.id)')
+           ->leftJoin('p.prices', 'pp')
+           ->where('p.deleted IS NULL')
+           ->andWhere('p.category IN (:categories)')
+           ->andWhere('pp.id IS NOT NULL') // Must have at least one price
+           ->setParameter('categories', explode(',', $category->getConcatIds()));
 
-        return $this->productRepository->filter($search, true);
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
     private function updateNoOfPublishedProducts(Category $category): int
@@ -89,12 +94,19 @@ class CategorySubscriber implements EventSubscriber
         if (count($categoriesIds) == 0) {
             return 0;
         }
-        $search = new \stdClass();
-        $search->deleted = 0;
-        $search->publish = true;
-        $search->categories = $categoriesIds;
+        
+        // Count only products that meet the search criteria (have prices, are published, etc.)
+        $qb = $this->productRepository->createQueryBuilder('p');
+        $qb->select('COUNT(DISTINCT p.id)')
+           ->leftJoin('p.prices', 'pp')
+           ->where('p.deleted IS NULL')
+           ->andWhere('p.publish = :publish')
+           ->andWhere('p.category IN (:categories)')
+           ->andWhere('pp.id IS NOT NULL') // Must have at least one price
+           ->setParameter('publish', true)
+           ->setParameter('categories', $categoriesIds);
 
-        return $this->productRepository->filter($search, true);
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
     private function getPublishCategories(Category $category)

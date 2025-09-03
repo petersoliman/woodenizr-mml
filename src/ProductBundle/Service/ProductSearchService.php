@@ -219,14 +219,27 @@ class ProductSearchService
         $sellPrices = [];
         $stock = 0;
         $prices = $product->getPrices(0);
-        foreach ($product->getPrices(0) as $price) {
-            if ($price->getUnitPrice() == 0) {
-                continue;
+        
+        foreach ($prices as $price) {
+            if ($price && $price->getUnitPrice() > 0) {
+                $originalPrices[] = $price->getUnitPrice();
+                $sellPrices[] = $price->getSellPrice() ?? $price->getUnitPrice();
+                $stock += $price->getStock() ?? 0;
             }
-            $originalPrices[] = $price->getUnitPrice();
-            $sellPrices[] = $price->getSellPrice();
-            $stock += $price->getStock();
         }
+        
+        // Handle case where no valid prices exist
+        if (empty($originalPrices)) {
+            $productSearch->setMinSellPrice(0);
+            $productSearch->setMaxSellPrice(0);
+            $productSearch->setMinOriginalPrice(0);
+            $productSearch->setMaxOriginalPrice(0);
+            $productSearch->setHasStock(false);
+            $productSearch->setHasOffer(false);
+            $productSearch->setPromotionPercentage(0);
+            return;
+        }
+        
         $minSellPrice = min($sellPrices);
         $maxSellPrice = max($sellPrices);
         $minOriginalPrice = min($originalPrices);
@@ -236,35 +249,62 @@ class ProductSearchService
         $productSearch->setMaxSellPrice($maxSellPrice);
         $productSearch->setMinOriginalPrice($minOriginalPrice);
         $productSearch->setMaxOriginalPrice($maxOriginalPrice);
+        
         if (count($prices) == 1) {
             $productSearch->setProductPrice($prices->first());
         }
-        $offerExpiryDate = ($productPrice->hasPromotion() === true) ? $productPrice->getPromotionalExpiryDate() : null;
-        $productSearch->setOfferExpiryDate($offerExpiryDate);
-        $productSearch->setHasOffer($productPrice->hasPromotion());
+        
+        // Safe access to productPrice methods
+        if ($productPrice) {
+            $offerExpiryDate = $productPrice->hasPromotion() ? $productPrice->getPromotionalExpiryDate() : null;
+            $productSearch->setOfferExpiryDate($offerExpiryDate);
+            $productSearch->setHasOffer($productPrice->hasPromotion());
+            $promotionPercentage = $productPrice->hasPromotion() ? $productPrice->getPromotionalPercentage() : 0;
+            $productSearch->setPromotionPercentage($promotionPercentage);
+        } else {
+            $productSearch->setOfferExpiryDate(null);
+            $productSearch->setHasOffer(false);
+            $productSearch->setPromotionPercentage(0);
+        }
+        
         $productSearch->setHasMultiPrice(count($prices) > 1);
-
-
-        $promotionPercentage = ($productPrice->hasPromotion() === true) ? $productPrice->getPromotionalPercentage() : 0;
-        $productSearch->setPromotionPercentage($promotionPercentage);
         $productSearch->setHasStock($stock > 0);
-
     }
 
 
     private function addSlugs(Product $product, ProductSearch $productSearch): void
     {
         $seo = $product->getSeo();
+        
+        // If no SEO object exists, create empty slugs
+        if (!$seo) {
+            $slugs = [
+                "en" => "",
+            ];
+            
+            foreach ($this->getLanguages() as $language) {
+                $slugs[$language->getLocale()] = "";
+            }
+            
+            $productSearch->setSlugs($slugs);
+            return;
+        }
+        
         $slugs = [
-            "en" => $seo->getSlug(),
+            "en" => $seo->getSlug() ?? "",
         ];
 
         foreach ($this->getLanguages() as $language) {
-            $slugs[$language->getLocale()] = $seo->getSlug();
+            $slugs[$language->getLocale()] = $seo->getSlug() ?? "";
         }
 
-        foreach ($seo->getTranslations() as $translation) {
-            $slugs[$translation->getLanguage()->getLocale()] = $translation->getSlug();
+        // Only process translations if SEO object exists and has translations
+        if ($seo->getTranslations()) {
+            foreach ($seo->getTranslations() as $translation) {
+                if ($translation && $translation->getLanguage()) {
+                    $slugs[$translation->getLanguage()->getLocale()] = $translation->getSlug() ?? "";
+                }
+            }
         }
 
         $productSearch->setSlugs($slugs);
@@ -272,16 +312,23 @@ class ProductSearchService
 
     private function addTitles(Product $product, ProductSearch $productSearch): void
     {
+        $title = $product->getTitle() ?? "";
+        
         $titles = [
-            "en" => $product->getTitle(),
+            "en" => $title,
         ];
 
         foreach ($this->getLanguages() as $language) {
-            $titles[$language->getLocale()] = $product->getTitle();
+            $titles[$language->getLocale()] = $title;
         }
 
-        foreach ($product->getTranslations() as $translation) {
-            $titles[$translation->getLanguage()->getLocale()] = $translation->getTitle();
+        // Only process translations if they exist
+        if ($product->getTranslations()) {
+            foreach ($product->getTranslations() as $translation) {
+                if ($translation && $translation->getLanguage()) {
+                    $titles[$translation->getLanguage()->getLocale()] = $translation->getTitle() ?? "";
+                }
+            }
         }
 
         $productSearch->setTitles($titles);

@@ -57,6 +57,11 @@ class UserCurrencyService
         }
         if ($currency == null) {
             $currency = $this->currencyRepository->getDefaultCurrency();
+            
+            // If no default currency exists in database, create a fallback
+            if ($currency === null) {
+                $currency = $this->createFallbackCurrency();
+            }
         }
         $this->currentCurrency = $currency;
         return $this->currentCurrency;
@@ -98,5 +103,24 @@ class UserCurrencyService
     private function getRequest(): ?Request
     {
         return $this->request;
+    }
+
+    /**
+     * Create a fallback currency when the database is empty
+     */
+    private function createFallbackCurrency(): Currency
+    {
+        $fallbackCurrency = new Currency();
+        $fallbackCurrency->setId(1);
+        $fallbackCurrency->setCode('EGP');
+        $fallbackCurrency->setSymbol('EGP');
+        $fallbackCurrency->setTitle('Egyptian Pound');
+        $fallbackCurrency->setDefault(true);
+        $fallbackCurrency->setCreated(new \DateTime());
+        $fallbackCurrency->setCreator('System');
+        $fallbackCurrency->setModified(new \DateTime());
+        $fallbackCurrency->setModifiedBy('System');
+        
+        return $fallbackCurrency;
     }
 }

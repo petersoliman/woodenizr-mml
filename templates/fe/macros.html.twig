@@ -12,3 +12,82 @@
         <script src="{{ path ~ "?v=" ~ constant('App\\Kernel::globalAssetVersion') }}" {{ defer ? 'defer fetchpriority="low"' }}></script>
     {% endapply %}
 {% endmacro %}
+
+{% macro product(product) %}
+    <div class="l-product-slide ui-product-slide" data-product-id="{{ product.id }}">
+        <div class="l-product-slide-picture">
+            {% if product.mainImage %}
+                <a href="{{ path('fe_product_show', {'slug': product.slug}) }}">
+                    <img src="{{ asset(product.mainImage.assetPath) }}" alt="{{ product.title }}" class="adapt-img" loading="lazy">
+                </a>
+            {% else %}
+                <a href="{{ path('fe_product_show', {'slug': product.slug}) }}">
+                    <img src="{{ asset('images/no-image.png') }}" alt="{{ product.title }}" class="adapt-img" loading="lazy">
+                </a>
+            {% endif %}
+            
+            {% if product.featured %}
+                <div class="l-product-slide-badge l-product-slide-badge-featured">
+                    <span>Featured</span>
+                </div>
+            {% endif %}
+            
+            {% if product.newArrival %}
+                <div class="l-product-slide-badge l-product-slide-badge-new">
+                    <span>New</span>
+                </div>
+            {% endif %}
+            
+            {% if product.promotionPercentage > 0 %}
+                <div class="l-product-slide-badge l-product-slide-badge-sale">
+                    <span>-{{ product.promotionPercentage }}%</span>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="l-product-slide-content">
+            <div class="l-product-slide-content-category">
+                <span>{{ product.categoryTitle }}</span>
+            </div>
+            
+            <div class="l-product-slide-content-title">
+                <a href="{{ path('fe_product_show', {'slug': product.slug}) }}">
+                    {{ product.title }}
+                </a>
+            </div>
+            
+            {% if product.brandTitle %}
+                <div class="l-product-slide-content-brand">
+                    <span>{{ product.brandTitle }}</span>
+                </div>
+            {% endif %}
+            
+            <div class="l-product-slide-content-price">
+                {% if product.promotionPercentage > 0 %}
+                    <span class="l-product-slide-content-price-original">{{ product.originalPrice|number_format(2) }} {{ product.currency.code }}</span>
+                    <span class="l-product-slide-content-price-current">{{ product.sellPrice|number_format(2) }} {{ product.currency.code }}</span>
+                {% else %}
+                    <span class="l-product-slide-content-price-current">{{ product.sellPrice|number_format(2) }} {{ product.currency.code }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="l-product-slide-content-actions">
+                {% if product.enableAddToCart %}
+                    <button class="l-product-slide-content-actions-add-to-cart ui-add-to-cart" data-product-id="{{ product.id }}">
+                        Add to Cart
+                    </button>
+                {% else %}
+                    <button class="l-product-slide-content-actions-add-to-cart ui-add-to-cart disabled" disabled>
+                        Out of Stock
+                    </button>
+                {% endif %}
+                
+                <button class="l-product-slide-content-actions-favorite ui-favorite {{ product.hasFavorite ? 'active' : '' }}" data-product-id="{{ product.id }}">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 17.5L8.5 16.1C4.5 12.4 2 10.1 2 7.3C2 4.9 3.9 3 6.3 3C7.4 3 8.5 3.4 9.3 4.1L10 4.7L10.7 4.1C11.5 3.4 12.6 3 13.7 3C16.1 3 18 4.9 18 7.3C18 10.1 15.5 12.4 11.5 16.1L10 17.5Z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

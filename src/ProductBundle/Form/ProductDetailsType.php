@@ -61,7 +61,12 @@ class ProductDetailsType extends AbstractType
         $entity = $event->getData();
         $form = $event->getForm();
 
-        $relatedProduct = $entity->getRelatedProducts();
+        // Check if entity exists and has relatedProducts before calling getRelatedProducts()
+        $relatedProduct = [];
+        if ($entity && method_exists($entity, 'getRelatedProducts')) {
+            $relatedProduct = $entity->getRelatedProducts();
+        }
+        
         $this->addRelatedProductElements($form, $relatedProduct);
     }
 
@@ -71,9 +76,14 @@ class ProductDetailsType extends AbstractType
         $data = $event->getData();
 
         $relatedProducts = [];
-        if (is_array($data) and array_key_exists('relatedProducts', $data)) {
+        if (is_array($data) && array_key_exists('relatedProducts', $data)) {
             foreach ($data['relatedProducts'] as $relatedProduct) {
-                $relatedProducts[] = $this->em->getRepository(Product::class)->find($relatedProduct);
+                if ($relatedProduct) {
+                    $foundProduct = $this->em->getRepository(Product::class)->find($relatedProduct);
+                    if ($foundProduct) {
+                        $relatedProducts[] = $foundProduct;
+                    }
+                }
             }
         }
         $this->addRelatedProductElements($form, $relatedProducts);

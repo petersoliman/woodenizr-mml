@@ -1,14 +1,29 @@
 {% import 'adminTemplate/macros.html.twig' as macros %}
 <div class="panel panel-flat">
+    <div class="panel-heading">
+        <h6 class="panel-title"><i class="icon-pencil7"></i> Product Information</h6>
+    </div>
     <div class="panel-body">
+        {# Basic Product Details #}
+        <div class="row">
+            <div class="col-md-12">
+                <h6 class="text-semibold text-uppercase text-muted mb-15">Basic Information</h6>
+            </div>
+        </div>
         <div class="row">
             {{ macros.input(form.title, 6) }}
             {{ macros.input(form.sku, 3) }}
             {{ macros.input(form.brand, 3) }}
+        </div>
+        <div class="row">
             {% if form.currency is defined %}
                 {{ macros.input(form.currency, 3) }}
             {% endif %}
+            {{ macros.input(form.vendor, 3) }}
+            {{ macros.input(form.storeAddress, 6) }}
         </div>
+
+        {# Category and Search #}
         <div class="row">
             {% if form.category.vars.block_prefixes.1 == "hidden" %}
                 <div class="col-md-6">
@@ -20,7 +35,7 @@
                             <div class="input-group-btn">
                                 <button class="btn btn-primary tree-opener" data-toggle="modal"
                                         data-target="#changeCategory" type="button">
-                                    ...
+                                    Change
                                 </button>
                             </div>
                         </div>
@@ -30,53 +45,32 @@
             {% else %}
                 {{ macros.input(form.category, 6) }}
             {% endif %}
-
             {{ macros.input(form.searchTerms, 6) }}
         </div>
-        <div class="row">
-            {{ macros.input(form.vendor, 6) }}
-            {{ macros.input(form.storeAddress, 6) }}
-        </div>
-        {% if form.collections is defined or form.occasion is defined %}
+
+        {# Collections and Occasions #}
+        {% if form.collections is defined or form.occasions is defined %}
             <div class="row">
                 {% if form.collections is defined %}
                     {{ macros.input(form.collections, 6) }}
                 {% endif %}
-
                 {% if form.occasions is defined %}
                     {{ macros.input(form.occasions, 6) }}
                 {% endif %}
             </div>
         {% endif %}
+
+        {# Related Products #}
         <div class="row">
-            {{ macros.input(form.details.relatedProducts, 6) }}
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Product Image:</label>
-                    <div class="media no-margin-top">
-                        {% if product.mainImage %}
-                            <div class="media-left">
-                                <div class="thumb" style="width: 58px; height: 58px;object-fit: cover;">
-                                    <a href="{{ asset(product.mainImage.assetPath) }}" data-popup="lightbox">
-                                        <img src="{{ asset(product.mainImage.assetPath) }}"
-                                             style="width: 58px; height: 58px; object-fit: cover;border-radius: 2px;"
-                                             alt="">
-                                        <span class="zoom-image"><i class="icon-plus2"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                        {% endif %}
-                        <div class="media-body">
-                            {{ form_widget(form.image.file,{'attr':{'class':'file-styled'}}) }}
-                        </div>
-                    </div>
-                    {#<span class="help-block">{% include '@PNMedia/imageDimension.html.twig' with {"type":100} %}</span> #}
-                    <span class="help-block">Dimensions: 1000px * 1000px</span>
-                    <span class="help-block">Accepted formats: gif, png, jpg. Max file size 2MB</span>
-                    <span class="help-block">Images more than 2MB is not recommended as it will slow down the page speed, performance and so the search engine results ex: Google search</span>
-                </div>
+            <div class="col-md-12">
+                <h6 class="text-semibold text-uppercase text-muted mb-15 mt-20">Related Products</h6>
             </div>
         </div>
+        <div class="row">
+            {{ macros.input(form.details.relatedProducts, 12) }}
+        </div>
+
+        {# AR and Specifications #}
         <div class="row">
             {{ macros.input(form.details.augmentedRealityUrl, 6) }}
         </div>
@@ -84,18 +78,21 @@
         <div id="sub-attributes-box">
             {% include 'product/admin/product/_form_specs.html.twig' %}
         </div>
+        
         {% include 'product/admin/product/productPricesSnippet.html.twig' %}
+        
+        {# Product Description #}
+        <div class="row">
+            <div class="col-md-12">
+                <h6 class="text-semibold text-uppercase text-muted mb-15 mt-20">Product Description</h6>
+            </div>
+        </div>
         <div class="row">
             {{ macros.input(form.post.description,12,null,null,'form-control ckeditor') }}
         </div>
-
-    </div>
-    <div class="panel-footer">
-        {% include 'product/admin/product/_save_btns.html.twig' %}
     </div>
 </div>
 
-{% include '@PNSeo/Administration/Seo/seo.html.twig' with { 'seoForm':form.seo, 'entity':product } %}
 <div id="changeCategory" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -103,11 +100,9 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h5 class="modal-title">Change Category</h5>
             </div>
-
             <div class="modal-body">
                 <div id="myFancyTreeID"></div>
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
             </div>

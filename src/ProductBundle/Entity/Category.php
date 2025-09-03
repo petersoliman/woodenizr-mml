@@ -118,7 +118,6 @@ class Category implements Translatable, DateTimeInterface
 
     /**
      * @ORM\OneToMany(targetEntity="Category", mappedBy="parent")
-     * @ORM\OrderBy({"tarteb" = "ASC"})
      */
     private Collection $children;
 

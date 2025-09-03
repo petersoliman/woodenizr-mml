@@ -38,8 +38,37 @@ class SiteSettingService
                 $data[$setting->getConstantName()] = $setting->getValue();
             }
 
+            // If no site settings exist, provide defaults to prevent template errors
+            if (empty($data)) {
+                $data = $this->getDefaultSiteSettings();
+            }
+
             return $data;
         });
+    }
+
+    /**
+     * Get default site settings when database is empty
+     */
+    private function getDefaultSiteSettings(): array
+    {
+        return [
+            'website-title' => 'Woodenizr - Premium Wood & Woodworking Supplies',
+            'website-primary-color' => '#8B4513',
+            'website-header-color' => '#FFFFFF',
+            'website-header-text-color' => '#333333',
+            'website-footer-color' => '#2C3E50',
+            'website-footer-text-color' => '#FFFFFF',
+            'website-head-tags' => '',
+            'google-tag-manager-id' => '',
+            'facebook-chat-page-id' => '',
+            'facebook-pixel-id' => '',
+            'website-favicon' => '',
+            'twitter-site-handle' => '',
+            'twitter-creator-handle' => '',
+            'pinterest-rich-pins-enabled' => false,
+            'website-author' => 'Woodenizr',
+        ];
     }
 
     public function getByConstantName($constantName): null|string|bool
@@ -48,6 +77,13 @@ class SiteSettingService
         if (array_key_exists($constantName, $data)) {
             return $data[$constantName];
         }
+        
+        // Provide default values for common site settings
+        $defaults = $this->getDefaultSiteSettings();
+        if (array_key_exists($constantName, $defaults)) {
+            return $defaults[$constantName];
+        }
+        
         return null;
     }
 

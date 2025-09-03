@@ -62,6 +62,27 @@ class ProductPriceType extends AbstractType
                 ],
                 "required" => true,
             ])
+            ->add('length', TextType::class, [
+                "attr" => ["min" => 0],
+                "constraints" => [
+                    new GreaterThanOrEqual(0),
+                ],
+                "required" => false,
+            ])
+            ->add('width', TextType::class, [
+                "attr" => ["min" => 0],
+                "constraints" => [
+                    new GreaterThanOrEqual(0),
+                ],
+                "required" => false,
+            ])
+            ->add('height', TextType::class, [
+                "attr" => ["min" => 0],
+                "constraints" => [
+                    new GreaterThanOrEqual(0),
+                ],
+                "required" => false,
+            ])
             ->add('promotionalExpiryDate', TextType::class, [
                 "required" => false,
                 "attr" => [

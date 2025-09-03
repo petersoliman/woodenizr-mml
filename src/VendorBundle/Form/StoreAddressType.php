@@ -29,7 +29,7 @@ class StoreAddressType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('t')
                         ->where('t.deleted IS NULL')
-                        ->orderBy('t.id', 'ASC');
+                        ->orderBy('t.title', 'ASC');
                 },
             ))
             ->add('mobileNumber');

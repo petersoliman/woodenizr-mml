@@ -27,6 +27,14 @@ class SiteSetting implements DateTimeInterface
     const  FACEBOOK_CHAT_PAGE_ID = "facebook-chat-page-id";
     const  FACEBOOK_PIXEL_ID = "facebook-pixel-id";
     const  WEBSITE_FAVICON = "website-favicon";
+    
+    // Social Media Settings
+    const  TWITTER_SITE_HANDLE = "twitter-site-handle";
+    const  TWITTER_CREATOR_HANDLE = "twitter-creator-handle";
+    const  PINTEREST_RICH_PINS_ENABLED = "pinterest-rich-pins-enabled";
+    
+    // SEO Settings
+    const  WEBSITE_AUTHOR = "website-author";
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id

@@ -2,62 +2,60 @@ var selectedItems = [];
 $(document).ready(function () {
     var table = $('.datatable-ajax').DataTable();
     table.on('xhr.dt', function (e, settings, json, xhr) {
-        $('#select-all-drop-down button').removeAttr("disabled")
+        // no-op for header checkbox approach
     });
-    table.on('select', function (e, dt, type, indexes) {
-        if (type === 'row') {
-            var data = table.rows(indexes).nodes().to$();
-            var id = data.find(".entityId").data("id");
-            selectedItems.push(id);
-            showHideMassUpdateBtns();
-        }
-    });
-    table.on('deselect', function (e, dt, type, indexes) {
-        if (type === 'row') {
-            var data = table.rows(indexes).nodes().to$();
-            var id = data.find(".entityId").data("id");
-
-            var index = selectedItems.indexOf(id);
-            if (index !== -1) {
-                selectedItems.splice(index, 1);
-            }
-            showHideMassUpdateBtns();
-        }
-    });
+    // Remove DataTables row select dependency; manage selection by checkboxes only
     $(document.body).on("click", ".check-table-row", function (e) {
-        var id = $(this).val();
+        var id = String($(this).val());
         var isChecked = $(this).is(":checked");
-        var rowIndex = $(this).closest("tr").index();
-        if (isChecked) {
-            table.rows(rowIndex).select();
-        } else {
-            table.rows(rowIndex).deselect();
-        }
-        console.log(selectedItems)
+        var idx = selectedItems.indexOf(id);
+        if (isChecked) { if (idx === -1) selectedItems.push(id); }
+        else { if (idx !== -1) selectedItems.splice(idx, 1); }
         showHideMassUpdateBtns();
+        updateHeaderCheckbox();
     });
-    $(document.body).on("click", ".select-all-items", (function (e) {
-        table.rows().select();
-        selectedItems.splice(0, selectedItems.length)
-        $(".datatable-ajax .entityId").each(function () {
-            selectedItems.push($(this).data("id"));
-        }).promise().done(function () {
-            $("#select-all-drop-down button:first-child").removeClass("select-all-items").addClass("deselect-all-items");
-            $("#select-all-drop-down button:first-child i").removeClass("icon-checkbox-unchecked").addClass("icon-checkbox-checked2");
-            $(".check-table-row").attr("checked",true);
-            showHideMassUpdateBtns();
-        });
-
-    }));
-
-    $(document.body).on("click", ".deselect-all-items", (function (e) {
-        table.rows().deselect();
-        selectedItems.splice(0, selectedItems.length)
-        $("#select-all-drop-down button:first-child").removeClass("deselect-all-items").addClass("select-all-items");
-        $("#select-all-drop-down button:first-child i").removeClass("icon-checkbox-checked2").addClass("icon-checkbox-unchecked");
-        $(".check-table-row").removeAttr("checked");
+    // Header select-all checkbox
+    $(document).on('click', '.js-select-all', function(e){ e.stopPropagation(); });
+    $(document).on('change', '.js-select-all', function(){
+        var checked = $('.js-select-all:visible, .js-select-all').first().is(':checked');
+        selectedItems.splice(0, selectedItems.length);
+        if (checked) {
+            $(".datatable-ajax .check-table-row").each(function(){
+                $(this).prop("checked", true);
+                var id = String($(this).val());
+                if (selectedItems.indexOf(id) === -1) selectedItems.push(id);
+            });
+        } else {
+            $(".datatable-ajax .check-table-row").prop("checked", false);
+        }
         showHideMassUpdateBtns();
-    }));
+        updateHeaderCheckbox();
+    });
+
+    function updateHeaderCheckbox(){
+        var total = $(".datatable-ajax .check-table-row").length;
+        var checked = $(".datatable-ajax .check-table-row:checked").length;
+        var headers = $('.js-select-all');
+        headers.each(function(){
+            if (total === 0) { $(this).prop('indeterminate', false).prop('checked', false); return; }
+            if (checked === 0) {
+                $(this).prop('indeterminate', false).prop('checked', false);
+            } else if (checked === total) {
+                $(this).prop('indeterminate', false).prop('checked', true);
+            } else {
+                $(this).prop('checked', false).prop('indeterminate', true);
+            }
+        });
+    }
+
+    table.on('draw', function(){
+        // Re-check boxes based on selectedItems when table redraws
+        $(".datatable-ajax .check-table-row").each(function(){
+            var id = String($(this).val());
+            $(this).prop('checked', selectedItems.indexOf(id) !== -1);
+        });
+        updateHeaderCheckbox();
+    });
 });
 
 function showHideMassUpdateBtns() {

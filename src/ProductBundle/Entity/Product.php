@@ -168,6 +168,18 @@ class Product implements Translatable, DateTimeInterface, UUIDInterface
      */
     private Collection $favorites;
 
+    /**
+     * GCData status to control background updates
+     *
+     * Created by: cursor
+     * Date: 2025-09-01 00:00
+     * Reason: Track GCData update status (Ready, Generating, Done)
+     *
+     * @Gedmo\Versioned
+     * @ORM\Column(name="gcd_status", type="string", length=20, options={"default": "Ready"})
+     */
+    private string $gcdStatus = 'Ready';
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\ProductBundle\Entity\Translation\ProductTranslation", mappedBy="translatable", cascade={"ALL"}, orphanRemoval=true)
@@ -773,6 +785,26 @@ class Product implements Translatable, DateTimeInterface, UUIDInterface
     public function setThreeSixtyView(?ThreeSixtyView $threeSixtyView): static
     {
         $this->threeSixtyView = $threeSixtyView;
+
+        return $this;
+    }
+
+    /**
+     * Get GCData status
+     * Updated: 2025-09-01 00:00
+     */
+    public function getGcdStatus(): string
+    {
+        return $this->gcdStatus;
+    }
+
+    /**
+     * Set GCData status (Allowed: Ready | Generating | Done)
+     * Updated: 2025-09-01 00:00
+     */
+    public function setGcdStatus(string $gcdStatus): self
+    {
+        $this->gcdStatus = $gcdStatus;
 
         return $this;
     }

@@ -1,0 +1,102 @@
+{% extends 'adminTemplate/base.html.twig' %}
+
+{% block title %}Minimal Checkbox Test{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Checkbox Test</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Simple Checkbox Test</h3>
+                </div>
+                <div class="card-body">
+                    <h4>Test 1: Basic Checkbox</h4>
+                    <input type="checkbox" id="test1" onclick="alert('Test 1 clicked!')">
+                    <label for="test1">Basic Checkbox</label>
+                    
+                    <hr>
+                    
+                    <h4>Test 2: Checkbox with Value</h4>
+                    <input type="checkbox" id="test2" value="123" onclick="alert('Test 2 clicked! Value: ' + this.value)">
+                    <label for="test2">Checkbox with Value</label>
+                    
+                    <hr>
+                    
+                    <h4>Test 3: Checkbox with Class</h4>
+                    <input type="checkbox" id="test3" class="test-checkbox" value="456" onclick="alert('Test 3 clicked! Value: ' + this.value)">
+                    <label for="test3">Checkbox with Class</label>
+                    
+                    <hr>
+                    
+                    <h4>Test 4: Select All Pattern</h4>
+                    <input type="checkbox" id="select-all-test" onclick="toggleAll()">
+                    <label for="select-all-test">Select All</label>
+                    <br><br>
+                    <input type="checkbox" class="item-checkbox" value="1" onclick="alert('Item 1 clicked!')">
+                    <label>Item 1</label>
+                    <br>
+                    <input type="checkbox" class="item-checkbox" value="2" onclick="alert('Item 2 clicked!')">
+                    <label>Item 2</label>
+                    <br>
+                    <input type="checkbox" class="item-checkbox" value="3" onclick="alert('Item 3 clicked!')">
+                    <label>Item 3</label>
+                    
+                    <hr>
+                    
+                    <h4>Test 5: JavaScript Function Test</h4>
+                    <button type="button" onclick="testJavaScript()" class="btn btn-primary">Test JavaScript Function</button>
+                    
+                    <hr>
+                    
+                    <h4>Debug Info:</h4>
+                    <div id="debug-info"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleAll() {
+    const selectAll = document.getElementById('select-all-test');
+    const items = document.querySelectorAll('.item-checkbox');
+    
+    items.forEach(item => {
+        item.checked = selectAll.checked;
+    });
+    
+    alert('Select All clicked! Checked: ' + selectAll.checked);
+}
+
+function testJavaScript() {
+    const debugInfo = document.getElementById('debug-info');
+    const test1 = document.getElementById('test1');
+    const test2 = document.getElementById('test2');
+    const test3 = document.getElementById('test3');
+    
+    debugInfo.innerHTML = `
+        <p><strong>Test 1:</strong> ${test1 ? 'Found' : 'NOT FOUND'} - Type: ${test1 ? test1.type : 'N/A'} - Checked: ${test1 ? test1.checked : 'N/A'}</p>
+        <p><strong>Test 2:</strong> ${test2 ? 'Found' : 'NOT FOUND'} - Type: ${test2 ? test2.type : 'N/A'} - Checked: ${test2 ? test2.checked : 'N/A'}</p>
+        <p><strong>Test 3:</strong> ${test3 ? 'Found' : 'NOT FOUND'} - Type: ${test3 ? test3.type : 'N/A'} - Checked: ${test3 ? test3.checked : 'N/A'}</p>
+        <p><strong>Item Checkboxes:</strong> ${document.querySelectorAll('.item-checkbox').length} found</p>
+    `;
+}
+
+// Run debug on page load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('=== MINIMAL TEST PAGE LOADED ===');
+    testJavaScript();
+});
+</script>
+{% endblock %}

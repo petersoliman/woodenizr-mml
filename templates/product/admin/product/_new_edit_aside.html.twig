@@ -1,6 +1,51 @@
 {% import 'adminTemplate/macros.html.twig' as macros %}
+
+{# Main Product Image Section - NOW AT THE TOP #}
 <div class="panel panel-flat">
+    <div class="panel-heading">
+        <h6 class="panel-title"><i class="icon-image2"></i> Main Product Image</h6>
+    </div>
     <div class="panel-body">
+        <div class="form-group">
+            <div class="media no-margin-top">
+                {% if product.mainImage %}
+                    <div class="media-left">
+                        <div class="thumb" style="width: 80px; height: 80px; object-fit: cover;">
+                            <a href="{{ asset(product.mainImage.assetPath) }}" data-popup="lightbox">
+                                <img src="{{ asset(product.mainImage.assetPath) }}"
+                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;"
+                                     alt="Main Product Image">
+                                <span class="zoom-image"><i class="icon-plus2"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading">Current Main Image</h6>
+                        <p class="text-muted">Click the image to enlarge. To change this image, use the "Manage Image Gallery" page.</p>
+                    </div>
+                {% else %}
+                    <div class="media-body">
+                        <h6 class="media-heading">No Main Image Set</h6>
+                        <p class="text-muted">Upload and set a main image through the "Manage Image Gallery" page.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Product Settings Section - NOW BELOW THE IMAGE #}
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h6 class="panel-title"><i class="icon-cog3"></i> Product Settings</h6>
+    </div>
+    <div class="panel-body">
+        {# Publication Settings #}
+        <div class="row">
+            <div class="col-md-12">
+                <h6 class="text-semibold text-uppercase text-muted mb-15">Publication</h6>
+            </div>
+        </div>
         <div class="row">
             {{ macros.checkbox(form.publish, 12) }}
         </div>
@@ -15,21 +60,44 @@
                 {{ macros.checkbox(form.enableVariants, 12) }}
             </div>
         {% endif %}
+
+        {# Product Information #}
         <div class="row">
-            <div class="col-xs-6">Creator</div>
-            <div class="col-xs-6">{% if product.creator %}{{ product.creator }}{% else %}--{% endif %}</div>
+            <div class="col-md-12">
+                <h6 class="text-semibold text-uppercase text-muted mb-15 mt-20">Product Info</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <span class="text-muted">Creator:</span>
+            </div>
+            <div class="col-xs-6">
+                <span class="text-semibold">{% if product.creator %}{{ product.creator }}{% else %}--{% endif %}</span>
+            </div>
         </div>
         <div class="row mt-10">
-            <div class="col-xs-6">Created date</div>
-            <div class="col-xs-6">{% if product.created %}{{ product.created|dateFormat }}{% else %}--/--/----{% endif %}</div>
+            <div class="col-xs-6">
+                <span class="text-muted">Created:</span>
+            </div>
+            <div class="col-xs-6">
+                <span class="text-semibold">{% if product.created %}{{ product.created|dateFormat }}{% else %}--/--/----{% endif %}</span>
+            </div>
         </div>
         <div class="row mt-10">
-            <div class="col-xs-6">Modified by</div>
-            <div class="col-xs-6">{% if product.modifiedBy %}{{ product.modifiedBy }}{% else %}--{% endif %}</div>
+            <div class="col-xs-6">
+                <span class="text-muted">Modified by:</span>
+            </div>
+            <div class="col-xs-6">
+                <span class="text-semibold">{% if product.modifiedBy %}{{ product.modifiedBy }}{% else %}--{% endif %}</span>
+            </div>
         </div>
         <div class="row mt-10">
-            <div class="col-xs-6">Modified date</div>
-            <div class="col-xs-6">{% if product.modified %}{{ product.modified|dateFormat }}{% else %}--/--/----{% endif %}</div>
+            <div class="col-xs-6">
+                <span class="text-muted">Modified:</span>
+            </div>
+            <div class="col-xs-6">
+                <span class="text-semibold">{% if product.modified %}{{ product.modified|dateFormat }}{% else %}--/--/----{% endif %}</span>
+            </div>
         </div>
     </div>
     <div class="panel-footer">

@@ -38,7 +38,7 @@ class CategoryController extends AbstractController
         $search = new \stdClass;
         $search->deleted = 0;
         $search->publish = 1;
-        $search->ordr = ["column" => 0, "dir" => "ASC"];
+        $search->ordr = ["column" => 1, "dir" => "DESC"]; // Use inverseTarteb column with DESC for proper priority sorting
         $search->string = $request->get("q");
         $search->parent = "";
 

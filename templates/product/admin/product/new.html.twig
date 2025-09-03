@@ -48,7 +48,16 @@
     </div>
 {% endblock %}
 {% block body %}
-    {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'} }) }}
+    {% if use_split_form is defined and use_split_form %}
+        {# Use the new split form approach - form action points to newSubmit route #}
+        {{ form_start(form, {
+            'action': path('product_new_submit', {'category': currentCategory.id}),
+            'attr': {"data-toggle":"validator",'novalidate':'novalidate'}
+        }) }}
+    {% else %}
+        {# Use the original combined approach #}
+        {{ form_start(form, {'attr':{"data-toggle":"validator",'novalidate':'novalidate'} }) }}
+    {% endif %}
     <div class="row">
         <div class="col-lg-9">
             {% set defaultTwig= include ("product/admin/product/_form.html.twig") %}

@@ -44,9 +44,9 @@
 {% endblock %}
 {% block body %}
     {% if is_granted('ROLE_ADMIN') %}
-        {% set newPath = path('product_new') %}
+        {% set newPath = path('product_new_form') %}
         {% if category != null %}
-            {% set newPath = path('product_new', {"category":category.id}) %}
+            {% set newPath = path('product_new_form', {"category":category.id}) %}
         {% endif %}
         <ul class="fab-menu fab-menu-fixed fab-menu-bottom-right">
             <li>
@@ -64,30 +64,31 @@
     <div class="panel panel-flat">
         <div class="panel-body">
             {% if is_granted('ROLE_ADMIN') %}
-                <div class="btn-group" id="select-all-drop-down">
-                    <button type="button" class="btn btn-default select-all-items" disabled>
-                        <i class="icon-checkbox-unchecked position-left"></i> <span class="text"></span></button>
-                    <button type="button" class="btn btn-default dropdown-toggle" disabled data-toggle="dropdown">
-                        <span class="caret"></span></button>
-                    <ul class="dropdown-menu dropdown-menu-left">
-                        <li><a href="#" class="select-all-items"></i> All</a></li>
-                        <li><a href="#" class="deselect-all-items"></i> None</a></li>
-                    </ul>
+                <div class="btn-group" style="margin-bottom:10px;">
+                    <form method="post" action="{{ path('product_gcdata_force_update_all') }}" style="display:inline;">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="icon-rocket"></i> Force Update Core Data To All Products
+                        </button>
+                    </form>
+                    <form method="post" action="{{ path('product_gcdata_fetch_urls') }}" style="display:inline; margin-left:8px;">
+                        <button type="submit" class="btn btn-info">
+                            <i class="icon-link"></i> Get Manufacturer URL
+                        </button>
+                    </form>
                 </div>
+                {# Removed legacy select-all dropdown; using header checkbox instead #}
                 <div class="btn-group ml-10 hidden" id="mass-update-btn">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Mass update
-                        <span class="caret"></span></button>
-                    <ul class="dropdown-menu dropdown-menu-left">
-                        {#                    <li><a href="#" class="mass-update-export-csv">Export Selected </a></li>#}
-                        <li><a href="#" data-toggle="modal" data-target="#mass-delete-modal">Delete Selected</a></li>
-                        <li><a href="#" class="mass-update-go-to-bulk-update">Proceed to update</a></li>
-                    </ul>
+                    {# Removed by: cursor | Date: 2025-09-01 16:00 | Reason: Remove mass update blue button from admin product page #}
                 </div>
             {% endif %}
             <table class="table datatable-ajax table-striped datatable-responsive">
                 <thead>
                 <tr>
-                    <th></th>
+                    <th>
+                        <label style="margin:0; display:inline-flex; align-items:center; cursor:pointer;">
+                            <input type="checkbox" class="js-select-all" style="margin-right:6px;">
+                        </label>
+                    </th>
                     <th>#</th>
                     <th>SKU</th>
                     <th>Title</th>
@@ -131,6 +132,126 @@
             </div>
         </div>
     </div>
+
+    {# GCData (Generate Core Data) Modal - Created by cursor on 2025-01-27 for fetching product data from external API using SKU and brand #}
+    <div id="gcdata-modal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">GCData (Generate Core Data) - Product Information</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="gcdata-loading" class="text-center" style="display: none;">
+                        <i class="icon-spinner2 spinner" style="font-size: 24px;"></i>
+                        <p>Fetching data from API...</p>
+                    </div>
+                    
+                    <div id="gcdata-error" class="alert alert-danger" style="display: none;">
+                    </div>
+                    
+                    <div id="gcdata-content" style="display: none;">
+                        <!-- Price Display -->
+                        <div id="gcdata-price" class="alert alert-info" style="display:none; margin-bottom:12px;">
+                            <strong>Price:</strong> <span id="gcdata-price-value"></span>
+                        </div>
+                        
+                        <!-- Manufacturer Link Button -->
+                        <div id="gcdata-link" class="text-right" style="display:none; margin-bottom:8px;">
+                            <a id="gcdata-product-link-btn" href="#" target="_blank" class="btn btn-info btn-sm">
+                                <i class="icon-link"></i> Open Manufacturer Page
+                            </a>
+                        </div>
+
+                        <!-- Images Panel -->
+                        <div id="gcdata-images" class="panel panel-flat" style="display:none;">
+                            <div class="panel-heading">
+                                <h6 class="panel-title">Images</h6>
+                            </div>
+                            <div class="panel-body">
+                                <div class="clearfix" style="margin-bottom:8px;">
+                                    <label style="cursor:pointer;">
+                                        <input type="checkbox" id="gcdata-select-all-images"> Select all images
+                                    </label>
+                                </div>
+                                <div id="gcdata-images-gallery" style="display:flex; flex-wrap:wrap; gap:12px;"></div>
+                                <div class="text-right" style="margin-top:10px;">
+                                    <button id="gcdata-download-selected" class="btn btn-sm btn-success" disabled>
+                                        <i class="icon-download"></i> Download Selected Images to Product
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Title Selection Section -->
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h6 class="panel-title">Product Title</h6>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>
+                                                <input type="radio" name="title-selection" id="gcdata-title-current" value="current">
+                                                Use Current Title:
+                                            </label>
+                                            <input type="text" class="form-control" id="gcdata-current-title" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>
+                                                <input type="radio" name="title-selection" id="gcdata-title-api" value="api">
+                                                Use API Title:
+                                            </label>
+                                            <input type="text" class="form-control" id="gcdata-suggested-title" readonly>
+                                            <small class="text-muted" id="gcdata-title-status"></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Description Selection Section -->
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h6 class="panel-title">Product Description</h6>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>
+                                                <input type="radio" name="description-selection" id="gcdata-description-current" value="current">
+                                                Use Current Description:
+                                            </label>
+                                            <textarea class="form-control" id="gcdata-current-description" rows="4" readonly></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>
+                                                <input type="radio" name="description-selection" id="gcdata-description-api" value="api">
+                                                Use API Description:
+                                            </label>
+                                            <textarea class="form-control" id="gcdata-suggested-description" rows="4" readonly></textarea>
+                                            <small class="text-muted" id="gcdata-description-status"></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="gcdata-apply-btn" style="display: none;">Apply Selected Changes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
@@ -142,8 +263,11 @@
     {% set categoryId = null %}
     {% if category != null %}
         {% set categoryId = category.id %}
+        {% set datatablePath = path('product_datatable', app.request.query.all|merge({"category":categoryId})) %}
+    {% else %}
+        {% set datatablePath = path('product_datatable_all', app.request.query.all) %}
     {% endif %}
-    {{ include('adminTemplate/datatable.html.twig', {'path':path('product_datatable', app.request.query.all|merge({"category":categoryId}))|escape("js"), "multiSelect":true, "disabledColumnOrder": 0, "order": 1} ) }}
+    {{ include('adminTemplate/datatable.html.twig', {'path':datatablePath|escape("js"), "multiSelect":true, "disabledColumnOrder": 0, "order": 1} ) }}
     <script type="text/javascript" src="{{ asset('admin/js/mass-update.js') }}"></script>
     {% include 'product/admin/product/_filter_js.html.twig' %}
     <script>
@@ -155,6 +279,7 @@
         });
 
         $(document).ready(function () {
+            // GCData endpoint URLs will be read from the clicked row's data attributes
             // START-MASS-EXPORT-CSV
             $(document.body).on("click", ".mass-update-export-csv", (function (e) {
                 var url = "{{ path("product_export_csv") }}";
@@ -220,6 +345,403 @@
                 });
             }));
             // END-GO-TO-BULK-UPDATE-MODAL
+
+            // START-GCDATA-FUNCTIONALITY (Generate Core Data)
+            // No JS needed for the force update button; uses normal form POST and redirect
+            // Created by cursor on 2025-01-27 for GCData (Generate Core Data) API integration
+            // GCData fetches product information from external API using SKU and brand name
+            let currentProductId = null;
+            let gcFetchUrl = null;
+            let gcUpdateUrl = null;
+            let gcImagesUrl = null;
+
+            $(document.body).on("click", ".gcdata-btn", function (e) {
+                e.preventDefault();
+                
+                const productId = Number($(this).data('product-id'));
+                if (!productId || isNaN(productId)) {
+                    swal('Error', 'Invalid product ID for GCData request.', 'error');
+                    return;
+                }
+                gcFetchUrl = $(this).data('gc-fetch-url') || null;
+                gcUpdateUrl = $(this).data('gc-update-url') || null;
+                gcImagesUrl = $(this).data('gc-images-url') || null;
+                if (!gcFetchUrl || !gcUpdateUrl || !gcImagesUrl) {
+                    swal('Error', 'Missing GCData endpoint URLs for this product.', 'error');
+                    return;
+                }
+                let sku = $(this).data('sku');
+                let brand = $(this).data('brand');
+                
+                //
+                
+                currentProductId = productId;
+                
+                // Convert to string and validate SKU
+                sku = (sku !== undefined && sku !== null && sku !== '') ? String(sku).trim() : '';
+                if (!sku) {
+                    swal("Error", "Product SKU is required for GCData lookup. Please ensure the product has a valid SKU.", "error");
+                    return;
+                }
+                
+                // Convert brand to string, make it optional
+                brand = (brand !== undefined && brand !== null && brand !== '') ? String(brand).trim() : 'Not specified';
+                if (!brand || brand === '') {
+                    brand = 'Not specified';
+                }
+                
+                //
+                
+                // Show modal and start loading
+                $('#gcdata-modal').modal('show');
+                $('#gcdata-loading').show();
+                $('#gcdata-error').hide();
+                $('#gcdata-content').hide();
+                $('#gcdata-apply-btn').hide();
+                
+                // Make API call
+                $.ajax({
+                    url: gcFetchUrl,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        $('#gcdata-loading').hide();
+                        
+                        if (response.success) {
+                            // Populate data
+                            const currentTitle = response.data.current_title || '';
+                            const currentDescription = response.data.current_description || '';
+                            const suggestedTitle = response.data.suggested_title;
+                            const suggestedDescription = response.data.suggested_description;
+                            const apiPrice = response.data.api_price;
+                            
+                            $('#gcdata-current-title').val(currentTitle);
+                            $('#gcdata-current-description').val(currentDescription);
+
+                            // Show price if available
+                            if (apiPrice !== undefined && apiPrice !== null && apiPrice !== '') {
+                                var priceText = String(apiPrice);
+                                $('#gcdata-price-value').text(priceText);
+                                $('#gcdata-price').show();
+                            } else {
+                                $('#gcdata-price').hide();
+                                $('#gcdata-price-value').text('');
+                            }
+                            
+                            // Handle title selection
+                            if (suggestedTitle) {
+                                $('#gcdata-suggested-title').val(suggestedTitle);
+                                $('#gcdata-title-api').prop('disabled', false);
+                                $('#gcdata-title-status').text('✓ New data available from API').addClass('text-success');
+                                
+                                // Select default: current if it exists, otherwise API
+                                if (currentTitle.trim()) {
+                                    $('#gcdata-title-current').prop('checked', true);
+                                } else {
+                                    $('#gcdata-title-api').prop('checked', true);
+                                }
+                            } else {
+                                $('#gcdata-suggested-title').val('No suggestion available');
+                                $('#gcdata-title-api').prop('disabled', true);
+                                $('#gcdata-title-status').text('✗ No new data from API').addClass('text-warning');
+                                $('#gcdata-title-current').prop('checked', true);
+                            }
+                            
+                            // Handle description selection
+                            if (suggestedDescription) {
+                                $('#gcdata-suggested-description').val(suggestedDescription);
+                                $('#gcdata-description-api').prop('disabled', false);
+                                $('#gcdata-description-status').text('✓ New data available from API').addClass('text-success');
+                                
+                                // Select default: current if it exists, otherwise API
+                                if (currentDescription.trim()) {
+                                    $('#gcdata-description-current').prop('checked', true);
+                                } else {
+                                    $('#gcdata-description-api').prop('checked', true);
+                                }
+                            } else {
+                                $('#gcdata-suggested-description').val('No suggestion available');
+                                $('#gcdata-description-api').prop('disabled', true);
+                                $('#gcdata-description-status').text('✗ No new data from API').addClass('text-warning');
+                                $('#gcdata-description-current').prop('checked', true);
+                            }
+                            
+                            // Set manufacturer product link if available
+                            var manufacturerUrl = null;
+                            if (response.raw_api_response && response.raw_api_response.product) {
+                                manufacturerUrl = response.raw_api_response.product.url || response.raw_api_response.product.page_url || null;
+                            }
+                            if (manufacturerUrl && typeof manufacturerUrl === 'string') {
+                                $('#gcdata-product-link-btn').attr('href', manufacturerUrl);
+                                $('#gcdata-link').show();
+                            } else {
+                                $('#gcdata-link').hide();
+                                $('#gcdata-product-link-btn').attr('href', '#');
+                            }
+
+                            // Render images gallery with dimensions and checkboxes
+                            var imgs = (response.raw_api_response && response.raw_api_response.product && Array.isArray(response.raw_api_response.product.images)) ? response.raw_api_response.product.images : [];
+                            var gallery = $('#gcdata-images-gallery');
+                            gallery.empty();
+                            if (imgs.length > 0) {
+                                imgs.forEach(function(u, idx){
+                                    if (typeof u === 'string' && u.trim() !== '') {
+                                        var safe = u.replace(/"/g, '&quot;');
+                                        var item = $('<label class="gcdata-image-item" style="display:inline-block; text-align:center;"></label>').css({flex:'0 0 auto'});
+                                        var wrapper = $('<div style="position:relative; display:inline-block;"></div>');
+                                        var checkbox = $('<input type="checkbox" class="gcdata-image-checkbox" style="position:absolute; top:4px; left:4px; z-index:2;">').val(safe);
+                                        var img = $('<img>').attr('src', safe).attr('title','').css({maxWidth:'140px', maxHeight:'100px', border:'1px solid #ddd', borderRadius:'4px', cursor:'default', display:'block'});
+                                        img.on('error', function(){ $(this).hide(); });
+                                        var meta = $('<div style="font-size:11px; color:#777; margin-top:4px;">Loading...</div>');
+                                        var probe = new Image();
+                                        probe.onload = function(){ meta.text(this.naturalWidth + ' x ' + this.naturalHeight); };
+                                        probe.onerror = function(){ meta.text('N/A'); };
+                                        probe.src = safe;
+                                        wrapper.append(img).append(checkbox);
+                                        item.append(wrapper).append(meta);
+                                        gallery.append(item);
+                                    }
+                                });
+                                $('#gcdata-images').show();
+                                updateDownloadBtnState();
+                                $('.gcdata-image-checkbox').off('change').on('change', function(){
+                                    updateDownloadBtnState();
+                                    syncSelectAllCheckbox();
+                                });
+                                // Reset master checkbox and bind
+                                $('#gcdata-select-all-images').prop('checked', false).off('change').on('change', function(){
+                                    var checked = $(this).is(':checked');
+                                    $('.gcdata-image-checkbox').prop('checked', checked);
+                                    updateDownloadBtnState();
+                                });
+                            } else {
+                                $('#gcdata-images').hide();
+                            }
+                            
+                            $('#gcdata-content').show();
+                            
+                            // Show apply button if there are any options available
+                            if (suggestedTitle || suggestedDescription) {
+                                $('#gcdata-apply-btn').show();
+                            }
+                        } else {
+                            $('#gcdata-error').text(response.error || 'An error occurred').show();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        $('#gcdata-loading').hide();
+                        let errorMessage = 'Failed to fetch data from API';
+                        
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMessage = xhr.responseJSON.error;
+                        } else if (xhr.status === 500) {
+                            errorMessage = 'Server error occurred';
+                        } else if (xhr.status === 404) {
+                            errorMessage = 'Product not found';
+                        }
+                        
+                        $('#gcdata-error').text(errorMessage).show();
+                    }
+                });
+            });
+            
+            // Handle apply changes button (also auto-download selected images)
+            $('#gcdata-apply-btn').click(function() {
+                // Check what's selected for title
+                const titleSelection = $('input[name="title-selection"]:checked').val();
+                const descriptionSelection = $('input[name="description-selection"]:checked').val();
+                
+                // Determine what values to use
+                let newTitle = '';
+                let newDescription = '';
+                let updateTitle = false;
+                let updateDescription = false;
+                
+                if (titleSelection === 'api') {
+                    newTitle = $('#gcdata-suggested-title').val();
+                    updateTitle = true;
+                } else if (titleSelection === 'current') {
+                    newTitle = $('#gcdata-current-title').val();
+                    updateTitle = true;
+                }
+                
+                if (descriptionSelection === 'api') {
+                    newDescription = $('#gcdata-suggested-description').val();
+                    updateDescription = true;
+                } else if (descriptionSelection === 'current') {
+                    newDescription = $('#gcdata-current-description').val();
+                    updateDescription = true;
+                }
+                
+                if (!updateTitle && !updateDescription) {
+                    swal("Warning", "Please select values for title and/or description", "warning");
+                    return;
+                }
+                
+                const data = {
+                    update_title: updateTitle,
+                    update_description: updateDescription,
+                    new_title: newTitle,
+                    new_description: newDescription
+                };
+
+                // Collect selected images from the gallery (if any)
+                var selectedImages = [];
+                $('.gcdata-image-checkbox:checked').each(function(){ selectedImages.push($(this).val()); });
+                
+                // Show loading state
+                $(this).prop('disabled', true).text('Applying...');
+                
+                $.ajax({
+                    url: gcUpdateUrl,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    data: JSON.stringify(data),
+                    success: function(response) {
+                        if (response.success) {
+                            // If there are selected images, download them now
+                            if (selectedImages.length > 0) {
+                                $('#gcdata-apply-btn').text('Applying... Downloading images...');
+                                $.ajax({
+                                    url: gcImagesUrl,
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                                    data: JSON.stringify({ images: selectedImages }),
+                                    success: function(imgResp){
+                                        $('#gcdata-apply-btn').prop('disabled', false).text('Apply Selected Changes');
+                                        if (imgResp && imgResp.success) {
+                                            var parts = [];
+                                            if (response.title_updated) { parts.push('Title updated'); }
+                                            if (response.description_updated) { parts.push('Description updated'); }
+                                            parts.push('Images: ' + (imgResp.downloaded||0) + ' saved out of ' + (imgResp.attempted||selectedImages.length));
+                                            if (imgResp.main_set) { parts.push('Main image set'); }
+                                            swal('Success', parts.join(' | '), 'success');
+                                        } else {
+                                            var parts = [];
+                                            if (response.title_updated) { parts.push('Title updated'); }
+                                            if (response.description_updated) { parts.push('Description updated'); }
+                                            parts.push('Images: failed (' + (((imgResp && imgResp.error) || 'Unknown error')) + ')');
+                                            swal('Warning', parts.join(' | '), 'warning');
+                                        }
+                                        $('#gcdata-modal').modal('hide');
+                                        if (typeof table !== 'undefined' && table.ajax) {
+                                            table.ajax.reload(null, false);
+                                        }
+                                    },
+                                    error: function(){
+                                        $('#gcdata-apply-btn').prop('disabled', false).text('Apply Selected Changes');
+                                        swal('Warning', 'Product updated, but failed to save selected images.', 'warning');
+                                        $('#gcdata-modal').modal('hide');
+                                        if (typeof table !== 'undefined' && table.ajax) {
+                                            table.ajax.reload(null, false);
+                                        }
+                                    }
+                                });
+                            } else {
+                                $('#gcdata-apply-btn').prop('disabled', false).text('Apply Selected Changes');
+                                var parts = [];
+                                if (response.title_updated) { parts.push('Title updated'); }
+                                if (response.description_updated) { parts.push('Description updated'); }
+                                swal('Success', parts.length ? parts.join(' | ') : 'No changes applied', 'success');
+                            $('#gcdata-modal').modal('hide');
+                            if (typeof table !== 'undefined' && table.ajax) {
+                                table.ajax.reload(null, false);
+                                }
+                            }
+                        } else {
+                            $('#gcdata-apply-btn').prop('disabled', false).text('Apply Selected Changes');
+                            swal("Error", response.error || 'Failed to update product', "error");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        $('#gcdata-apply-btn').prop('disabled', false).text('Apply Selected Changes');
+                        
+                        let errorMessage = 'Failed to update product';
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMessage = xhr.responseJSON.error;
+                        }
+                        
+                        swal("Error", errorMessage, "error");
+                    }
+                });
+            });
+            
+            
+
+            // Enable/disable download button
+            function updateDownloadBtnState(){
+                var any = $('.gcdata-image-checkbox:checked').length > 0;
+                $('#gcdata-download-selected').prop('disabled', !any);
+            }
+
+            function syncSelectAllCheckbox(){
+                var total = $('.gcdata-image-checkbox').length;
+                var checked = $('.gcdata-image-checkbox:checked').length;
+                $('#gcdata-select-all-images').prop('indeterminate', checked > 0 && checked < total);
+                $('#gcdata-select-all-images').prop('checked', total > 0 && checked === total);
+            }
+
+            // Download selected images to product
+            $('#gcdata-download-selected').off('click').on('click', function(){
+                var selected = [];
+                $('.gcdata-image-checkbox:checked').each(function(){ selected.push($(this).val()); });
+                if (selected.length === 0) { return; }
+                var btn = $(this);
+                btn.prop('disabled', true).html('<i class="icon-spinner2 spinner"></i> Downloading...');
+
+                $.ajax({
+                    url: gcImagesUrl,
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                    data: JSON.stringify({ images: selected }),
+                    success: function(resp){
+                        btn.prop('disabled', false).html('<i class="icon-download"></i> Download Selected Images to Product');
+                        if (resp && resp.success) {
+                            swal('Success', 'Downloaded ' + (resp.downloaded||0) + ' images to product.', 'success');
+                        } else {
+                            swal('Error', (resp && resp.error) ? resp.error : 'Failed to download images', 'error');
+                        }
+                    },
+                    error: function(){
+                        btn.prop('disabled', false).html('<i class="icon-download"></i> Download Selected Images to Product');
+                        swal('Error', 'Failed to download images', 'error');
+                    }
+                });
+            });
+            
+            // Reset modal state when closed
+            $('#gcdata-modal').on('hidden.bs.modal', function () {
+                $('#gcdata-loading').hide();
+                $('#gcdata-error').hide();
+                $('#gcdata-content').hide();
+                $('#gcdata-apply-btn').hide();
+                $('#gcdata-price').hide();
+                $('#gcdata-price-value').text('');
+                
+                // Reset radio buttons
+                $('input[name="title-selection"]').prop('checked', false).prop('disabled', false);
+                $('input[name="description-selection"]').prop('checked', false).prop('disabled', false);
+                
+                // Reset status messages
+                $('#gcdata-title-status').text('').removeClass('text-success text-warning text-danger');
+                $('#gcdata-description-status').text('').removeClass('text-success text-warning text-danger');
+                
+                // Clear content
+                $('#gcdata-specs-content').html('');
+                $('#gcdata-current-title').val('');
+                $('#gcdata-suggested-title').val('');
+                $('#gcdata-current-description').val('');
+                $('#gcdata-suggested-description').val('');
+                
+                currentProductId = null;
+            });
+            // END-GCDATA-FUNCTIONALITY
         });
     </script>
 {% endblock javascripts %}
