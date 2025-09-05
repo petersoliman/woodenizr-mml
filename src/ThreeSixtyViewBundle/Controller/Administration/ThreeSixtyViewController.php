@@ -180,7 +180,7 @@ class ThreeSixtyViewController extends AbstractController
 
         $image = $imageRepository->find($imageId);
         if (!$image instanceof Image) {
-            throw $this->createNotFoundException('Unable to find Team entity.');
+            throw $this->createNotFoundException('Unable to find Image entity.');
         }
 
         $threeSixtyView->removeImage($image);

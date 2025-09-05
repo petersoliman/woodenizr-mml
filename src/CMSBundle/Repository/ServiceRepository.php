@@ -92,26 +92,6 @@ class ServiceRepository extends BaseRepository
         return $statement->getQuery()->execute();
     }
 
-    public function getProjectsIdsUsingService(Service $service)
-    {
-        $em = $this->getEntityManager();
-        $serviceId = $service->getId();
-
-        $sql = "SELECT project_id
-                FROM projects_services
-                WHERE service_id = $serviceId";
-
-        $statement = $em->getConnection()->prepare($sql);
-        $results = $statement->executeQuery()->fetchAllAssociative();
-
-        $ids = [];
-        if (!empty($results)) {
-            foreach ($results as $result) {
-                $ids[] = $result["project_id"];
-            }
-        }
-
-        return $ids;
-    }
+    // getProjectsIdsUsingService method removed - Project entity no longer exists
 
 }

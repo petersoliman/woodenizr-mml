@@ -41,7 +41,7 @@ class GenerateDynamicSitemapService
 
         // $this->generateBlogCategories();
         // $this->generateBlogTags();
-        // $this->generateProjects();// tested
+        // Projects removed - no longer supported
     }
 
     private function generateProducts()
@@ -289,40 +289,7 @@ class GenerateDynamicSitemapService
         }
     }
 
-    private function generateProjects(): void
-    {
-        $routeName = "fe_project_show";
-
-        $sql = "SELECT s.slug, s.last_modified FROM project t "
-            . "LEFT JOIN seo s ON s.id=t.seo_id "
-            . "WHERE t.publish=1 AND t.deleted IS NULL";
-        $statement = $this->em->getConnection()->prepare($sql);
-        $seos = $statement->executeQuery()->fetchAllAssociative();
-
-        foreach ($seos as $seo) {
-            $slug = $seo['slug'];
-            $lastModified = new \DateTime($seo['last_modified']);
-            $this->sitemapUrlsService->addPrepareURLsForSitemap($this->sitemapUrlsService->generateUrl($routeName,
-                ["slug" => $slug]), $lastModified);
-        }
-        $locales = $this->getLocales();
-        foreach ($locales as $locale) {
-            $sqlTrans = "SELECT st.slug, s.last_modified FROM project t "
-                . "LEFT JOIN seo s ON s.id=t.seo_id "
-                . "LEFT JOIN seo_translations st ON s.id=st.translatable_id "
-                . "LEFT JOIN `language` l ON l.id=st.language_id "
-                . "WHERE l.locale=:locale AND t.publish=1 AND t.deleted IS NULL";
-            $statementTrans = $this->em->getConnection()->prepare($sqlTrans);
-            $statementTrans->bindValue("locale", $locale);
-            $seosTrans = $statementTrans->executeQuery()->fetchAllAssociative();
-            foreach ($seosTrans as $seo) {
-                $slug = $seo['slug'];
-                $lastModified = new \DateTime($seo['last_modified']);
-                $this->sitemapUrlsService->addPrepareURLsForSitemap($this->sitemapUrlsService->generateUrl($routeName,
-                    ["slug" => $slug, "_locale" => $locale]), $lastModified);
-            }
-        }
-    }
+    // generateProjects method removed - Project entity no longer exists
 
     private function generateCategories(): void
     {
