@@ -1,12 +1,12 @@
-custom_admin:
-  resource: "@CustomBundle/Controller/Administration"
-  type:     annotation
-  prefix:   /admin
+# custom_admin:
+#   resource: "@CustomBundle/Controller/Administration"
+#   type:     annotation
+#   prefix:   /admin
 
-custom_frontEnd:
-  resource: "@CustomBundle/Controller/FrontEnd"
-  type:     annotation
-  prefix: /{_locale}/
-  defaults: { _locale: '%locale%' }
-  requirements:
-    _locale: '%app.locales%'
+# custom_frontEnd:
+#   resource: "@CustomBundle/Controller/FrontEnd"
+#   type:     annotation
+#   prefix: /{_locale}/
+#   defaults: { _locale: '%locale%' }
+#   requirements:
+#     _locale: '%app.locales%'
