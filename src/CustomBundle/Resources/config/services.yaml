@@ -8,21 +8,21 @@ services:
     # if you need to do this, you can override this setting on individual services
     public: false
 
-  App\CustomBundle\Form\:
-    resource: '../../Form/*'
+#  App\CustomBundle\Form\:
+#    resource: '../../Form/*'
 
 #  App\CustomBundle\Service\:
 #    public: true
 #    resource: '../../Service/*'
 
-  App\CustomBundle\Controller\Administration\:
-    resource: '../../Controller/Administration'
-    tags: [ 'controller.service_arguments' ]
+#  App\CustomBundle\Controller\Administration\:
+#    resource: '../../Controller/Administration'
+#    tags: [ 'controller.service_arguments' ]
 
 #  App\CustomBundle\Controller\FrontEnd\:
 #    resource: '../../Controller/FrontEnd'
 #    tags: [ 'controller.service_arguments' ]
 
-  App\CustomBundle\Repository\:
-    resource: '../../Repository/*'
-    tags: [ 'doctrine.repository_service' ]
+#  App\CustomBundle\Repository\:
+#    resource: '../../Repository/*'
+#    tags: [ 'doctrine.repository_service' ]
